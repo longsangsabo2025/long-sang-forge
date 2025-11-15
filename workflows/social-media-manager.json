@@ -1,0 +1,225 @@
+{
+  "name": "Social Media Manager Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "social-media",
+        "options": {}
+      },
+      "id": "social-webhook",
+      "name": "Social Media Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "social-media-webhook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "publish-action",
+              "leftValue": "={{ $json.action }}",
+              "rightValue": "publish",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "schedule-action",
+              "leftValue": "={{ $json.action }}",
+              "rightValue": "schedule",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "action-router",
+      "name": "Action Router",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "resource": "completion",
+        "prompt": "Optimize this content for social media platforms {{ $json.platforms.join(', ') }}. Make it engaging and platform-appropriate:\n\n{{ $json.content }}",
+        "model": "gpt-4",
+        "options": {
+          "maxTokens": 1000,
+          "temperature": 0.8
+        }
+      },
+      "id": "optimize-content",
+      "name": "Optimize for Social",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [680, 200],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "table": "automation_social_posts",
+        "columns": "platform, content, status, scheduled_for, metadata, created_at",
+        "values": "={{ $json.platforms[0] }}, {{ $('Optimize for Social').item.json.choices[0].message.content }}, {{ $json.action === 'schedule' ? 'scheduled' : 'published' }}, {{ $json.scheduledFor || new Date().toISOString() }}, {{ JSON.stringify($json) }}, {{ new Date().toISOString() }}"
+      },
+      "id": "save-social-post",
+      "name": "Save Social Post",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [900, 200],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-credentials",
+          "name": "Supabase API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "table": "automation_social_posts",
+        "columns": "platform, content, status, scheduled_for, metadata, created_at",
+        "values": "={{ $json.platforms[0] }}, {{ $json.content }}, scheduled, {{ $json.scheduledFor }}, {{ JSON.stringify($json) }}, {{ new Date().toISOString() }}"
+      },
+      "id": "schedule-post",
+      "name": "Schedule Post",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [680, 400],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-credentials",
+          "name": "Supabase API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "{{ $json.webhookUrl || 'https://hooks.zapier.com/hooks/catch/social-media/' }}",
+        "sendQuery": false,
+        "sendHeaders": false,
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={ \"platform\": {{ $json.platforms[0] }}, \"content\": {{ $('Optimize for Social').item.json.choices[0].message.content }}, \"action\": \"publish\" }"
+      },
+      "id": "external-publish",
+      "name": "External Publishing",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 200]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"status\": \"success\", \"action\": {{ $json.action }}, \"postId\": {{ $('Save Social Post').item.json.id || $('Schedule Post').item.json.id }}, \"platforms\": {{ $json.platforms }}, \"timestamp\": {{ new Date().toISOString() }} }"
+      },
+      "id": "social-response",
+      "name": "Social Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1340, 300]
+    }
+  ],
+  "connections": {
+    "Social Media Webhook": {
+      "main": [
+        [
+          {
+            "node": "Action Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Action Router": {
+      "main": [
+        [
+          {
+            "node": "Optimize for Social",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Schedule Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Optimize for Social": {
+      "main": [
+        [
+          {
+            "node": "Save Social Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Social Post": {
+      "main": [
+        [
+          {
+            "node": "External Publishing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Post": {
+      "main": [
+        [
+          {
+            "node": "Social Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "External Publishing": {
+      "main": [
+        [
+          {
+            "node": "Social Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": ["automation", "social-media", "publishing"],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-15T00:00:00.000Z",
+  "versionId": "1"
+}

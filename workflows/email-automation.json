@@ -1,0 +1,250 @@
+{
+  "name": "Email Automation Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "email-automation",
+        "options": {}
+      },
+      "id": "email-webhook",
+      "name": "Email Automation Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "email-automation-webhook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "newsletter",
+              "leftValue": "={{ $json.emailType }}",
+              "rightValue": "newsletter",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "welcome",
+              "leftValue": "={{ $json.emailType }}",
+              "rightValue": "welcome",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "follow-up",
+              "leftValue": "={{ $json.emailType }}",
+              "rightValue": "follow-up",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "email-type-router",
+      "name": "Email Type Router",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "resource": "completion",
+        "prompt": "Create a professional {{ $json.emailType }} email with the following details:\nSubject: {{ $json.subject || 'Professional Update' }}\nTarget Audience: {{ $json.audience || 'General subscribers' }}\nKey Message: {{ $json.message || 'Stay updated with our latest news' }}\n\nMake it engaging, professional, and include a clear call-to-action.",
+        "model": "gpt-4",
+        "options": {
+          "maxTokens": 1500,
+          "temperature": 0.7
+        }
+      },
+      "id": "generate-email",
+      "name": "Generate Email Content",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [680, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "table": "automation_emails",
+        "columns": "email_type, subject, content, recipients, status, scheduled_for, metadata, created_at",
+        "values": "={{ $json.emailType }}, {{ $json.subject || 'Professional Update' }}, {{ $('Generate Email Content').item.json.choices[0].message.content }}, {{ JSON.stringify($json.recipients || ['subscribers']) }}, {{ $json.sendNow ? 'sent' : 'scheduled' }}, {{ $json.scheduledFor || new Date().toISOString() }}, {{ JSON.stringify($json) }}, {{ new Date().toISOString() }}"
+      },
+      "id": "save-email",
+      "name": "Save Email",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [900, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-credentials",
+          "name": "Supabase API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "send-now",
+              "leftValue": "={{ $json.sendNow }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-send-now",
+      "name": "Check Send Now",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "to": "={{ $json.recipients ? $json.recipients.join(',') : 'subscribers@example.com' }}",
+        "subject": "={{ $json.subject || 'Professional Update' }}",
+        "message": "={{ $('Generate Email Content').item.json.choices[0].message.content }}",
+        "options": {
+          "contentType": "html"
+        }
+      },
+      "id": "send-email",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [1340, 200],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"status\": \"success\", \"emailId\": {{ $('Save Email').item.json.id }}, \"emailType\": {{ $json.emailType }}, \"sent\": {{ $json.sendNow || false }}, \"scheduledFor\": {{ $json.scheduledFor || new Date().toISOString() }} }"
+      },
+      "id": "email-response",
+      "name": "Email Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1560, 300]
+    }
+  ],
+  "connections": {
+    "Email Automation Webhook": {
+      "main": [
+        [
+          {
+            "node": "Email Type Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Type Router": {
+      "main": [
+        [
+          {
+            "node": "Generate Email Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Email Content": {
+      "main": [
+        [
+          {
+            "node": "Save Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Email": {
+      "main": [
+        [
+          {
+            "node": "Check Send Now",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Send Now": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Email Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "main": [
+        [
+          {
+            "node": "Email Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": ["automation", "email", "ai"],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-15T00:00:00.000Z",
+  "versionId": "1"
+}

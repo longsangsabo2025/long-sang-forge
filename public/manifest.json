@@ -1,0 +1,70 @@
+{
+  "name": "SABO ARENA - AI Automation Platform",
+  "short_name": "SABO ARENA",
+  "description": "Vietnam's leading gaming platform with AI automation. Experience world-class esports tournaments and automated content creation.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "vi",
+  "dir": "ltr",
+  "categories": ["gaming", "entertainment", "productivity", "business"],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop-1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "SABO ARENA Admin Dashboard"
+    },
+    {
+      "src": "/screenshots/mobile-1.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "SABO ARENA Mobile View"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Admin Portal",
+      "short_name": "Admin",
+      "description": "Open Admin Dashboard",
+      "url": "/admin",
+      "icons": [{ "src": "/icons/admin-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "AI Agents",
+      "short_name": "Agents",
+      "description": "Manage AI Agents",
+      "url": "/agent-center",
+      "icons": [{ "src": "/icons/agent-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Workflows",
+      "short_name": "Workflows",
+      "description": "AI Automation Workflows",
+      "url": "/admin/workflows",
+      "icons": [{ "src": "/icons/workflow-96x96.png", "sizes": "96x96" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "display_override": ["window-controls-overlay", "standalone", "browser"],
+  "protocol_handlers": [],
+  "share_target": {
+    "action": "/admin/files",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "files": [
+        {
+          "name": "file",
+          "accept": ["image/*", "application/pdf", "text/*"]
+        }
+      ]
+    }
+  }
+}

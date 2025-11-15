@@ -1,0 +1,369 @@
+{
+  "name": "✍️ Content Production Factory",
+  "version": 1,
+  "createdAt": "2025-11-01T00:00:00.000Z",
+  "updatedAt": "2025-11-01T00:00:00.000Z",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "content/factory",
+        "httpMethod": "POST",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "factory-trigger",
+      "name": "🏭 Factory Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "content-factory"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Content Production Factory Initialization\nconst inputData = $input.first().json;\nconst timestamp = new Date().toISOString();\n\n// Extract production requirements\nconst productionSpec = {\n  factory_id: `factory_${Date.now()}`,\n  timestamp: timestamp,\n  source_event: inputData.event_context || {},\n  production_type: inputData.production_type || 'auto_detect',\n  content_requirements: inputData.content_requirements || {},\n  quality_gates: inputData.quality_gates || ['ai_review', 'seo_check', 'brand_compliance'],\n  distribution_channels: inputData.distribution_channels || ['blog', 'social', 'email'],\n  priority_level: inputData.priority || 'medium'\n};\n\n// Auto-detect content type if not specified\nif (productionSpec.production_type === 'auto_detect') {\n  const eventType = productionSpec.source_event.event_type;\n  \n  if (eventType === 'new_contact' || eventType === 'form_submission') {\n    productionSpec.production_type = 'lead_nurture_content';\n  } else if (eventType === 'blog_schedule' || eventType === 'content_request') {\n    productionSpec.production_type = 'blog_post';\n  } else if (eventType === 'social_schedule') {\n    productionSpec.production_type = 'social_content';\n  } else if (eventType === 'email_campaign') {\n    productionSpec.production_type = 'email_content';\n  } else {\n    productionSpec.production_type = 'general_content';\n  }\n}\n\n// Production line configuration\nconst productionLines = {\n  blog_content_line: {\n    enabled: ['blog_post', 'general_content', 'lead_nurture_content'].includes(productionSpec.production_type),\n    priority: productionSpec.production_type === 'blog_post' ? 1 : 2,\n    estimated_time: 180, // 3 minutes\n    quality_gates: ['topic_research', 'content_generation', 'seo_optimization', 'quality_review']\n  },\n  social_content_line: {\n    enabled: ['social_content', 'general_content', 'blog_post'].includes(productionSpec.production_type),\n    priority: productionSpec.production_type === 'social_content' ? 1 : 3,\n    estimated_time: 120, // 2 minutes\n    quality_gates: ['content_adaptation', 'platform_optimization', 'engagement_optimization']\n  },\n  email_content_line: {\n    enabled: ['email_content', 'lead_nurture_content', 'general_content'].includes(productionSpec.production_type),\n    priority: productionSpec.production_type === 'email_content' ? 1 : 4,\n    estimated_time: 90, // 1.5 minutes\n    quality_gates: ['personalization', 'segmentation', 'deliverability_check']\n  }\n};\n\n// Resource allocation\nconst resourceAllocation = {\n  ai_models: {\n    primary: 'gpt-4o',\n    fallback: 'gpt-4o-mini',\n    specialized: 'claude-3-sonnet'\n  },\n  concurrent_processes: Math.min(3, Object.values(productionLines).filter(line => line.enabled).length),\n  quality_threshold: 85,\n  max_iterations: 3\n};\n\n// Factory status\nconst factoryStatus = {\n  status: 'INITIALIZING',\n  active_lines: Object.entries(productionLines).filter(([key, line]) => line.enabled).map(([key]) => key),\n  estimated_completion: new Date(Date.now() + Math.max(...Object.values(productionLines).filter(line => line.enabled).map(line => line.estimated_time)) * 1000).toISOString(),\n  resource_allocation: resourceAllocation\n};\n\nreturn {\n  json: {\n    production_spec: productionSpec,\n    production_lines: productionLines,\n    factory_status: factoryStatus,\n    next_action: 'activate_production_lines'\n  }\n};"
+      },
+      "id": "factory-initializer",
+      "name": "⚙️ Factory Initializer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "production-splitter",
+      "name": "🔀 Production Line Splitter",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Blog Content Production Line\nconst factoryData = $input.first().json;\nconst productionSpec = factoryData.production_spec;\nconst blogLine = factoryData.production_lines.blog_content_line;\n\nif (!blogLine.enabled) {\n  return { json: { skipped: true, reason: 'Blog content line not enabled' } };\n}\n\n// Topic Research Phase\nconst topicResearch = {\n  primary_topic: productionSpec.content_requirements.topic || 'Business Automation',\n  secondary_keywords: productionSpec.content_requirements.keywords || ['AI', 'productivity', 'efficiency'],\n  target_audience: productionSpec.content_requirements.audience || 'business_professionals',\n  content_angle: productionSpec.content_requirements.angle || 'informative_guide',\n  trending_analysis: true\n};\n\n// Content Generation Specifications\nconst contentSpecs = {\n  word_count: productionSpec.content_requirements.word_count || 1500,\n  tone: productionSpec.content_requirements.tone || 'professional',\n  structure: productionSpec.content_requirements.structure || 'problem_solution_benefit',\n  include_examples: true,\n  include_actionable_tips: true,\n  include_conclusion: true\n};\n\n// SEO Optimization Requirements\nconst seoRequirements = {\n  meta_title_length: 60,\n  meta_description_length: 160,\n  keyword_density: '1-2%',\n  internal_links: 2,\n  external_links: 1,\n  image_alt_tags: true,\n  schema_markup: true\n};\n\n// Quality Gates Configuration\nconst qualityGates = {\n  readability_score: 70, // Flesch-Kincaid\n  grammar_check: true,\n  plagiarism_check: true,\n  brand_voice_compliance: true,\n  fact_checking: productionSpec.content_requirements.fact_check || false\n};\n\nreturn {\n  json: {\n    production_line: 'blog_content',\n    status: 'READY_FOR_PRODUCTION',\n    topic_research: topicResearch,\n    content_specs: contentSpecs,\n    seo_requirements: seoRequirements,\n    quality_gates: qualityGates,\n    estimated_completion: new Date(Date.now() + blogLine.estimated_time * 1000).toISOString(),\n    next_phase: 'topic_research'\n  }\n};"
+      },
+      "id": "blog-line-setup",
+      "name": "📝 Blog Content Line",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 120]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Social Content Production Line\nconst factoryData = $input.first().json;\nconst productionSpec = factoryData.production_spec;\nconst socialLine = factoryData.production_lines.social_content_line;\n\nif (!socialLine.enabled) {\n  return { json: { skipped: true, reason: 'Social content line not enabled' } };\n}\n\n// Platform-Specific Requirements\nconst platformSpecs = {\n  linkedin: {\n    max_length: 3000,\n    optimal_length: 1500,\n    hashtag_count: 3,\n    tone: 'professional',\n    include_cta: true,\n    content_type: 'thought_leadership'\n  },\n  facebook: {\n    max_length: 2200,\n    optimal_length: 800,\n    hashtag_count: 5,\n    tone: 'conversational',\n    include_visual: true,\n    content_type: 'engaging_story'\n  },\n  twitter: {\n    max_length: 280,\n    optimal_length: 240,\n    hashtag_count: 2,\n    tone: 'concise',\n    thread_capability: true,\n    content_type: 'quick_insight'\n  }\n};\n\n// Content Adaptation Strategy\nconst adaptationStrategy = {\n  source_content: productionSpec.content_requirements.source_content || null,\n  adaptation_type: productionSpec.content_requirements.adaptation_type || 'multi_platform',\n  maintain_core_message: true,\n  platform_optimization: true,\n  engagement_optimization: true\n};\n\n// Engagement Optimization\nconst engagementOptimization = {\n  optimal_posting_times: {\n    linkedin: '09:00-10:00, 17:00-18:00',\n    facebook: '13:00-15:00, 19:00-21:00',\n    twitter: '08:00-10:00, 19:00-20:00'\n  },\n  content_hooks: ['question', 'statistic', 'personal_story', 'controversial_take'],\n  call_to_action_types: ['engagement', 'website_visit', 'share', 'comment'],\n  visual_requirements: {\n    linkedin: 'professional_graphic',\n    facebook: 'engaging_image',\n    twitter: 'quote_card'\n  }\n};\n\nreturn {\n  json: {\n    production_line: 'social_content',\n    status: 'READY_FOR_PRODUCTION',\n    platform_specs: platformSpecs,\n    adaptation_strategy: adaptationStrategy,\n    engagement_optimization: engagementOptimization,\n    estimated_completion: new Date(Date.now() + socialLine.estimated_time * 1000).toISOString(),\n    next_phase: 'content_adaptation'\n  }\n};"
+      },
+      "id": "social-line-setup",
+      "name": "📱 Social Content Line",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 260]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Email Content Production Line\nconst factoryData = $input.first().json;\nconst productionSpec = factoryData.production_spec;\nconst emailLine = factoryData.production_lines.email_content_line;\n\nif (!emailLine.enabled) {\n  return { json: { skipped: true, reason: 'Email content line not enabled' } };\n}\n\n// Email Campaign Types\nconst campaignTypes = {\n  nurture_sequence: {\n    email_count: 5,\n    interval: '3_days',\n    personalization_level: 'high',\n    conversion_goal: 'lead_qualification'\n  },\n  promotional: {\n    email_count: 1,\n    urgency_level: 'medium',\n    personalization_level: 'medium',\n    conversion_goal: 'sale'\n  },\n  newsletter: {\n    email_count: 1,\n    content_mix: 'educational_promotional',\n    personalization_level: 'low',\n    conversion_goal: 'engagement'\n  },\n  welcome_series: {\n    email_count: 3,\n    interval: '1_day',\n    personalization_level: 'high',\n    conversion_goal: 'onboarding'\n  }\n};\n\n// Personalization Strategy\nconst personalizationStrategy = {\n  dynamic_content: {\n    name: 'first_name',\n    company: 'company_name',\n    industry: 'industry_type',\n    pain_points: 'identified_challenges'\n  },\n  segmentation_criteria: {\n    behavior_based: ['email_opens', 'link_clicks', 'website_visits'],\n    demographic: ['job_title', 'company_size', 'industry'],\n    engagement_level: ['highly_engaged', 'moderately_engaged', 'low_engagement']\n  },\n  content_variants: {\n    subject_lines: 3,\n    email_body: 2,\n    cta_buttons: 2\n  }\n};\n\n// Deliverability Optimization\nconst deliverabilityOptimization = {\n  sender_reputation: {\n    domain_authentication: true,\n    ip_warmup: false, // Assume established sender\n    list_hygiene: true\n  },\n  content_optimization: {\n    spam_score_target: 'under_3',\n    image_text_ratio: '60_40',\n    link_quality: 'high_authority',\n    avoid_spam_triggers: true\n  },\n  sending_optimization: {\n    optimal_send_times: ['09:00-11:00', '14:00-16:00'],\n    send_frequency: 'respect_preferences',\n    timezone_optimization: true\n  }\n};\n\nreturn {\n  json: {\n    production_line: 'email_content',\n    status: 'READY_FOR_PRODUCTION',\n    campaign_type: productionSpec.content_requirements.campaign_type || 'nurture_sequence',\n    campaign_specs: campaignTypes[productionSpec.content_requirements.campaign_type || 'nurture_sequence'],\n    personalization_strategy: personalizationStrategy,\n    deliverability_optimization: deliverabilityOptimization,\n    estimated_completion: new Date(Date.now() + emailLine.estimated_time * 1000).toISOString(),\n    next_phase: 'personalization_setup'\n  }\n};"
+      },
+      "id": "email-line-setup",
+      "name": "💌 Email Content Line",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "blog_content",
+              "leftValue": "={{ $json.production_line }}",
+              "rightValue": "blog_content",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "social_content",
+              "leftValue": "={{ $json.production_line }}",
+              "rightValue": "social_content",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "email_content",
+              "leftValue": "={{ $json.production_line }}",
+              "rightValue": "email_content",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "production-router",
+      "name": "🔀 Production Router",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [680, 280]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert blog content creator. Create a comprehensive blog post based on the specifications.\n\nTopic Research:\n{{ JSON.stringify($json.topic_research, null, 2) }}\n\nContent Specifications:\n{{ JSON.stringify($json.content_specs, null, 2) }}\n\nSEO Requirements:\n{{ JSON.stringify($json.seo_requirements, null, 2) }}\n\nCreate a blog post that includes:\n1. Engaging title (under 60 characters)\n2. Meta description (under 160 characters)\n3. Well-structured content with H2/H3 headings\n4. Actionable tips and examples\n5. Strong conclusion with CTA\n6. SEO-optimized throughout\n\nRespond with JSON:\n{\n  \"title\": \"SEO-optimized title\",\n  \"meta_description\": \"Compelling meta description\",\n  \"content\": \"Full blog post with markdown formatting\",\n  \"seo_keywords\": [\"keyword1\", \"keyword2\"],\n  \"readability_score\": number,\n  \"word_count\": number,\n  \"internal_links\": [{\"text\": \"anchor text\", \"url\": \"internal-url\"}],\n  \"external_links\": [{\"text\": \"anchor text\", \"url\": \"external-url\"}],\n  \"featured_image_description\": \"Description for featured image\"\n}",
+              "role": "user"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 3000
+        }
+      },
+      "id": "blog-generator",
+      "name": "✍️ Blog Generator",
+      "type": "n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [900, 120]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a social media content expert. Create optimized posts for multiple platforms.\n\nPlatform Specifications:\n{{ JSON.stringify($json.platform_specs, null, 2) }}\n\nAdaptation Strategy:\n{{ JSON.stringify($json.adaptation_strategy, null, 2) }}\n\nEngagement Optimization:\n{{ JSON.stringify($json.engagement_optimization, null, 2) }}\n\nCreate platform-optimized posts that:\n1. Match platform-specific requirements\n2. Maintain core message consistency\n3. Optimize for engagement\n4. Include appropriate hashtags\n5. Have clear CTAs\n\nRespond with JSON:\n{\n  \"linkedin\": {\n    \"text\": \"LinkedIn post content\",\n    \"hashtags\": [\"#hashtag1\", \"#hashtag2\"],\n    \"cta\": \"Call to action\",\n    \"optimal_time\": \"HH:MM\"\n  },\n  \"facebook\": {\n    \"text\": \"Facebook post content\",\n    \"hashtags\": [\"#hashtag1\"],\n    \"cta\": \"Call to action\",\n    \"optimal_time\": \"HH:MM\"\n  },\n  \"twitter\": {\n    \"text\": \"Twitter post content\",\n    \"hashtags\": [\"#hashtag1\"],\n    \"thread\": [\"tweet1\", \"tweet2\"],\n    \"optimal_time\": \"HH:MM\"\n  },\n  \"engagement_predictions\": {\n    \"linkedin\": \"estimated engagement rate\",\n    \"facebook\": \"estimated reach\",\n    \"twitter\": \"estimated interactions\"\n  }\n}",
+              "role": "user"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.8,
+          "maxTokens": 2000
+        }
+      },
+      "id": "social-generator",
+      "name": "📱 Social Generator",
+      "type": "n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [900, 260]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an email marketing specialist. Create a personalized email campaign.\n\nCampaign Specifications:\n{{ JSON.stringify($json.campaign_specs, null, 2) }}\n\nPersonalization Strategy:\n{{ JSON.stringify($json.personalization_strategy, null, 2) }}\n\nDeliverability Requirements:\n{{ JSON.stringify($json.deliverability_optimization, null, 2) }}\n\nCreate email content that:\n1. Is highly personalized\n2. Follows deliverability best practices\n3. Has compelling subject lines\n4. Includes clear CTAs\n5. Is mobile-optimized\n\nRespond with JSON:\n{\n  \"subject_lines\": [\"Subject 1\", \"Subject 2\", \"Subject 3\"],\n  \"preheader\": \"Email preheader text\",\n  \"email_body\": \"Full email content with HTML\",\n  \"plain_text_version\": \"Plain text version\",\n  \"personalization_tokens\": [\"{{first_name}}\", \"{{company}}\"],\n  \"cta_buttons\": [\n    {\"text\": \"Primary CTA\", \"url\": \"{{cta_url}}\"},\n    {\"text\": \"Secondary CTA\", \"url\": \"{{secondary_url}}\"}\n  ],\n  \"spam_score_estimate\": number,\n  \"expected_open_rate\": \"percentage\",\n  \"expected_click_rate\": \"percentage\"\n}",
+              "role": "user"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.6,
+          "maxTokens": 2500
+        }
+      },
+      "id": "email-generator",
+      "name": "💌 Email Generator",
+      "type": "n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [900, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Quality Control & Production Finalization\nconst productionResults = $input.all();\nconst timestamp = new Date().toISOString();\n\n// Aggregate all production line results\nconst aggregatedResults = {\n  factory_completion_time: timestamp,\n  total_production_lines: productionResults.length,\n  successful_productions: 0,\n  failed_productions: 0,\n  content_inventory: {}\n};\n\n// Process each production line result\nproductionResults.forEach((result, index) => {\n  try {\n    const resultData = result.json;\n    \n    // Parse AI-generated content\n    let contentData;\n    if (resultData.choices && resultData.choices[0] && resultData.choices[0].message) {\n      contentData = JSON.parse(resultData.choices[0].message.content);\n      aggregatedResults.successful_productions++;\n    } else {\n      aggregatedResults.failed_productions++;\n      return;\n    }\n    \n    // Determine content type based on structure\n    let contentType = 'unknown';\n    if (contentData.title && contentData.content) {\n      contentType = 'blog_post';\n    } else if (contentData.linkedin || contentData.facebook || contentData.twitter) {\n      contentType = 'social_media';\n    } else if (contentData.subject_lines && contentData.email_body) {\n      contentType = 'email_campaign';\n    }\n    \n    // Quality assessment\n    const qualityMetrics = {\n      content_completeness: contentData ? 95 : 0,\n      seo_optimization: contentData.seo_keywords ? 90 : 50,\n      readability_score: contentData.readability_score || 75,\n      engagement_potential: 85,\n      brand_compliance: 90\n    };\n    \n    const overallQuality = Object.values(qualityMetrics).reduce((sum, score) => sum + score, 0) / Object.keys(qualityMetrics).length;\n    \n    // Add to content inventory\n    aggregatedResults.content_inventory[contentType] = {\n      content_data: contentData,\n      quality_metrics: qualityMetrics,\n      overall_quality_score: overallQuality,\n      production_timestamp: timestamp,\n      ready_for_publication: overallQuality >= 80,\n      requires_review: overallQuality < 80\n    };\n    \n  } catch (error) {\n    aggregatedResults.failed_productions++;\n  }\n});\n\n// Calculate factory performance metrics\nconst factoryPerformance = {\n  success_rate: ((aggregatedResults.successful_productions / aggregatedResults.total_production_lines) * 100).toFixed(1) + '%',\n  average_quality_score: Object.values(aggregatedResults.content_inventory)\n    .reduce((sum, item) => sum + (item.overall_quality_score || 0), 0) / aggregatedResults.successful_productions || 0,\n  production_efficiency: aggregatedResults.successful_productions > 0 ? 'high' : 'low',\n  ready_for_publication: Object.values(aggregatedResults.content_inventory)\n    .filter(item => item.ready_for_publication).length\n};\n\n// Next actions based on results\nconst nextActions = [];\nif (aggregatedResults.content_inventory.blog_post?.ready_for_publication) {\n  nextActions.push('publish_blog_post');\n  nextActions.push('trigger_social_distribution');\n}\nif (aggregatedResults.content_inventory.social_media?.ready_for_publication) {\n  nextActions.push('schedule_social_posts');\n}\nif (aggregatedResults.content_inventory.email_campaign?.ready_for_publication) {\n  nextActions.push('deploy_email_sequence');\n}\n\n// Content distribution plan\nconst distributionPlan = {\n  immediate_actions: nextActions,\n  scheduled_actions: [\n    {\n      action: 'cross_platform_promotion',\n      scheduled_for: new Date(Date.now() + 30 * 60 * 1000).toISOString() // 30 minutes\n    },\n    {\n      action: 'performance_tracking_start',\n      scheduled_for: new Date(Date.now() + 60 * 60 * 1000).toISOString() // 1 hour\n    }\n  ],\n  analytics_tracking: {\n    enabled: true,\n    metrics: ['views', 'engagement', 'conversions', 'shares'],\n    reporting_frequency: 'daily'\n  }\n};\n\n// Final factory report\nconst factoryReport = {\n  factory_session_id: `factory_${Date.now()}`,\n  production_summary: aggregatedResults,\n  performance_metrics: factoryPerformance,\n  content_inventory: aggregatedResults.content_inventory,\n  distribution_plan: distributionPlan,\n  factory_status: 'PRODUCTION_COMPLETE',\n  total_content_pieces: Object.keys(aggregatedResults.content_inventory).length,\n  recommendations: [\n    'Monitor content performance',\n    'Optimize based on engagement data',\n    'Scale successful content types',\n    'Continue quality improvement'\n  ]\n};\n\nreturn { json: factoryReport };"
+      },
+      "id": "quality-control",
+      "name": "🎯 Quality Control",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 280]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "id": "factory-response",
+      "name": "📤 Factory Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1340, 280]
+    }
+  ],
+  "connections": {
+    "🏭 Factory Trigger": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Factory Initializer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Factory Initializer": {
+      "main": [
+        [
+          {
+            "node": "🔀 Production Line Splitter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔀 Production Line Splitter": {
+      "main": [
+        [
+          {
+            "node": "📝 Blog Content Line",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "📱 Social Content Line",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "💌 Email Content Line",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📝 Blog Content Line": {
+      "main": [
+        [
+          {
+            "node": "🔀 Production Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📱 Social Content Line": {
+      "main": [
+        [
+          {
+            "node": "🔀 Production Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "💌 Email Content Line": {
+      "main": [
+        [
+          {
+            "node": "🔀 Production Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔀 Production Router": {
+      "main": [
+        [
+          {
+            "node": "✍️ Blog Generator",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "📱 Social Generator",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "💌 Email Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✍️ Blog Generator": {
+      "main": [
+        [
+          {
+            "node": "🎯 Quality Control",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📱 Social Generator": {
+      "main": [
+        [
+          {
+            "node": "🎯 Quality Control",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "💌 Email Generator": {
+      "main": [
+        [
+          {
+            "node": "🎯 Quality Control",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🎯 Quality Control": {
+      "main": [
+        [
+          {
+            "node": "📤 Factory Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "updatedAt": "2025-11-01T00:00:00.000Z",
+      "id": "content-factory",
+      "name": "Content Factory"
+    }
+  ],
+  "triggerCount": 1,
+  "versionId": "content-factory-v1"
+}

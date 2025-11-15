@@ -1,0 +1,118 @@
+version: '3.8'
+
+services:
+  # Main AI Agent Application
+  ai-agent:
+    build:
+      context: .
+      target: development
+    container_name: personal-ai-agent
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+      - ./user_data:/app/user_data
+      - ./memory_data:/app/memory_data
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - qdrant
+    networks:
+      - ai-network
+    restart: unless-stopped
+    command: python -m cli.main
+
+  # Vector Database (Qdrant)
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: ai-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    environment:
+      - QDRANT__SERVICE__GRPC_PORT=6334
+    networks:
+      - ai-network
+    restart: unless-stopped
+
+  # Cache & Message Queue (Redis)
+  redis:
+    image: redis:7-alpine
+    container_name: ai-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - ai-network
+    restart: unless-stopped
+
+  # API Server (FastAPI)
+  api-server:
+    build:
+      context: .
+      target: development
+    container_name: ai-api-server
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    ports:
+      - "8001:8000"
+    depends_on:
+      - redis
+      - qdrant
+    networks:
+      - ai-network
+    restart: unless-stopped
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Optional: Monitoring with Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: ai-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - ai-network
+    restart: unless-stopped
+    profiles:
+      - monitoring
+
+  # Optional: Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: ai-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    networks:
+      - ai-network
+    restart: unless-stopped
+    profiles:
+      - monitoring
+
+volumes:
+  qdrant_storage:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  ai-network:
+    driver: bridge

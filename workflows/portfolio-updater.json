@@ -1,0 +1,285 @@
+{
+  "name": "Portfolio Updater Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "portfolio-updater",
+        "options": {}
+      },
+      "id": "portfolio-webhook",
+      "name": "Portfolio Updater Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "portfolio-updater-webhook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "add-project",
+              "leftValue": "={{ $json.action }}",
+              "rightValue": "add-project",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "update-skills",
+              "leftValue": "={{ $json.action }}",
+              "rightValue": "update-skills",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "generate-content",
+              "leftValue": "={{ $json.action }}",
+              "rightValue": "generate-content",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "portfolio-action-router",
+      "name": "Portfolio Action Router",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "resource": "completion",
+        "prompt": "Create professional portfolio content for the following:\nAction: {{ $json.action }}\nProject Title: {{ $json.projectTitle || 'New Project' }}\nTechnologies: {{ $json.technologies ? $json.technologies.join(', ') : 'Modern web technologies' }}\nDescription: {{ $json.description || 'Innovative project showcasing technical skills' }}\n\nGenerate:\n1. Professional project description\n2. Technical highlights\n3. Impact and achievements\n4. Key learnings\n\nMake it compelling and showcase technical expertise.",
+        "model": "gpt-4",
+        "options": {
+          "maxTokens": 1000,
+          "temperature": 0.7
+        }
+      },
+      "id": "generate-portfolio-content",
+      "name": "Generate Portfolio Content",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [680, 200],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "table": "automation_portfolio_projects",
+        "columns": "title, description, technologies, status, content, metadata, created_at",
+        "values": "={{ $json.projectTitle || 'New Project' }}, {{ $json.description || 'Project description' }}, {{ JSON.stringify($json.technologies || []) }}, {{ $json.status || 'active' }}, {{ $('Generate Portfolio Content').item.json.choices[0].message.content }}, {{ JSON.stringify($json) }}, {{ new Date().toISOString() }}"
+      },
+      "id": "save-portfolio-project",
+      "name": "Save Portfolio Project",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [900, 200],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-credentials",
+          "name": "Supabase API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": "automation_portfolio_skills",
+        "filterType": "manual",
+        "matchValues": {
+          "skill_name": "={{ $json.skillName }}"
+        },
+        "columns": "proficiency_level, years_experience, last_updated",
+        "values": "={{ $json.proficiencyLevel || 'intermediate' }}, {{ $json.yearsExperience || 1 }}, {{ new Date().toISOString() }}"
+      },
+      "id": "update-portfolio-skills",
+      "name": "Update Portfolio Skills",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [680, 400],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-credentials",
+          "name": "Supabase API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "auto-deploy",
+              "leftValue": "={{ $json.autoDeploy }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-auto-deploy",
+      "name": "Check Auto Deploy",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "url": "{{ $json.deploymentWebhook || 'https://api.vercel.com/v1/integrations/deploy/XXXXX' }}",
+        "sendQuery": false,
+        "sendHeaders": false,
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={ \"projectId\": {{ $('Save Portfolio Project').item.json.id }}, \"action\": \"deploy\", \"trigger\": \"portfolio-update\" }"
+      },
+      "id": "trigger-deployment",
+      "name": "Trigger Deployment",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 200]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"status\": \"success\", \"action\": {{ $json.action }}, \"projectId\": {{ $('Save Portfolio Project').item.json.id || null }}, \"deployed\": {{ $json.autoDeploy || false }}, \"timestamp\": {{ new Date().toISOString() }} }"
+      },
+      "id": "portfolio-response",
+      "name": "Portfolio Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1560, 300]
+    }
+  ],
+  "connections": {
+    "Portfolio Updater Webhook": {
+      "main": [
+        [
+          {
+            "node": "Portfolio Action Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Portfolio Action Router": {
+      "main": [
+        [
+          {
+            "node": "Generate Portfolio Content",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update Portfolio Skills",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Portfolio Content": {
+      "main": [
+        [
+          {
+            "node": "Save Portfolio Project",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Portfolio Project": {
+      "main": [
+        [
+          {
+            "node": "Check Auto Deploy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Portfolio Skills": {
+      "main": [
+        [
+          {
+            "node": "Portfolio Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Auto Deploy": {
+      "main": [
+        [
+          {
+            "node": "Trigger Deployment",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Portfolio Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trigger Deployment": {
+      "main": [
+        [
+          {
+            "node": "Portfolio Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": ["automation", "portfolio", "deployment"],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-15T00:00:00.000Z",
+  "versionId": "1"
+}
