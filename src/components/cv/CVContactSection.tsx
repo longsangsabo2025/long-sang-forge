@@ -1,160 +1,173 @@
-import { useState } from "react";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Download, ExternalLink, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 
 const CVContactSection = () => {
-  const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { language } = useLanguage();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    toast({
-      title: "Message Sent! ✨",
-      description: "Thank you for reaching out. I'll get back to you soon!",
-    });
-
-    setFormData({ name: "", email: "", subject: "", message: "" });
-    setIsSubmitting(false);
+  // Simple contact section - no form needed for CV
+  const handleDownloadCV = () => {
+    // TODO: Replace with actual PDF URL
+    alert(
+      language === "vi"
+        ? "Tính năng tải CV đang được cập nhật. Vui lòng liên hệ qua email để nhận CV PDF."
+        : "CV download feature is being updated. Please contact via email to receive PDF CV."
+    );
   };
 
   return (
-    <section id="contact" className="section-padding bg-background-secondary relative overflow-hidden">
+    <section
+      id="contact"
+      className="section-padding bg-background-secondary relative overflow-hidden"
+    >
       {/* Animated Background */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20" />
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/30 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-secondary/30 rounded-full blur-3xl animate-float" style={{ animationDelay: "1s" }} />
+        <div
+          className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-secondary/30 rounded-full blur-3xl animate-float"
+          style={{ animationDelay: "1s" }}
+        />
       </div>
 
       <div className="container mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16 space-y-4">
           <h2 className="text-5xl md:text-6xl font-heading font-black text-gradient-gold">
-            LET'S WORK TOGETHER
+            {language === "vi" ? "Liên Hệ" : "Get In Touch"}
           </h2>
-          
+
           <p className="text-xl text-foreground-secondary max-w-2xl mx-auto">
-            Ready to start your next project? Let's create something amazing!
+            {language === "vi"
+              ? "Sẵn sàng hợp tác cho các dự án thú vị. Hãy liên hệ qua các kênh bên dưới!"
+              : "Ready to collaborate on exciting projects. Reach out through the channels below!"}
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
-          {/* Contact Info Cards */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all hover-lift group">
-              <div className="w-14 h-14 rounded-full bg-primary/20 border-2 border-primary/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Mail className="w-7 h-7 text-primary" />
+        <div className="max-w-4xl mx-auto">
+          {/* Main Contact Cards */}
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            {/* Email */}
+            <a
+              href="mailto:longsangsabo@gmail.com"
+              className="bg-card border border-border rounded-2xl p-8 hover:border-primary/50 transition-all hover-lift group text-center"
+            >
+              <div className="w-16 h-16 mx-auto rounded-full bg-primary/20 border-2 border-primary/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <Mail className="w-8 h-8 text-primary" />
               </div>
               <h3 className="text-lg font-heading font-bold text-foreground mb-2">Email</h3>
-              <a
-                href="mailto:longsangsabo@gmail.com"
-                className="text-foreground-secondary hover:text-primary transition-colors break-all"
-              >
+              <p className="text-foreground-secondary hover:text-primary transition-colors break-all text-sm">
                 longsangsabo@gmail.com
-              </a>
-              <p className="text-sm text-muted-foreground mt-2">Click to send an email</p>
-            </div>
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">
+                {language === "vi" ? "Phản hồi trong 24h" : "Reply within 24h"}
+              </p>
+            </a>
 
-            <div className="bg-card border border-border rounded-2xl p-6 hover:border-secondary/50 transition-all hover-lift group">
-              <div className="w-14 h-14 rounded-full bg-secondary/20 border-2 border-secondary/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Phone className="w-7 h-7 text-secondary" />
+            {/* Phone */}
+            <a
+              href="tel:+84961167717"
+              className="bg-card border border-border rounded-2xl p-8 hover:border-secondary/50 transition-all hover-lift group text-center"
+            >
+              <div className="w-16 h-16 mx-auto rounded-full bg-secondary/20 border-2 border-secondary/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <Phone className="w-8 h-8 text-secondary" />
               </div>
-              <h3 className="text-lg font-heading font-bold text-foreground mb-2">Phone</h3>
-              <a
-                href="tel:+84961167717"
-                className="text-foreground-secondary hover:text-secondary transition-colors text-lg font-semibold"
-              >
+              <h3 className="text-lg font-heading font-bold text-foreground mb-2">
+                {language === "vi" ? "Điện thoại" : "Phone"}
+              </h3>
+              <p className="text-foreground-secondary hover:text-secondary transition-colors text-lg font-semibold">
                 +84 961 167 717
-              </a>
-              <p className="text-sm text-muted-foreground mt-2">Available Mon-Sat 9am-6pm</p>
-            </div>
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">
+                {language === "vi" ? "Zalo / WhatsApp" : "Zalo / WhatsApp"}
+              </p>
+            </a>
 
-            <div className="bg-card border border-border rounded-2xl p-6 hover:border-accent/50 transition-all hover-lift group">
-              <div className="w-14 h-14 rounded-full bg-accent/20 border-2 border-accent/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <MapPin className="w-7 h-7 text-accent" />
+            {/* Location */}
+            <div className="bg-card border border-border rounded-2xl p-8 hover:border-accent/50 transition-all hover-lift group text-center">
+              <div className="w-16 h-16 mx-auto rounded-full bg-accent/20 border-2 border-accent/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <MapPin className="w-8 h-8 text-accent" />
               </div>
-              <h3 className="text-lg font-heading font-bold text-foreground mb-2">Location</h3>
-              <p className="text-foreground-secondary text-lg">Vung Tau City</p>
-              <p className="text-foreground-secondary">Vietnam</p>
+              <h3 className="text-lg font-heading font-bold text-foreground mb-2">
+                {language === "vi" ? "Địa điểm" : "Location"}
+              </h3>
+              <p className="text-foreground-secondary text-lg">Vũng Tàu</p>
+              <p className="text-xs text-muted-foreground mt-2">Vietnam (UTC+7)</p>
             </div>
           </div>
 
-          {/* Contact Form */}
-          <div className="lg:col-span-3">
-            <form onSubmit={handleSubmit} className="bg-card/50 backdrop-glass border border-border rounded-2xl p-8 shadow-elevated">
-              <div className="space-y-6">
-                <div>
-                  <Input
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    required
-                    className="bg-background/50 border-border focus:border-primary text-foreground placeholder:text-muted-foreground"
-                  />
-                </div>
+          {/* Social Links & CTA */}
+          <div className="bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-8 shadow-elevated">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-heading font-bold text-foreground mb-2">
+                {language === "vi" ? "Kết nối với tôi" : "Connect With Me"}
+              </h3>
+              <p className="text-foreground-secondary">
+                {language === "vi"
+                  ? "Xem thêm về công việc và dự án của tôi"
+                  : "Learn more about my work and projects"}
+              </p>
+            </div>
 
-                <div>
-                  <Input
-                    type="email"
-                    placeholder="Your Email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    required
-                    className="bg-background/50 border-border focus:border-primary text-foreground placeholder:text-muted-foreground"
-                  />
-                </div>
+            {/* Social Links Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              <a
+                href="https://linkedin.com/in/longsang"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 px-6 py-4 bg-blue-600/10 border border-blue-600/30 rounded-xl hover:bg-blue-600/20 transition-all group"
+              >
+                <Linkedin className="w-6 h-6 text-blue-500" />
+                <span className="font-semibold text-foreground">LinkedIn</span>
+                <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-blue-500" />
+              </a>
 
-                <div>
-                  <Input
-                    placeholder="Subject"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    required
-                    className="bg-background/50 border-border focus:border-primary text-foreground placeholder:text-muted-foreground"
-                  />
-                </div>
+              <a
+                href="https://github.com/longsang"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 px-6 py-4 bg-gray-600/10 border border-gray-600/30 rounded-xl hover:bg-gray-600/20 transition-all group"
+              >
+                <Github className="w-6 h-6 text-foreground" />
+                <span className="font-semibold text-foreground">GitHub</span>
+                <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-foreground" />
+              </a>
 
-                <div>
-                  <Textarea
-                    placeholder="Your Message"
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    required
-                    rows={6}
-                    className="bg-background/50 border-border focus:border-primary text-foreground placeholder:text-muted-foreground resize-none"
-                  />
-                </div>
+              <a
+                href="mailto:longsangsabo@gmail.com"
+                className="flex items-center justify-center gap-3 px-6 py-4 bg-primary/10 border border-primary/30 rounded-xl hover:bg-primary/20 transition-all group"
+              >
+                <Mail className="w-6 h-6 text-primary" />
+                <span className="font-semibold text-foreground">Email</span>
+                <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
+              </a>
 
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-lg h-14 shadow-glow group"
-                >
-                  {isSubmitting ? (
-                    "Sending..."
-                  ) : (
-                    <>
-                      Send Message
-                      <Send className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                    </>
-                  )}
-                </Button>
+              <Button
+                onClick={handleDownloadCV}
+                variant="outline"
+                className="flex items-center justify-center gap-3 px-6 py-4 h-auto bg-secondary/10 border border-secondary/30 hover:bg-secondary/20"
+              >
+                <Download className="w-6 h-6 text-secondary" />
+                <span className="font-semibold">CV PDF</span>
+              </Button>
+            </div>
+
+            {/* Availability Status */}
+            <div className="text-center p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+                <span className="font-semibold text-green-400">
+                  {language === "vi"
+                    ? "Hiện đang nhận dự án mới"
+                    : "Currently available for new projects"}
+                </span>
               </div>
-            </form>
+              <p className="text-sm text-muted-foreground mt-1">
+                {language === "vi"
+                  ? "Freelance, Part-time hoặc Collaboration"
+                  : "Freelance, Part-time or Collaboration"}
+              </p>
+            </div>
           </div>
         </div>
       </div>

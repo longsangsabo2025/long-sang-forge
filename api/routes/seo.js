@@ -1,46 +1,52 @@
-const express = require('express');
-const { createClient } = require('@supabase/supabase-js');
-const OpenAI = require('openai');
-const axios = require('axios');
-const cheerio = require('cheerio');
+const express = require("express");
+const { createClient } = require("@supabase/supabase-js");
+const OpenAI = require("openai");
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 const router = express.Router();
 
 // Initialize clients
-const supabase = createClient(
-  process.env.VITE_SUPABASE_URL,
-  process.env.VITE_SUPABASE_ANON_KEY
-);
+const supabaseUrl = process.env.VITE_SUPABASE_URL || "";
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || "";
+const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || process.env.VITE_OPENAI_API_KEY
-});
+const openaiApiKey = process.env.OPENAI_API_KEY || process.env.VITE_OPENAI_API_KEY || "dummy-key";
+const openai =
+  openaiApiKey && openaiApiKey !== "dummy-key" ? new OpenAI({ apiKey: openaiApiKey }) : null;
 
 /**
  * Crawl website
  */
 async function crawlWebsite(domain) {
-  const url = domain.startsWith('http') ? domain : `https://${domain}`;
-  
+  const url = domain.startsWith("http") ? domain : `https://${domain}`;
+
   const response = await axios.get(url, {
     timeout: 10000,
     headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-    }
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    },
   });
 
   const $ = cheerio.load(response.data);
 
   // Remove scripts, styles
-  $('script, style, nav, footer, header').remove();
-  
-  const title = $('title').text().trim() || $('meta[property="og:title"]').attr('content') || '';
-  const description = $('meta[name="description"]').attr('content') || $('meta[property="og:description"]').attr('content') || '';
-  const content = $('body').text().replaceAll(/\s+/g, ' ').trim().slice(0, 5000);
-  
+  $("script, style, nav, footer, header").remove();
+
+  const title = $("title").text().trim() || $('meta[property="og:title"]').attr("content") || "";
+  const description =
+    $('meta[name="description"]').attr("content") ||
+    $('meta[property="og:description"]').attr("content") ||
+    "";
+  const content = $("body").text().replaceAll(/\s+/g, " ").trim().slice(0, 5000);
+
   const headings = {
-    h1: $('h1').map((_, el) => $(el).text().trim()).get(),
-    h2: $('h2').map((_, el) => $(el).text().trim()).get()
+    h1: $("h1")
+      .map((_, el) => $(el).text().trim())
+      .get(),
+    h2: $("h2")
+      .map((_, el) => $(el).text().trim())
+      .get(),
   };
 
   return {
@@ -48,7 +54,7 @@ async function crawlWebsite(domain) {
     title,
     description,
     content,
-    headings
+    headings,
   };
 }
 
@@ -57,16 +63,18 @@ async function crawlWebsite(domain) {
  */
 async function discoverPages(domain) {
   try {
-    const url = domain.startsWith('http') ? domain : `https://${domain}`;
+    const url = domain.startsWith("http") ? domain : `https://${domain}`;
     const sitemapUrl = `${url}/sitemap.xml`;
 
     const response = await axios.get(sitemapUrl, { timeout: 5000 });
     const $ = cheerio.load(response.data, { xmlMode: true });
 
-    const urls = $('url > loc').map((_, el) => $(el).text()).get();
+    const urls = $("url > loc")
+      .map((_, el) => $(el).text())
+      .get();
     return urls.length > 0 ? urls : [url];
   } catch {
-    const url = domain.startsWith('http') ? domain : `https://${domain}`;
+    const url = domain.startsWith("http") ? domain : `https://${domain}`;
     return [url];
   }
 }
@@ -75,12 +83,16 @@ async function discoverPages(domain) {
  * POST /api/seo/analyze
  * Analyze domain and generate keywords + SEO plan
  */
-router.post('/analyze', async (req, res) => {
+router.post("/analyze", async (req, res) => {
   try {
-    const { domain, language = 'en', country } = req.body;
+    if (!openai) {
+      return res.status(503).json({ error: "OpenAI service not configured" });
+    }
+
+    const { domain, language = "en", country } = req.body;
 
     if (!domain) {
-      return res.status(400).json({ error: 'Domain is required' });
+      return res.status(400).json({ error: "Domain is required" });
     }
 
     console.log(`Analyzing domain: ${domain} (${language})`);
@@ -90,12 +102,14 @@ router.post('/analyze', async (req, res) => {
 
     // 2. Generate keywords with AI
     const keywordsPrompt = `
-You are an expert SEO specialist. Analyze this website and generate keywords in ${language === 'vi' ? 'Vietnamese' : 'English'} language.
+You are an expert SEO specialist. Analyze this website and generate keywords in ${
+      language === "vi" ? "Vietnamese" : "English"
+    } language.
 
 WEBSITE: ${domain}
 Title: ${crawlData.title}
 Description: ${crawlData.description}
-Main Headings: ${crawlData.headings.h1.slice(0, 5).join(', ')}
+Main Headings: ${crawlData.headings.h1.slice(0, 5).join(", ")}
 Content: ${crawlData.content.slice(0, 1000)}
 
 Generate 60-90 keywords:
@@ -112,14 +126,14 @@ Return ONLY valid JSON:
 }`;
 
     const keywordsResponse = await openai.chat.completions.create({
-      model: 'gpt-4-turbo-preview',
+      model: "gpt-4-turbo-preview",
       messages: [
-        { role: 'system', content: 'You are an expert SEO specialist. Return valid JSON only.' },
-        { role: 'user', content: keywordsPrompt }
+        { role: "system", content: "You are an expert SEO specialist. Return valid JSON only." },
+        { role: "user", content: keywordsPrompt },
       ],
       temperature: 0.7,
       max_tokens: 4000,
-      response_format: { type: 'json_object' }
+      response_format: { type: "json_object" },
     });
 
     const keywords = JSON.parse(keywordsResponse.choices[0].message.content);
@@ -128,7 +142,11 @@ Return ONLY valid JSON:
     const planPrompt = `
 Create a 6-month SEO plan for: ${domain}
 
-Keywords: ${keywords.primaryKeywords.length + keywords.secondaryKeywords.length + keywords.longTailKeywords.length} total
+Keywords: ${
+      keywords.primaryKeywords.length +
+      keywords.secondaryKeywords.length +
+      keywords.longTailKeywords.length
+    } total
 
 Return ONLY valid JSON:
 {
@@ -141,14 +159,14 @@ Return ONLY valid JSON:
 }`;
 
     const planResponse = await openai.chat.completions.create({
-      model: 'gpt-4-turbo-preview',
+      model: "gpt-4-turbo-preview",
       messages: [
-        { role: 'system', content: 'You are a senior SEO strategist. Return valid JSON only.' },
-        { role: 'user', content: planPrompt }
+        { role: "system", content: "You are a senior SEO strategist. Return valid JSON only." },
+        { role: "user", content: planPrompt },
       ],
       temperature: 0.8,
       max_tokens: 4000,
-      response_format: { type: 'json_object' }
+      response_format: { type: "json_object" },
     });
 
     const plan = JSON.parse(planResponse.choices[0].message.content);
@@ -160,7 +178,7 @@ Return ONLY valid JSON:
     const allKeywords = [
       ...keywords.primaryKeywords,
       ...keywords.secondaryKeywords,
-      ...keywords.longTailKeywords
+      ...keywords.longTailKeywords,
     ];
     const totalSearchVolume = allKeywords.reduce((sum, kw) => sum + kw.searchVolume, 0);
     const avgSearchVolume = Math.round(totalSearchVolume / allKeywords.length);
@@ -172,23 +190,22 @@ Return ONLY valid JSON:
         keywords: {
           ...keywords,
           totalKeywords: allKeywords.length,
-          avgSearchVolume
+          avgSearchVolume,
         },
         plan: {
           ...plan,
           domain,
-          generatedAt: new Date().toISOString()
+          generatedAt: new Date().toISOString(),
         },
         pages: pages.slice(0, 50),
-        timestamp: new Date().toISOString()
-      }
+        timestamp: new Date().toISOString(),
+      },
     });
-
   } catch (error) {
-    console.error('Analysis error:', error);
+    console.error("Analysis error:", error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Failed to analyze domain'
+      error: error.message || "Failed to analyze domain",
     });
   }
 });
@@ -197,19 +214,19 @@ Return ONLY valid JSON:
  * POST /api/seo/execute
  * Execute full SEO automation for a domain
  */
-router.post('/execute', async (req, res) => {
+router.post("/execute", async (req, res) => {
   try {
     const { domain, keywords, plan, autoIndex = true } = req.body;
 
     if (!domain) {
-      return res.status(400).json({ error: 'Domain is required' });
+      return res.status(400).json({ error: "Domain is required" });
     }
 
     // 1. Check if domain exists
     const { data: existingDomain } = await supabase
-      .from('seo_domains')
-      .select('id')
-      .eq('url', domain)
+      .from("seo_domains")
+      .select("id")
+      .eq("url", domain)
       .single();
 
     let domainId = existingDomain?.id;
@@ -217,12 +234,12 @@ router.post('/execute', async (req, res) => {
     // 2. Create domain if doesn't exist
     if (!domainId) {
       const { data: newDomain, error } = await supabase
-        .from('seo_domains')
+        .from("seo_domains")
         .insert({
-          name: domain.replace(/^https?:\/\//, '').replace(/^www\./, ''),
-          url: domain.startsWith('http') ? domain : `https://${domain}`,
+          name: domain.replace(/^https?:\/\//, "").replace(/^www\./, ""),
+          url: domain.startsWith("http") ? domain : `https://${domain}`,
           enabled: true,
-          auto_indexing: autoIndex
+          auto_indexing: autoIndex,
         })
         .select()
         .single();
@@ -234,69 +251,69 @@ router.post('/execute', async (req, res) => {
     // 3. Save keywords to database
     if (keywords) {
       const allKeywords = [
-        ...keywords.primaryKeywords.map(kw => ({ ...kw, type: 'primary' })),
-        ...keywords.secondaryKeywords.map(kw => ({ ...kw, type: 'secondary' })),
-        ...keywords.longTailKeywords.map(kw => ({ ...kw, type: 'longtail' }))
+        ...keywords.primaryKeywords.map((kw) => ({ ...kw, type: "primary" })),
+        ...keywords.secondaryKeywords.map((kw) => ({ ...kw, type: "secondary" })),
+        ...keywords.longTailKeywords.map((kw) => ({ ...kw, type: "longtail" })),
       ];
 
-      const keywordsToInsert = allKeywords.map(kw => ({
+      const keywordsToInsert = allKeywords.map((kw) => ({
         domain_id: domainId,
         keyword: kw.keyword,
         search_volume: kw.searchVolume,
         competition: kw.competition,
         difficulty: kw.difficulty || 50,
         current_position: null,
-        target_position: 10
+        target_position: 10,
       }));
 
-      await supabase.from('seo_keywords').insert(keywordsToInsert);
+      await supabase.from("seo_keywords").insert(keywordsToInsert);
     }
 
     // 4. Save SEO plan settings
     if (plan) {
-      await supabase.from('seo_settings').upsert({
+      await supabase.from("seo_settings").upsert({
         domain_id: domainId,
         settings: {
           plan,
           auto_indexing: autoIndex,
-          auto_content: false // Can be enabled later
-        }
+          auto_content: false, // Can be enabled later
+        },
       });
     }
 
     // 5. Discover and queue pages for indexing
     const pages = await discoverPages(domain);
-    
+
     if (pages.length > 0 && autoIndex) {
-      const pagesToQueue = pages.map(url => ({
+      const pagesToQueue = pages.map((url) => ({
         domain_id: domainId,
         url,
-        status: 'pending',
-        priority: url === domain ? 'high' : 'normal'
+        status: "pending",
+        priority: url === domain ? "high" : "normal",
       }));
 
-      await supabase.from('seo_indexing_queue').insert(pagesToQueue);
+      await supabase.from("seo_indexing_queue").insert(pagesToQueue);
     }
 
     res.json({
       success: true,
       data: {
         domainId,
-        keywordsAdded: keywords ? 
-          keywords.primaryKeywords.length + 
-          keywords.secondaryKeywords.length + 
-          keywords.longTailKeywords.length : 0,
+        keywordsAdded: keywords
+          ? keywords.primaryKeywords.length +
+            keywords.secondaryKeywords.length +
+            keywords.longTailKeywords.length
+          : 0,
         pagesQueued: pages.length,
         autoIndexing: autoIndex,
-        message: 'SEO automation started successfully!'
-      }
+        message: "SEO automation started successfully!",
+      },
     });
-
   } catch (error) {
-    console.error('Execution error:', error);
+    console.error("Execution error:", error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Failed to execute SEO automation'
+      error: error.message || "Failed to execute SEO automation",
     });
   }
 });
@@ -305,11 +322,11 @@ router.post('/execute', async (req, res) => {
  * POST /api/seo/quick-wins
  * Get quick SEO wins
  */
-router.post('/quick-wins', async (req, res) => {
+router.post("/quick-wins", async (req, res) => {
   try {
     const { domain } = req.body;
     if (!domain) {
-      return res.status(400).json({ error: 'Domain is required' });
+      return res.status(400).json({ error: "Domain is required" });
     }
 
     const crawlData = await crawlWebsite(domain);
@@ -325,23 +342,22 @@ Return ONLY valid JSON array:
 [{"task":"","priority":"critical|high|medium","estimatedTime":"","category":"technical|content|links","deadline":""}]`;
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-4-turbo-preview',
+      model: "gpt-4-turbo-preview",
       messages: [
-        { role: 'system', content: 'You are an SEO expert. Return valid JSON array only.' },
-        { role: 'user', content: prompt }
+        { role: "system", content: "You are an SEO expert. Return valid JSON array only." },
+        { role: "user", content: prompt },
       ],
       temperature: 0.7,
       max_tokens: 2000,
-      response_format: { type: 'json_object' }
+      response_format: { type: "json_object" },
     });
 
     const result = JSON.parse(response.choices[0].message.content);
     const tasks = result.tasks || result || [];
 
     res.json({ success: true, data: { domain, tasks, count: tasks.length } });
-
   } catch (error) {
-    console.error('Quick wins error:', error);
+    console.error("Quick wins error:", error);
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -349,18 +365,17 @@ Return ONLY valid JSON array:
 /**
  * GET /api/seo/crawl/:domain
  */
-router.get('/crawl/:domain', async (req, res) => {
+router.get("/crawl/:domain", async (req, res) => {
   try {
     const { domain } = req.params;
     if (!domain) {
-      return res.status(400).json({ error: 'Domain is required' });
+      return res.status(400).json({ error: "Domain is required" });
     }
 
     const crawlData = await crawlWebsite(domain);
     res.json({ success: true, data: crawlData });
-
   } catch (error) {
-    console.error('Crawl error:', error);
+    console.error("Crawl error:", error);
     res.status(500).json({ success: false, error: error.message });
   }
 });

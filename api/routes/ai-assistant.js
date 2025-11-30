@@ -3,38 +3,35 @@
  * Handles chat requests for Academy lessons using OpenAI GPT-4
  */
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const OpenAI = require('openai');
+const OpenAI = require("openai");
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || process.env.VITE_OPENAI_API_KEY
-});
+const openaiApiKey = process.env.OPENAI_API_KEY || process.env.VITE_OPENAI_API_KEY || "";
+const openai = openaiApiKey ? new OpenAI({ apiKey: openaiApiKey }) : null;
 
 /**
  * POST /api/ai-assistant
  * Send message to AI assistant and get response
  */
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   try {
-    const {
-      lessonId,
-      lessonTitle,
-      lessonContext = '',
-      messages = [],
-      userMessage
-    } = req.body;
+    if (!openai) {
+      return res.status(503).json({ error: "OpenAI service not configured" });
+    }
+
+    const { lessonId, lessonTitle, lessonContext = "", messages = [], userMessage } = req.body;
 
     // Validate input
     if (!userMessage || userMessage.trim().length === 0) {
       return res.status(400).json({
-        error: 'Message is required'
+        error: "Message is required",
       });
     }
 
     if (!lessonId || !lessonTitle) {
       return res.status(400).json({
-        error: 'Lesson information is required'
+        error: "Lesson information is required",
       });
     }
 
@@ -63,28 +60,29 @@ Guidelines:
 
     // Prepare messages for OpenAI
     const openAIMessages = [
-      { role: 'system', content: systemPrompt },
-      ...messages.map(msg => ({
+      { role: "system", content: systemPrompt },
+      ...messages.map((msg) => ({
         role: msg.role,
-        content: msg.content
+        content: msg.content,
       })),
-      { role: 'user', content: userMessage }
+      { role: "user", content: userMessage },
     ];
 
     console.error(`[AI Assistant] Processing request for lesson: ${lessonId}`);
-    
+
     // Call OpenAI API
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model: "gpt-4",
       messages: openAIMessages,
       max_tokens: 500,
       temperature: 0.7,
       presence_penalty: 0.6,
-      frequency_penalty: 0.3
+      frequency_penalty: 0.3,
     });
 
-    const assistantResponse = completion.choices[0]?.message?.content || 
-      'Sorry, I couldn\'t generate a response. Please try again.';
+    const assistantResponse =
+      completion.choices[0]?.message?.content ||
+      "Sorry, I couldn't generate a response. Please try again.";
 
     console.error(`[AI Assistant] Response generated (${assistantResponse.length} chars)`);
 
@@ -95,30 +93,29 @@ Guidelines:
       usage: {
         promptTokens: completion.usage?.prompt_tokens || 0,
         completionTokens: completion.usage?.completion_tokens || 0,
-        totalTokens: completion.usage?.total_tokens || 0
-      }
+        totalTokens: completion.usage?.total_tokens || 0,
+      },
     });
-
   } catch (error) {
-    console.error('[AI Assistant] Error:', error);
+    console.error("[AI Assistant] Error:", error);
 
     // Handle OpenAI specific errors
     if (error.status === 429) {
       return res.status(429).json({
-        error: 'Rate limit exceeded. Please wait a moment and try again.'
+        error: "Rate limit exceeded. Please wait a moment and try again.",
       });
     }
 
     if (error.status === 401) {
       return res.status(500).json({
-        error: 'OpenAI API key is invalid or missing.'
+        error: "OpenAI API key is invalid or missing.",
       });
     }
 
     // Generic error
     return res.status(500).json({
-      error: 'Failed to process your message. Please try again.',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      error: "Failed to process your message. Please try again.",
+      details: process.env.NODE_ENV === "development" ? error.message : undefined,
     });
   }
 });
@@ -127,15 +124,13 @@ Guidelines:
  * GET /api/ai-assistant/health
  * Check if OpenAI API is configured
  */
-router.get('/health', (req, res) => {
+router.get("/health", (req, res) => {
   const hasApiKey = !!(process.env.OPENAI_API_KEY || process.env.VITE_OPENAI_API_KEY);
-  
+
   res.json({
-    status: hasApiKey ? 'OK' : 'ERROR',
+    status: hasApiKey ? "OK" : "ERROR",
     configured: hasApiKey,
-    message: hasApiKey 
-      ? 'AI Assistant is ready' 
-      : 'OpenAI API key is missing'
+    message: hasApiKey ? "AI Assistant is ready" : "OpenAI API key is missing",
   });
 });
 

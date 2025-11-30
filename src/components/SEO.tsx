@@ -16,7 +16,16 @@ interface SEOProps {
 export function SEO({
   title = "SABO Investment Portfolio - AI & Tech Projects",
   description = "Explore cutting-edge AI and technology investment opportunities in Vietnam. From billiards AI to educational platforms, discover innovative projects with high growth potential.",
-  keywords = ["investment", "AI", "technology", "Vietnam", "startup", "billiards", "education", "platform"],
+  keywords = [
+    "investment",
+    "AI",
+    "technology",
+    "Vietnam",
+    "startup",
+    "billiards",
+    "education",
+    "platform",
+  ],
   image = "/og-image.jpg",
   url = "https://longsang.ai",
   type = "website",
@@ -72,34 +81,32 @@ export function SEO({
       {type === "article" && modifiedTime && (
         <meta property="article:modified_time" content={modifiedTime} />
       )}
-      {type === "article" && (
-        <meta property="article:author" content={author} />
-      )}
+      {type === "article" && <meta property="article:author" content={author} />}
 
       {/* Rich Snippets */}
       <script type="application/ld+json">
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": type === "article" ? "Article" : "WebSite",
-          "url": fullUrl,
-          "name": fullTitle,
-          "description": description,
-          "image": fullImage,
-          "author": {
+          url: fullUrl,
+          name: fullTitle,
+          description: description,
+          image: fullImage,
+          author: {
             "@type": "Organization",
-            "name": author,
+            name: author,
           },
           ...(type === "website" && {
-            "potentialAction": {
+            potentialAction: {
               "@type": "SearchAction",
-              "target": `${fullUrl}/search?q={search_term_string}`,
-              "query-input": "required name=search_term_string"
-            }
+              target: `${fullUrl}/search?q={search_term_string}`,
+              "query-input": "required name=search_term_string",
+            },
           }),
           ...(publishedTime && {
-            "datePublished": publishedTime,
-            "dateModified": modifiedTime || publishedTime,
-          })
+            datePublished: publishedTime,
+            dateModified: modifiedTime || publishedTime,
+          }),
         })}
       </script>
     </Helmet>
@@ -107,34 +114,36 @@ export function SEO({
 }
 
 // Project-specific SEO
-export function ProjectSEO({ 
-  project, 
-  section = "overview" 
-}: { 
-  project: any; 
-  section?: string;
-}) {
+export function ProjectSEO({ project, section = "overview" }: { project: any; section?: string }) {
   const sectionTitles = {
     overview: "Project Overview",
-    investment: "Investment Opportunity", 
+    investment: "Investment Opportunity",
     roadmap: "Development Roadmap",
-    financials: "Financial Projections"
+    financials: "Financial Projections",
   };
+
+  // Safely handle tech array - it might be undefined or not an array
+  const techKeywords = Array.isArray(project?.tech) ? project.tech : [];
+  const categoryKeyword = project?.category ? [project.category.toLowerCase()] : [];
 
   return (
     <SEO
-      title={`${project.name} - ${sectionTitles[section as keyof typeof sectionTitles]} | SABO Investments`}
-      description={`${project.shortDescription} Discover investment opportunities, technical architecture, and growth potential of ${project.name}.`}
+      title={`${project?.name || "Project"} - ${
+        sectionTitles[section as keyof typeof sectionTitles]
+      } | SABO Investments`}
+      description={`${
+        project?.shortDescription || project?.description || "Explore this project"
+      } Discover investment opportunities, technical architecture, and growth potential.`}
       keywords={[
-        project.name.toLowerCase(),
+        project?.name?.toLowerCase() || "project",
         "investment",
         "startup",
         "technology",
-        ...project.tech,
-        project.category.toLowerCase()
+        ...techKeywords,
+        ...categoryKeyword,
       ]}
-      image={project.image || "/og-project-default.jpg"}
-      url={`/project-showcase/${project.slug}/${section}`}
+      image={project?.image || "/og-project-default.jpg"}
+      url={`/project-showcase/${project?.slug || ""}/${section}`}
       type="product"
     />
   );

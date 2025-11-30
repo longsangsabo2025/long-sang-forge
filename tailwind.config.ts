@@ -3,7 +3,12 @@ import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -13,30 +18,40 @@ export default {
         "2xl": "1400px",
       },
     },
+    // Custom responsive breakpoints for better mobile support
+    screens: {
+      xs: "375px", // iPhone SE, small phones
+      sm: "640px", // Small tablets, large phones landscape
+      md: "768px", // Tablets
+      lg: "1024px", // Small laptops, tablets landscape
+      xl: "1280px", // Laptops, desktops
+      "2xl": "1400px", // Large desktops
+      "3xl": "1920px", // 4K and ultra-wide
+    },
     extend: {
       fontFamily: {
-        'display': ['Space Grotesk', 'Be Vietnam Pro', 'sans-serif'],
-        'sans': ['Be Vietnam Pro', 'Inter', 'sans-serif'],
+        display: ["Space Grotesk", "Be Vietnam Pro", "sans-serif"],
+        sans: ["Be Vietnam Pro", "Inter", "sans-serif"],
       },
       colors: {
-        'neon-cyan': 'hsl(var(--neon-cyan))',
-        'neon-blue': 'hsl(var(--neon-blue))',
-        'neon-green': 'hsl(var(--neon-green))',
-        'dark-bg': 'hsl(var(--dark-bg))',
-        'dark-surface': 'hsl(var(--dark-surface))',
-        'glass-bg': 'hsl(var(--glass-bg))',
-        'app-dark': 'hsl(var(--app-dark))',
-        'app-navy': 'hsl(var(--app-navy))',
-        'app-blue': 'hsl(var(--app-blue))',
-        'app-light-blue': 'hsl(var(--app-light-blue))',
-        'mesh-purple': 'hsl(var(--mesh-purple))',
-        'mesh-pink': 'hsl(var(--mesh-pink))',
-        'mesh-cyan': 'hsl(var(--mesh-cyan))',
+        "neon-cyan": "hsl(var(--neon-cyan))",
+        "neon-blue": "hsl(var(--neon-blue))",
+        "neon-green": "hsl(var(--neon-green))",
+        "dark-bg": "hsl(var(--dark-bg))",
+        "dark-surface": "hsl(var(--dark-surface))",
+        "glass-bg": "hsl(var(--glass-bg))",
+        "app-dark": "hsl(var(--app-dark))",
+        "app-navy": "hsl(var(--app-navy))",
+        "app-blue": "hsl(var(--app-blue))",
+        "app-light-blue": "hsl(var(--app-light-blue))",
+        "mesh-purple": "hsl(var(--mesh-purple))",
+        "mesh-pink": "hsl(var(--mesh-pink))",
+        "mesh-cyan": "hsl(var(--mesh-cyan))",
         gaming: {
-          purple: 'hsl(var(--gaming-purple))',
-          cyan: 'hsl(var(--gaming-cyan))',
-          success: 'hsl(var(--gaming-success))',
-          warning: 'hsl(var(--gaming-warning))',
+          purple: "hsl(var(--gaming-purple))",
+          cyan: "hsl(var(--gaming-cyan))",
+          success: "hsl(var(--gaming-success))",
+          warning: "hsl(var(--gaming-warning))",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -88,15 +103,15 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       backdropBlur: {
-        'glass': '20px',
+        glass: "20px",
       },
       boxShadow: {
-        'phone': '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-        'phone-lg': '0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 40px rgba(59, 130, 246, 0.2)',
-        'phone-3d': '0 40px 80px -20px rgba(0, 0, 0, 0.7), 0 0 60px rgba(59, 130, 246, 0.3)',
-        'glow': '0 0 30px rgba(59, 130, 246, 0.3)',
-        'glow-purple': '0 0 40px rgba(139, 92, 246, 0.4)',
-        'glow-cyan': '0 0 35px rgba(6, 182, 212, 0.35)',
+        phone: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+        "phone-lg": "0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 40px rgba(59, 130, 246, 0.2)",
+        "phone-3d": "0 40px 80px -20px rgba(0, 0, 0, 0.7), 0 0 60px rgba(59, 130, 246, 0.3)",
+        glow: "0 0 30px rgba(59, 130, 246, 0.3)",
+        "glow-purple": "0 0 40px rgba(139, 92, 246, 0.4)",
+        "glow-cyan": "0 0 35px rgba(6, 182, 212, 0.35)",
       },
       keyframes: {
         "accordion-down": {
@@ -118,47 +133,47 @@ export default {
         "fade-in": {
           "0%": {
             opacity: "0",
-            transform: "translateY(10px)"
+            transform: "translateY(10px)",
           },
           "100%": {
             opacity: "1",
-            transform: "translateY(0)"
-          }
+            transform: "translateY(0)",
+          },
         },
         "slide-in": {
           "0%": {
-            transform: "translateX(100%)"
+            transform: "translateX(100%)",
           },
           "100%": {
-            transform: "translateX(0)"
-          }
+            transform: "translateX(0)",
+          },
         },
         "slide-out": {
           "0%": {
-            transform: "translateX(0)"
+            transform: "translateX(0)",
           },
           "100%": {
-            transform: "translateX(100%)"
-          }
+            transform: "translateX(100%)",
+          },
         },
-        "float": {
+        float: {
           "0%, 100%": {
-            transform: "translateY(0)"
+            transform: "translateY(0)",
           },
           "50%": {
-            transform: "translateY(-10px)"
-          }
+            transform: "translateY(-10px)",
+          },
         },
         "glow-pulse": {
           "0%, 100%": {
             opacity: "1",
-            boxShadow: "0 0 20px rgba(139, 92, 246, 0.5)"
+            boxShadow: "0 0 20px rgba(139, 92, 246, 0.5)",
           },
           "50%": {
             opacity: "0.8",
-            boxShadow: "0 0 40px rgba(139, 92, 246, 0.8)"
-          }
-        }
+            boxShadow: "0 0 40px rgba(139, 92, 246, 0.8)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -166,7 +181,7 @@ export default {
         "fade-in": "fade-in 0.3s ease-out",
         "slide-in": "slide-in 0.3s ease-out",
         "slide-out": "slide-out 0.3s ease-out",
-        "float": "float 3s ease-in-out infinite",
+        float: "float 3s ease-in-out infinite",
         "glow-pulse": "glow-pulse 2s ease-in-out infinite",
       },
     },

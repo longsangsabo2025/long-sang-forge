@@ -1,8 +1,80 @@
-# Welcome to your Lovable project
+# Long Sang Portfolio & Platform
 
-## Project info
+## 🌐 Project Overview
 
-**URL**: https://lovable.dev/projects/1c78c058-532c-4f85-9cd5-a754c6ee895d
+**Portfolio Website** với các tính năng AI Marketplace, Academy và Investment Portal.
+
+**Production URL**: [https://lovable.dev/projects/1c78c058-532c-4f85-9cd5-a754c6ee895d](https://lovable.dev/projects/1c78c058-532c-4f85-9cd5-a754c6ee895d)
+
+---
+
+## 🗺️ Site Map (Routes)
+
+| Route                                | Mô tả                  | Status           |
+| ------------------------------------ | ---------------------- | ---------------- |
+| `/`                                  | 🏠 Trang chủ Portfolio | ✅ Public        |
+| `/cv`                                | 📄 Trang CV cá nhân    | ✅ Public        |
+| `/pricing`                           | 💰 Bảng giá dịch vụ    | ✅ Public        |
+| `/consultation`                      | 📅 Đặt lịch tư vấn     | ✅ Public        |
+| `/project-showcase`                  | 🎨 Showcase các dự án  | ✅ Public        |
+| `/project-showcase/:slug`            | 📱 Chi tiết dự án      | ✅ Public        |
+| `/project-showcase/:slug/investment` | 💼 Investment Portal   | ✅ Public        |
+| `/academy`                           | 🎓 Học viện AI Academy | ✅ Public        |
+| `/academy/course/:id`                | 📚 Chi tiết khóa học   | ✅ Public        |
+| `/marketplace`                       | 🤖 AI Marketplace      | ✅ Public        |
+| `/marketplace/:agentId`              | 🔧 Chi tiết AI Agent   | ✅ Public        |
+| `/dashboard`                         | 👤 User Dashboard      | 🔒 Cần đăng nhập |
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# 1. Cài đặt dependencies
+npm install
+
+# 2. Khởi động development server (Frontend + API)
+npm run dev
+
+# 3. Truy cập website
+# Frontend: http://localhost:8080
+# API: http://localhost:3001
+```
+
+---
+
+## 🎮 Thử Nghiệm Ngay
+
+### **1. Xem Portfolio**
+
+Truy cập trang chủ để xem:
+
+- Giới thiệu & dịch vụ
+- Các dự án đã thực hiện
+- Tech stack
+- Thông tin liên hệ
+
+### **2. AI Marketplace**
+
+Truy cập `/marketplace` để:
+
+- Khám phá các AI Agents
+- Xem chi tiết & giá
+- Kích hoạt agent (cần đăng nhập)
+
+### **3. Academy**
+
+Truy cập `/academy` để:
+
+- Xem các khóa học
+- Đăng ký học (cần đăng nhập)
+
+### **4. Đăng nhập**
+
+- Click "Đăng nhập" trên navigation
+- Nhập email
+- Check email nhận magic link
+- Click link → Đã đăng nhập!
 
 ---
 
@@ -27,136 +99,125 @@ npm run supabase:link
 
 ---
 
-## 📚 Documentation
+## 🔑 Environment Variables
 
-| File | Description |
-|------|-------------|
-| **[SYSTEM_ACTIVATED.md](SYSTEM_ACTIVATED.md)** | 🔥 System status & quick commands |
-| **[QUICK_START.md](QUICK_START.md)** | ⚡ Get started in 5 minutes |
-| **[AUTOMATION_README.md](AUTOMATION_README.md)** | 📖 Complete system overview |
-| **[PRODUCTION_DEPLOYMENT_GUIDE.md](PRODUCTION_DEPLOYMENT_GUIDE.md)** | 🚀 Production deployment guide |
-| **[COMPLETION_SUMMARY.md](COMPLETION_SUMMARY.md)** | ✅ Implementation summary |
-
----
-
-## 🎮 Try It Now
-
-### **1. Access Automation Dashboard**
-```
-http://localhost:5173/automation
-```
-
-### **2. Sign In**
-- Click "Sign In"
-- Enter your email
-- Check email for magic link
-- Click link → You're in!
-
-### **3. Test an Agent**
-- Click "Content Writer Agent"
-- Click "Manual Trigger"
-- Watch the magic happen ✨
-
----
-
-## 🔑 API Keys (Optional)
-
-Add to `.env` for full functionality:
+Tạo file `.env` với các biến sau:
 
 ```env
-# AI (for real generation)
+# Supabase (Required)
+VITE_SUPABASE_URL=your-supabase-url
+VITE_SUPABASE_ANON_KEY=your-anon-key
+
+# AI APIs (Optional - for real AI generation)
 VITE_OPENAI_API_KEY=sk-your-key
-# OR
 VITE_ANTHROPIC_API_KEY=sk-ant-your-key
 
-# Email (for auto-sending)
+# Email (Optional - for sending emails)
 VITE_RESEND_API_KEY=re_your-key
 
-# Social Media (for auto-posting)
+# Social Media (Optional - for auto-posting)
 VITE_LINKEDIN_ACCESS_TOKEN=your-token
 VITE_FACEBOOK_ACCESS_TOKEN=your-token
-```
 
-**Without API keys:** System works in mock mode for testing
+# Google APIs (Optional)
+GOOGLE_CLIENT_ID=your-client-id
+GOOGLE_CLIENT_SECRET=your-client-secret
+```
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** React 18 + TypeScript + Vite
-- **UI:** shadcn/ui + TailwindCSS
-- **Backend:** Supabase (PostgreSQL + Edge Functions)
-- **AI:** OpenAI GPT-4 + Anthropic Claude
-- **Email:** Resend + SendGrid
-- **Social:** LinkedIn + Facebook APIs
-- **Auth:** Supabase Auth (Magic Link)
+| Category     | Technologies                          |
+| ------------ | ------------------------------------- |
+| **Frontend** | React 18, TypeScript, Vite            |
+| **UI**       | shadcn/ui, TailwindCSS, Framer Motion |
+| **State**    | TanStack Query, React Context         |
+| **Backend**  | Express.js, Supabase Edge Functions   |
+| **Database** | PostgreSQL (Supabase)                 |
+| **Auth**     | Supabase Auth (Magic Link)            |
+| **AI**       | OpenAI GPT-4, Anthropic Claude        |
+| **Testing**  | Vitest, Testing Library               |
 
 ---
 
-## How can I edit this code?
+## 📁 Project Structure
 
-There are several ways of editing your application.
+```
+├── src/
+│   ├── pages/           # Các trang chính
+│   ├── components/      # React components
+│   │   ├── ui/          # shadcn/ui components
+│   │   ├── auth/        # Authentication
+│   │   ├── academy/     # Academy components
+│   │   ├── agent-center/ # Marketplace components
+│   │   └── sections/    # Homepage sections
+│   ├── lib/             # Utilities & services
+│   ├── hooks/           # Custom React hooks
+│   └── integrations/    # Supabase client
+├── api/                 # Express.js backend
+│   ├── routes/          # API routes
+│   └── config/          # Configuration
+├── supabase/
+│   ├── functions/       # Edge Functions
+│   └── migrations/      # Database migrations
+└── tests/               # Test files
+```
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1c78c058-532c-4f85-9cd5-a754c6ee895d) and start prompting.
+## 🧪 Testing
 
-Changes made via Lovable will be committed automatically to this repo.
+```bash
+# Run all tests
+npm run test
 
-**Use your preferred IDE**
+# Run with coverage
+npm run test:coverage
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+# Run specific test types
+npm run test:unit
+npm run test:integration
+npm run test:e2e
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 📖 Development
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Local Development
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+```bash
+# Frontend only
+npm run dev:frontend
 
-# Step 3: Install the necessary dependencies.
-npm i
+# API only
+npm run dev:api
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Both (recommended)
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Code Quality
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+# Lint check
+npm run lint
 
-**Use GitHub Codespaces**
+# Build check
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+## 🔗 Useful Links
 
-This project is built with:
+- [Lovable Project](https://lovable.dev/projects/1c78c058-532c-4f85-9cd5-a754c6ee895d)
+- [Supabase Dashboard](https://supabase.com/dashboard)
+- [shadcn/ui Docs](https://ui.shadcn.com)
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## 📝 License
 
-Simply open [Lovable](https://lovable.dev/projects/1c78c058-532c-4f85-9cd5-a754c6ee895d) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Private project - All rights reserved.

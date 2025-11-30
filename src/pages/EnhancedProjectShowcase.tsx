@@ -1,186 +1,414 @@
-import React, { useState, useMemo, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Grid, BarChart3, Search as SearchIcon, Layers } from "lucide-react";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { ProjectSEO } from "@/components/SEO";
-import { SearchBar, ProjectFilters } from "@/components/SearchBar";
-import { ProjectCard } from "@/components/ProjectCard";
-import { ProjectComparison } from "@/components/ProjectComparison";
-import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
-import { enhancedProjectsData } from "@/data/enhanced-projects-data";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  ExternalLink,
+  Menu,
+  Rocket,
+  Search,
+  Settings,
+  Wrench,
+  X,
+} from "lucide-react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-// Import existing components
-import { ProjectHero } from "@/components/ProjectHero";
+// Import existing components - ONLY what we need
+import { FeaturesGrid } from "@/components/FeaturesGrid";
 import { OverviewSection } from "@/components/OverviewSection";
 import { TechArchitecture } from "@/components/TechArchitecture";
-import { FeaturesGrid } from "@/components/FeaturesGrid";
-import { StatsChart } from "@/components/StatsChart";
-import { ProjectCTA } from "@/components/ProjectCTA";
-import { projectsData } from "@/data/projects-data";
+import { ProjectData, projectsData } from "@/data/projects-data";
 
-type ViewMode = 'showcase' | 'grid' | 'analytics';
+// Import Premium Components for 10/10 experience
+import {
+  AnimatedCounter,
+  CaseStudyCard,
+  PremiumScreenshotGallery,
+  TestimonialsSection,
+  VideoEmbed,
+} from "@/components/showcase/PremiumShowcaseComponents";
 
-const EnhancedProjectShowcase: React.FC = () => {
-  const [activeProjectId, setActiveProjectId] = useState<string>('investment-portal');
-  const [viewMode, setViewMode] = useState<ViewMode>('showcase');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filters, setFilters] = useState<ProjectFilters>({
-    technologies: [],
-    status: [],
-    category: []
-  });
-  const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
-  const [isComparisonOpen, setIsComparisonOpen] = useState(false);
+// ============================================
+// STATUS BADGE COMPONENT
+// ============================================
+const getStatusConfig = (status: ProjectData["status"]) => {
+  switch (status) {
+    case "live":
+      return {
+        color: "bg-green-500",
+        textColor: "text-green-400",
+        bgColor: "bg-green-500/10",
+        borderColor: "border-green-500/30",
+        label: "Live",
+        icon: Rocket,
+        pulse: true,
+      };
+    case "development":
+      return {
+        color: "bg-yellow-500",
+        textColor: "text-yellow-400",
+        bgColor: "bg-yellow-500/10",
+        borderColor: "border-yellow-500/30",
+        label: "Development",
+        icon: Wrench,
+        pulse: false,
+      };
+    case "planned":
+      return {
+        color: "bg-gray-500",
+        textColor: "text-gray-400",
+        bgColor: "bg-gray-500/10",
+        borderColor: "border-gray-500/30",
+        label: "Planned",
+        icon: Clock,
+        pulse: false,
+      };
+    case "maintenance":
+      return {
+        color: "bg-orange-500",
+        textColor: "text-orange-400",
+        bgColor: "bg-orange-500/10",
+        borderColor: "border-orange-500/30",
+        label: "Maintenance",
+        icon: Settings,
+        pulse: false,
+      };
+    default:
+      return {
+        color: "bg-gray-500",
+        textColor: "text-gray-400",
+        bgColor: "bg-gray-500/10",
+        borderColor: "border-gray-500/30",
+        label: "Unknown",
+        icon: Clock,
+        pulse: false,
+      };
+  }
+};
 
-  // Filter projects based on search and filters
-  const filteredProjects = useMemo(() => {
-    return enhancedProjectsData.filter(project => {
-      // Search query filter
-      const matchesSearch = searchQuery === '' || 
-        project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.technologies.some(tech => tech.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        project.features.some(feature => feature.toLowerCase().includes(searchQuery.toLowerCase()));
+const StatusBadge = ({
+  status,
+  customLabel,
+}: {
+  status: ProjectData["status"];
+  customLabel?: string;
+}) => {
+  const config = getStatusConfig(status);
 
-      // Technology filter
-      const matchesTech = filters.technologies.length === 0 ||
-        filters.technologies.some(tech => project.technologies.includes(tech));
+  return (
+    <span className={`inline-flex items-center gap-1.5 text-xs ${config.textColor}`}>
+      <span className={`relative w-2 h-2 ${config.color} rounded-full`}>
+        {config.pulse && (
+          <span
+            className={`absolute inset-0 ${config.color} rounded-full animate-ping opacity-75`}
+          />
+        )}
+      </span>
+      {customLabel || config.label}
+    </span>
+  );
+};
 
-      // Status filter
-      const matchesStatus = filters.status.length === 0 ||
-        filters.status.includes(project.status);
+// ============================================
+// PROGRESS BAR COMPONENT
+// ============================================
+const getProgressColor = (progress: number): string => {
+  if (progress >= 90) return "bg-green-500";
+  if (progress >= 70) return "bg-yellow-500";
+  if (progress >= 50) return "bg-orange-500";
+  return "bg-red-500";
+};
 
-      // Category filter
-      const matchesCategory = filters.category.length === 0 ||
-        filters.category.includes(project.category);
-
-      return matchesSearch && matchesTech && matchesStatus && matchesCategory;
-    });
-  }, [searchQuery, filters]);
-
-  // Get active project for showcase view
-  const activeProject = enhancedProjectsData.find(p => p.id === activeProjectId) || enhancedProjectsData[0];
-  const legacyActiveProject = projectsData.find(p => p.id === parseInt(activeProjectId)) || projectsData[0];
-
-  const handleProjectChange = useCallback((id: string) => {
-    setActiveProjectId(id);
-    setIsMobileMenuOpen(false);
-  }, []);
-
-  const handleSearchChange = useCallback((query: string) => {
-    setSearchQuery(query);
-  }, []);
-
-  const handleFilterChange = useCallback((newFilters: ProjectFilters) => {
-    setFilters(newFilters);
-  }, []);
-
-  const toggleProjectSelection = (projectId: string) => {
-    setSelectedProjects(prev => 
-      prev.includes(projectId) 
-        ? prev.filter(id => id !== projectId)
-        : [...prev, projectId]
-    );
-  };
-
-  const openComparison = () => {
-    if (selectedProjects.length >= 2) {
-      setIsComparisonOpen(true);
-    }
-  };
-
-  const selectedProjectsData = enhancedProjectsData.filter(p => selectedProjects.includes(p.id));
-
-  const renderGridView = () => (
-    <div className="container mx-auto px-4 py-8">
-      {/* Search and Filters */}
-      <SearchBar 
-        onSearchChange={handleSearchChange}
-        onFilterChange={handleFilterChange}
+const ProgressBar = ({ progress }: { progress: number }) => {
+  return (
+    <div className="w-full h-1.5 bg-muted/50 rounded-full overflow-hidden">
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{ width: `${progress}%` }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className={`h-full rounded-full ${getProgressColor(progress)}`}
       />
+    </div>
+  );
+};
 
-      {/* Selection Actions */}
-      {selectedProjects.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-6 p-4 bg-primary/10 border border-primary/20 rounded-lg"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-primary">
-              {selectedProjects.length} project{selectedProjects.length !== 1 ? 's' : ''} selected
-            </span>
-            <div className="flex gap-2">
-              {selectedProjects.length >= 2 && (
-                <button
-                  onClick={openComparison}
-                  className="px-4 py-2 bg-primary hover:bg-primary/80 text-primary-foreground rounded-lg transition-colors"
-                >
-                  Compare Projects
-                </button>
-              )}
-              <button
-                onClick={() => setSelectedProjects([])}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg transition-colors"
-              >
-                Clear Selection
-              </button>
-            </div>
-          </div>
-        </motion.div>
-      )}
-
-      {/* Results Summary */}
-      <div className="mb-6">
-        <p className="text-gray-400">
-          Showing {filteredProjects.length} of {enhancedProjectsData.length} projects
-        </p>
+// ============================================
+// ANIMATED HERO WITH COUNTER STATS
+// ============================================
+const SimpleProjectHero = ({ project }: { project: ProjectData }) => {
+  return (
+    <div className="relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-pulse" />
+        <div
+          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "1s" }}
+        />
       </div>
 
-      {/* Project Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <AnimatePresence mode="popLayout">
-          {filteredProjects.map((project) => (
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="relative z-10 py-12 px-6"
+      >
+        <div className="text-center mb-8">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            {/* Category Badge */}
+            <span className="inline-block px-4 py-1.5 mb-4 text-xs font-bold uppercase tracking-wider bg-primary/20 text-primary border border-primary/30 rounded-full">
+              {project.category}
+            </span>
+
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-cyan-200 to-primary bg-clip-text text-transparent">
+              {project.heroTitle}
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+              {project.heroDescription}
+            </p>
+
+            {/* Primary CTA - View Production Site */}
+            {project.productionUrl && (
+              <motion.a
+                href={project.productionUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center gap-3 px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg rounded-xl transition-all duration-300 shadow-lg hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]"
+              >
+                <ExternalLink className="w-5 h-5" />
+                XEM TRANG WEB THỰC TẾ
+              </motion.a>
+            )}
+          </motion.div>
+        </div>
+
+        {/* ANIMATED Stats Cards with Counter Animation */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          {project.heroStats.map((stat, index) => (
             <motion.div
-              key={project.id}
-              layout
-              className="relative"
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 + index * 0.1, duration: 0.5 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl p-6 text-center hover:border-primary/50 transition-all group"
             >
-              {/* Selection Checkbox */}
-              <div className="absolute top-4 right-4 z-10">
-                <label className="flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={selectedProjects.includes(project.id)}
-                    onChange={() => toggleProjectSelection(project.id)}
-                    className="w-5 h-5 accent-primary"
-                    aria-label={`Select ${project.title} for comparison`}
-                  />
-                </label>
+              <div className="flex flex-col items-center gap-3">
+                <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                  <stat.icon className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+                    {stat.label}
+                  </p>
+                  <p className="font-display text-2xl font-bold text-foreground">
+                    {/* Animated Counter for numeric values */}
+                    {typeof stat.value === "string" && /^\d+/.test(stat.value) ? (
+                      <AnimatedCounter
+                        end={Number.parseInt(stat.value.replaceAll(/\D/g, ""), 10)}
+                        suffix={stat.value.replaceAll(/\d/g, "")}
+                        duration={2}
+                      />
+                    ) : (
+                      stat.value
+                    )}
+                  </p>
+                </div>
               </div>
-              <ProjectCard
-                project={project}
-                onClick={() => handleProjectChange(project.id)}
-                isActive={project.id === activeProjectId}
-              />
             </motion.div>
           ))}
-        </AnimatePresence>
-      </div>
-
-      {filteredProjects.length === 0 && (
-        <div className="text-center py-20">
-          <SearchIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-300 mb-2">No projects found</h3>
-          <p className="text-gray-400">Try adjusting your search or filters</p>
         </div>
+
+        {/* PREMIUM Screenshot Gallery with Device Mockups */}
+        <PremiumScreenshotGallery
+          screenshots={project.screenshots}
+          deviceType={project.slug === "sabo-arena" ? "iphone" : "desktop"}
+          title="Giao Diện Thực Tế"
+        />
+      </motion.div>
+    </div>
+  );
+};
+
+// ============================================
+// SIMPLIFIED CTA - Only 2 buttons: View & Contact
+// ============================================
+const SimpleProjectCTA = ({ project }: { project: ProjectData }) => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="relative overflow-hidden py-16 mb-12">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="relative z-10 text-center px-6"
+      >
+        <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
+          Quan Tâm Đến Dự Án Này?
+        </h2>
+
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+          Liên hệ với chúng tôi để tìm hiểu thêm về {project.name}
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          {/* Primary: View Production */}
+          {project.productionUrl && (
+            <motion.a
+              href={project.productionUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all shadow-lg"
+            >
+              <ExternalLink className="w-5 h-5" />
+              XEM TRANG WEB
+            </motion.a>
+          )}
+
+          {/* Secondary: Contact */}
+          <motion.button
+            onClick={() => navigate("/#contact")}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-flex items-center gap-2 px-8 py-4 bg-transparent border-2 border-primary/50 hover:border-primary text-primary font-bold rounded-xl transition-all"
+          >
+            LIÊN HỆ TƯ VẤN
+          </motion.button>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+// ============================================
+// PROJECT EXTRAS - Video, Testimonials, Case Study
+// ============================================
+const ProjectExtras = ({ project }: { project: ProjectData }) => {
+  // Case study data for SABO Arena (example)
+  const caseStudy =
+    project.slug === "sabo-arena"
+      ? {
+          problem:
+            "Các CLB bi-a phải quản lý giải đấu thủ công trên giấy, khó theo dõi kết quả và bảng xếp hạng realtime.",
+          solution:
+            "Xây dựng nền tảng quản lý giải đấu bi-a chuyên nghiệp với livestream kết quả, bảng xếp hạng tự động, và mobile-first design.",
+          result:
+            "500+ người dùng active, giảm 80% thời gian quản lý giải đấu, tăng engagement của CLB.",
+          metrics: [
+            { label: "Thời gian phát triển", value: "3 tháng" },
+            { label: "Uptime", value: "99.9%" },
+            { label: "Users active", value: "500+" },
+            { label: "Giải đấu tổ chức", value: "50+" },
+          ],
+        }
+      : null;
+
+  return (
+    <div className="space-y-8">
+      {/* Video Embed Placeholder */}
+      {project.slug === "sabo-arena" && (
+        <VideoEmbed thumbnailUrl="/images/sabo-arena-1.jpg" title="Demo SABO Arena" />
+      )}
+
+      {/* Testimonials */}
+      <TestimonialsSection title={`Khách Hàng Nói Gì Về ${project.name}`} />
+
+      {/* Case Study */}
+      {caseStudy && (
+        <CaseStudyCard
+          problem={caseStudy.problem}
+          solution={caseStudy.solution}
+          result={caseStudy.result}
+          metrics={caseStudy.metrics}
+        />
       )}
     </div>
   );
+};
 
-  const renderShowcaseView = () => (
-    <>
+// ============================================
+// MAIN COMPONENT - Simplified, Single View
+// ============================================
+const EnhancedProjectShowcase: React.FC = () => {
+  const navigate = useNavigate();
+  // Default to first real project (SABO Arena)
+  const [activeProjectIndex, setActiveProjectIndex] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Use ONLY real projects data - no more fake enhancedProjectsData
+  const activeProject = projectsData[activeProjectIndex];
+
+  // Filter projects based on search
+  const filteredProjects = projectsData.filter(
+    (project) =>
+      project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const selectProject = (projectId: number) => {
+    const actualIndex = projectsData.findIndex((p) => p.id === projectId);
+    if (actualIndex !== -1) {
+      setActiveProjectIndex(actualIndex);
+    }
+    setIsMobileMenuOpen(false);
+  };
+
+  return (
+    <div className="flex min-h-screen w-full bg-gradient-to-br from-[#0a0f1a] via-[#0d1321] to-[#0a0f1a]">
+      <ProjectSEO project={activeProject} section="overview" />
+
+      {/* Back Button */}
+      <button
+        onClick={() => navigate("/")}
+        className="fixed top-4 left-4 z-50 bg-card/80 hover:bg-card backdrop-blur-sm rounded-lg p-3 border border-border/50 transition-colors flex items-center gap-2 group"
+        aria-label="Quay lại trang chủ"
+      >
+        <ArrowLeft className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+        <span className="hidden sm:inline text-sm text-muted-foreground group-hover:text-primary transition-colors">
+          Trang chủ
+        </span>
+      </button>
+
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        className="fixed top-4 left-32 sm:left-36 z-50 md:hidden bg-primary/20 hover:bg-primary/30 backdrop-blur-sm rounded-lg p-3 border border-primary/20 transition-colors"
+        aria-label="Toggle project menu"
+      >
+        {isMobileMenuOpen ? (
+          <X className="w-6 h-6 text-primary" />
+        ) : (
+          <Menu className="w-6 h-6 text-primary" />
+        )}
+      </button>
+
+      {/* Theme Toggle */}
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeToggle />
+      </div>
+
       {/* Mobile Sidebar Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -193,163 +421,308 @@ const EnhancedProjectShowcase: React.FC = () => {
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div
-              initial={{ x: '-100%' }}
+              initial={{ x: "-100%" }}
               animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              transition={{ type: 'spring', damping: 20 }}
-              className="fixed left-0 top-0 h-full w-80 bg-dark-surface border-r border-gray-700 z-50 md:hidden overflow-y-auto"
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 20 }}
+              className="fixed left-0 top-0 h-full w-80 bg-card border-r border-border z-50 md:hidden overflow-y-auto"
             >
-              <div className="p-4 border-b border-gray-700">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-gray-100">Projects</h2>
+              <div className="p-4 border-b border-border">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-semibold text-foreground">Dự Án</h2>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="p-2 rounded-lg hover:bg-gray-700"
-                    aria-label="Close projects menu"
+                    className="p-2 rounded-lg hover:bg-muted"
+                    aria-label="Close menu"
                   >
-                    <X className="w-5 h-5 text-gray-400" />
+                    <X className="w-5 h-5 text-muted-foreground" />
                   </button>
+                </div>
+                {/* Mobile Search */}
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <input
+                    type="text"
+                    placeholder="Tìm dự án..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-9 pr-4 py-2 text-sm bg-muted/50 border border-border/50 rounded-lg focus:outline-none focus:border-primary/50 text-foreground placeholder:text-muted-foreground"
+                  />
                 </div>
               </div>
               <div className="p-4 space-y-2">
-                {enhancedProjectsData.map((project) => (
-                  <button
-                    key={project.id}
-                    onClick={() => handleProjectChange(project.id)}
-                    className={`w-full text-left p-3 rounded-lg transition-colors ${
-                      project.id === activeProjectId
-                        ? 'bg-primary/20 text-primary border border-primary/30'
-                        : 'hover:bg-gray-700 text-gray-300'
-                    }`}
-                  >
-                    <div className="font-medium">{project.title}</div>
-                    <div className="text-sm text-gray-400 line-clamp-1">{project.description}</div>
-                  </button>
-                ))}
+                {filteredProjects.map((project) => {
+                  const isActive = project.id === activeProject.id;
+
+                  return (
+                    <button
+                      key={project.id}
+                      onClick={() => {
+                        const actualIndex = projectsData.findIndex((p) => p.id === project.id);
+                        setActiveProjectIndex(actualIndex);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={`w-full text-left p-4 rounded-lg transition-all ${
+                        isActive
+                          ? "bg-primary/20 text-primary border border-primary/30"
+                          : "hover:bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`p-2 rounded-lg ${isActive ? "bg-primary/20" : "bg-muted"}`}
+                        >
+                          <project.icon
+                            className={`w-5 h-5 shrink-0 ${
+                              isActive ? "text-primary" : "text-muted-foreground"
+                            }`}
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-foreground">{project.name}</div>
+                          <div className="text-xs text-muted-foreground line-clamp-1">
+                            {project.category}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Progress for non-live */}
+                      {project.status !== "live" && (
+                        <div className="mt-2">
+                          <ProgressBar progress={project.progress} />
+                        </div>
+                      )}
+
+                      <div className="mt-2 flex justify-between items-center">
+                        <StatusBadge status={project.status} customLabel={project.statusLabel} />
+                        {project.productionUrl && (
+                          <ExternalLink className="w-3 h-3 text-muted-foreground" />
+                        )}
+                      </div>
+                    </button>
+                  );
+                })}
+
+                {filteredProjects.length === 0 && (
+                  <div className="text-center py-8 text-muted-foreground text-sm">
+                    Không tìm thấy dự án nào
+                  </div>
+                )}
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
 
-      {/* Desktop Sidebar */}
-      <div className="hidden md:block w-80 flex-shrink-0">
-        <div className="h-full bg-dark-surface/50 border-r border-gray-700 p-6">
-          <h2 className="text-xl font-bold text-gray-100 mb-6">Projects</h2>
-          <div className="space-y-3">
-            {enhancedProjectsData.map((project) => (
-              <button
-                key={project.id}
-                onClick={() => handleProjectChange(project.id)}
-                className={`w-full text-left p-4 rounded-lg transition-all duration-200 ${
-                  project.id === activeProjectId
-                    ? 'bg-primary/20 text-primary border border-primary/30 shadow-lg'
-                    : 'hover:bg-gray-700 text-gray-300 border border-transparent'
-                }`}
+      {/* Desktop Sidebar - Enhanced with Collapse & Search */}
+      <motion.div
+        className="hidden md:block flex-shrink-0"
+        animate={{ width: isSidebarCollapsed ? 80 : 288 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="h-full bg-card/30 backdrop-blur-sm border-r border-border/50 p-4 pt-20 relative">
+          {/* Collapse Toggle Button */}
+          <button
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            className="absolute -right-3 top-24 z-10 p-1.5 rounded-full bg-card border border-border/50 hover:bg-primary/10 hover:border-primary/50 transition-colors"
+            aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {isSidebarCollapsed ? (
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+            ) : (
+              <ChevronLeft className="w-4 h-4 text-muted-foreground" />
+            )}
+          </button>
+
+          {/* Header */}
+          <AnimatePresence mode="wait">
+            {!isSidebarCollapsed && (
+              <motion.h2
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="text-lg font-bold text-foreground mb-4"
               >
-                <div className="font-medium mb-1">{project.title}</div>
-                <div className="text-sm text-gray-400 line-clamp-2">{project.description}</div>
-                <div className="flex items-center gap-2 mt-2">
-                  <span className={`px-2 py-1 rounded-full text-xs ${
-                    project.status === 'Completed' ? 'bg-green-500/20 text-green-300' :
-                    project.status === 'In Development' ? 'bg-yellow-500/20 text-yellow-300' :
-                    'bg-blue-500/20 text-blue-300'
-                  }`}>
-                    {project.status}
-                  </span>
+                Dự Án Của Tôi
+              </motion.h2>
+            )}
+          </AnimatePresence>
+
+          {/* Search Box (only when expanded) */}
+          <AnimatePresence mode="wait">
+            {!isSidebarCollapsed && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="mb-4"
+              >
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <input
+                    type="text"
+                    placeholder="Tìm dự án..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-9 pr-4 py-2 text-sm bg-muted/50 border border-border/50 rounded-lg focus:outline-none focus:border-primary/50 text-foreground placeholder:text-muted-foreground"
+                  />
                 </div>
-              </button>
-            ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Project List */}
+          <div className="space-y-2">
+            {filteredProjects.map((project) => {
+              const isActive = project.id === activeProject.id;
+              const statusConfig = getStatusConfig(project.status);
+
+              return (
+                <motion.button
+                  key={project.id}
+                  onClick={() => {
+                    const actualIndex = projectsData.findIndex((p) => p.id === project.id);
+                    setActiveProjectIndex(actualIndex);
+                  }}
+                  whileHover={{ scale: isSidebarCollapsed ? 1.1 : 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`w-full text-left rounded-xl transition-all duration-200 ${
+                    isActive
+                      ? "bg-primary/20 border border-primary/30 shadow-lg"
+                      : "hover:bg-muted/50 border border-transparent"
+                  } ${isSidebarCollapsed ? "p-3" : "p-4"}`}
+                >
+                  {isSidebarCollapsed ? (
+                    // Collapsed View - Icon Only
+                    <div className="flex flex-col items-center gap-2">
+                      <div className={`p-2 rounded-lg ${isActive ? "bg-primary/20" : "bg-muted"}`}>
+                        {project.logoUrl ? (
+                          <img
+                            src={project.logoUrl}
+                            alt={project.name}
+                            className="w-5 h-5 object-contain"
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                              e.currentTarget.nextElementSibling?.classList.remove("hidden");
+                            }}
+                          />
+                        ) : null}
+                        <project.icon
+                          className={`w-5 h-5 ${project.logoUrl ? "hidden" : ""} ${
+                            isActive ? "text-primary" : "text-muted-foreground"
+                          }`}
+                        />
+                      </div>
+                      {/* Status dot */}
+                      <span
+                        className={`w-2 h-2 rounded-full ${statusConfig.color} ${
+                          statusConfig.pulse ? "animate-pulse" : ""
+                        }`}
+                      />
+                    </div>
+                  ) : (
+                    // Expanded View - Full Info
+                    <>
+                      <div className="flex items-center gap-3 mb-2">
+                        <div
+                          className={`p-2 rounded-lg ${isActive ? "bg-primary/20" : "bg-muted"}`}
+                        >
+                          {project.logoUrl ? (
+                            <img
+                              src={project.logoUrl}
+                              alt={project.name}
+                              className="w-5 h-5 object-contain"
+                              onError={(e) => {
+                                e.currentTarget.style.display = "none";
+                                e.currentTarget.nextElementSibling?.classList.remove("hidden");
+                              }}
+                            />
+                          ) : null}
+                          <project.icon
+                            className={`w-5 h-5 ${project.logoUrl ? "hidden" : ""} ${
+                              isActive ? "text-primary" : "text-muted-foreground"
+                            }`}
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div
+                            className={`font-medium truncate ${
+                              isActive ? "text-primary" : "text-foreground"
+                            }`}
+                          >
+                            {project.name}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="text-xs text-muted-foreground line-clamp-2 mb-2">
+                        {project.description}
+                      </div>
+
+                      {/* Progress Bar for non-live projects */}
+                      {project.status !== "live" && (
+                        <div className="mb-2">
+                          <div className="flex justify-between text-xs text-muted-foreground mb-1">
+                            <span>Tiến độ</span>
+                            <span>{project.progress}%</span>
+                          </div>
+                          <ProgressBar progress={project.progress} />
+                        </div>
+                      )}
+
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground truncate">
+                          {project.category}
+                        </span>
+                        <StatusBadge status={project.status} customLabel={project.statusLabel} />
+                      </div>
+                    </>
+                  )}
+                </motion.button>
+              );
+            })}
+
+            {/* No results message */}
+            {filteredProjects.length === 0 && !isSidebarCollapsed && (
+              <div className="text-center py-8 text-muted-foreground text-sm">
+                Không tìm thấy dự án nào
+              </div>
+            )}
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
-        <motion.div
-          key={activeProject.id}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="space-y-8 pb-8"
-        >
-          <ProjectHero project={legacyActiveProject} />
-          <OverviewSection project={legacyActiveProject} />
-          <TechArchitecture project={legacyActiveProject} />
-          <FeaturesGrid project={legacyActiveProject} />
-          <StatsChart project={legacyActiveProject} />
-          <ProjectCTA project={legacyActiveProject} />
-        </motion.div>
+      {/* Main Content - Single View Mode Only */}
+      <main className="flex-1 overflow-y-auto pt-16 md:pt-0">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeProject.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="max-w-5xl mx-auto px-4 md:px-8 space-y-8 pb-8"
+          >
+            {/* Simplified Hero with Device Mockups */}
+            <SimpleProjectHero project={activeProject} />
+
+            {/* Overview - Real data */}
+            <OverviewSection project={activeProject} />
+
+            {/* Tech Architecture - Real stack */}
+            <TechArchitecture project={activeProject} />
+
+            {/* Features - Real features */}
+            <FeaturesGrid project={activeProject} />
+
+            {/* NEW: Project Extras - Video, Testimonials, Case Study */}
+            <ProjectExtras project={activeProject} />
+
+            {/* Simplified CTA */}
+            <SimpleProjectCTA project={activeProject} />
+          </motion.div>
+        </AnimatePresence>
       </main>
-    </>
-  );
-
-  return (
-    <div className="flex min-h-screen w-full bg-gradient-to-br from-dark-bg via-dark-surface to-dark-bg">
-      <ProjectSEO project={legacyActiveProject} section="overview" />
-
-      {/* Mobile Menu Button */}
-      <button
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="fixed top-4 left-4 z-50 md:hidden bg-primary/20 hover:bg-primary/30 backdrop-blur-sm rounded-lg p-3 border border-primary/20 transition-colors"
-        aria-label="Toggle project menu"
-      >
-        {isMobileMenuOpen ? <X className="w-6 h-6 text-primary" /> : <Menu className="w-6 h-6 text-primary" />}
-      </button>
-
-      {/* View Mode Toggle */}
-      <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-dark-surface/80 backdrop-blur-sm border border-gray-700 rounded-lg p-1 hidden md:flex">
-        <button
-          onClick={() => setViewMode('showcase')}
-          className={`p-2 rounded-md transition-colors ${
-            viewMode === 'showcase' ? 'bg-primary text-primary-foreground' : 'text-gray-400 hover:text-gray-300'
-          }`}
-          aria-label="Showcase view"
-        >
-          <Layers className="w-4 h-4" />
-        </button>
-        <button
-          onClick={() => setViewMode('grid')}
-          className={`p-2 rounded-md transition-colors ${
-            viewMode === 'grid' ? 'bg-primary text-primary-foreground' : 'text-gray-400 hover:text-gray-300'
-          }`}
-          aria-label="Grid view"
-        >
-          <Grid className="w-4 h-4" />
-        </button>
-        <button
-          onClick={() => setViewMode('analytics')}
-          className={`p-2 rounded-md transition-colors ${
-            viewMode === 'analytics' ? 'bg-primary text-primary-foreground' : 'text-gray-400 hover:text-gray-300'
-          }`}
-          aria-label="Analytics view"
-        >
-          <BarChart3 className="w-4 h-4" />
-        </button>
-      </div>
-
-      {/* Theme Toggle */}
-      <div className="fixed top-4 right-4 z-50">
-        <ThemeToggle />
-      </div>
-
-      {/* Main Content Area */}
-      <div className="flex-1 flex">
-        {viewMode === 'showcase' && renderShowcaseView()}
-        {viewMode === 'grid' && renderGridView()}
-        {viewMode === 'analytics' && (
-          <div className="flex-1">
-            <AnalyticsDashboard projects={enhancedProjectsData} />
-          </div>
-        )}
-      </div>
-
-      {/* Project Comparison Modal */}
-      <ProjectComparison
-        projects={selectedProjectsData}
-        isOpen={isComparisonOpen}
-        onClose={() => setIsComparisonOpen(false)}
-      />
     </div>
   );
 };

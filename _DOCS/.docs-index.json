@@ -1,0 +1,580 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-11-29T08:24:36.927Z",
+  "documents": [
+    {
+      "id": "MDAtU1RBUlQtSEVSRS5tZA==",
+      "path": "00-START-HERE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\00-START-HERE.md",
+      "title": "🧠 Long Sang Forge - AI Second Brain",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "api",
+        "database",
+        "ai",
+        "deploy"
+      ],
+      "size": 2067,
+      "lines": 91,
+      "words": 325,
+      "createdAt": "2025-11-29T05:21:49.719Z",
+      "modifiedAt": "2025-11-29T05:31:32.251Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDEtQVJDSElURUNUVVJFXEFJX0ZPVU5EQVRJT05fUkVQT1JULm1k",
+      "path": "01-ARCHITECTURE\\AI_FOUNDATION_REPORT.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\01-ARCHITECTURE\\AI_FOUNDATION_REPORT.md",
+      "title": "\udcca BÁO CÁO KIỂM TRA FOUNDATION HỆ THỐNG AI",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "typescript",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "seo",
+        "email",
+        "auth",
+        "deploy"
+      ],
+      "size": 9035,
+      "lines": 304,
+      "words": 1228,
+      "createdAt": "2025-11-29T02:43:54.499Z",
+      "modifiedAt": "2025-11-29T02:43:58.743Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcQ09SRV9GRUFUVVJFUy5tZA==",
+      "path": "02-FEATURES\\CORE_FEATURES.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\02-FEATURES\\CORE_FEATURES.md",
+      "title": "Long Sang Forge - Core Features",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "n8n",
+        "api",
+        "database",
+        "ai",
+        "seo",
+        "google",
+        "email"
+      ],
+      "size": 11843,
+      "lines": 312,
+      "words": 1052,
+      "createdAt": "2025-11-29T07:04:13.896Z",
+      "modifiedAt": "2025-11-29T07:15:59.781Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDUtR1VJREVTXFFVSUNLX1NUQVJULm1k",
+      "path": "05-GUIDES\\QUICK_START.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\05-GUIDES\\QUICK_START.md",
+      "title": "Long Sang Forge - Quick Start Guide",
+      "description": "",
+      "category": "GUIDES",
+      "categoryIcon": "📖",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "n8n",
+        "api",
+        "database",
+        "ai",
+        "seo",
+        "google",
+        "email"
+      ],
+      "size": 8247,
+      "lines": 326,
+      "words": 976,
+      "createdAt": "2025-11-29T07:04:14.041Z",
+      "modifiedAt": "2025-11-29T07:15:59.781Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDYtQUlcQUkgU2Vjb25kIEJyYWluIFBoYXNlIDMgQ29yZSBMb2dpYy5wbGFuLm1k",
+      "path": "06-AI\\AI Second Brain Phase 3 Core Logic.plan.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\06-AI\\AI Second Brain Phase 3 Core Logic.plan.md",
+      "title": "AI Second Brain - Phase 3: Core Logic Distillation",
+      "description": "",
+      "category": "AI",
+      "categoryIcon": "🤖",
+      "status": "active",
+      "tags": [
+        "supabase",
+        "api",
+        "database",
+        "ai"
+      ],
+      "size": 6805,
+      "lines": 244,
+      "words": 851,
+      "createdAt": "2025-11-29T03:25:40.289Z",
+      "modifiedAt": "2025-11-29T03:25:50.898Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDYtQUlcQUlfQlJBSU5fUEhBU0UxX1JFUE9SVC5tZA==",
+      "path": "06-AI\\AI_BRAIN_PHASE1_REPORT.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\06-AI\\AI_BRAIN_PHASE1_REPORT.md",
+      "title": "\udcca BÁO CÁO HOÀN THÀNH PHASE 1: AI SECOND BRAIN FOUNDATION",
+      "description": "",
+      "category": "AI",
+      "categoryIcon": "🤖",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "auth",
+        "deploy"
+      ],
+      "size": 8983,
+      "lines": 320,
+      "words": 1234,
+      "createdAt": "2025-11-29T03:02:41.035Z",
+      "modifiedAt": "2025-11-29T03:04:38.535Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDYtQUlcQUlfQlJBSU5fUEhBU0UyX1JFUE9SVC5tZA==",
+      "path": "06-AI\\AI_BRAIN_PHASE2_REPORT.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\06-AI\\AI_BRAIN_PHASE2_REPORT.md",
+      "title": "\udcca BÁO CÁO HOÀN THÀNH PHASE 2: AI SECOND BRAIN - DOMAIN SYSTEM ENHANCEMENT",
+      "description": "",
+      "category": "AI",
+      "categoryIcon": "🤖",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "deploy"
+      ],
+      "size": 13994,
+      "lines": 487,
+      "words": 1839,
+      "createdAt": "2025-11-29T03:22:12.548Z",
+      "modifiedAt": "2025-11-29T03:23:00.847Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDYtQUlcQ09QSUxPVF9TUUxfSU5TVFJVQ1RJT05TLm1k",
+      "path": "06-AI\\COPILOT_SQL_INSTRUCTIONS.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\06-AI\\COPILOT_SQL_INSTRUCTIONS.md",
+      "title": "\udccb HƯỚNG DẪN CHO COPILOT - APPLY SQL MIGRATIONS",
+      "description": "",
+      "category": "AI",
+      "categoryIcon": "🤖",
+      "status": "active",
+      "tags": [
+        "supabase",
+        "database",
+        "ai"
+      ],
+      "size": 3967,
+      "lines": 151,
+      "words": 580,
+      "createdAt": "2025-11-29T03:04:14.905Z",
+      "modifiedAt": "2025-11-29T03:04:38.535Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDYtQUlcQ09QSUxPVF9TUUxfUEhBU0UyX0lOU1RSVUNUSU9OUy5tZA==",
+      "path": "06-AI\\COPILOT_SQL_PHASE2_INSTRUCTIONS.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\06-AI\\COPILOT_SQL_PHASE2_INSTRUCTIONS.md",
+      "title": "\udccb HƯỚNG DẪN CHO COPILOT - APPLY SQL MIGRATIONS PHASE 2",
+      "description": "",
+      "category": "AI",
+      "categoryIcon": "🤖",
+      "status": "active",
+      "tags": [
+        "supabase",
+        "database",
+        "ai"
+      ],
+      "size": 3236,
+      "lines": 125,
+      "words": 457,
+      "createdAt": "2025-11-29T03:22:54.213Z",
+      "modifiedAt": "2025-11-29T03:23:00.847Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDYtQUlcUEhBU0UxX0NPUElMT1RfQ09NUExFVElPTl9SRVBPUlQubWQ=",
+      "path": "06-AI\\PHASE1_COPILOT_COMPLETION_REPORT.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\06-AI\\PHASE1_COPILOT_COMPLETION_REPORT.md",
+      "title": "\udccb BÁO CÁO HOÀN THÀNH PHASE 1 - COPILOT EXECUTION",
+      "description": "",
+      "category": "AI",
+      "categoryIcon": "🤖",
+      "status": "active",
+      "tags": [
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "auth"
+      ],
+      "size": 4501,
+      "lines": 148,
+      "words": 576,
+      "createdAt": "2025-11-29T03:22:10.462Z",
+      "modifiedAt": "2025-11-29T03:23:01.940Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDYtQUlcUEhBU0UyX0NPUElMT1RfQ09NUExFVElPTl9SRVBPUlQubWQ=",
+      "path": "06-AI\\PHASE2_COPILOT_COMPLETION_REPORT.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\06-AI\\PHASE2_COPILOT_COMPLETION_REPORT.md",
+      "title": "🧠 AI SECOND BRAIN - PHASE 2 COMPLETION REPORT",
+      "description": "",
+      "category": "AI",
+      "categoryIcon": "🤖",
+      "status": "active",
+      "tags": [
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "deploy"
+      ],
+      "size": 4849,
+      "lines": 158,
+      "words": 624,
+      "createdAt": "2025-11-29T03:28:10.404Z",
+      "modifiedAt": "2025-11-29T03:28:57.768Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDktUkVQT1JUU1xQSEFTRTFfQ09NUExFVElPTl9TVU1NQVJZLm1k",
+      "path": "09-REPORTS\\PHASE1_COMPLETION_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\PHASE1_COMPLETION_SUMMARY.md",
+      "title": "PHASE 1 COMPLETION SUMMARY",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "typescript",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "deploy"
+      ],
+      "size": 2367,
+      "lines": 96,
+      "words": 283,
+      "createdAt": "2025-11-29T03:03:42.866Z",
+      "modifiedAt": "2025-11-29T03:04:38.535Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDktUkVQT1JUU1xQSEFTRTJfQ09NUExFVElPTl9TVU1NQVJZLm1k",
+      "path": "09-REPORTS\\PHASE2_COMPLETION_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\PHASE2_COMPLETION_SUMMARY.md",
+      "title": "PHASE 2 COMPLETION SUMMARY",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "deploy"
+      ],
+      "size": 4493,
+      "lines": 158,
+      "words": 597,
+      "createdAt": "2025-11-29T03:19:39.578Z",
+      "modifiedAt": "2025-11-29T03:19:43.161Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDktUkVQT1JUU1xQSEFTRTNfUExBTl9TVU1NQVJZLm1k",
+      "path": "09-REPORTS\\PHASE3_PLAN_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\PHASE3_PLAN_SUMMARY.md",
+      "title": "\udccb PHASE 3 PLAN SUMMARY - CORE LOGIC DISTILLATION",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "api",
+        "database",
+        "ai"
+      ],
+      "size": 2598,
+      "lines": 113,
+      "words": 408,
+      "createdAt": "2025-11-29T03:25:45.985Z",
+      "modifiedAt": "2025-11-29T03:25:50.898Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDktUkVQT1JUU1xTUUxfTUlHUkFUSU9OU19IQU5ET0ZGLm1k",
+      "path": "09-REPORTS\\SQL_MIGRATIONS_HANDOFF.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\SQL_MIGRATIONS_HANDOFF.md",
+      "title": "\uddc4 SQL MIGRATIONS HANDOFF - AI SECOND BRAIN",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "supabase",
+        "database",
+        "ai",
+        "auth"
+      ],
+      "size": 6993,
+      "lines": 298,
+      "words": 972,
+      "createdAt": "2025-11-29T03:03:07.820Z",
+      "modifiedAt": "2025-11-29T03:04:38.535Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDktUkVQT1JUU1xTUUxfTUlHUkFUSU9OU19QSEFTRTJfSEFORE9GRi5tZA==",
+      "path": "09-REPORTS\\SQL_MIGRATIONS_PHASE2_HANDOFF.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\SQL_MIGRATIONS_PHASE2_HANDOFF.md",
+      "title": "\udccb BÀN GIAO SQL MIGRATIONS - PHASE 2",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "supabase",
+        "database",
+        "ai"
+      ],
+      "size": 8289,
+      "lines": 294,
+      "words": 1115,
+      "createdAt": "2025-11-29T03:22:46.487Z",
+      "modifiedAt": "2025-11-29T03:23:00.847Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "SU5ERVgubWQ=",
+      "path": "INDEX.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\INDEX.md",
+      "title": "Long Sang Forge Documentation Index",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "deploy"
+      ],
+      "size": 885,
+      "lines": 57,
+      "words": 122,
+      "createdAt": "2025-11-29T05:21:56.757Z",
+      "modifiedAt": "2025-11-29T05:31:32.251Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "SU5WRVNUT1JfUElUQ0gubWQ=",
+      "path": "INVESTOR_PITCH.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\INVESTOR_PITCH.md",
+      "title": "⚒ LONG SANG FORGE - Investment Overview",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "n8n",
+        "api",
+        "database",
+        "ai",
+        "google",
+        "email",
+        "auth"
+      ],
+      "size": 6831,
+      "lines": 198,
+      "words": 740,
+      "createdAt": "2025-11-29T06:38:21.083Z",
+      "modifiedAt": "2025-11-29T07:15:59.781Z",
+      "ageInDays": 0
+    }
+  ],
+  "categories": {
+    "ARCHITECTURE": {
+      "keywords": [
+        "architecture",
+        "system",
+        "design",
+        "structure",
+        "diagram"
+      ],
+      "folder": "01-ARCHITECTURE",
+      "icon": "🏗️",
+      "priority": 1
+    },
+    "FEATURES": {
+      "keywords": [
+        "feature",
+        "complete",
+        "implementation",
+        "integration",
+        "setup"
+      ],
+      "folder": "02-FEATURES",
+      "icon": "✨",
+      "priority": 2
+    },
+    "OPERATIONS": {
+      "keywords": [
+        "operation",
+        "runbook",
+        "monitoring",
+        "alert",
+        "incident"
+      ],
+      "folder": "03-OPERATIONS",
+      "icon": "⚙️",
+      "priority": 3
+    },
+    "DEPLOYMENT": {
+      "keywords": [
+        "deploy",
+        "production",
+        "staging",
+        "ci",
+        "cd",
+        "pipeline"
+      ],
+      "folder": "04-DEPLOYMENT",
+      "icon": "🚀",
+      "priority": 4
+    },
+    "GUIDES": {
+      "keywords": [
+        "guide",
+        "tutorial",
+        "how-to",
+        "quickstart",
+        "getting-started"
+      ],
+      "folder": "05-GUIDES",
+      "icon": "📖",
+      "priority": 5
+    },
+    "AI": {
+      "keywords": [
+        "ai",
+        "llm",
+        "gpt",
+        "copilot",
+        "agent",
+        "rag",
+        "embedding"
+      ],
+      "folder": "06-AI",
+      "icon": "🤖",
+      "priority": 6
+    },
+    "API": {
+      "keywords": [
+        "api",
+        "endpoint",
+        "rest",
+        "graphql",
+        "webhook"
+      ],
+      "folder": "07-API",
+      "icon": "🔌",
+      "priority": 7
+    },
+    "DATABASE": {
+      "keywords": [
+        "database",
+        "migration",
+        "schema",
+        "sql",
+        "table"
+      ],
+      "folder": "08-DATABASE",
+      "icon": "🗄️",
+      "priority": 8
+    },
+    "REPORTS": {
+      "keywords": [
+        "report",
+        "bao_cao",
+        "summary",
+        "status",
+        "phase"
+      ],
+      "folder": "09-REPORTS",
+      "icon": "📊",
+      "priority": 9
+    },
+    "ARCHIVE": {
+      "keywords": [
+        "old",
+        "deprecated",
+        "archive",
+        "legacy"
+      ],
+      "folder": "99-ARCHIVE",
+      "icon": "📦",
+      "priority": 99
+    }
+  },
+  "stats": {
+    "total": 18,
+    "byCategory": {
+      "ARCHITECTURE": 4,
+      "FEATURES": 1,
+      "GUIDES": 1,
+      "AI": 7,
+      "REPORTS": 5
+    },
+    "byStatus": {
+      "active": 18
+    },
+    "totalWords": 13979,
+    "totalLines": 3880,
+    "avgAge": 0
+  }
+}

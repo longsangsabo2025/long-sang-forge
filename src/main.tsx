@@ -1,3 +1,5 @@
+import './lib/error-reporter';
+import './lib/sentry';  // Error tracking to longsang-admin
 import { createRoot } from "react-dom/client";
 import React from 'react';
 import App from "./App.tsx";

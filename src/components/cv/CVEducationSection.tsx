@@ -1,6 +1,30 @@
-import { GraduationCap, Award, CheckCircle2 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Award, CheckCircle2, GraduationCap } from "lucide-react";
 
-const certifications = [
+const certificationsVI = [
+  {
+    title: "Đánh giá viên nội bộ ISO 9001:2015",
+    issuer: "Posco Vietnam",
+    year: "2021",
+  },
+  {
+    title: "Đánh giá viên nội bộ ISO 14001:2015",
+    issuer: "Posco Vietnam",
+    year: "2021",
+  },
+  {
+    title: "Hội thi An toàn Dầu khí",
+    issuer: "Nội dung Sơ cứu Y tế - Vũng Tàu",
+    year: "2022",
+  },
+  {
+    title: "Dự án Bảo trì Định kỳ",
+    issuer: "PVD Training",
+    year: "2019",
+  },
+];
+
+const certificationsEN = [
   {
     title: "ISO 9001:2015 Internal Auditor",
     issuer: "Posco Vietnam",
@@ -13,7 +37,7 @@ const certifications = [
   },
   {
     title: "Oil & Gas Safety Competition",
-    issuer: "Medical First Aid Segment - Vung Tau",
+    issuer: "Medical First Aid Content - Vung Tau",
     year: "2022",
   },
   {
@@ -24,6 +48,8 @@ const certifications = [
 ];
 
 const CVEducationSection = () => {
+  const { t, language } = useLanguage();
+  const certifications = language === "vi" ? certificationsVI : certificationsEN;
   return (
     <section id="education" className="section-padding bg-background relative">
       {/* Decorative Elements */}
@@ -33,15 +59,15 @@ const CVEducationSection = () => {
         {/* Section Header */}
         <div className="text-center mb-16 space-y-4">
           <div className="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full">
-            <p className="text-sm text-primary font-medium">Learning Journey</p>
+            <p className="text-sm text-primary font-medium">{t("education.badge")}</p>
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground">
-            Education & Certifications
+            {t("education.title")}
           </h2>
-          
+
           <p className="text-lg text-foreground-secondary max-w-2xl mx-auto">
-            Academic foundation and professional certifications that validate my expertise
+            {t("education.description")}
           </p>
         </div>
 
@@ -55,44 +81,51 @@ const CVEducationSection = () => {
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
                   <Award className="w-5 h-5 text-primary" />
-                  <span className="text-sm font-semibold text-primary uppercase tracking-wide">Education</span>
+                  <span className="text-sm font-semibold text-primary uppercase tracking-wide">
+                    {t("education.educationLabel")}
+                  </span>
                 </div>
                 <h3 className="text-2xl font-heading font-bold text-foreground mb-1">
-                  PetroVietnam University
+                  {t("education.university")}
                 </h3>
-                <p className="text-lg text-secondary font-semibold">
-                  Bachelor of Engineering
-                </p>
+                <p className="text-lg text-secondary font-semibold">{t("education.degree")}</p>
               </div>
             </div>
 
             <div className="space-y-4 mb-6">
               <div className="bg-muted/50 rounded-lg p-4">
-                <p className="text-sm text-foreground-secondary mb-1">Major</p>
-                <p className="text-lg font-semibold text-foreground">Petroleum Refining Engineering</p>
+                <p className="text-sm text-foreground-secondary mb-1">
+                  {t("education.majorLabel")}
+                </p>
+                <p className="text-lg font-semibold text-foreground">{t("education.major")}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-muted/50 rounded-lg p-4">
-                  <p className="text-sm text-foreground-secondary mb-1">Duration</p>
+                  <p className="text-sm text-foreground-secondary mb-1">
+                    {t("education.periodLabel")}
+                  </p>
                   <p className="font-semibold text-foreground">2014 - 2019</p>
                 </div>
                 <div className="bg-muted/50 rounded-lg p-4">
-                  <p className="text-sm text-foreground-secondary mb-1">GPA</p>
+                  <p className="text-sm text-foreground-secondary mb-1">
+                    {t("education.gpaLabel")}
+                  </p>
                   <p className="font-semibold text-primary">7.3/10</p>
                 </div>
               </div>
 
               <div className="bg-gradient-to-r from-secondary/20 to-accent/20 border border-secondary/30 rounded-lg p-4">
-                <p className="text-sm text-foreground-secondary mb-1">Language Proficiency</p>
-                <p className="font-semibold text-foreground">IELTS: 5.5 (Issued by PVU)</p>
+                <p className="text-sm text-foreground-secondary mb-1">
+                  {t("education.languageLabel")}
+                </p>
+                <p className="font-semibold text-foreground">{t("education.ielts")}</p>
               </div>
             </div>
 
             <div className="pt-4 border-t border-border">
               <p className="text-foreground-secondary leading-relaxed">
-                Comprehensive engineering education with focus on petroleum refining processes, 
-                plant operations, safety management, and quality control systems.
+                {t("education.educationDesc")}
               </p>
             </div>
           </div>
@@ -104,7 +137,7 @@ const CVEducationSection = () => {
                 <Award className="w-6 h-6 text-accent" />
               </div>
               <h3 className="text-2xl font-heading font-bold text-foreground">
-                Certifications & Training
+                {t("education.certificationsTitle")}
               </h3>
             </div>
 
@@ -132,9 +165,10 @@ const CVEducationSection = () => {
 
             <div className="mt-8 p-5 bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20 rounded-xl">
               <p className="text-sm text-foreground-secondary leading-relaxed">
-                <span className="font-semibold text-foreground">Continuous Learning:</span> Committed to 
-                professional development through industry certifications, safety training, and quality 
-                management systems to stay current with best practices.
+                <span className="font-semibold text-foreground">
+                  {t("education.continuousLearning")}:
+                </span>{" "}
+                {t("education.continuousLearningDesc")}
               </p>
             </div>
           </div>

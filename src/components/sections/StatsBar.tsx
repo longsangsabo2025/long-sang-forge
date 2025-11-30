@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const useCountUp = (end: number, duration: number = 2000, shouldStart: boolean) => {
+const useCountUp = (end: number, shouldStart: boolean, duration: number = 2000) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const useCountUp = (end: number, duration: number = 2000, shouldStart: boolean) 
     const animate = (currentTime: number) => {
       if (!startTime) startTime = currentTime;
       const progress = Math.min((currentTime - startTime) / duration, 1);
-      
+
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       setCount(end * easeOutQuart);
 
@@ -42,7 +42,7 @@ export const StatsBar = () => {
     { value: 50, labelKey: "stats.projects", suffix: "+" },
     { value: 100000, labelKey: "stats.linesOfCode", suffix: "+" },
     { value: 8, labelKey: "stats.technologies", suffix: "+" },
-    { value: 5, labelKey: "stats.experience", suffix: ` ${t('stats.years')}` },
+    { value: 5, labelKey: "stats.experience", suffix: ` ${t("stats.years")}` },
     { value: 99.9, labelKey: "stats.reliability", suffix: "%" },
     { value: 24, labelKey: "stats.support", suffix: "/7" },
   ];
@@ -66,7 +66,7 @@ export const StatsBar = () => {
   }, [hasAnimated]);
 
   return (
-    <section ref={sectionRef} className="relative -mt-12 pb-20">
+    <section ref={sectionRef} className="relative -mt-12 pb-12">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-24">
         <div className="relative bg-card/60 backdrop-blur-md border border-border/10 rounded-2xl p-8 md:p-12 shadow-xl">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">

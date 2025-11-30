@@ -3,31 +3,28 @@
  * Auto-review student project submissions using GPT-4
  */
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const OpenAI = require('openai');
+const OpenAI = require("openai");
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || process.env.VITE_OPENAI_API_KEY
-});
+const openaiApiKey = process.env.OPENAI_API_KEY || process.env.VITE_OPENAI_API_KEY || "";
+const openai = openaiApiKey ? new OpenAI({ apiKey: openaiApiKey }) : null;
 
 /**
  * POST /api/ai-review
  * Generate AI-powered review for project submission
  */
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   try {
-    const {
-      submissionId,
-      title,
-      description,
-      github_url,
-      demo_url
-    } = req.body;
+    if (!openai) {
+      return res.status(503).json({ error: "OpenAI service not configured" });
+    }
+
+    const { submissionId, title, description, github_url, demo_url } = req.body;
 
     if (!title || !description) {
       return res.status(400).json({
-        error: 'Title and description are required'
+        error: "Title and description are required",
       });
     }
 
@@ -41,8 +38,8 @@ Review this student's AI agent project submission and provide detailed, actionab
 **Project Details:**
 Title: ${title}
 Description: ${description}
-GitHub: ${github_url || 'Not provided'}
-Live Demo: ${demo_url || 'Not provided'}
+GitHub: ${github_url || "Not provided"}
+Live Demo: ${demo_url || "Not provided"}
 
 **Review Criteria:**
 1. **Functionality** (30 points): Does it solve the problem? Is it working?
@@ -80,26 +77,27 @@ Return ONLY valid JSON, nothing else.`;
 
     // Call OpenAI
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model: "gpt-4",
       messages: [
         {
-          role: 'system',
-          content: 'You are an expert AI agent developer and coding instructor. Provide detailed, practical reviews focused on real-world application and monetization.'
+          role: "system",
+          content:
+            "You are an expert AI agent developer and coding instructor. Provide detailed, practical reviews focused on real-world application and monetization.",
         },
         {
-          role: 'user',
-          content: prompt
-        }
+          role: "user",
+          content: prompt,
+        },
       ],
       max_tokens: 1500,
       temperature: 0.7,
-      response_format: { type: 'json_object' }
+      response_format: { type: "json_object" },
     });
 
     const reviewText = completion.choices[0]?.message?.content;
-    
+
     if (!reviewText) {
-      throw new Error('No review generated');
+      throw new Error("No review generated");
     }
 
     const review = JSON.parse(reviewText);
@@ -111,22 +109,21 @@ Return ONLY valid JSON, nothing else.`;
       success: true,
       review: review,
       usage: {
-        tokens: completion.usage?.total_tokens || 0
-      }
+        tokens: completion.usage?.total_tokens || 0,
+      },
     });
-
   } catch (error) {
-    console.error('[AI Review] Error:', error);
+    console.error("[AI Review] Error:", error);
 
     if (error.status === 429) {
       return res.status(429).json({
-        error: 'Rate limit exceeded. Please try again in a moment.'
+        error: "Rate limit exceeded. Please try again in a moment.",
       });
     }
 
     return res.status(500).json({
-      error: 'Failed to generate review. Please try again.',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      error: "Failed to generate review. Please try again.",
+      details: process.env.NODE_ENV === "development" ? error.message : undefined,
     });
   }
 });
@@ -135,26 +132,30 @@ Return ONLY valid JSON, nothing else.`;
  * GET /api/ai-review/submission/:id
  * Get existing review for a submission
  */
-router.get('/submission/:id', async (req, res) => {
+router.get("/submission/:id", async (req, res) => {
   try {
-    const { createClient } = require('@supabase/supabase-js');
-    
-    const supabase = createClient(
-      process.env.VITE_SUPABASE_URL,
-      process.env.VITE_SUPABASE_SERVICE_ROLE_KEY
-    );
+    const { createClient } = require("@supabase/supabase-js");
+
+    const supabaseUrl = process.env.VITE_SUPABASE_URL || "";
+    const supabaseKey = process.env.VITE_SUPABASE_SERVICE_ROLE_KEY || "";
+
+    if (!supabaseUrl || !supabaseKey) {
+      return res.status(503).json({ error: "Database not configured" });
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
     const { data, error } = await supabase
-      .from('project_submissions')
-      .select('ai_review, status, grade')
-      .eq('id', req.params.id)
+      .from("project_submissions")
+      .select("ai_review, status, grade")
+      .eq("id", req.params.id)
       .single();
 
     if (error) throw error;
 
     if (!data || !data.ai_review) {
       return res.status(404).json({
-        error: 'Review not found'
+        error: "Review not found",
       });
     }
 
@@ -162,14 +163,13 @@ router.get('/submission/:id', async (req, res) => {
       success: true,
       review: data.ai_review,
       status: data.status,
-      grade: data.grade
+      grade: data.grade,
     });
-
   } catch (error) {
-    console.error('[AI Review] Get review error:', error);
-    
+    console.error("[AI Review] Get review error:", error);
+
     return res.status(500).json({
-      error: 'Failed to fetch review'
+      error: "Failed to fetch review",
     });
   }
 });

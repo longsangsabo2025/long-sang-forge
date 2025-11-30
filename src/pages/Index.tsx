@@ -1,43 +1,39 @@
-import { Layout } from "@/components/Layout";
-import { HeroSection } from "@/components/sections/HeroSection";
-import { StatsBar } from "@/components/sections/StatsBar";
-import { ServicesSection } from "@/components/sections/ServicesSection";
+import { Layout } from "@/components/LayoutWithChat";
 import { FeaturedProject } from "@/components/sections/FeaturedProject";
-import { ProjectsTimeline } from "@/components/sections/ProjectsTimeline";
-import { TechStackSection } from "@/components/sections/TechStackSection";
-import { ProcessSection } from "@/components/sections/ProcessSection";
+import { HeroSection } from "@/components/sections/HeroSection";
 import { LearningSection } from "@/components/sections/LearningSection";
-import { ContactSection } from "@/components/sections/ContactSection";
+import { ProcessSection } from "@/components/sections/ProcessSection";
+import { ProjectsTimeline } from "@/components/sections/ProjectsTimeline";
+import { ServicesSection } from "@/components/sections/ServicesSection";
+// import { TechStackSection } from "@/components/sections/TechStackSection"; // Hidden - not needed
+import { UnifiedContactSection } from "@/components/sections/UnifiedContactSection";
 
 const Index = () => {
   return (
-    <Layout>
+    <Layout withStickyChat>
       {/* Hero Section */}
       <HeroSection />
-      
-      {/* Stats Bar */}
-      <StatsBar />
-      
+
       {/* Services Section */}
       <ServicesSection />
-      
+
       {/* Featured Project */}
       <FeaturedProject />
-      
+
       {/* Other Projects Timeline */}
       <ProjectsTimeline />
-      
-      {/* Tech Stack */}
-      <TechStackSection />
-      
+
+      {/* Tech Stack - Hidden */}
+      {/* <TechStackSection /> */}
+
       {/* Process */}
       <ProcessSection />
-      
+
       {/* Learning Hub */}
       <LearningSection />
-      
-      {/* Contact Section */}
-      <ContactSection />
+
+      {/* Contact Section - Unified with AI Chat & Consultation */}
+      <UnifiedContactSection />
     </Layout>
   );
 };

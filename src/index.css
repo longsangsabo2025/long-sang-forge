@@ -2,100 +2,126 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* ============================================================================
+ * LONG SANG DESIGN SYSTEM
+ * ============================================================================
+ * Theme: Dark Tech Professional
+ * Palette: Deep Blue (5 màu chính + semantic)
+ *
+ * CHỈ SỬ DỤNG CÁC BIẾN DƯỚI ĐÂY - KHÔNG THÊM MÀU MỚI
+ * Xem chi tiết: src/styles/design-foundation.ts
+ * ============================================================================
+ */
 
 @layer base {
   :root {
-    /* Dark theme base colors */
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    /* ========================================
+     * FOUNDATION - Deep Blue Theme
+     * ======================================== */
 
-    --card: 217 33% 17%;
-    --card-foreground: 210 40% 98%;
+    /* 1. BACKGROUND SCALE (Nền - từ tối đến sáng) */
+    --background: 220 30% 6%; /* #0a0f1a - Nền chính */
+    --background-secondary: 220 25% 10%; /* #111827 - Cards */
+    --background-tertiary: 215 20% 16%; /* #1e293b - Surfaces */
+    --background-elevated: 215 18% 20%; /* #283548 - Modals */
 
-    --popover: 217 33% 17%;
-    --popover-foreground: 210 40% 98%;
-
-    /* Primary blue accent */
-    --primary: 199 89% 48%;
+    /* 2. PRIMARY - Blue (Màu chính) */
+    --primary: 217 91% 60%; /* #3b82f6 - Main */
+    --primary-light: 213 94% 68%; /* #60a5fa - Hover */
+    --primary-dark: 221 83% 53%; /* #2563eb - Active */
     --primary-foreground: 210 40% 98%;
 
-    /* Secondary purple */
-    --secondary: 258 90% 66%;
-    --secondary-foreground: 210 40% 98%;
-
-    /* Muted states */
-    --muted: 215 25% 27%;
-    --muted-foreground: 214 32% 85%;
-
-    /* Accent cyan */
-    --accent: 187 95% 43%;
+    /* 3. ACCENT - Cyan (Điểm nhấn) */
+    --accent: 187 85% 43%; /* #06b6d4 */
+    --accent-light: 185 84% 53%; /* #22d3ee */
     --accent-foreground: 210 40% 98%;
 
-    /* Destructive */
-    --destructive: 0 84.2% 60.2%;
+    /* 4. TEXT SCALE (Chữ) */
+    --foreground: 210 40% 98%; /* #f8fafc - Primary text */
+    --foreground-secondary: 215 20% 65%; /* #94a3b8 - Secondary */
+    --foreground-muted: 215 16% 47%; /* #64748b - Muted */
+
+    /* 5. SEMANTIC (Ngữ nghĩa) */
+    --success: 160 84% 39%; /* #10b981 */
+    --warning: 38 92% 50%; /* #f59e0b */
+    --destructive: 0 84% 60%; /* #ef4444 */
     --destructive-foreground: 210 40% 98%;
+    --info: 217 91% 60%; /* Same as primary */
 
-    /* Borders and inputs */
-    --border: 215 25% 27%;
-    --input: 215 25% 27%;
-    --ring: 199 89% 48%;
+    /* ========================================
+     * UI COMPONENT TOKENS
+     * ======================================== */
 
+    /* Cards & Surfaces */
+    --card: 220 25% 10%; /* Same as background-secondary */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 220 25% 10%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Secondary (dùng cho buttons phụ) */
+    --secondary: 215 20% 16%; /* Same as background-tertiary */
+    --secondary-foreground: 210 40% 98%;
+
+    /* Muted (states yếu) */
+    --muted: 215 20% 20%;
+    --muted-foreground: 214 32% 91%; /* #e2e8f0 - sáng hơn nữa để nổi trên nền tối */
+
+    /* Border & Input */
+    --border: 215 20% 22%; /* #2d3a4f */
+    --border-light: 215 18% 28%; /* #3d4a5f */
+    --input: 215 20% 22%;
+    --ring: 217 91% 60%; /* Same as primary */
+
+    /* Radius */
     --radius: 0.5rem;
-    
-    /* Neon colors for showcase pages */
-    --neon-cyan: 192 100% 50%;
-    --neon-blue: 217 91% 60%;
-    --neon-green: 165 100% 50%;
-    --dark-bg: 230 35% 7%;
-    --dark-surface: 230 30% 10%;
-    --glass-bg: 230 30% 15%;
-    
-    /* App showcase colors */
-    --app-dark: 220 45% 7%;
-    --app-navy: 220 65% 25%;
-    --app-blue: 217 91% 60%;
-    --app-light-blue: 213 94% 68%;
-    
-    /* Mesh gradient colors */
-    --mesh-purple: 258 90% 66%;
-    --mesh-pink: 330 81% 60%;
-    --mesh-cyan: 191 91% 43%;
-    
-    /* Gaming colors for Academy */
-    --gaming-purple: 260 50% 45%;
-    --gaming-purple-light: 260 60% 65%;
-    --gaming-purple-dark: 260 40% 25%;
-    --gaming-cyan: 180 100% 50%;
-    --gaming-cyan-glow: 180 100% 40%;
-    --gaming-success: 150 100% 50%;
-    --gaming-warning: 30 100% 55%;
-    
-    /* Custom navigation */
-    --nav-background: 217 33% 17%;
-    --nav-blur: blur(12px);
 
-    --sidebar-background: 0 0% 98%;
+    /* ========================================
+     * LEGACY ALIASES (Giữ để tương thích)
+     * Sẽ xóa dần trong các phiên bản sau
+     * ======================================== */
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Neon colors - Map về primary/accent */
+    --neon-cyan: 187 85% 43%; /* = accent */
+    --neon-blue: 217 91% 60%; /* = primary */
+    --neon-green: 160 84% 39%; /* = success */
 
-    --sidebar-primary: 240 5.9% 10%;
+    /* Dark backgrounds - Map về background scale */
+    --dark-bg: 220 30% 6%; /* = background */
+    --dark-surface: 220 25% 10%; /* = background-secondary */
+    --glass-bg: 215 20% 16%; /* = background-tertiary */
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    /* App colors - Map về primary */
+    --app-dark: 220 30% 6%; /* = background */
+    --app-navy: 220 25% 15%; /* = background-tertiary */
+    --app-blue: 217 91% 60%; /* = primary */
+    --app-light-blue: 213 94% 68%; /* = primary-light */
 
-    --sidebar-accent: 240 4.8% 95.9%;
+    /* Mesh/Gaming - Map về primary/accent */
+    --mesh-purple: 217 91% 60%; /* = primary (no more purple!) */
+    --mesh-pink: 217 91% 60%; /* = primary */
+    --mesh-cyan: 187 85% 43%; /* = accent */
+    --gaming-purple: 217 91% 60%; /* = primary */
+    --gaming-cyan: 187 85% 43%; /* = accent */
+    --gaming-success: 160 84% 39%; /* = success */
+    --gaming-warning: 38 92% 50%; /* = warning */
 
-    --sidebar-accent-foreground: 240 5.9% 10%;
+    /* Navigation */
+    --nav-background: 220 25% 10%; /* = background-secondary */
 
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar */
+    --sidebar-background: 220 30% 6%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 215 20% 16%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 215 20% 22%;
+    --sidebar-ring: 217 91% 60%;
   }
 
   .dark {
-    /* Already using dark theme by default */
+    /* Already dark theme by default */
   }
 }
 
@@ -106,9 +132,10 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Be Vietnam Pro', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: "Be Vietnam Pro", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
   }
-  
+
   html {
     scroll-behavior: smooth;
   }
@@ -116,23 +143,25 @@ All colors MUST be HSL.
 
 @layer utilities {
   @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0px);
     }
     50% {
       transform: translateY(-20px);
     }
   }
-  
+
   @keyframes pulse-soft {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
     }
     50% {
       opacity: 0.5;
     }
   }
-  
+
   @keyframes slide-up {
     0% {
       opacity: 0;
@@ -143,37 +172,91 @@ All colors MUST be HSL.
       transform: translateY(0);
     }
   }
-  
+
   .animate-float {
     animation: float 4s ease-in-out infinite;
   }
-  
+
   .animate-pulse-soft {
     animation: pulse-soft 2s ease-in-out infinite;
   }
-  
+
+  /* Subtle pulse for CTA buttons */
+  @keyframes pulse-subtle {
+    0%,
+    100% {
+      box-shadow: 0 10px 15px -3px rgb(245 158 11 / 0.25);
+      transform: scale(1);
+    }
+    50% {
+      box-shadow: 0 10px 20px -3px rgb(245 158 11 / 0.4);
+      transform: scale(1.02);
+    }
+  }
+
+  .animate-pulse-subtle {
+    animation: pulse-subtle 2s ease-in-out infinite;
+  }
+
   .animate-slide-up {
     animation: slide-up 0.6s ease-out forwards;
   }
-  
+
   .animate-delay-100 {
     animation-delay: 0.1s;
   }
-  
+
   .animate-delay-200 {
     animation-delay: 0.2s;
   }
-  
+
   .animate-delay-300 {
     animation-delay: 0.3s;
   }
-  
+
   .animate-delay-400 {
     animation-delay: 0.4s;
   }
-  
+
   .animate-delay-500 {
     animation-delay: 0.5s;
+  }
+
+  /* Mobile menu animation delays */
+  .animate-delay-[0.1s] {
+    animation-delay: 0.1s;
+    animation-fill-mode: forwards;
+  }
+
+  .animate-delay-[0.15s] {
+    animation-delay: 0.15s;
+    animation-fill-mode: forwards;
+  }
+
+  .animate-delay-[0.2s] {
+    animation-delay: 0.2s;
+    animation-fill-mode: forwards;
+  }
+
+  .animate-delay-[0.25s] {
+    animation-delay: 0.25s;
+    animation-fill-mode: forwards;
+  }
+
+  /* Slide in from right animation for mobile menu */
+  @keyframes slide-in-right {
+    0% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
   /* Shimmer animation for gradient buttons */
@@ -192,7 +275,8 @@ All colors MUST be HSL.
 
   /* Gradient animation for backgrounds */
   @keyframes gradient {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 0.3;
     }
     50% {
@@ -212,6 +296,7 @@ All colors MUST be HSL.
   /* Gaming UI Utilities */
   .glass-card {
     background: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
@@ -225,25 +310,15 @@ All colors MUST be HSL.
   }
 
   .gradient-text {
-    background: linear-gradient(135deg, hsl(260, 50%, 45%) 0%, hsl(260, 60%, 60%) 50%, hsl(180, 100%, 50%) 100%);
+    background: linear-gradient(
+      135deg,
+      hsl(260, 50%, 45%) 0%,
+      hsl(260, 60%, 60%) 50%,
+      hsl(180, 100%, 50%) 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-  }
-
-  .animate-slide-up {
-    animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
 
   .animate-fade-in {
@@ -281,22 +356,14 @@ All colors MUST be HSL.
 
   .backdrop-glass {
     background: hsl(220 35% 13% / 0.8);
-    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-  }
-
-  .hover-lift {
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .hover-lift:hover {
-    transform: translateY(-10px);
+    backdrop-filter: blur(12px);
   }
 
   .section-padding {
     @apply py-20 md:py-32 px-8 md:px-16 lg:px-24;
   }
-  
+
   .shadow-card {
     box-shadow: 0 20px 50px hsl(0 0% 0% / 0.3);
   }
@@ -309,10 +376,23 @@ All colors MUST be HSL.
     box-shadow: 0 0 40px hsl(38 92% 50% / 0.3);
   }
 
-  /* CV Animations */
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
+  /* GPU-accelerated animations for better performance */
+  .will-change-transform {
+    will-change: transform;
   }
+
+  .gpu-accelerated {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* Optimize all animated elements */
+  [class*="animate-"] {
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* CV Animations - Use existing .animate-float from line 147 */
 
   .animate-glow-pulse {
     animation: glowPulse 4s ease-in-out infinite alternate;
@@ -336,13 +416,22 @@ All colors MUST be HSL.
   }
 
   @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
   }
 
   @keyframes glowPulse {
-    0% { opacity: 0.4; }
-    100% { opacity: 0.8; }
+    0% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 0.8;
+    }
   }
 
   @keyframes fadeInLeft {
@@ -404,10 +493,105 @@ All colors MUST be HSL.
 
   /* Font family utilities */
   .font-heading {
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
   }
 
   .font-body {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
+  }
+
+  /* Remove any unwanted borders/outlines between sections */
+  section {
+    border: none;
+    outline: none;
+  }
+
+  /* ============================================
+   * RESPONSIVE UTILITIES
+   * ============================================ */
+
+  /* Hide scrollbar but allow scrolling */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  /* Touch-friendly interaction */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Safe area padding for notched devices */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-area-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  .safe-area-right {
+    padding-right: env(safe-area-inset-right);
+  }
+  .safe-area-x {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  .safe-area-y {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-area-all {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Prevent text selection on interactive elements */
+  .select-none-touch {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* Smooth scrolling container */
+  .scroll-smooth-touch {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Fluid typography utilities */
+  .text-fluid-xs {
+    font-size: clamp(0.625rem, 2vw, 0.75rem);
+  }
+  .text-fluid-sm {
+    font-size: clamp(0.75rem, 2.5vw, 0.875rem);
+  }
+  .text-fluid-base {
+    font-size: clamp(0.875rem, 3vw, 1rem);
+  }
+  .text-fluid-lg {
+    font-size: clamp(1rem, 3.5vw, 1.125rem);
+  }
+  .text-fluid-xl {
+    font-size: clamp(1.125rem, 4vw, 1.25rem);
+  }
+  .text-fluid-2xl {
+    font-size: clamp(1.25rem, 4.5vw, 1.5rem);
+  }
+  .text-fluid-3xl {
+    font-size: clamp(1.5rem, 5vw, 1.875rem);
+  }
+  .text-fluid-4xl {
+    font-size: clamp(1.875rem, 6vw, 2.25rem);
+  }
+  .text-fluid-5xl {
+    font-size: clamp(2.25rem, 7vw, 3rem);
   }
 }
