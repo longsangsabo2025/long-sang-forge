@@ -8,7 +8,7 @@ import { VitePWA } from "vite-plugin-pwa";
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
-    port: 8080,
+    port: 5000,
     proxy: {
       "/api": {
         target: "http://localhost:3002",
@@ -52,7 +52,7 @@ export default defineConfig(({ mode }) => ({
         },
         workbox: {
           globPatterns: ["**/*.{js,css,html,ico,png,svg,woff,woff2}"],
-          maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB limit
+          maximumFileSizeToCacheInBytes: 20 * 1024 * 1024, // 20MB limit
           runtimeCaching: [
             {
               urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
