@@ -1,9 +1,8 @@
 /**
  * Unified Contact Section
- * Tích hợp 3 phương thức liên hệ:
+ * Tích hợp 2 phương thức liên hệ:
  * 1. Gửi tin nhắn (Form liên hệ nhanh)
- * 2. AI Trợ lý (Chat miễn phí 24/7)
- * 3. Tư vấn trực tiếp (Có thu phí theo giờ)
+ * 2. Tư vấn trực tiếp (Link đến trang đặt lịch)
  */
 
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { useChatHistory } from "@/hooks/useChatHistory";
 import { supabase } from "@/integrations/supabase/client";
 import {
   AlertCircle,
@@ -34,12 +34,14 @@ import {
   MessageSquare,
   Send,
   Sparkles,
+  Trash2,
   User,
   Video,
   Zap,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 
 // Social icons
@@ -134,25 +136,25 @@ export const UnifiedContactSection = () => {
 
   return (
     <section id="contact" className="py-8 sm:py-12 md:py-20 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-primary/5" />
+      {/* Background - Removed for transparency */}
+      {/* <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-primary/5" /> */}
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 lg:px-20 relative z-10">
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8 md:mb-10">
           <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2 sm:mb-4">
-            Liên hệ với chúng tôi
+            Liên hệ với tôi
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
             Chọn cách liên hệ phù hợp nhất với bạn
           </p>
         </div>
 
-        {/* Three Options Cards - Touch-friendly */}
-        <div className="grid grid-cols-1 xs:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8 md:mb-10">
+        {/* Two Options Cards - Touch-friendly */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8 md:mb-10 max-w-3xl mx-auto">
           {/* Option 1: Quick Message */}
           <Card
-            className={`cursor-pointer transition-all duration-300 hover:scale-[1.02] touch-manipulation ${
+            className={`cursor-pointer transition-all duration-300 hover:scale-[1.02] touch-manipulation bg-card/60 backdrop-blur-sm ${
               activeTab === "message"
                 ? "border-primary shadow-lg shadow-primary/20"
                 : "hover:border-primary/50"
@@ -173,80 +175,37 @@ export const UnifiedContactSection = () => {
             </CardContent>
           </Card>
 
-          {/* Option 2: AI Assistant */}
-          <Card
-            className={`cursor-pointer transition-all duration-300 hover:scale-[1.02] touch-manipulation ${
-              activeTab === "ai"
-                ? "border-primary shadow-lg shadow-primary/20"
-                : "hover:border-primary/50"
-            }`}
-            onClick={() => setActiveTab("ai")}
-          >
-            <CardHeader className="text-center pb-2 px-3 sm:px-6">
-              <div className="mx-auto w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center mb-2 sm:mb-3">
-                <Bot className="w-5 h-5 sm:w-7 sm:h-7 text-purple-500" />
-              </div>
-              <CardTitle className="text-sm sm:text-lg flex items-center justify-center gap-1 sm:gap-2">
-                AI Trợ lý
-                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
-              </CardTitle>
-              <Badge className="mx-auto bg-green-500/10 text-green-600 border-green-500/30 text-[10px] sm:text-xs">
-                MIỄN PHÍ 24/7
-              </Badge>
-            </CardHeader>
-            <CardContent className="text-center text-xs sm:text-sm text-muted-foreground px-3 sm:px-6">
-              Chat với AI để được tư vấn ngay lập tức
-            </CardContent>
-          </Card>
-
-          {/* Option 3: Direct Consultation */}
-          <Card
-            className={`cursor-pointer transition-all duration-300 hover:scale-[1.02] touch-manipulation ${
-              activeTab === "consultation"
-                ? "border-primary shadow-lg shadow-primary/20"
-                : "hover:border-primary/50"
-            }`}
-            onClick={() => setActiveTab("consultation")}
-          >
-            <CardHeader className="text-center pb-2 px-3 sm:px-6">
-              <div className="mx-auto w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-amber-500/10 flex items-center justify-center mb-2 sm:mb-3">
-                <Video className="w-5 h-5 sm:w-7 sm:h-7 text-amber-500" />
-              </div>
-              <CardTitle className="text-sm sm:text-lg">Tư vấn trực tiếp</CardTitle>
-              <Badge
-                variant="outline"
-                className="mx-auto border-amber-500 text-amber-600 text-[10px] sm:text-xs"
-              >
-                Từ 500K/30 phút
-              </Badge>
-            </CardHeader>
-            <CardContent className="text-center text-xs sm:text-sm text-muted-foreground px-3 sm:px-6">
-              Video call 1-1 với chuyên gia
-            </CardContent>
-          </Card>
+          {/* Option 2: Direct Consultation - Link to /consultation */}
+          <Link to="/consultation" className="block">
+            <Card className="cursor-pointer transition-all duration-300 hover:scale-[1.02] touch-manipulation hover:border-amber-500/50 h-full bg-card/60 backdrop-blur-sm">
+              <CardHeader className="text-center pb-2 px-3 sm:px-6">
+                <div className="mx-auto w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-amber-500/10 flex items-center justify-center mb-2 sm:mb-3">
+                  <Video className="w-5 h-5 sm:w-7 sm:h-7 text-amber-500" />
+                </div>
+                <CardTitle className="text-sm sm:text-lg">Tư vấn trực tiếp</CardTitle>
+                <Badge
+                  variant="outline"
+                  className="mx-auto border-amber-500 text-amber-600 text-[10px] sm:text-xs"
+                >
+                  Từ 300K/30 phút
+                </Badge>
+              </CardHeader>
+              <CardContent className="text-center text-xs sm:text-sm text-muted-foreground px-3 sm:px-6">
+                Video call 1-1 với tôi
+              </CardContent>
+            </Card>
+          </Link>
         </div>
 
         {/* Tab Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="hidden">
             <TabsTrigger value="message">Message</TabsTrigger>
-            <TabsTrigger value="ai">AI</TabsTrigger>
-            <TabsTrigger value="consultation">Consultation</TabsTrigger>
           </TabsList>
 
-          {/* Tab 1: Message Form */}
+          {/* Tab: Message Form */}
           <TabsContent value="message" className="mt-0">
             <MessageFormTab />
-          </TabsContent>
-
-          {/* Tab 2: AI Chat */}
-          <TabsContent value="ai" className="mt-0">
-            <AIChatTab />
-          </TabsContent>
-
-          {/* Tab 3: Paid Consultation */}
-          <TabsContent value="consultation" className="mt-0">
-            <ConsultationTab />
           </TabsContent>
         </Tabs>
 
@@ -312,7 +271,10 @@ const MessageFormTab = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     service: "",
+    budget: "",
+    source: "",
     message: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -325,7 +287,10 @@ const MessageFormTab = () => {
   const contactSchema = z.object({
     name: z.string().trim().min(1, "Vui lòng nhập tên").max(100),
     email: z.string().trim().email("Email không hợp lệ"),
+    phone: z.string().trim().min(9, "SĐT không hợp lệ").max(15).optional().or(z.literal("")),
     service: z.string().min(1, "Vui lòng chọn dịch vụ"),
+    budget: z.string().optional(),
+    source: z.string().optional(),
     message: z.string().trim().min(10, "Tin nhắn tối thiểu 10 ký tự").max(1000),
   });
 
@@ -379,10 +344,11 @@ const MessageFormTab = () => {
       return;
     }
 
-    if (!turnstileToken) {
-      setSubmitStatus("error");
-      return;
-    }
+    // Turnstile temporarily disabled
+    // if (!turnstileToken) {
+    //   setSubmitStatus("error");
+    //   return;
+    // }
 
     setIsSubmitting(true);
     try {
@@ -390,17 +356,54 @@ const MessageFormTab = () => {
         {
           name: result.data.name,
           email: result.data.email,
+          phone: result.data.phone || null,
           service: result.data.service,
+          budget: result.data.budget || null,
+          source: result.data.source || null,
           message: result.data.message,
           status: "new",
-          turnstile_token: turnstileToken,
         },
       ]);
 
       if (error) throw error;
 
+      // Send email notifications via Supabase Edge Function (no server needed!)
+      const sendEmail = async (to: string, template: string, data: Record<string, string>) => {
+        try {
+          await supabase.functions.invoke("send-email", {
+            body: { to, template, data },
+          });
+        } catch (err) {
+          console.error(`Email ${template} failed:`, err);
+        }
+      };
+
+      // 1. Notify admin about new contact
+      sendEmail("longsangsabo@gmail.com", "newContact", {
+        name: result.data.name,
+        email: result.data.email,
+        phone: result.data.phone || "Không cung cấp",
+        service: result.data.service,
+        budget: result.data.budget || "Chưa xác định",
+        source: result.data.source || "Không rõ",
+        message: result.data.message,
+      });
+
+      // 2. Auto-reply to customer
+      sendEmail(result.data.email, "contactAutoReply", {
+        name: result.data.name,
+      });
+
       setSubmitStatus("success");
-      setFormData({ name: "", email: "", service: "", message: "" });
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        service: "",
+        budget: "",
+        source: "",
+        message: "",
+      });
 
       if (turnstileWidgetId.current && window.turnstile) {
         window.turnstile.reset(turnstileWidgetId.current);
@@ -419,14 +422,14 @@ const MessageFormTab = () => {
   return (
     <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
       {/* Form */}
-      <Card className="p-4 sm:p-6">
+      <Card className="p-4 sm:p-6 bg-card/60 backdrop-blur-sm">
         <CardHeader className="px-0 pt-0 pb-3 sm:pb-4">
           <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
             <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" />
             Gửi tin nhắn
           </CardTitle>
           <CardDescription className="text-xs sm:text-sm">
-            Điền form bên dưới, chúng tôi sẽ phản hồi trong vòng 24 giờ
+            Điền form bên dưới, tôi sẽ phản hồi trong vòng 24 giờ
           </CardDescription>
         </CardHeader>
 
@@ -463,6 +466,26 @@ const MessageFormTab = () => {
               )}
             </div>
             <div>
+              <Label htmlFor="phone" className="text-xs sm:text-sm">
+                Số điện thoại
+              </Label>
+              <Input
+                id="phone"
+                type="tel"
+                placeholder="0901 234 567"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className={`text-sm min-h-[44px] ${errors.phone ? "border-red-500" : ""}`}
+                disabled={isSubmitting}
+              />
+              {errors.phone && (
+                <p className="text-red-500 text-[10px] sm:text-xs mt-1">{errors.phone}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div>
               <Label htmlFor="email" className="text-xs sm:text-sm">
                 Email *
               </Label>
@@ -479,27 +502,73 @@ const MessageFormTab = () => {
                 <p className="text-red-500 text-[10px] sm:text-xs mt-1">{errors.email}</p>
               )}
             </div>
+            <div>
+              <Label htmlFor="budget" className="text-xs sm:text-sm">
+                Ngân sách dự kiến
+              </Label>
+              <Select
+                value={formData.budget}
+                onValueChange={(value) => setFormData({ ...formData, budget: value })}
+                disabled={isSubmitting}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Chọn ngân sách" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="<10m">Dưới 10 triệu</SelectItem>
+                  <SelectItem value="10-30m">10 - 30 triệu</SelectItem>
+                  <SelectItem value="30-50m">30 - 50 triệu</SelectItem>
+                  <SelectItem value="50-100m">50 - 100 triệu</SelectItem>
+                  <SelectItem value=">100m">Trên 100 triệu</SelectItem>
+                  <SelectItem value="flexible">Linh hoạt</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
-          <div>
-            <Label htmlFor="service">Dịch vụ quan tâm *</Label>
-            <Select
-              value={formData.service}
-              onValueChange={(value) => setFormData({ ...formData, service: value })}
-              disabled={isSubmitting}
-            >
-              <SelectTrigger className={errors.service ? "border-red-500" : ""}>
-                <SelectValue placeholder="Chọn dịch vụ" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="web">Phát triển Web/App</SelectItem>
-                <SelectItem value="automation">Tự động hóa quy trình</SelectItem>
-                <SelectItem value="ai">AI & Machine Learning</SelectItem>
-                <SelectItem value="seo">SEO & Marketing</SelectItem>
-                <SelectItem value="other">Khác</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service}</p>}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div>
+              <Label htmlFor="service">Dịch vụ quan tâm *</Label>
+              <Select
+                value={formData.service}
+                onValueChange={(value) => setFormData({ ...formData, service: value })}
+                disabled={isSubmitting}
+              >
+                <SelectTrigger className={errors.service ? "border-red-500" : ""}>
+                  <SelectValue placeholder="Chọn dịch vụ" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="web">Phát triển Web/App</SelectItem>
+                  <SelectItem value="automation">Tự động hóa quy trình</SelectItem>
+                  <SelectItem value="ai">AI & Machine Learning</SelectItem>
+                  <SelectItem value="seo">SEO & Marketing</SelectItem>
+                  <SelectItem value="other">Khác</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service}</p>}
+            </div>
+            <div>
+              <Label htmlFor="source" className="text-xs sm:text-sm">
+                Biết đến qua
+              </Label>
+              <Select
+                value={formData.source}
+                onValueChange={(value) => setFormData({ ...formData, source: value })}
+                disabled={isSubmitting}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Bạn biết đến tôi từ đâu?" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="google">Google Search</SelectItem>
+                  <SelectItem value="facebook">Facebook</SelectItem>
+                  <SelectItem value="linkedin">LinkedIn</SelectItem>
+                  <SelectItem value="youtube">YouTube</SelectItem>
+                  <SelectItem value="referral">Người quen giới thiệu</SelectItem>
+                  <SelectItem value="other">Khác</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           <div>
@@ -526,15 +595,17 @@ const MessageFormTab = () => {
             </div>
           </div>
 
+          {/* Turnstile temporarily disabled
           <div className="flex justify-center">
             <div ref={turnstileRef} />
           </div>
+          */}
 
           <Button
             type="submit"
             className="w-full min-h-[48px] text-sm sm:text-base touch-manipulation"
             size="lg"
-            disabled={isSubmitting || !turnstileToken}
+            disabled={isSubmitting}
           >
             {isSubmitting ? "Đang gửi..." : "Gửi tin nhắn"}
           </Button>
@@ -543,7 +614,7 @@ const MessageFormTab = () => {
 
       {/* Info Side */}
       <div className="space-y-4 sm:space-y-6">
-        <Card className="p-4 sm:p-6 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 border-blue-500/20">
+        <Card className="p-4 sm:p-6 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 border-blue-500/20 backdrop-blur-sm">
           <h3 className="font-semibold mb-3 sm:mb-4 flex items-center gap-2 text-sm sm:text-base">
             <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" />
             Phản hồi nhanh chóng
@@ -555,7 +626,7 @@ const MessageFormTab = () => {
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mt-0.5 flex-shrink-0" />
-              <span>Tư vấn miễn phí ban đầu</span>
+              <span>Tư vấn AI miễn phí 24/7</span>
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mt-0.5 flex-shrink-0" />
@@ -564,7 +635,7 @@ const MessageFormTab = () => {
           </ul>
         </Card>
 
-        <Card className="p-4 sm:p-6">
+        <Card className="p-4 sm:p-6 bg-card/60 backdrop-blur-sm">
           <h3 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Cần phản hồi ngay?</h3>
           <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
             Sử dụng AI Trợ lý để được tư vấn 24/7 hoặc đặt lịch gọi trực tiếp.
@@ -587,10 +658,10 @@ const MessageFormTab = () => {
               className="flex-1 min-h-[44px] text-xs sm:text-sm touch-manipulation"
               asChild
             >
-              <a href="https://calendly.com/longsang" target="_blank" rel="noopener noreferrer">
+              <Link to="/consultation">
                 <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
                 Đặt lịch
-              </a>
+              </Link>
             </Button>
           </div>
         </Card>
@@ -603,22 +674,7 @@ const MessageFormTab = () => {
 // TAB 2: AI Chat Component
 // ==========================================
 const AIChatTab = () => {
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: "1",
-      role: "assistant",
-      content: `Xin chào! 👋 Tôi là AI Trợ lý của Long Sang.
-
-Tôi có thể giúp bạn:
-• 🎯 Tư vấn về các dịch vụ (Web, AI, Automation, SEO)
-• 💡 Giải đáp thắc mắc kỹ thuật
-• 📋 Định hướng giải pháp phù hợp
-• 💰 Ước tính chi phí sơ bộ
-
-Hãy hỏi tôi bất cứ điều gì!`,
-      timestamp: new Date(),
-    },
-  ]);
+  const { messages, setMessages, clearHistory } = useChatHistory("longsang_chat_contact");
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -644,17 +700,14 @@ Hãy hỏi tôi bất cứ điều gì!`,
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3001/api/ai-assistant", {
+      // 🚀 Sales Consultant AI - Contact Section
+      const response = await fetch("/api/sales-consultant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          lessonId: "contact-assistant",
-          lessonTitle: "Tư vấn dịch vụ",
-          lessonContext: `Bạn là AI trợ lý của Long Sang - công ty chuyên về phát triển Web/App, AI, Automation và SEO.
-Hãy tư vấn chuyên nghiệp, thân thiện. Khi khách hỏi về giá, hãy đề xuất đặt lịch tư vấn trực tiếp để được báo giá chính xác.
-Các dịch vụ: Web Development, Mobile App, AI Integration, Process Automation, SEO & Marketing.`,
           messages: messages.map((m) => ({ role: m.role, content: m.content })),
           userMessage: input,
+          source: "contact-page",
         }),
       });
 
@@ -694,17 +747,30 @@ Các dịch vụ: Web Development, Mobile App, AI Integration, Process Automatio
   return (
     <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
       {/* Chat Area */}
-      <Card className="lg:col-span-2 flex flex-col h-[400px] sm:h-[500px] md:h-[600px]">
+      <Card className="lg:col-span-2 flex flex-col h-[400px] sm:h-[500px] md:h-[600px] bg-card/60 backdrop-blur-sm">
         <CardHeader className="border-b p-3 sm:p-4 md:p-6">
-          <CardTitle className="flex items-center gap-2 text-sm sm:text-base md:text-lg">
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-              <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-            </div>
-            AI Trợ lý Long Sang
-            <Badge className="bg-green-500/10 text-green-600 border-green-500/30 text-[10px] sm:text-xs">
-              Online
-            </Badge>
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2 text-sm sm:text-base md:text-lg">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+              </div>
+              AI Trợ lý
+              <Badge className="bg-green-500/10 text-green-600 border-green-500/30 text-[10px] sm:text-xs">
+                Online
+              </Badge>
+            </CardTitle>
+            {messages.length > 1 && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground hover:text-destructive"
+                onClick={clearHistory}
+                title="Xóa lịch sử chat"
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            )}
+          </div>
         </CardHeader>
 
         {/* Messages */}
@@ -802,7 +868,7 @@ Các dịch vụ: Web Development, Mobile App, AI Integration, Process Automatio
 
       {/* Side Info */}
       <div className="space-y-3 sm:space-y-4">
-        <Card className="p-4 sm:p-5 bg-gradient-to-br from-purple-500/5 to-pink-500/5 border-purple-500/20">
+        <Card className="p-4 sm:p-5 bg-gradient-to-br from-purple-500/5 to-pink-500/5 border-purple-500/20 backdrop-blur-sm">
           <h3 className="font-semibold mb-2 sm:mb-3 flex items-center gap-2 text-sm sm:text-base">
             <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500" />
             AI hỗ trợ 24/7
@@ -823,12 +889,12 @@ Các dịch vụ: Web Development, Mobile App, AI Integration, Process Automatio
           </ul>
         </Card>
 
-        <Card className="p-4 sm:p-5">
+        <Card className="p-4 sm:p-5 bg-card/60 backdrop-blur-sm">
           <h3 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base">
             Cần tư vấn chuyên sâu?
           </h3>
           <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
-            Đặt lịch tư vấn 1-1 với chuyên gia để được hỗ trợ chi tiết hơn.
+            Đặt lịch tư vấn 1-1 với Long Sang để được hỗ trợ chi tiết hơn.
           </p>
           <Button
             className="w-full min-h-[44px] text-xs sm:text-sm touch-manipulation"
@@ -878,7 +944,7 @@ const ConsultationTab = () => {
           <div className="text-center mb-6 sm:mb-8">
             <h3 className="text-xl sm:text-2xl font-bold mb-2">Chọn gói tư vấn</h3>
             <p className="text-xs sm:text-sm md:text-base text-muted-foreground px-2">
-              Video call 1-1 với chuyên gia, nhận tư vấn chuyên sâu cho dự án của bạn
+              Video call 1-1 với Long Sang, nhận tư vấn chuyên sâu cho dự án của bạn
             </p>
           </div>
 
@@ -886,7 +952,7 @@ const ConsultationTab = () => {
             {consultationPackages.map((pkg) => (
               <Card
                 key={pkg.id}
-                className={`relative overflow-hidden transition-all duration-300 hover:scale-[1.02] cursor-pointer ${
+                className={`relative overflow-hidden transition-all duration-300 hover:scale-[1.02] cursor-pointer bg-card/60 backdrop-blur-sm ${
                   pkg.popular
                     ? "border-2 border-primary shadow-lg shadow-primary/20"
                     : "hover:border-primary/50"
@@ -943,7 +1009,7 @@ const ConsultationTab = () => {
             </Card>
             <Card className="p-3 sm:p-4 md:p-5 text-center">
               <User className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-primary mx-auto mb-2 sm:mb-3" />
-              <h4 className="font-semibold mb-1 text-xs sm:text-sm md:text-base">Chuyên gia</h4>
+              <h4 className="font-semibold mb-1 text-xs sm:text-sm md:text-base">Tư vấn 1-1</h4>
               <p className="text-[10px] sm:text-xs text-muted-foreground">5+ năm kinh nghiệm</p>
             </Card>
             <Card className="p-3 sm:p-4 md:p-5 text-center">

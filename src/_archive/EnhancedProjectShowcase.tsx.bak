@@ -14,7 +14,7 @@ import {
   Wrench,
   X,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Import existing components - ONLY what we need
@@ -22,12 +22,15 @@ import { FeaturesGrid } from "@/components/FeaturesGrid";
 import { OverviewSection } from "@/components/OverviewSection";
 import { TechArchitecture } from "@/components/TechArchitecture";
 import { ProjectData, projectsData } from "@/data/projects-data";
+import { useProjectShowcase } from "@/hooks/useProjectShowcase";
+
+const PROJECT_SIDEBAR_KEY = "project-sidebar-collapsed";
 
 // Import Premium Components for 10/10 experience
+import { PhoneMockupCarousel } from "@/components/showcase/PhoneMockupCarousel";
 import {
   AnimatedCounter,
   CaseStudyCard,
-  PremiumScreenshotGallery,
   TestimonialsSection,
   VideoEmbed,
 } from "@/components/showcase/PremiumShowcaseComponents";
@@ -137,9 +140,18 @@ const ProgressBar = ({ progress }: { progress: number }) => {
 };
 
 // ============================================
-// ANIMATED HERO WITH COUNTER STATS
+// ANIMATED HERO WITH PHONE MOCKUP GALLERY
 // ============================================
-const SimpleProjectHero = ({ project }: { project: ProjectData }) => {
+const SimpleProjectHero = ({
+  project,
+  dbScreenshots,
+}: {
+  project: ProjectData;
+  dbScreenshots?: string[];
+}) => {
+  // Sử dụng screenshots từ database nếu có, fallback về static data
+  const screenshots = dbScreenshots?.length ? dbScreenshots : project.screenshots || [];
+
   return (
     <div className="relative overflow-hidden">
       {/* Animated Background */}
@@ -232,12 +244,18 @@ const SimpleProjectHero = ({ project }: { project: ProjectData }) => {
           ))}
         </div>
 
-        {/* PREMIUM Screenshot Gallery with Device Mockups */}
-        <PremiumScreenshotGallery
-          screenshots={project.screenshots}
-          deviceType={project.slug === "sabo-arena" ? "iphone" : "desktop"}
-          title="Giao Diện Thực Tế"
-        />
+        {/* Phone Mockup Gallery - Hiển thị trong khung điện thoại đứng */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
+          className="mt-12"
+        >
+          <h3 className="text-center text-xl font-semibold text-foreground mb-8">
+            📱 Giao Diện Thực Tế
+          </h3>
+          <PhoneMockupCarousel screenshots={screenshots} autoPlay={true} autoPlayInterval={5000} />
+        </motion.div>
       </motion.div>
     </div>
   );
@@ -265,7 +283,7 @@ const SimpleProjectCTA = ({ project }: { project: ProjectData }) => {
         </h2>
 
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-          Liên hệ với chúng tôi để tìm hiểu thêm về {project.name}
+          Liên hệ với tôi để tìm hiểu thêm về {project.name}
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -353,11 +371,25 @@ const EnhancedProjectShowcase: React.FC = () => {
   // Default to first real project (SABO Arena)
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
+  // Sidebar mặc định mở (false = not collapsed), đọc từ localStorage
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
+    const saved = localStorage.getItem(PROJECT_SIDEBAR_KEY);
+    // Mặc định false (mở) nếu chưa có giá trị lưu
+    return saved !== null ? saved === "true" : false;
+  });
+
+  // Get active project
+  const activeProject = projectsData[activeProjectIndex];
+
+  // Fetch screenshots từ database (nếu có)
+  const { data: dbProject } = useProjectShowcase(activeProject?.slug || "");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Use ONLY real projects data - no more fake enhancedProjectsData
-  const activeProject = projectsData[activeProjectIndex];
+  // Lưu trạng thái sidebar vào localStorage khi thay đổi
+  useEffect(() => {
+    localStorage.setItem(PROJECT_SIDEBAR_KEY, String(isSidebarCollapsed));
+  }, [isSidebarCollapsed]);
 
   // Filter projects based on search
   const filteredProjects = projectsData.filter(
@@ -703,8 +735,8 @@ const EnhancedProjectShowcase: React.FC = () => {
             transition={{ duration: 0.3 }}
             className="max-w-5xl mx-auto px-4 md:px-8 space-y-8 pb-8"
           >
-            {/* Simplified Hero with Device Mockups */}
-            <SimpleProjectHero project={activeProject} />
+            {/* Phone Mockup Gallery with Database Connection */}
+            <SimpleProjectHero project={activeProject} dbScreenshots={dbProject?.screenshots} />
 
             {/* Overview - Real data */}
             <OverviewSection project={activeProject} />

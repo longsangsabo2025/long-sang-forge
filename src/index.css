@@ -38,8 +38,8 @@
 
     /* 4. TEXT SCALE (Chữ) */
     --foreground: 210 40% 98%; /* #f8fafc - Primary text */
-    --foreground-secondary: 215 20% 65%; /* #94a3b8 - Secondary */
-    --foreground-muted: 215 16% 47%; /* #64748b - Muted */
+    --foreground-secondary: 215 25% 78%; /* #b8c5d6 - Secondary - sáng hơn */
+    --foreground-muted: 215 20% 60%; /* #8899aa - Muted - sáng hơn */
 
     /* 5. SEMANTIC (Ngữ nghĩa) */
     --success: 160 84% 39%; /* #10b981 */
@@ -222,23 +222,23 @@
     animation-delay: 0.5s;
   }
 
-  /* Mobile menu animation delays */
-  .animate-delay-[0.1s] {
+  /* Mobile menu animation delays - Using proper class names instead of arbitrary values */
+  .animate-delay-100 {
     animation-delay: 0.1s;
     animation-fill-mode: forwards;
   }
 
-  .animate-delay-[0.15s] {
+  .animate-delay-150 {
     animation-delay: 0.15s;
     animation-fill-mode: forwards;
   }
 
-  .animate-delay-[0.2s] {
+  .animate-delay-200 {
     animation-delay: 0.2s;
     animation-fill-mode: forwards;
   }
 
-  .animate-delay-[0.25s] {
+  .animate-delay-250 {
     animation-delay: 0.25s;
     animation-fill-mode: forwards;
   }
@@ -517,6 +517,27 @@
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
+  }
+
+  /* Custom Chat Scrollbar - Thin & Subtle */
+  .chat-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+  .chat-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .chat-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 3px;
+  }
+  .chat-scrollbar::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 3px;
+    transition: background-color 0.2s;
+  }
+  .chat-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted-foreground) / 0.5);
   }
 
   /* Touch-friendly interaction */

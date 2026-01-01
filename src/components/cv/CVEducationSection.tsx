@@ -51,9 +51,19 @@ const CVEducationSection = () => {
   const { t, language } = useLanguage();
   const certifications = language === "vi" ? certificationsVI : certificationsEN;
   return (
-    <section id="education" className="section-padding bg-background relative">
-      {/* Decorative Elements */}
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+    <section id="education" className="section-padding relative overflow-hidden">
+      {/* Animated Background - Same style as Hero */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-background-secondary to-background">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-accent/30 rounded-full blur-3xl animate-float" />
+          <div
+            className="absolute top-1/3 left-1/4 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-float"
+            style={{ animationDelay: "2s" }}
+          />
+        </div>
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      </div>
 
       <div className="container mx-auto relative z-10">
         {/* Section Header */}
@@ -88,7 +98,7 @@ const CVEducationSection = () => {
                 <h3 className="text-2xl font-heading font-bold text-foreground mb-1">
                   {t("education.university")}
                 </h3>
-                <p className="text-lg text-secondary font-semibold">{t("education.degree")}</p>
+                <p className="text-lg text-emerald-400 font-semibold">{t("education.degree")}</p>
               </div>
             </div>
 

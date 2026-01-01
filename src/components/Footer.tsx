@@ -1,5 +1,6 @@
 import { Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -32,9 +33,14 @@ export const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr] gap-6 sm:gap-8 md:gap-12 lg:gap-16 mb-8 sm:mb-10 md:mb-12">
           {/* Brand Column - Full width on mobile */}
           <div className="col-span-2 md:col-span-2 lg:col-span-1">
-            <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2 sm:mb-3">
-              {t("footer.brand")}
-            </h3>
+            <div className="flex items-center gap-3 mb-3 sm:mb-4">
+              <img
+                src="/images/logo.png"
+                alt="Long Sang"
+                className="h-10 sm:h-12 w-auto object-contain"
+              />
+              <h3 className="text-xl sm:text-2xl font-bold text-foreground">{t("footer.brand")}</h3>
+            </div>
             <p className="text-sm sm:text-base font-medium text-muted-foreground mb-3 sm:mb-4">
               {t("footer.tagline")}
             </p>
@@ -45,7 +51,7 @@ export const Footer = () => {
             {/* Social Icons - Touch-friendly 44px targets */}
             <div className="flex gap-3 sm:gap-4 md:gap-5 mt-6 sm:mt-8">
               <a
-                href="https://linkedin.com"
+                href="https://linkedin.com/in/longsang"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary hover:scale-110 transition-all duration-250 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
@@ -54,7 +60,7 @@ export const Footer = () => {
                 <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
               </a>
               <a
-                href="https://github.com"
+                href="https://github.com/longsang"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary hover:scale-110 transition-all duration-250 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
@@ -63,7 +69,7 @@ export const Footer = () => {
                 <Github className="w-5 h-5 sm:w-6 sm:h-6" />
               </a>
               <a
-                href="https://twitter.com"
+                href="https://x.com/longsang_dev"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary hover:scale-110 transition-all duration-250 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
@@ -123,21 +129,23 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-6 sm:pt-8 border-t border-border/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground/60">
-            <p className="text-center md:text-left">{t("footer.copyright")}</p>
+            <p className="text-center md:text-left">
+              © {new Date().getFullYear()} Long Sang. {t("footer.allRightsReserved")}
+            </p>
             <div className="flex gap-4 sm:gap-6">
-              <a
-                href="#"
+              <Link
+                to="/privacy"
                 className="hover:text-foreground transition-colors duration-200 py-2 min-h-[44px] flex items-center touch-manipulation"
               >
                 {t("footer.privacy")}
-              </a>
+              </Link>
               <span className="flex items-center">•</span>
-              <a
-                href="#"
+              <Link
+                to="/terms"
                 className="hover:text-foreground transition-colors duration-200 py-2 min-h-[44px] flex items-center touch-manipulation"
               >
                 {t("footer.terms")}
-              </a>
+              </Link>
             </div>
           </div>
         </div>

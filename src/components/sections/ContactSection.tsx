@@ -14,7 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AlertCircle, Calendar, CheckCircle, Globe, Mail, MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 // Social icons using SVG for consistency
 const LinkedInIcon = () => (
@@ -186,7 +186,6 @@ export const ContactSection = () => {
 
     // Honeypot check - if filled, it's a bot
     if (honeypot) {
-      console.log("Bot detected via honeypot");
       // Fake success to confuse bots
       setSubmitStatus("success");
       return;
@@ -217,6 +216,7 @@ export const ContactSection = () => {
 
     try {
       // Insert data into Supabase
+      // Note: turnstile_token is verified client-side, not stored in DB
       const { data, error } = await supabase
         .from("contacts")
         .insert([
@@ -228,7 +228,6 @@ export const ContactSection = () => {
             message: result.data.message,
             subscribe_newsletter: result.data.subscribeNewsletter || false,
             status: "new",
-            turnstile_token: turnstileToken, // Store for backend verification
           },
         ])
         .select();
@@ -247,7 +246,37 @@ export const ContactSection = () => {
         throw error;
       }
 
-      console.log("Contact saved successfully:", data);
+      // Send email via Supabase Edge Function (fire and forget)
+      const emailData = {
+        name: result.data.name,
+        email: result.data.email,
+        service: result.data.service,
+        message: result.data.message,
+      };
+
+      const edgeFnUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-email`;
+
+      // Notify admin
+      fetch(edgeFnUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: "longsangsabo@gmail.com",
+          template: "newContact",
+          data: emailData,
+        }),
+      }).catch((err) => console.warn("Admin email failed:", err));
+
+      // Auto-reply to user
+      fetch(edgeFnUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: result.data.email,
+          template: "contactAutoReply",
+          data: { name: result.data.name },
+        }),
+      }).catch((err) => console.warn("Auto-reply email failed:", err));
 
       setSubmitStatus("success");
 
@@ -531,9 +560,7 @@ export const ContactSection = () => {
                   <Calendar className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-foreground mb-2">
-                    Đặt lịch tư vấn miễn phí
-                  </h3>
+                  <h3 className="text-xl font-bold text-foreground mb-2">Đặt lịch tư vấn 1:1</h3>
                   <p className="text-sm text-muted-foreground">
                     SEO, AI Agent, Automation - Chọn thời gian phù hợp với bạn
                   </p>
@@ -567,14 +594,12 @@ export const ContactSection = () => {
                 <p className="text-sm font-bold uppercase tracking-wider text-primary mb-2">
                   {t("contact.info.bookCall")}
                 </p>
-                <a
-                  href="https://calendly.com/longsang"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/consultation"
                   className="text-base text-muted-foreground hover:text-accent transition-colors duration-200 block mb-1"
                 >
                   {t("contact.info.bookCallText")}
-                </a>
+                </Link>
               </div>
 
               {/* Social Links */}
@@ -657,9 +682,7 @@ export const ContactSection = () => {
                   variant="outline"
                   className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-200"
                 >
-                  <a href="https://calendly.com/longsang" target="_blank" rel="noopener noreferrer">
-                    {t("contact.consultations.free.cta")}
-                  </a>
+                  <Link to="/consultation">{t("contact.consultations.free.cta")}</Link>
                 </Button>
               </div>
 

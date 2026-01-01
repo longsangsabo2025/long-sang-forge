@@ -1,8 +1,9 @@
-import { AuthGateModal } from "@/components/auth/AuthGateModal";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { LoginModal } from "@/components/auth/LoginModal";
 import { Button } from "@/components/ui/button";
 import { Lock } from "lucide-react";
 import { ReactNode, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface GatedContentProps {
   /** Content to show when user is not logged in (preview) */
@@ -22,11 +23,14 @@ interface GatedContentProps {
 export const GatedContent = ({
   preview,
   children,
-  ctaText = "Đăng nhập để xem chi tiết",
+  ctaText,
   blurAmount = "md",
 }: GatedContentProps) => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const displayCtaText = ctaText || t("auth.loginToViewDetails");
 
   // User is logged in - show full content
   if (user) {
@@ -51,21 +55,16 @@ export const GatedContent = ({
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 border border-primary/30 mb-3">
             <Lock className="w-5 h-5 text-primary" />
           </div>
-          <p className="text-sm text-muted-foreground mb-3 max-w-[200px]">{ctaText}</p>
+          <p className="text-sm text-muted-foreground mb-3 max-w-[200px]">{displayCtaText}</p>
           <Button size="sm" onClick={() => setShowAuthModal(true)} className="gap-2">
             <Lock className="w-3.5 h-3.5" />
-            Đăng nhập
+            {t("auth.login")}
           </Button>
         </div>
       </div>
 
       {/* Auth Modal */}
-      <AuthGateModal
-        open={showAuthModal}
-        onOpenChange={setShowAuthModal}
-        title="Xem chi tiết"
-        subtitle="Đăng nhập để xem đầy đủ thông tin"
-      />
+      <LoginModal open={showAuthModal} onOpenChange={setShowAuthModal} />
     </div>
   );
 };
@@ -87,12 +86,15 @@ interface GatedSectionProps {
 
 export const GatedSection = ({
   children,
-  ctaText = "chi tiết",
+  ctaText,
   itemCount,
   align = "left",
 }: GatedSectionProps) => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const displayCtaText = ctaText || t("auth.details");
 
   // User is logged in - show full content
   if (user) {
@@ -114,17 +116,12 @@ export const GatedSection = ({
       >
         <Lock className="w-4 h-4 text-primary/70 group-hover:text-primary transition-colors" />
         <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-          {itemCount ? `${itemCount} ${ctaText}` : ctaText} • Đăng nhập để xem
+          {itemCount ? `${itemCount} ${displayCtaText}` : displayCtaText} • {t("auth.loginToView")}
         </span>
       </button>
 
       {/* Auth Modal */}
-      <AuthGateModal
-        open={showAuthModal}
-        onOpenChange={setShowAuthModal}
-        title="Xem chi tiết công việc"
-        subtitle="Đăng nhập để xem đầy đủ thông tin kinh nghiệm làm việc"
-      />
+      <LoginModal open={showAuthModal} onOpenChange={setShowAuthModal} />
     </div>
   );
 };
@@ -148,11 +145,14 @@ export const GatedList = ({
   items,
   freeCount = 2,
   renderItem,
-  ctaText = "Đăng nhập để xem thêm",
+  ctaText,
   side = "left",
 }: GatedListProps) => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const displayCtaText = ctaText || t("auth.loginToViewMore");
 
   const freeItems = items.slice(0, freeCount);
   const gatedItems = items.slice(freeCount);
@@ -186,7 +186,7 @@ export const GatedList = ({
                 >
                   <Lock className="w-3.5 h-3.5 text-primary" />
                   <span className="text-xs font-medium text-primary">
-                    +{gatedItems.length} {ctaText}
+                    +{gatedItems.length} {displayCtaText}
                   </span>
                 </button>
               </div>
@@ -196,12 +196,7 @@ export const GatedList = ({
       )}
 
       {/* Auth Modal */}
-      <AuthGateModal
-        open={showAuthModal}
-        onOpenChange={setShowAuthModal}
-        title="Xem chi tiết"
-        subtitle="Đăng nhập để xem đầy đủ thông tin"
-      />
+      <LoginModal open={showAuthModal} onOpenChange={setShowAuthModal} />
     </>
   );
 };

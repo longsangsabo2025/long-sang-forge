@@ -1,24 +1,24 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Calendar, Code, Droplet, Factory, Trophy, Wind, Wrench } from "lucide-react";
-import { GatedSection } from "./GatedContent";
 
 // Updated with STAR metrics and quantifiable achievements
 const experiencesVI = [
   {
-    company: "AINewbieVN",
-    position: "Lập trình viên Full-stack",
+    company: "Freelance / Dự án cá nhân",
+    position: "Full Stack Developer",
     period: "2023 - Hiện tại",
     description: [
-      "Phát triển SABO Arena phục vụ 50+ giải đấu với 200+ players, giảm 80% thời gian quản lý thủ công",
-      "Xây dựng 8+ ứng dụng production với React, TypeScript, Node.js và Flutter",
-      "Tích hợp AI (GPT-4, Gemini) vào 3 sản phẩm, tự động hóa 60% quy trình thủ công",
-      "Triển khai hệ thống real-time với Supabase xử lý 1000+ requests/ngày",
-      "Phát triển SaboHub - nền tảng quản lý doanh nghiệp cho 500+ users",
+      "Phát triển ứng dụng web với React, TypeScript và Node.js",
+      "Xây dựng các giải pháp phần mềm phục vụ vận hành kinh doanh",
+      "Tích hợp API từ OpenAI, Gemini vào sản phẩm thực tế",
+      "Triển khai backend với Supabase và PostgreSQL",
+      "Phát hành sản phẩm lên server và các nền tảng",
     ],
-    skills: ["React", "TypeScript", "Flutter", "Node.js", "PostgreSQL", "AWS", "Tích hợp AI"],
+    skills: ["React", "TypeScript", "Node.js", "Supabase", "PostgreSQL", "Git"],
     icon: Code,
     iconColor: "text-cyan-400",
-    iconBg: "bg-cyan-400/20",
+    iconBg: "bg-black",
+    logo: "/images/logo.png",
     side: "left",
   },
   {
@@ -26,15 +26,16 @@ const experiencesVI = [
     position: "Chủ sở hữu & Quản lý",
     period: "04/2023 - Hiện tại",
     description: [
-      "Tăng trưởng doanh thu 150% trong năm đầu tiên qua chiến lược marketing số",
-      "Quản lý đội ngũ 5 nhân viên, duy trì tỷ lệ hài lòng khách hàng 95%",
-      "Tổ chức 100+ giải đấu billiards với 500+ người tham gia",
-      "Xây dựng cộng đồng 2000+ followers trên social media",
+      "Quản lý vận hành câu lạc bộ billiards tại Vũng Tàu",
+      "Phát triển ứng dụng SABO Arena hỗ trợ quản lý giải đấu và xếp hạng người chơi",
+      "Tổ chức giải đấu định kỳ cho cộng đồng người chơi địa phương",
+      "Xây dựng kênh truyền thông và cộng đồng trực tuyến",
     ],
-    skills: ["Chiến lược kinh doanh", "Quản lý vận hành", "Marketing", "Lãnh đạo nhóm"],
+    skills: ["Quản lý kinh doanh", "Vận hành", "Marketing", "Tổ chức sự kiện"],
     icon: Trophy,
     iconColor: "text-primary",
-    iconBg: "bg-primary/20",
+    iconBg: "bg-white",
+    logo: "/images/sabo.jpg",
     side: "right",
   },
   {
@@ -49,8 +50,9 @@ const experiencesVI = [
     ],
     skills: ["Kiểm soát chất lượng", "Quản lý an toàn", "Phân tích kỹ thuật", "Dầu khí"],
     icon: Droplet,
-    iconColor: "text-secondary",
-    iconBg: "bg-secondary/20",
+    iconColor: "text-emerald-400",
+    iconBg: "bg-white",
+    logo: "/images/pvchem.jpg",
     side: "left",
   },
   {
@@ -66,7 +68,8 @@ const experiencesVI = [
     skills: ["Tiêu chuẩn ISO", "Tối ưu hóa quy trình", "Bảo trì", "Đảm bảo chất lượng"],
     icon: Factory,
     iconColor: "text-accent",
-    iconBg: "bg-accent/20",
+    iconBg: "bg-white",
+    logo: "/images/posco.jpg",
     side: "left",
   },
   {
@@ -82,7 +85,8 @@ const experiencesVI = [
     skills: ["Kinh doanh B2B", "Tư vấn kỹ thuật", "Hệ thống HVAC", "Quan hệ khách hàng"],
     icon: Wind,
     iconColor: "text-blue-400",
-    iconBg: "bg-blue-400/20",
+    iconBg: "bg-white",
+    logo: "/images/daikin.png",
     side: "right",
   },
   {
@@ -95,10 +99,11 @@ const experiencesVI = [
       "Học hỏi quy trình vận hành thực tế từ các kỹ sư senior",
       "Đạt chứng nhận an toàn lao động ngành dầu khí",
     ],
-    skills: ["Bảo trì", "Quy trình an toàn", "Vận hành nhà máy lọc dầu", "Đào tạo thực hành"],
+    skills: ["Bảo trì", "Quy trình an toàn", "Bảo dưỡng nhà máy chế biến khí Dinh Cố"],
     icon: Wrench,
     iconColor: "text-orange-400",
-    iconBg: "bg-orange-400/20",
+    iconBg: "bg-white",
+    logo: "/images/pvdtraining.png",
     side: "left",
   },
 ];
@@ -106,20 +111,21 @@ const experiencesVI = [
 // Updated English version with STAR metrics
 const experiencesEN = [
   {
-    company: "AINewbieVN",
-    position: "Full-stack Developer",
+    company: "Freelance / Personal Projects",
+    position: "Full Stack Developer",
     period: "2023 - Present",
     description: [
-      "Built SABO Arena serving 50+ tournaments with 200+ players, reducing 80% manual management time",
-      "Developed 8+ production applications using React, TypeScript, Node.js, and Flutter",
-      "Integrated AI (GPT-4, Gemini) into 3 products, automating 60% of manual workflows",
-      "Deployed real-time systems with Supabase handling 1000+ requests/day",
-      "Created SaboHub - business management platform serving 500+ users",
+      "Developing web applications with React, TypeScript, and Node.js",
+      "Building software solutions to support business operations",
+      "Integrating OpenAI and Gemini APIs into real-world products",
+      "Deploying backend services with Supabase and PostgreSQL",
+      "Publishing products to servers and platforms",
     ],
-    skills: ["React", "TypeScript", "Flutter", "Node.js", "PostgreSQL", "AWS", "AI Integration"],
+    skills: ["React", "TypeScript", "Node.js", "Supabase", "PostgreSQL", "Git"],
     icon: Code,
     iconColor: "text-cyan-400",
-    iconBg: "bg-cyan-400/20",
+    iconBg: "bg-black",
+    logo: "/images/logo.png",
     side: "left",
   },
   {
@@ -127,15 +133,16 @@ const experiencesEN = [
     position: "Owner & Manager",
     period: "04/2023 - Present",
     description: [
-      "Achieved 150% revenue growth in first year through digital marketing strategies",
-      "Managed team of 5 employees, maintaining 95% customer satisfaction rate",
-      "Organized 100+ billiard tournaments with 500+ participants",
-      "Built community of 2000+ followers on social media platforms",
+      "Managing operations of a billiards club in Vung Tau",
+      "Developed SABO Arena app to support tournament management and player rankings",
+      "Organizing regular tournaments for local player community",
+      "Building online presence and community engagement channels",
     ],
-    skills: ["Business Strategy", "Operations Management", "Marketing", "Team Leadership"],
+    skills: ["Business Management", "Operations", "Marketing", "Event Organization"],
     icon: Trophy,
     iconColor: "text-primary",
-    iconBg: "bg-primary/20",
+    iconBg: "bg-white",
+    logo: "/images/sabo.jpg",
     side: "right",
   },
   {
@@ -150,8 +157,9 @@ const experiencesEN = [
     ],
     skills: ["Quality Control", "Safety Management", "Technical Analysis", "Oil & Gas"],
     icon: Droplet,
-    iconColor: "text-secondary",
-    iconBg: "bg-secondary/20",
+    iconColor: "text-emerald-400",
+    iconBg: "bg-white",
+    logo: "/images/pvchem.jpg",
     side: "left",
   },
   {
@@ -167,7 +175,8 @@ const experiencesEN = [
     skills: ["ISO Standards", "Process Optimization", "Maintenance", "Quality Assurance"],
     icon: Factory,
     iconColor: "text-accent",
-    iconBg: "bg-accent/20",
+    iconBg: "bg-white",
+    logo: "/images/posco.jpg",
     side: "left",
   },
   {
@@ -183,7 +192,8 @@ const experiencesEN = [
     skills: ["B2B Sales", "Technical Consulting", "HVAC Systems", "Client Relations"],
     icon: Wind,
     iconColor: "text-blue-400",
-    iconBg: "bg-blue-400/20",
+    iconBg: "bg-white",
+    logo: "/images/daikin.png",
     side: "right",
   },
   {
@@ -199,7 +209,8 @@ const experiencesEN = [
     skills: ["Maintenance", "Safety Procedures", "Refinery Operations", "Hands-on Training"],
     icon: Wrench,
     iconColor: "text-orange-400",
-    iconBg: "bg-orange-400/20",
+    iconBg: "bg-white",
+    logo: "/images/pvdtraining.png",
     side: "left",
   },
 ];
@@ -208,10 +219,19 @@ const CVExperienceSection = () => {
   const { t, language } = useLanguage();
   const experiences = language === "vi" ? experiencesVI : experiencesEN;
   return (
-    <section id="experience" className="section-padding bg-background relative overflow-hidden">
-      {/* Background Decoration */}
-      <div className="absolute top-1/4 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+    <section id="experience" className="section-padding relative overflow-hidden">
+      {/* Animated Background - Same style as Hero */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/30 rounded-full blur-3xl animate-float" />
+          <div
+            className="absolute bottom-1/3 right-1/3 w-80 h-80 bg-secondary/20 rounded-full blur-3xl animate-float"
+            style={{ animationDelay: "1s" }}
+          />
+        </div>
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      </div>
 
       <div className="container mx-auto relative z-10">
         {/* Section Header */}
@@ -225,7 +245,7 @@ const CVExperienceSection = () => {
           </h2>
 
           <p className="text-lg text-foreground-secondary max-w-2xl mx-auto">
-            Hơn 5 năm kinh nghiệm đa dạng trong Dầu khí, Sản xuất và Quản lý Kinh doanh
+            {t("experience.description")}
           </p>
         </div>
 
@@ -259,14 +279,22 @@ const CVExperienceSection = () => {
                       } justify-start`}
                     >
                       <div
-                        className={`w-16 h-16 rounded-xl ${
+                        className={`w-14 h-14 rounded-xl ${
                           exp.iconBg
                         } border-2 border-${exp.iconColor.replace(
                           "text-",
                           ""
-                        )}/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all`}
+                        )}/30 flex items-center justify-center group-hover:scale-110 transition-all overflow-hidden p-1`}
                       >
-                        <exp.icon className={`w-8 h-8 ${exp.iconColor}`} />
+                        {exp.logo ? (
+                          <img
+                            src={exp.logo}
+                            alt={`${exp.company} logo`}
+                            className="w-full h-full object-contain"
+                          />
+                        ) : (
+                          <exp.icon className={`w-7 h-7 ${exp.iconColor}`} />
+                        )}
                       </div>
                       <div className={exp.side === "left" ? "lg:text-right" : "lg:text-left"}>
                         <h3 className="text-2xl font-heading font-bold text-foreground mb-1">
@@ -286,40 +314,29 @@ const CVExperienceSection = () => {
                       <span className="text-sm font-medium text-primary">{exp.period}</span>
                     </div>
 
-                    {/* Description - Hidden when not logged in */}
-                    <div
-                      className={`mb-6 clear-both ${
-                        exp.side === "left" ? "lg:text-right" : "lg:text-left"
-                      } text-left`}
-                    >
-                      <GatedSection
-                        itemCount={exp.description.length}
-                        ctaText="thành tựu"
-                        align={exp.side === "left" ? "right" : "left"}
+                    {/* Description - chỉ hiển thị cho 2 kinh nghiệm gần nhất */}
+                    {(exp.company === "Freelance / Dự án cá nhân" ||
+                      exp.company === "Freelance / Personal Projects" ||
+                      exp.company === "SABO Billiards") && (
+                      <ul
+                        className={`space-y-2 mb-4 clear-both ${
+                          exp.side === "left" ? "lg:text-right" : "lg:text-left"
+                        } text-left`}
                       >
-                        <ul className="space-y-2">
-                          {exp.description.map((item, i) => (
-                            <li
-                              key={`${exp.company}-desc-${i}`}
-                              className="text-foreground-secondary flex items-start gap-2"
-                            >
-                              <span
-                                className={`text-primary mt-1 ${
-                                  exp.side === "left" ? "lg:order-2" : ""
-                                }`}
-                              >
-                                •
-                              </span>
-                              <span className="flex-1">{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </GatedSection>
-                    </div>
+                        {exp.description.map((item, i) => (
+                          <li
+                            key={`${exp.company}-desc-${i}`}
+                            className="text-sm text-foreground-secondary leading-relaxed"
+                          >
+                            • {item}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
 
                     {/* Skills Tags */}
                     <div
-                      className={`flex flex-wrap gap-2 ${
+                      className={`flex flex-wrap gap-2 clear-both ${
                         exp.side === "left" ? "lg:justify-end" : "lg:justify-start"
                       } justify-start`}
                     >

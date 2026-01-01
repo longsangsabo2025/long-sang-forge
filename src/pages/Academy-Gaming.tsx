@@ -3,50 +3,54 @@
  * Connected to Supabase backend
  */
 
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { useCourses, useUserEnrollments } from '@/hooks/useAcademy';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useCourses, useUserEnrollments } from "@/hooks/useAcademy";
 import {
-  GraduationCap,
-  Search,
-  Star,
-  Clock,
-  Users,
-  BookOpen,
-  PlayCircle,
-  CheckCircle2,
-  TrendingUp,
-  Award,
-  Zap,
-  Code,
-  Brain,
-  Sparkles,
-  ChevronRight,
-  Filter,
   AlertCircle,
-} from 'lucide-react';
+  Award,
+  BookOpen,
+  Brain,
+  CheckCircle2,
+  ChevronRight,
+  Clock,
+  Code,
+  Filter,
+  GraduationCap,
+  PlayCircle,
+  Search,
+  Sparkles,
+  Star,
+  TrendingUp,
+  Users,
+  Zap,
+} from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Academy() {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('Tất cả');
-  const [selectedTab, setSelectedTab] = useState('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("Tất cả");
+  const [selectedTab, setSelectedTab] = useState("all");
 
   // Fetch courses from Supabase
-  const { data: coursesData, isLoading, error } = useCourses(
+  const {
+    data: coursesData,
+    isLoading,
+    error,
+  } = useCourses(
     {
-      category: selectedCategory !== 'Tất cả' ? selectedCategory : undefined,
-      is_free: selectedTab === 'free' ? true : undefined,
+      category: selectedCategory !== "Tất cả" ? selectedCategory : undefined,
+      is_free: selectedTab === "free" ? true : undefined,
       search: searchQuery || undefined,
     },
-    { page: 1, limit: 12, sort_by: 'students', sort_order: 'desc' }
+    { page: 1, limit: 12, sort_by: "students", sort_order: "desc" }
   );
 
   // Fetch user enrollments for "My Courses" tab
@@ -74,9 +78,7 @@ export default function Academy() {
         <div className="container mx-auto px-4 py-8">
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              Không thể tải khóa học. Vui lòng thử lại sau.
-            </AlertDescription>
+            <AlertDescription>Không thể tải khóa học. Vui lòng thử lại sau.</AlertDescription>
           </Alert>
         </div>
       </div>
@@ -84,19 +86,20 @@ export default function Academy() {
   }
 
   // Determine which courses to display
-  const displayedCourses = selectedTab === 'my-courses' 
-    ? enrollments?.map(e => ({
-        ...e.course,
-        progress: e.progress_percentage
-      })) || []
-    : coursesData?.data || [];
+  const displayedCourses =
+    selectedTab === "my-courses"
+      ? enrollments?.map((e) => ({
+          ...e.course,
+          progress: e.progress_percentage,
+        })) || []
+      : coursesData?.data || [];
 
   const categories = [
-    { name: 'Tất cả', icon: BookOpen, count: coursesData?.total || 0 },
-    { name: 'AI Agents', icon: Brain, count: 12 },
-    { name: 'AI Infrastructure', icon: Code, count: 8 },
-    { name: 'Chat Interfaces', icon: Sparkles, count: 6 },
-    { name: 'Multimodal AI', icon: Zap, count: 4 },
+    { name: "Tất cả", icon: BookOpen, count: coursesData?.total || 0 },
+    { name: "AI Agents", icon: Brain, count: 12 },
+    { name: "AI Infrastructure", icon: Code, count: 8 },
+    { name: "Chat Interfaces", icon: Sparkles, count: 6 },
+    { name: "Multimodal AI", icon: Zap, count: 4 },
   ];
 
   return (
@@ -112,11 +115,10 @@ export default function Academy() {
             <h1 className="text-5xl font-bold mb-6">
               Nền tảng đào tạo AI & Automation
               <br />
-              <span className="text-yellow-300">hàng đầu Việt Nam</span>
+              <span className="text-yellow-300">cho người Việt</span>
             </h1>
             <p className="text-xl mb-8 text-white/90">
-              Học từ các chuyên gia, xây dựng AI agents thực tế, và trở thành AI Engineer chuyên
-              nghiệp
+              Học từ kinh nghiệm thực tế, xây dựng AI agents, và trở thành AI Engineer chuyên nghiệp
             </p>
 
             {/* Search Bar */}
@@ -164,7 +166,7 @@ export default function Academy() {
               return (
                 <Button
                   key={category.name}
-                  variant={selectedCategory === category.name ? 'default' : 'outline'}
+                  variant={selectedCategory === category.name ? "default" : "outline"}
                   className="whitespace-nowrap"
                   onClick={() => setSelectedCategory(category.name)}
                 >
@@ -199,7 +201,10 @@ export default function Academy() {
                   {/* Thumbnail */}
                   <div className="relative aspect-video overflow-hidden bg-muted">
                     <img
-                      src={course.thumbnail_url || 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800'}
+                      src={
+                        course.thumbnail_url ||
+                        "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800"
+                      }
                       alt={course.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
@@ -210,7 +215,7 @@ export default function Academy() {
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-muted">
                         <div
                           className="h-full bg-primary transition-all w-[var(--progress)]"
-                          style={{ '--progress': `${course.progress}%` } as React.CSSProperties}
+                          style={{ "--progress": `${course.progress}%` } as React.CSSProperties}
                         />
                       </div>
                     )}
@@ -251,7 +256,9 @@ export default function Academy() {
                     <div className="flex items-center gap-4 text-sm mb-4">
                       <div className="flex items-center gap-1">
                         <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium">{course.average_rating?.toFixed(1) || '5.0'}</span>
+                        <span className="font-medium">
+                          {course.average_rating?.toFixed(1) || "5.0"}
+                        </span>
                       </div>
                       <div className="flex items-center gap-1 text-muted-foreground">
                         <Users className="h-4 w-4" />

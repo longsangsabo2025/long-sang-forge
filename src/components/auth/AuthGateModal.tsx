@@ -267,11 +267,17 @@ export function AuthGateModal({
           {/* Terms */}
           <p className="mt-6 text-xs text-slate-500 text-center leading-relaxed">
             By continuing, you agree to the{" "}
-            <a href="/terms" className="underline hover:text-slate-700 dark:hover:text-slate-300">
+            <a
+              href="/#contact"
+              className="underline hover:text-slate-700 dark:hover:text-slate-300"
+            >
               Terms of Service
             </a>{" "}
             and{" "}
-            <a href="/privacy" className="underline hover:text-slate-700 dark:hover:text-slate-300">
+            <a
+              href="/#contact"
+              className="underline hover:text-slate-700 dark:hover:text-slate-300"
+            >
               Privacy Policy
             </a>
             .

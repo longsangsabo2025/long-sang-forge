@@ -184,6 +184,17 @@ export default {
         float: "float 3s ease-in-out infinite",
         "glow-pulse": "glow-pulse 2s ease-in-out infinite",
       },
+      // Fix CSS warnings for animate-delay-[]
+      animationDelay: {
+        100: "0.1s",
+        150: "0.15s",
+        200: "0.2s",
+        250: "0.25s",
+        300: "0.3s",
+        500: "0.5s",
+        700: "0.7s",
+        1000: "1s",
+      },
     },
   },
   plugins: [tailwindcssAnimate],

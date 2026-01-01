@@ -1,16 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import {
-  ArrowDown,
-  Briefcase,
-  Clock,
-  Download,
-  Github,
-  Linkedin,
-  Mail,
-  Phone,
-  Users,
-} from "lucide-react";
+import { ArrowDown, Briefcase, Clock, Github, Linkedin, Mail, Phone, Users } from "lucide-react";
 
 const CVHeroSection = () => {
   const { t, language } = useLanguage();
@@ -20,23 +10,13 @@ const CVHeroSection = () => {
     element?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // TODO: Replace with actual PDF download URL
-  const handleDownloadCV = () => {
-    // Tạm thời alert, sau này sẽ link đến PDF thực
-    alert(
-      language === "vi"
-        ? "Tính năng tải CV đang được cập nhật. Vui lòng liên hệ qua email để nhận CV PDF."
-        : "CV download feature is being updated. Please contact via email to receive PDF CV."
-    );
-  };
-
   return (
     <section
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
       {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background-secondary to-background">
+      <div className="absolute inset-0">
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/30 rounded-full blur-3xl animate-float" />
           <div
@@ -59,17 +39,10 @@ const CVHeroSection = () => {
 
             <h1 className="text-5xl md:text-7xl font-heading font-black tracking-tight">
               <span className="block text-foreground">{t("hero.name")}</span>
-              <span className="block text-gradient-gold mt-2">Software Developer</span>
+              <span className="block text-gradient-gold mt-2">{t("hero.position")}</span>
             </h1>
 
-            <div className="space-y-2">
-              <h2 className="text-xl md:text-2xl font-heading font-semibold text-primary">
-                {t("hero.position")}
-              </h2>
-              <h3 className="text-lg md:text-xl text-secondary">{t("hero.subtitle")}</h3>
-            </div>
-
-            <p className="text-lg text-foreground-secondary leading-relaxed max-w-xl">
+            <p className="text-lg text-foreground-secondary leading-relaxed max-w-xl text-justify">
               {t("hero.description")}
             </p>
 
@@ -94,22 +67,12 @@ const CVHeroSection = () => {
               >
                 {t("hero.viewWork")}
               </Button>
-              {/* Download CV Button */}
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground gap-2"
-                onClick={handleDownloadCV}
-              >
-                <Download className="w-4 h-4" />
-                {language === "vi" ? "Tải CV PDF" : "Download CV"}
-              </Button>
             </div>
 
             {/* Social Links */}
             <div className="flex gap-4 pt-4">
               <a
-                href="https://linkedin.com/in/longsang"
+                href="https://www.linkedin.com/in/long-sang-75a781357/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-foreground-secondary hover:text-primary hover:border-primary hover:shadow-glow transition-all"
@@ -118,13 +81,46 @@ const CVHeroSection = () => {
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="https://github.com/longsang"
+                href="https://github.com/longsangsabo"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-foreground-secondary hover:text-primary hover:border-primary hover:shadow-glow transition-all"
                 title="GitHub Profile"
               >
                 <Github className="w-5 h-5" />
+              </a>
+              <a
+                href="https://www.facebook.com/longsang791"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-foreground-secondary hover:text-blue-500 hover:border-blue-500 hover:shadow-glow transition-all"
+                title="Facebook"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
+              </a>
+              <a
+                href="https://zalo.me/0961167717"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-foreground-secondary hover:text-blue-400 hover:border-blue-400 hover:shadow-glow transition-all overflow-hidden"
+                title="Zalo"
+              >
+                <svg className="w-8 h-8" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="100" height="100" rx="25" fill="#0068FF" />
+                  <text
+                    x="50"
+                    y="68"
+                    fontFamily="Arial, sans-serif"
+                    fontWeight="bold"
+                    fontSize="40"
+                    fill="white"
+                    textAnchor="middle"
+                  >
+                    Zalo
+                  </text>
+                </svg>
               </a>
               <a
                 href="mailto:longsangsabo@gmail.com"
@@ -160,14 +156,14 @@ const CVHeroSection = () => {
               </div>
 
               <div
-                className="absolute top-1/2 -right-6 bg-card border border-secondary/20 rounded-2xl px-6 py-3 shadow-card animate-float z-10 flex items-center gap-3"
+                className="absolute top-1/2 -right-6 bg-card border border-emerald-500/20 rounded-2xl px-6 py-3 shadow-card animate-float z-10 flex items-center gap-3"
                 style={{ animationDelay: "0.5s" }}
               >
-                <div className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center">
-                  <Users className="w-5 h-5 text-secondary" />
+                <div className="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+                  <Users className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div>
-                  <p className="text-lg font-bold text-secondary">500+</p>
+                  <p className="text-lg font-bold text-emerald-400">200+</p>
                   <p className="text-sm text-foreground-secondary">
                     {language === "vi" ? "Người dùng" : "Users Served"}
                   </p>
@@ -192,8 +188,12 @@ const CVHeroSection = () => {
               {/* Profile Image */}
               <div className="relative rounded-3xl overflow-hidden border-4 border-primary/20 shadow-elevated">
                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-secondary/20" />
-                <div className="w-full h-96 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                  <span className="text-4xl font-bold text-primary">VLS</span>
+                <div className="w-full h-96 bg-gradient-to-br from-background-secondary to-background flex items-center justify-center p-8">
+                  <img
+                    src="/images/logo.png"
+                    alt="Võ Long Sang Logo"
+                    className="max-w-full max-h-full object-contain"
+                  />
                 </div>
               </div>
 

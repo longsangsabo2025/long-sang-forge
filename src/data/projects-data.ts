@@ -119,7 +119,7 @@ export const projectsData: ProjectData[] = [
     id: 1,
     name: "SABO Arena",
     slug: "sabo-arena",
-    description: "Nền tảng thi đấu bi-a #1 VN",
+    description: "Nền tảng thi đấu bi-a cho cộng đồng",
     progress: 95,
     category: "Mobile App",
     icon: Zap,
@@ -136,7 +136,7 @@ export const projectsData: ProjectData[] = [
 
     heroTitle: "SABO ARENA",
     heroDescription:
-      "Nền tảng thi đấu bi-a chuyên nghiệp #1 Việt Nam - 8 định dạng giải đấu, ELO ranking minh bạch, kiếm SPA Points đổi voucher thật",
+      "Nền tảng thi đấu bi-a cho cộng đồng Vũng Tàu - 8 định dạng giải đấu, ELO ranking minh bạch, kiếm SPA Points đổi voucher thật",
     heroStats: [
       { icon: Users, label: "Người Chơi", value: "1,500+", color: "neon-green" },
       { icon: Trophy, label: "Giải Đấu", value: "120+", color: "neon-cyan" },
@@ -145,16 +145,16 @@ export const projectsData: ProjectData[] = [
 
     overviewTitle: "TỔNG QUAN DỰ ÁN",
     overviewDescription:
-      "SABO Arena là nền tảng thi đấu bi-a chuyên nghiệp đầu tiên tại Việt Nam, tích hợp hệ thống ELO ranking minh bạch, 8 định dạng giải đấu quốc tế, và chương trình SPA Points độc quyền cho phép người chơi kiếm điểm và đổi voucher thật.",
+      "SABO Arena là nền tảng thi đấu bi-a tại Vũng Tàu, tích hợp hệ thống ELO ranking minh bạch, 8 định dạng giải đấu quốc tế, và chương trình SPA Points cho phép người chơi kiếm điểm và đổi voucher thật.",
     objectives: [
-      "Chuyên nghiệp hóa giải đấu bi-a tại Việt Nam với hệ thống ELO quốc tế",
+      "Xây dựng hệ thống giải đấu bi-a với ELO ranking minh bạch",
       "Kết nối cộng đồng người chơi bi-a qua mạng xã hội tích hợp",
-      "Hỗ trợ chủ câu lạc bộ quản lý giải đấu tự động, tiết kiệm 90% thời gian",
+      "Hỗ trợ chủ câu lạc bộ quản lý giải đấu tự động, giảm đáng kể thời gian tổ chức",
     ],
     impacts: [
-      "1,500+ người chơi active, tăng trưởng 200% trong Q4/2025",
-      "120+ giải đấu đã tổ chức thành công tại 15+ câu lạc bộ",
-      "Đánh giá 4.8/5.0 sao từ người dùng, được chọn là 'Best Sports App 2025'",
+      "1,500+ người chơi đã tham gia nền tảng",
+      "120+ giải đấu đã tổ chức tại 15+ câu lạc bộ",
+      "Phản hồi tích cực từ cộng đồng người chơi",
     ],
 
     techNodes: [
@@ -290,9 +290,9 @@ export const projectsData: ProjectData[] = [
       },
       {
         icon: Zap,
-        title: "Hiệu Năng Vượt Trội",
+        title: "Hiệu Năng Tối Ưu",
         points: [
-          "Tốc độ tải ảnh nhanh hơn 60% (200ms)",
+          "Tốc độ tải ảnh nhanh (200ms)",
           "Cuộn list mượt 60 FPS với Flutter",
           "Khởi động app chỉ 1.8 giây",
           "Hỗ trợ iOS, Android và iPad Pro",
@@ -302,10 +302,10 @@ export const projectsData: ProjectData[] = [
     ],
 
     metrics: [
-      { label: "Người Chơi Active", value: "1,500+", unit: "Players", trend: "+200%" },
-      { label: "Giải Đấu", value: "120+", unit: "Tournaments", trend: "+150%" },
-      { label: "Câu Lạc Bộ", value: "15+", unit: "Clubs", trend: "+300%" },
-      { label: "Đánh Giá", value: "4.8/5.0", unit: "Rating", trend: "+12%" },
+      { label: "Người Chơi", value: "1,500+", unit: "Players", trend: "" },
+      { label: "Giải Đấu", value: "120+", unit: "Tournaments", trend: "" },
+      { label: "Câu Lạc Bộ", value: "15+", unit: "Clubs", trend: "" },
+      { label: "Trạng Thái", value: "Active", unit: "Live", trend: "" },
     ],
     barData: [
       { name: "Q1", value: 400, target: 500 },
@@ -323,212 +323,9 @@ export const projectsData: ProjectData[] = [
     ],
   },
 
-  // AI Agent Platform (Example second project)
-  {
-    id: 2,
-    name: "AI Agent Platform",
-    slug: "ai-agent-platform",
-    description: "Nền tảng AI Agent tự động hóa",
-    progress: 88,
-    category: "AI Platform",
-    icon: Cpu,
-    // Enhanced sidebar fields
-    status: "development",
-    statusLabel: "Beta",
-    logoUrl: "/images/logos/ai-agent-logo.png",
-
-    heroTitle: "AI AGENT PLATFORM",
-    heroDescription:
-      "Nền tảng AI Agent thông minh cho tự động hóa quy trình kinh doanh, tích hợp đa kênh, xử lý ngôn ngữ tự nhiên và machine learning",
-    heroStats: [
-      { icon: Cpu, label: "AI Models", value: "25+", color: "neon-green" },
-      { icon: Zap, label: "Requests/Day", value: "50K+", color: "neon-cyan" },
-      { icon: Users, label: "Active Users", value: "800+", color: "neon-blue" },
-    ],
-
-    overviewTitle: "TỔNG QUAN DỰ ÁN",
-    overviewDescription:
-      "Nền tảng AI Agent Platform cung cấp giải pháp tự động hóa toàn diện với khả năng xử lý ngôn ngữ tự nhiên, machine learning và tích hợp đa kênh cho doanh nghiệp.",
-    objectives: [
-      "Phát triển hệ thống AI Agent có khả năng học và cải thiện liên tục",
-      "Tích hợp đa kênh: Email, SMS, Social Media, Website",
-      "Cung cấp analytics và insights về hiệu suất tự động hóa",
-    ],
-    impacts: [
-      "Giảm 70% thời gian xử lý customer support",
-      "Tăng 150% productivity cho các quy trình automation",
-      "800+ doanh nghiệp tin dùng, rating 4.7/5.0",
-    ],
-
-    techNodes: [
-      { id: 1, icon: Cpu, label: "AI Engine", x: 50, y: 20, color: "neon-cyan" },
-      { id: 2, icon: Cloud, label: "Cloud Services", x: 20, y: 50, color: "neon-blue" },
-      { id: 3, icon: Database, label: "Vector DB", x: 80, y: 50, color: "neon-green" },
-      { id: 4, icon: Zap, label: "API Gateway", x: 35, y: 80, color: "neon-cyan" },
-      { id: 5, icon: MessageSquare, label: "NLP Engine", x: 65, y: 80, color: "neon-blue" },
-      { id: 6, icon: Users, label: "User Interface", x: 50, y: 95, color: "neon-green" },
-    ],
-    techConnections: [
-      { from: 1, to: 2 },
-      { from: 1, to: 3 },
-      { from: 2, to: 4 },
-      { from: 3, to: 5 },
-      { from: 4, to: 6 },
-      { from: 5, to: 6 },
-    ],
-
-    techStack: [
-      { name: "React & TypeScript", category: "Frontend", icon: Cpu, iconifyIcon: "logos:react" },
-      {
-        name: "Node.js & Express",
-        category: "Backend",
-        icon: Cloud,
-        iconifyIcon: "logos:nodejs-icon",
-      },
-      { name: "PostgreSQL", category: "Database", icon: Database, iconifyIcon: "logos:postgresql" },
-      {
-        name: "Pinecone",
-        category: "Vector DB",
-        icon: Database,
-        iconifyIcon: "simple-icons:pinecone",
-      },
-      { name: "OpenAI GPT-4", category: "AI/ML", icon: Cpu, iconifyIcon: "simple-icons:openai" },
-      {
-        name: "LangChain",
-        category: "AI Framework",
-        icon: Zap,
-        iconifyIcon: "simple-icons:langchain",
-      },
-      { name: "Redis", category: "Cache", icon: Cloud, iconifyIcon: "logos:redis" },
-      {
-        name: "Docker & K8s",
-        category: "Infrastructure",
-        icon: Cloud,
-        iconifyIcon: "logos:docker-icon",
-      },
-    ],
-
-    technicalDetails: {
-      performance: [
-        { label: "API Response Time", value: "120ms" },
-        { label: "AI Processing", value: "2.5s" },
-        { label: "Uptime", value: "99.9%" },
-        { label: "Concurrent Users", value: "5,000" },
-      ],
-      tools: [
-        { name: "VS Code", iconifyIcon: "logos:visual-studio-code" },
-        { name: "Docker Desktop", iconifyIcon: "logos:docker-icon" },
-        { name: "Postman", iconifyIcon: "logos:postman-icon" },
-        { name: "GitHub", iconifyIcon: "logos:github-icon" },
-        { name: "Vercel", iconifyIcon: "logos:vercel-icon" },
-        { name: "OpenAI", iconifyIcon: "simple-icons:openai" },
-        { name: "Pinecone", iconifyIcon: "simple-icons:pinecone" },
-        { name: "DataDog", iconifyIcon: "logos:datadog" },
-      ],
-      infrastructure: [
-        { label: "Frontend", value: "Vercel Edge Network" },
-        { label: "Backend", value: "AWS ECS + Fargate" },
-        { label: "Database", value: "AWS RDS PostgreSQL (Multi-AZ)" },
-        { label: "Vector DB", value: "Pinecone (US-East)" },
-        { label: "Cache", value: "Redis Cloud" },
-        { label: "CI/CD", value: "GitHub Actions + Vercel" },
-      ],
-    },
-
-    features: [
-      {
-        icon: Cpu,
-        title: "Advanced AI Models",
-        points: [
-          "GPT-4 integration cho conversation",
-          "Custom ML models cho specific tasks",
-          "Real-time learning và adaptation",
-          "Multi-language support (30+ ngôn ngữ)",
-        ],
-        color: "cyan",
-      },
-      {
-        icon: Zap,
-        title: "Automation Workflows",
-        points: [
-          "Drag-and-drop workflow builder",
-          "Pre-built templates cho common tasks",
-          "Conditional logic và branching",
-          "Scheduled và trigger-based execution",
-        ],
-        color: "blue",
-      },
-      {
-        icon: Database,
-        title: "Data Management",
-        points: [
-          "Vector database cho AI embeddings",
-          "Real-time data synchronization",
-          "Advanced search và filtering",
-          "Data encryption và security",
-        ],
-        color: "green",
-      },
-      {
-        icon: MessageSquare,
-        title: "Multi-Channel Integration",
-        points: [
-          "Email, SMS, WhatsApp, Telegram",
-          "Social media platforms",
-          "Website chat widget",
-          "API cho custom integrations",
-        ],
-        color: "cyan",
-      },
-      {
-        icon: BarChart3,
-        title: "Analytics & Insights",
-        points: [
-          "Real-time performance dashboard",
-          "AI accuracy metrics",
-          "User behavior analysis",
-          "Custom reports và exports",
-        ],
-        color: "blue",
-      },
-      {
-        icon: Users,
-        title: "Team Collaboration",
-        points: [
-          "Multi-user workspace",
-          "Role-based access control",
-          "Audit logs và version history",
-          "Shared templates và workflows",
-        ],
-        color: "green",
-      },
-    ],
-
-    metrics: [
-      { label: "AI Requests", value: "50K+", unit: "Per Day", trend: "+180%" },
-      { label: "Active Agents", value: "2,500+", unit: "Agents", trend: "+220%" },
-      { label: "Businesses", value: "800+", unit: "Customers", trend: "+150%" },
-      { label: "Accuracy", value: "94.5%", unit: "AI Score", trend: "+8%" },
-    ],
-    barData: [
-      { name: "Q1", value: 12000, target: 10000 },
-      { name: "Q2", value: 25000, target: 20000 },
-      { name: "Q3", value: 38000, target: 35000 },
-      { name: "Q4", value: 50000, target: 45000 },
-    ],
-    lineData: [
-      { month: "T7", users: 300, performance: 85 },
-      { month: "T8", users: 450, performance: 88 },
-      { month: "T9", users: 550, performance: 90 },
-      { month: "T10", users: 650, performance: 92 },
-      { month: "T11", users: 750, performance: 94 },
-      { month: "T12", users: 800, performance: 95 },
-    ],
-  },
-
   // SaboHub Project
   {
-    id: 3,
+    id: 2,
     name: "SaboHub",
     slug: "sabohub",
     description: "Giải pháp quản lý toàn diện cho doanh nghiệp",
@@ -542,16 +339,16 @@ export const projectsData: ProjectData[] = [
 
     heroTitle: "SABOHUB",
     heroDescription:
-      "Nền tảng quản lý kinh doanh thông minh được thiết kế đặc biệt cho các doanh nghiệp dịch vụ. 8 hệ thống tích hợp: CRM, HRM, POS, Kho, Lịch hẹn, Marketing, Báo cáo & Phân tích - Quản Lý Thông Minh, Kinh Doanh Hiệu Quả",
+      "Nền tảng quản lý kinh doanh được thiết kế cho các doanh nghiệp dịch vụ. 8 hệ thống tích hợp: CRM, HRM, POS, Kho, Lịch hẹn, Marketing, Báo cáo & Phân tích",
     heroStats: [
       { icon: Database, label: "Hệ Thống", value: "8+", color: "neon-cyan" },
-      { icon: Users, label: "Doanh Nghiệp", value: "500+", color: "neon-blue" },
+      { icon: Users, label: "Người Dùng", value: "100+", color: "neon-blue" },
       { icon: Zap, label: "Đồng Bộ Realtime", value: "100%", color: "neon-green" },
     ],
 
     overviewTitle: "TỔNG QUAN DỰ ÁN",
     overviewDescription:
-      "SABOHUB là nền tảng quản lý kinh doanh thông minh được thiết kế đặc biệt cho các doanh nghiệp dịch vụ, đặc biệt là hệ thống câu lạc bộ bi-a và các ngành dịch vụ tương tự. Với giao diện thân thiện và công nghệ tiên tiến, SABOHUB giúp chủ doanh nghiệp và quản lý vận hành mọi hoạt động kinh doanh một cách hiệu quả từ một ứng dụng duy nhất.",
+      "SABOHUB là nền tảng quản lý kinh doanh được thiết kế cho các doanh nghiệp dịch vụ, đặc biệt là hệ thống câu lạc bộ bi-a. Với giao diện thân thiện, SABOHUB giúp chủ doanh nghiệp và quản lý vận hành mọi hoạt động kinh doanh từ một ứng dụng duy nhất.",
     objectives: [
       "Tích hợp 8 hệ thống quản lý trong 1 ứng dụng duy nhất",
       "Đồng bộ dữ liệu theo thời gian thực trên mọi thiết bị",
@@ -559,10 +356,10 @@ export const projectsData: ProjectData[] = [
       "Hỗ trợ đa nền tảng: iOS, Android, Web Browser",
     ],
     impacts: [
-      "Giảm 70% thời gian quản lý hành chính",
-      "Tăng hiệu quả vận hành và phục vụ khách hàng",
+      "Giảm đáng kể thời gian quản lý hành chính",
+      "Cải thiện hiệu quả vận hành và phục vụ khách hàng",
       "Tiết kiệm chi phí với giải pháp all-in-one",
-      "Báo cáo thông minh hỗ trợ ra quyết định",
+      "Báo cáo tổng hợp hỗ trợ ra quyết định",
     ],
 
     techNodes: [
@@ -638,13 +435,13 @@ export const projectsData: ProjectData[] = [
     features: [
       {
         icon: CheckCircle2,
-        title: "Quản Lý Công Việc Thông Minh",
+        title: "Quản Lý Công Việc",
         color: "cyan" as const,
         points: [
           "Phân công rõ ràng - Mỗi người nhận việc ngay trên app",
           "Theo dõi thời gian thực - Biết ai đang làm gì, việc nào tồn đọng",
           "Tự động nhắc nhở - Hệ thống thông báo cho nhân viên",
-          "Giảm 80% thời gian nhắc nhở, tăng 60% hiệu suất hoàn thành",
+          "Giảm thời gian nhắc nhở, tăng hiệu suất hoàn thành",
         ],
       },
       {
@@ -655,7 +452,7 @@ export const projectsData: ProjectData[] = [
           "Order bằng app - Rõ ràng, chính xác, gửi ngay cho bếp",
           "Tính tiền tự động - Không sai, không thiếu",
           "Gán bàn cho mỗi order - Phục vụ đúng bàn, không nhầm lẫn",
-          "Giảm 90% sai sót, tăng 50% tốc độ phục vụ",
+          "Giảm sai sót, tăng tốc độ phục vụ",
         ],
       },
       {
@@ -665,8 +462,8 @@ export const projectsData: ProjectData[] = [
         points: [
           "Cập nhật giá ngay trên app - Tất cả nhân viên thấy cùng lúc",
           "Đánh dấu món hết - Không nhận order món không có",
-          "Thống kê món bán chạy - Nhập hàng thông minh",
-          "Tiết kiệm 100% chi phí in menu, linh hoạt thay đổi giá",
+          "Thống kê món bán chạy - Nhập hàng theo nhu cầu thực tế",
+          "Không cần in menu giấy, linh hoạt thay đổi giá",
         ],
       },
       {
@@ -677,7 +474,7 @@ export const projectsData: ProjectData[] = [
           "Sơ đồ bàn trực quan - Nhìn là biết bàn nào trống",
           "Đặt bàn qua app - Lưu thông tin, không quên, không trùng",
           "Gán order cho từng bàn - Biết bàn nào chi tiêu bao nhiêu",
-          "Tăng 30% hiệu suất sử dụng bàn, không còn đặt trùng",
+          "Tăng hiệu suất sử dụng bàn, không còn đặt trùng",
         ],
       },
       {
@@ -688,7 +485,7 @@ export const projectsData: ProjectData[] = [
           "Check-in/Check-out tự động - Ghi nhận chính xác từng phút",
           "Tính toán tự động - Số giờ làm chính xác, không tranh cãi",
           "Báo cáo tổng hợp - Dễ dàng tính lương cuối tháng",
-          "Tiết kiệm 15% chi phí lương, minh bạch 100%",
+          "Quản lý lương minh bạch, rõ ràng",
         ],
       },
       {
@@ -699,7 +496,7 @@ export const projectsData: ProjectData[] = [
           "Ghi nhận mọi khoản thu - Tiền mặt, chuyển khoản, thẻ, ví điện tử",
           "Đối chiếu tự động - Tổng order vs tổng thu",
           "Thống kê thời gian thực - Biết doanh thu ngay lập tức",
-          "Giảm 95% thất thoát, biết doanh thu mọi lúc",
+          "Kiểm soát doanh thu mọi lúc",
         ],
       },
       {
@@ -710,7 +507,7 @@ export const projectsData: ProjectData[] = [
           "Xếp lịch trực quan - Kéo thả đơn giản, tự động cảnh báo trùng",
           "Nhân viên xem lịch ngay trên app - Không cần hỏi",
           "Đăng ký nghỉ phép qua app - Có lưu, có phê duyệt",
-          "Giảm 70% thời gian xếp lịch, không còn thiếu người",
+          "Xếp lịch nhanh, không còn thiếu người",
         ],
       },
       {
@@ -721,38 +518,38 @@ export const projectsData: ProjectData[] = [
           "Chấm công với GPS - Phải ở cơ sở mới chấm được",
           "Ghi nhận vị trí chính xác - Biết nhân viên ở đâu khi chấm",
           "Tính công tự động - Đúng giờ, muộn, sớm, nghỉ đều ghi nhận",
-          "Chặn 100% chấm công hộ, tiết kiệm 10 giờ/tháng tính công",
+          "Chặn chấm công hộ, tiết kiệm thời gian tính công",
         ],
       },
       {
         icon: BarChart3,
-        title: "Bảng Điều Khiển CEO",
+        title: "Bảng Điều Khiển Tổng Quan",
         color: "blue" as const,
         points: [
           "Dashboard tổng hợp - Doanh thu, nhân sự, order trên 1 màn hình",
           "Dữ liệu thời gian thực - Biết ngay khi có thay đổi",
           "Truy cập 8 hệ thống từ 1 nơi - Không cần mở nhiều app",
-          "Tiết kiệm 90% thời gian họp, ra quyết định nhanh hơn 5 lần",
+          "Ra quyết định nhanh hơn với dữ liệu tập trung",
         ],
       },
       {
         icon: Shield,
-        title: "Phân Quyền Thông Minh",
+        title: "Phân Quyền Theo Vai Trò",
         color: "green" as const,
         points: [
           "Phân quyền 4 cấp - CEO, Manager, Shift Leader, Staff",
           "Mỗi người chỉ thấy dữ liệu phù hợp với vai trò",
           "Bảo mật theo chi nhánh - Không xem dữ liệu chi nhánh khác",
-          "An toàn dữ liệu 100%, không lo bị lộ thông tin kinh doanh",
+          "An toàn dữ liệu kinh doanh",
         ],
       },
     ],
 
     metrics: [
-      { label: "Doanh Nghiệp", value: "500+", unit: "Customers", trend: "+120%" },
-      { label: "Người Dùng", value: "5K+", unit: "Active Users", trend: "+150%" },
-      { label: "Giao Dịch", value: "100K+", unit: "Per Month", trend: "+200%" },
-      { label: "Uptime", value: "99.9%", unit: "Reliability", trend: "+0.2%" },
+      { label: "Người Dùng", value: "100+", unit: "Users", trend: "" },
+      { label: "Giao Dịch", value: "5K+", unit: "Per Month", trend: "" },
+      { label: "CLB Sử Dụng", value: "5+", unit: "Clubs", trend: "" },
+      { label: "Trạng Thái", value: "Active", unit: "Live", trend: "" },
     ],
     barData: [
       { name: "Q1", value: 8000, target: 7000 },
@@ -772,7 +569,7 @@ export const projectsData: ProjectData[] = [
 
   // AINewbieVN - AI Community Platform
   {
-    id: 4,
+    id: 3,
     name: "AINewbieVN",
     slug: "ainewbievn",
     description: "Cộng đồng AI & Workflow tự động hóa",
@@ -786,29 +583,29 @@ export const projectsData: ProjectData[] = [
 
     heroTitle: "AINEWBIEVN",
     heroDescription:
-      "Nền tảng hàng đầu về sản phẩm số AI, workflow tự động hóa, và kết nối nhân tài công nghệ tại Việt Nam",
+      "Nền tảng sản phẩm số AI, workflow tự động hóa, và kết nối nhân tài công nghệ cho người Việt",
     heroStats: [
-      { icon: Users, label: "Thành Viên", value: "5,000+", color: "cyan" },
-      { icon: Zap, label: "Workflows", value: "1,200+", color: "blue" },
-      { icon: Trophy, label: "Dự Án", value: "300+", color: "green" },
+      { icon: Users, label: "Thành Viên", value: "500+", color: "cyan" },
+      { icon: Zap, label: "Workflows", value: "50+", color: "blue" },
+      { icon: Trophy, label: "Dự Án", value: "10+", color: "green" },
     ],
 
-    overviewTitle: "Cộng Đồng AI Hàng Đầu Việt Nam",
+    overviewTitle: "Cộng Đồng AI Việt Nam",
     overviewDescription:
-      "AINewbieVN là nền tảng kết nối và phát triển cộng đồng AI lớn nhất tại Việt Nam, cung cấp workflow tự động hóa, sản phẩm AI, và networking cho 5000+ chuyên gia công nghệ.",
+      "AINewbieVN là nền tảng kết nối và phát triển cộng đồng AI tại Việt Nam, cung cấp workflow tự động hóa, sản phẩm AI, và networking cho cộng đồng thành viên công nghệ.",
 
     objectives: [
-      "Xây dựng cộng đồng AI lớn nhất Việt Nam với 5000+ thành viên",
-      "Cung cấp 1200+ workflows tự động hóa cho doanh nghiệp",
-      "Kết nối 300+ dự án AI và nhân tài công nghệ",
+      "Xây dựng cộng đồng AI cho người Việt",
+      "Cung cấp workflows tự động hóa cho doanh nghiệp",
+      "Kết nối dự án AI và nhân tài công nghệ",
       "Đào tạo và phát triển kỹ năng AI cho cộng đồng",
     ],
 
     impacts: [
-      "5000+ chuyên gia AI và developer tham gia cộng đồng",
-      "1200+ workflows giúp doanh nghiệp tiết kiệm 40% thời gian",
-      "300+ dự án AI được triển khai thành công",
-      "Tăng 200% nhận thức về AI trong cộng đồng công nghệ VN",
+      "500+ thành viên AI và developer tham gia cộng đồng",
+      "50+ workflows giúp doanh nghiệp tiết kiệm thời gian",
+      "10+ dự án AI đang được phát triển",
+      "Tăng nhận thức về AI trong cộng đồng công nghệ VN",
     ],
 
     techNodes: [
@@ -890,7 +687,7 @@ export const projectsData: ProjectData[] = [
           "Workflow automation với AI - Tự động hóa quy trình",
           "AI product marketplace - Kết nối sản phẩm AI",
           "Community-driven learning - Học tập cộng đồng",
-          "5000+ thành viên, 1200+ workflows, 300+ dự án",
+          "500+ thành viên, 50+ workflows, 10+ dự án",
         ],
       },
       {
@@ -898,7 +695,7 @@ export const projectsData: ProjectData[] = [
         title: "Talent Network",
         color: "blue" as const,
         points: [
-          "Kết nối chuyên gia AI & developers",
+          "Kết nối thành viên AI & developers",
           "Job board cho AI positions",
           "Mentorship programs - Chương trình mentor",
           "Networking events - Sự kiện kết nối",
@@ -909,10 +706,10 @@ export const projectsData: ProjectData[] = [
         title: "Workflow Library",
         color: "green" as const,
         points: [
-          "1200+ ready-to-use workflows",
+          "50+ ready-to-use workflows",
           "Templates for business automation",
           "Integration với popular tools",
-          "Tiết kiệm 40% thời gian cho doanh nghiệp",
+          "Tiết kiệm thời gian cho doanh nghiệp",
         ],
       },
       {
@@ -931,19 +728,19 @@ export const projectsData: ProjectData[] = [
         title: "Project Showcase",
         color: "blue" as const,
         points: [
-          "300+ AI projects featured",
+          "10+ AI projects featured",
           "Demo & code samples",
           "Collaboration opportunities",
-          "Feedback từ cộng đồng chuyên gia",
+          "Feedback từ cộng đồng thành viên",
         ],
       },
     ],
 
     metrics: [
-      { label: "Thành Viên", value: "5,000+", unit: "Members", trend: "+250%" },
-      { label: "Workflows", value: "1,200+", unit: "Templates", trend: "+180%" },
-      { label: "Dự Án", value: "300+", unit: "Projects", trend: "+150%" },
-      { label: "Engagement", value: "85%", unit: "Active Rate", trend: "+20%" },
+      { label: "Thành Viên", value: "500+", unit: "Members", trend: "" },
+      { label: "Workflows", value: "50+", unit: "Templates", trend: "" },
+      { label: "Dự Án", value: "10+", unit: "Projects", trend: "" },
+      { label: "Trạng Thái", value: "Active", unit: "Live", trend: "" },
     ],
     barData: [
       { name: "Q1", value: 1200, target: 1000 },

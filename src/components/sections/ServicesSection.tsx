@@ -102,7 +102,7 @@ export const ServicesSection = () => {
           {services.map((service, index) => (
             <div
               key={service.titleKey}
-              className="group relative bg-card border border-border/20 rounded-xl sm:rounded-2xl overflow-hidden min-h-[380px] xs:min-h-[420px] sm:min-h-[480px] flex flex-col hover:-translate-y-2 sm:hover:-translate-y-3 hover:shadow-[0_15px_35px_rgba(0,0,0,0.3)] sm:hover:shadow-[0_25px_50px_rgba(0,0,0,0.4)] transition-all duration-500 cursor-pointer touch-manipulation"
+              className="group relative bg-card/60 backdrop-blur-sm border border-border/20 rounded-xl sm:rounded-2xl overflow-hidden min-h-[380px] xs:min-h-[420px] sm:min-h-[480px] flex flex-col hover:-translate-y-2 sm:hover:-translate-y-3 hover:shadow-[0_15px_35px_rgba(0,0,0,0.3)] sm:hover:shadow-[0_25px_50px_rgba(0,0,0,0.4)] transition-all duration-500 cursor-pointer touch-manipulation"
               style={{
                 animation: "fade-in 0.6s ease-out forwards",
                 animationDelay: `${index * 150}ms`,
@@ -118,7 +118,7 @@ export const ServicesSection = () => {
                   loading="lazy"
                 />
                 {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               </div>
 
               {/* Hover glow border effect */}
@@ -127,8 +127,8 @@ export const ServicesSection = () => {
               {/* Content wrapper */}
               <div className="relative z-10 flex flex-col flex-grow p-4 sm:p-6 pt-3 sm:pt-4">
                 {/* Title with Icon */}
-                <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-                  <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-md sm:rounded-lg bg-primary/10 flex items-center justify-center border border-primary/30 group-hover:border-cyan-400/50 group-hover:scale-110 transition-all duration-300 shrink-0">
+                <div className="flex items-start gap-2 sm:gap-3 mb-2 sm:mb-3">
+                  <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-md sm:rounded-lg bg-primary/10 flex items-center justify-center border border-primary/30 group-hover:border-cyan-400/50 group-hover:scale-110 transition-all duration-300 shrink-0 mt-0.5">
                     <img
                       src={service.logo}
                       alt=""
@@ -136,7 +136,7 @@ export const ServicesSection = () => {
                       loading="lazy"
                     />
                   </div>
-                  <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white group-hover:text-cyan-400 transition-colors duration-300 line-clamp-1">
+                  <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white group-hover:text-cyan-400 transition-colors duration-300">
                     {t(service.titleKey)}
                   </h3>
                 </div>
@@ -173,7 +173,7 @@ export const ServicesSection = () => {
                   onClick={scrollToContact}
                   className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-primary hover:text-cyan-400 transition-colors duration-200 group/link py-2 touch-manipulation"
                 >
-                  Tư vấn miễn phí
+                  Liên hệ tư vấn
                   <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover/link:translate-x-2 transition-transform duration-300" />
                 </button>
               </div>

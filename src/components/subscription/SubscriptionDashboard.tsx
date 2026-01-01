@@ -1,38 +1,30 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
-import { getUserSubscription, getUserUsage, checkUsageLimits } from "@/lib/subscription/api";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
+import { checkUsageLimits, getUserSubscription, getUserUsage } from "@/lib/subscription/api";
+import { useQuery } from "@tanstack/react-query";
+import { AlertCircle, Bot, Crown, Database, Key, TrendingUp, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { 
-  TrendingUp, 
-  Zap, 
-  Database, 
-  Bot, 
-  Key, 
-  Crown,
-  AlertCircle 
-} from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function SubscriptionDashboard() {
   const navigate = useNavigate();
 
   const { data: subscription, isLoading: subLoading } = useQuery({
-    queryKey: ['user-subscription'],
-    queryFn: () => getUserSubscription()
+    queryKey: ["user-subscription"],
+    queryFn: () => getUserSubscription(),
   });
 
   const { data: usage, isLoading: usageLoading } = useQuery({
-    queryKey: ['user-usage'],
-    queryFn: () => getUserUsage()
+    queryKey: ["user-usage"],
+    queryFn: () => getUserUsage(),
   });
 
   const { data: limits } = useQuery({
-    queryKey: ['usage-limits'],
-    queryFn: () => checkUsageLimits()
+    queryKey: ["usage-limits"],
+    queryFn: () => checkUsageLimits(),
   });
 
   if (subLoading || usageLoading) {
@@ -51,7 +43,7 @@ export function SubscriptionDashboard() {
     workflows_executed: 0,
     agents_created: 0,
     storage_used_mb: 0,
-    credentials_stored: 0
+    credentials_stored: 0,
   };
 
   const getUsagePercentage = (used: number, limit: number) => {
@@ -59,9 +51,9 @@ export function SubscriptionDashboard() {
   };
 
   const getUsageColor = (percentage: number) => {
-    if (percentage >= 90) return 'text-red-500';
-    if (percentage >= 70) return 'text-yellow-500';
-    return 'text-green-500';
+    if (percentage >= 90) return "text-red-500";
+    if (percentage >= 70) return "text-yellow-500";
+    return "text-green-500";
   };
 
   return (
@@ -74,12 +66,10 @@ export function SubscriptionDashboard() {
               <Crown className="h-5 w-5 text-primary" />
               Current Plan: {plan?.display_name}
             </CardTitle>
-            <CardDescription>
-              {plan?.description}
-            </CardDescription>
+            <CardDescription>{plan?.description}</CardDescription>
           </div>
-          <Button onClick={() => navigate('/pricing')}>
-            {plan?.name === 'free' ? 'Upgrade Plan' : 'View Plans'}
+          <Button onClick={() => navigate("/subscription")}>
+            {plan?.name === "free" ? "Upgrade Plan" : "View Plans"}
           </Button>
         </CardHeader>
         <CardContent>
@@ -90,15 +80,15 @@ export function SubscriptionDashboard() {
             </div>
             <div className="text-center p-4 border rounded-lg">
               <div className="text-2xl font-bold">
-                {subscription?.subscription.status === 'active' ? '✅' : '⏸️'}
+                {subscription?.subscription.status === "active" ? "✅" : "⏸️"}
               </div>
               <div className="text-sm text-muted-foreground capitalize">
-                {subscription?.subscription.status || 'N/A'}
+                {subscription?.subscription.status || "N/A"}
               </div>
             </div>
             <div className="text-center p-4 border rounded-lg">
               <div className="text-2xl font-bold">
-                {subscription?.subscription.billing_cycle === 'monthly' ? 'Monthly' : 'Yearly'}
+                {subscription?.subscription.billing_cycle === "monthly" ? "Monthly" : "Yearly"}
               </div>
               <div className="text-sm text-muted-foreground">Billing Cycle</div>
             </div>
@@ -112,12 +102,12 @@ export function SubscriptionDashboard() {
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Usage Limit Exceeded</AlertTitle>
           <AlertDescription>
-            You've exceeded your plan limits for: {limits.exceeded.join(', ')}.
-            <Button 
-              variant="outline" 
-              size="sm" 
+            You've exceeded your plan limits for: {limits.exceeded.join(", ")}.
+            <Button
+              variant="outline"
+              size="sm"
               className="ml-4"
-              onClick={() => navigate('/pricing')}
+              onClick={() => navigate("/subscription")}
             >
               Upgrade Now
             </Button>
@@ -132,9 +122,7 @@ export function SubscriptionDashboard() {
             <TrendingUp className="h-5 w-5" />
             Current Month Usage
           </CardTitle>
-          <CardDescription>
-            Usage resets on the 1st of each month
-          </CardDescription>
+          <CardDescription>Usage resets on the 1st of each month</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* API Calls */}
@@ -144,12 +132,17 @@ export function SubscriptionDashboard() {
                 <Zap className="h-4 w-4" />
                 <span className="font-medium">API Calls</span>
               </div>
-              <span className={`text-sm font-mono ${getUsageColor(getUsagePercentage(currentUsage.api_calls_count, plan?.max_api_calls || 1))}`}>
-                {currentUsage.api_calls_count.toLocaleString()} / {plan?.max_api_calls?.toLocaleString() || 'Unlimited'}
+              <span
+                className={`text-sm font-mono ${getUsageColor(
+                  getUsagePercentage(currentUsage.api_calls_count, plan?.max_api_calls || 1)
+                )}`}
+              >
+                {currentUsage.api_calls_count.toLocaleString()} /{" "}
+                {plan?.max_api_calls?.toLocaleString() || "Unlimited"}
               </span>
             </div>
-            <Progress 
-              value={getUsagePercentage(currentUsage.api_calls_count, plan?.max_api_calls || 1)} 
+            <Progress
+              value={getUsagePercentage(currentUsage.api_calls_count, plan?.max_api_calls || 1)}
               className="h-2"
             />
           </div>
@@ -161,12 +154,16 @@ export function SubscriptionDashboard() {
                 <Bot className="h-4 w-4" />
                 <span className="font-medium">Workflows Executed</span>
               </div>
-              <span className={`text-sm font-mono ${getUsageColor(getUsagePercentage(currentUsage.workflows_executed, plan?.max_workflows || 1))}`}>
-                {currentUsage.workflows_executed} / {plan?.max_workflows || 'Unlimited'}
+              <span
+                className={`text-sm font-mono ${getUsageColor(
+                  getUsagePercentage(currentUsage.workflows_executed, plan?.max_workflows || 1)
+                )}`}
+              >
+                {currentUsage.workflows_executed} / {plan?.max_workflows || "Unlimited"}
               </span>
             </div>
-            <Progress 
-              value={getUsagePercentage(currentUsage.workflows_executed, plan?.max_workflows || 1)} 
+            <Progress
+              value={getUsagePercentage(currentUsage.workflows_executed, plan?.max_workflows || 1)}
               className="h-2"
             />
           </div>
@@ -178,12 +175,16 @@ export function SubscriptionDashboard() {
                 <Bot className="h-4 w-4" />
                 <span className="font-medium">AI Agents Created</span>
               </div>
-              <span className={`text-sm font-mono ${getUsageColor(getUsagePercentage(currentUsage.agents_created, plan?.max_agents || 1))}`}>
-                {currentUsage.agents_created} / {plan?.max_agents || 'Unlimited'}
+              <span
+                className={`text-sm font-mono ${getUsageColor(
+                  getUsagePercentage(currentUsage.agents_created, plan?.max_agents || 1)
+                )}`}
+              >
+                {currentUsage.agents_created} / {plan?.max_agents || "Unlimited"}
               </span>
             </div>
-            <Progress 
-              value={getUsagePercentage(currentUsage.agents_created, plan?.max_agents || 1)} 
+            <Progress
+              value={getUsagePercentage(currentUsage.agents_created, plan?.max_agents || 1)}
               className="h-2"
             />
           </div>
@@ -195,12 +196,17 @@ export function SubscriptionDashboard() {
                 <Database className="h-4 w-4" />
                 <span className="font-medium">Storage Used</span>
               </div>
-              <span className={`text-sm font-mono ${getUsageColor(getUsagePercentage(currentUsage.storage_used_mb, plan?.max_storage_mb || 1))}`}>
-                {currentUsage.storage_used_mb.toFixed(2)} MB / {plan?.max_storage_mb || 'Unlimited'} MB
+              <span
+                className={`text-sm font-mono ${getUsageColor(
+                  getUsagePercentage(currentUsage.storage_used_mb, plan?.max_storage_mb || 1)
+                )}`}
+              >
+                {currentUsage.storage_used_mb.toFixed(2)} MB / {plan?.max_storage_mb || "Unlimited"}{" "}
+                MB
               </span>
             </div>
-            <Progress 
-              value={getUsagePercentage(currentUsage.storage_used_mb, plan?.max_storage_mb || 1)} 
+            <Progress
+              value={getUsagePercentage(currentUsage.storage_used_mb, plan?.max_storage_mb || 1)}
               className="h-2"
             />
           </div>
@@ -212,12 +218,19 @@ export function SubscriptionDashboard() {
                 <Key className="h-4 w-4" />
                 <span className="font-medium">Credentials Stored</span>
               </div>
-              <span className={`text-sm font-mono ${getUsageColor(getUsagePercentage(currentUsage.credentials_stored, plan?.max_credentials || 1))}`}>
-                {currentUsage.credentials_stored} / {plan?.max_credentials || 'Unlimited'}
+              <span
+                className={`text-sm font-mono ${getUsageColor(
+                  getUsagePercentage(currentUsage.credentials_stored, plan?.max_credentials || 1)
+                )}`}
+              >
+                {currentUsage.credentials_stored} / {plan?.max_credentials || "Unlimited"}
               </span>
             </div>
-            <Progress 
-              value={getUsagePercentage(currentUsage.credentials_stored, plan?.max_credentials || 1)} 
+            <Progress
+              value={getUsagePercentage(
+                currentUsage.credentials_stored,
+                plan?.max_credentials || 1
+              )}
               className="h-2"
             />
           </div>
@@ -232,15 +245,18 @@ export function SubscriptionDashboard() {
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-2 gap-3">
-            {plan?.features && Object.entries(plan.features as Record<string, string>).map(([key, value]) => (
-              <div key={key} className="flex items-start gap-2 p-3 border rounded-lg">
-                <Badge variant="secondary" className="mt-0.5">✓</Badge>
-                <div>
-                  <p className="font-medium capitalize">{key.replace(/_/g, ' ')}</p>
-                  <p className="text-sm text-muted-foreground">{value}</p>
+            {plan?.features &&
+              Object.entries(plan.features as Record<string, string>).map(([key, value]) => (
+                <div key={key} className="flex items-start gap-2 p-3 border rounded-lg">
+                  <Badge variant="secondary" className="mt-0.5">
+                    ✓
+                  </Badge>
+                  <div>
+                    <p className="font-medium capitalize">{key.replace(/_/g, " ")}</p>
+                    <p className="text-sm text-muted-foreground">{value}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </CardContent>
       </Card>

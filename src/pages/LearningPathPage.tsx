@@ -3,12 +3,12 @@
  * Complete view of structured learning journey
  */
 
-import { LearningPath } from '@/components/academy/LearningPath';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Target, Trophy, Users, Zap, ArrowLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { LearningPath } from "@/components/academy/LearningPath";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowLeft, Target, Trophy, Users, Zap } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function LearningPathPage() {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export default function LearningPathPage() {
         <div className="container mx-auto px-4 py-12">
           <Button
             variant="ghost"
-            onClick={() => navigate('/academy')}
+            onClick={() => navigate("/academy")}
             className="mb-6 text-white hover:bg-white/20"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -87,10 +87,9 @@ export default function LearningPathPage() {
           <Card>
             <CardHeader>
               <Users className="h-12 w-12 text-primary mb-4" />
-              <CardTitle>Expert Mentorship</CardTitle>
+              <CardTitle>Practical Mentorship</CardTitle>
               <CardDescription>
-                Direct support từ senior AI engineers và architects với experience từ top tech
-                companies
+                Hỗ trợ trực tiếp từ người có kinh nghiệm thực tế trong các dự án AI production
               </CardDescription>
             </CardHeader>
           </Card>
@@ -112,34 +111,34 @@ export default function LearningPathPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
                   {
-                    title: 'Custom MCP Server',
-                    description: 'Build automation tools server với 10+ custom tools',
-                    tech: ['MCP', 'TypeScript', 'N8N'],
+                    title: "Custom MCP Server",
+                    description: "Build automation tools server với 10+ custom tools",
+                    tech: ["MCP", "TypeScript", "N8N"],
                   },
                   {
-                    title: 'RAG Search Engine',
-                    description: 'Semantic search engine với pgvector và OpenAI embeddings',
-                    tech: ['pgvector', 'RAG', 'PostgreSQL'],
+                    title: "RAG Search Engine",
+                    description: "Semantic search engine với pgvector và OpenAI embeddings",
+                    tech: ["pgvector", "RAG", "PostgreSQL"],
                   },
                   {
-                    title: 'Multi-Agent System',
-                    description: 'LangGraph workflow với 6 specialized agents',
-                    tech: ['LangGraph', 'State Machines', 'Workflows'],
+                    title: "Multi-Agent System",
+                    description: "LangGraph workflow với 6 specialized agents",
+                    tech: ["LangGraph", "State Machines", "Workflows"],
                   },
                   {
-                    title: 'AI Chat Platform',
-                    description: 'Real-time streaming chat với function calling',
-                    tech: ['WebSocket', 'Streaming', 'OpenAI'],
+                    title: "AI Chat Platform",
+                    description: "Real-time streaming chat với function calling",
+                    tech: ["WebSocket", "Streaming", "OpenAI"],
                   },
                   {
-                    title: 'Multimodal AI App',
-                    description: 'Process images, audio, video với GPT-4 Vision & Whisper',
-                    tech: ['Vision AI', 'Audio', 'DALL-E'],
+                    title: "Multimodal AI App",
+                    description: "Process images, audio, video với GPT-4 Vision & Whisper",
+                    tech: ["Vision AI", "Audio", "DALL-E"],
                   },
                   {
-                    title: 'Production AI System',
-                    description: 'Full-stack AI application với monitoring và observability',
-                    tech: ['LangSmith', 'Edge Deploy', 'Monitoring'],
+                    title: "Production AI System",
+                    description: "Full-stack AI application với monitoring và observability",
+                    tech: ["LangSmith", "Edge Deploy", "Monitoring"],
                   },
                 ].map((project, index) => (
                   <div
@@ -177,7 +176,7 @@ export default function LearningPathPage() {
                 courses, projects, and community support.
               </p>
               <div className="flex items-center justify-center gap-4">
-                <Button size="lg" onClick={() => navigate('/academy')}>
+                <Button size="lg" onClick={() => navigate("/academy")}>
                   Browse All Courses
                 </Button>
                 <Button size="lg" variant="outline">

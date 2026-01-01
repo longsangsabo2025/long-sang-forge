@@ -12,7 +12,7 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-foreground relative">
+    <div className="min-h-screen text-foreground relative">
       <TechBackground />
       <Navigation />
       <main className="pt-16 relative z-10">

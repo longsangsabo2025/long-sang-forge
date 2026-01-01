@@ -113,9 +113,9 @@ export function SEO({
   );
 }
 
-// Project-specific SEO
+// Project-specific SEO - Enhanced with dynamic meta tags
 export function ProjectSEO({ project, section = "overview" }: { project: any; section?: string }) {
-  const sectionTitles = {
+  const sectionTitles: Record<string, string> = {
     overview: "Project Overview",
     investment: "Investment Opportunity",
     roadmap: "Development Roadmap",
@@ -123,27 +123,48 @@ export function ProjectSEO({ project, section = "overview" }: { project: any; se
   };
 
   // Safely handle tech array - it might be undefined or not an array
-  const techKeywords = Array.isArray(project?.tech) ? project.tech : [];
+  const techKeywords = Array.isArray(project?.tech_stack)
+    ? project.tech_stack.map((t: any) => (typeof t === "string" ? t : t.name).toLowerCase())
+    : Array.isArray(project?.tech)
+    ? project.tech
+    : [];
+
   const categoryKeyword = project?.category ? [project.category.toLowerCase()] : [];
+
+  // Get first screenshot as og:image
+  const projectImage = (() => {
+    if (project?.logo_url) return project.logo_url;
+    if (project?.screenshots?.[0]) {
+      const screenshot = project.screenshots[0];
+      return typeof screenshot === "string" ? screenshot : screenshot.url;
+    }
+    return "/og-project-default.jpg";
+  })();
+
+  const projectUrl = `/projects/${project?.slug || ""}`;
+  const fullTitle = `${project?.name || "Project"} - ${
+    sectionTitles[section] || section
+  } | Long Sang Portfolio`;
+  const description =
+    project?.hero_description ||
+    project?.shortDescription ||
+    project?.description ||
+    "Khám phá dự án này";
 
   return (
     <SEO
-      title={`${project?.name || "Project"} - ${
-        sectionTitles[section as keyof typeof sectionTitles]
-      } | SABO Investments`}
-      description={`${
-        project?.shortDescription || project?.description || "Explore this project"
-      } Discover investment opportunities, technical architecture, and growth potential.`}
+      title={fullTitle}
+      description={`${description.slice(0, 150)}${description.length > 150 ? "..." : ""}`}
       keywords={[
         project?.name?.toLowerCase() || "project",
-        "investment",
-        "startup",
-        "technology",
+        "portfolio",
+        "long sang",
+        "developer",
         ...techKeywords,
         ...categoryKeyword,
       ]}
-      image={project?.image || "/og-project-default.jpg"}
-      url={`/project-showcase/${project?.slug || ""}/${section}`}
+      image={projectImage}
+      url={projectUrl}
       type="product"
     />
   );

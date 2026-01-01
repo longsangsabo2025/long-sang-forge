@@ -1,7 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+
+// Load environment variables from both .env and .env.local
 require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
+require("dotenv").config({ path: path.join(__dirname, "..", ".env.local"), override: true });
 
 const app = express();
 const PORT = process.env.API_PORT || process.env.PORT || 3001;
@@ -28,7 +31,9 @@ const investmentRoutes = require("./routes/investment");
 const projectInterestRoutes = require("./routes/project-interest");
 const aiAssistantRoutes = require("./routes/ai-assistant");
 const aiReviewRoutes = require("./routes/ai-review");
+const salesConsultantRoutes = require("./routes/sales-consultant");
 const webVitalsRoutes = require("./routes/analytics/web-vitals");
+const cassoWebhookRoutes = require("./routes/casso-webhook");
 const brainDomainsRoutes = require("./brain/routes/domains");
 const brainKnowledgeRoutes = require("./brain/routes/knowledge");
 const brainDomainAgentsRoutes = require("./brain/routes/domain-agents");
@@ -36,6 +41,8 @@ const brainDomainStatsRoutes = require("./brain/routes/domain-stats");
 const brainBulkOperationsRoutes = require("./brain/routes/bulk-operations");
 const brainCoreLogicRoutes = require("./brain/routes/core-logic");
 const brainKnowledgeAnalysisRoutes = require("./brain/routes/knowledge-analysis");
+const brainLeannRoutes = require("./brain/routes/leann-routes");
+const brainHybridRoutes = require("./brain/routes/hybrid-routes");
 
 app.use("/api/drive", googleDriveRoutes);
 app.use("/api/google/analytics", googleAnalyticsRoutes);
@@ -53,14 +60,23 @@ app.use("/api/investment", investmentRoutes);
 app.use("/api/project", projectInterestRoutes);
 app.use("/api/ai-assistant", aiAssistantRoutes);
 app.use("/api/ai-review", aiReviewRoutes);
+app.use("/api/sales-consultant", salesConsultantRoutes);
 app.use("/api/analytics", webVitalsRoutes);
+app.use("/api/casso", cassoWebhookRoutes);
+// Brain API Routes - properly organized to avoid conflicts
+// Base domain routes (CRUD for domains)
 app.use("/api/brain/domains", brainDomainsRoutes);
+// Domain sub-resources (all use /:id/xxx pattern)
+app.use("/api/brain/domains", brainDomainAgentsRoutes); // /:id/query
+app.use("/api/brain/domains", brainDomainStatsRoutes); // /:id/stats
+app.use("/api/brain/domains", brainCoreLogicRoutes); // /:id/core-logic
+app.use("/api/brain/domains", brainKnowledgeAnalysisRoutes); // /:id/analyze, /:id/patterns
+// Knowledge routes
 app.use("/api/brain/knowledge", brainKnowledgeRoutes);
-app.use("/api/brain/domains", brainDomainAgentsRoutes);
-app.use("/api/brain/domains", brainDomainStatsRoutes);
-app.use("/api/brain/knowledge", brainBulkOperationsRoutes);
-app.use("/api/brain/domains", brainCoreLogicRoutes);
-app.use("/api/brain/domains", brainKnowledgeAnalysisRoutes);
+app.use("/api/brain/knowledge", brainBulkOperationsRoutes); // /bulk-ingest, /bulk-export
+// Specialized routes
+app.use("/api/brain/leann", brainLeannRoutes);
+app.use("/api/brain/hybrid", brainHybridRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {

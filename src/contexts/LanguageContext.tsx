@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
+import i18n from "@/i18n/config";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 type Language = "en" | "vi";
 
@@ -24,10 +25,10 @@ const translations = {
     "hero.hello": "Hello, I'm",
     "hero.name": "VÕ LONG SANG",
     "hero.title": "Engineer & Leader",
-    "hero.position": "Full-stack & Mobile Developer",
-    "hero.subtitle": "🔄 From Oil & Gas Engineer → Tech Builder",
+    "hero.position": "Career Objective",
+    "hero.subtitle": "",
     "hero.description":
-      "3 years in Oil & Gas taught me engineering mindset, quality processes, and working under pressure. Now I apply all of that to building software - from web apps to mobile apps, integrating AI to solve real-world problems.",
+      "Committed to continuous innovation and self-development, adapting flexibly to the evolving modern landscape to deliver sustainable value and contribute effectively to business growth.",
     "hero.contactMe": "Contact Me",
     "hero.viewWork": "View My Work",
     "hero.years": "Years Dev",
@@ -38,13 +39,16 @@ const translations = {
 
     // About Section
     "about.badge": "About Me",
-    "about.title": "Who I Am",
-    "about.description1":
-      "Full-stack Developer with extensive experience in building web and mobile applications integrated with AI. Currently developing innovative solutions at AINewbieVN while managing SABO Billiards as Owner & Manager.",
+    "about.title": "Professional Profile",
+    "about.role": "Full Stack Developer & Solo Founder",
+    "about.line1": "Consulting & providing digital transformation solutions for businesses",
+    "about.line2": "Building customized automation systems",
+    "about.paragraph":
+      "With an engineering background and business management experience, I build practical software solutions - from management systems to AI-integrated applications - helping businesses operate more efficiently.",
     "about.description2":
-      "Specialized in full-stack development, AI integration, and mobile app development using cutting-edge technologies like React, TypeScript, Flutter, Node.js, and PostgreSQL. Expert in building real-time systems, designing scalable architectures, and deploying production applications on AWS, Firebase, and Vercel.",
+      "Specializing in React, TypeScript, Node.js and PostgreSQL. Building management systems, booking platforms, and business automation tools with AI integration.",
     "about.description3":
-      "Passionate about leveraging technology to solve real-world problems through automation and intelligent systems. Strong background in both technical engineering and business development, with a proven track record in creating user-centric applications and managing cross-functional teams.",
+      "5+ years of engineering and business management experience. Understanding both technical and operational aspects helps me deliver solutions that truly work for end users.",
     "about.dateOfBirth": "Date of Birth",
     "about.education": "Education",
     "about.email": "Email",
@@ -56,9 +60,9 @@ const translations = {
     "about.clients": "Happy Clients",
     "about.industries": "Across Industries",
     "about.fullStackDev": "Full-stack Dev",
-    "about.aiIntegration": "AI Integration",
-    "about.businessOwner": "Business Owner",
-    "about.mobileDev": "Mobile Dev",
+    "about.aiIntegration": "Solutions Consulting",
+    "about.businessOwner": "Solo Founder",
+    "about.mobileDev": "AI Automation",
 
     // Experience Section
     "experience.badge": "My Journey",
@@ -83,8 +87,7 @@ const translations = {
     // Education Section
     "education.badge": "Learning Journey",
     "education.title": "Education & Certifications",
-    "education.description":
-      "Academic foundation and professional certifications that validate my expertise",
+    "education.description": "My academic foundation and professional certifications",
     "education.educationLabel": "Education",
     "education.university": "PetroVietnam University",
     "education.degree": "Bachelor of Engineering",
@@ -147,27 +150,30 @@ const translations = {
     "hero.hello": "Xin chào, tôi là",
     "hero.name": "VÕ LONG SANG",
     "hero.title": "Kỹ sư & Nhà lãnh đạo",
-    "hero.position": "Lập trình viên Full-stack & Mobile",
-    "hero.subtitle": "🔄 Từ Kỹ sư Dầu khí → Xây dựng Công nghệ",
+    "hero.position": "Mục tiêu nghề nghiệp",
+    "hero.subtitle": "",
     "hero.description":
-      "3 năm trong ngành Oil & Gas đã dạy tôi tư duy kỹ thuật, quy trình chất lượng và khả năng làm việc dưới áp lực. Giờ đây, tôi áp dụng tất cả vào việc xây dựng phần mềm - từ web apps đến mobile apps, tích hợp AI để giải quyết bài toán thực tế.",
+      "Cam kết không ngừng đổi mới và phát triển năng lực bản thân, thích ứng linh hoạt với sự vận động của xã hội hiện đại, nhằm kiến tạo những giá trị bền vững và đóng góp thiết thực vào sự phát triển của doanh nghiệp.",
     "hero.contactMe": "Liên hệ tôi",
     "hero.viewWork": "Xem kinh nghiệm",
     "hero.years": "Năm Dev",
     "hero.oilGas": "Dầu khí",
-    "hero.expert": "Chuyên gia",
+    "hero.expert": "Kinh nghiệm",
     "hero.businessOwner": "Chủ doanh nghiệp",
     "hero.scrollExplore": "Cuộn để khám phá",
 
     // About Section
     "about.badge": "Về tôi",
-    "about.title": "Tôi là ai",
-    "about.description1":
-      "Lập trình viên Full-stack với kinh nghiệm phong phú trong xây dựng ứng dụng web và mobile tích hợp AI. Hiện đang phát triển các giải pháp sáng tạo tại AINewbieVN đồng thời quản lý SABO Billiards với vai trò Chủ sở hữu & Quản lý.",
+    "about.title": "Hồ sơ chuyên môn",
+    "about.role": "Full Stack Developer & Solo Founder",
+    "about.line1": "Tư vấn & cung cấp giải pháp chuyển đổi số cho doanh nghiệp",
+    "about.line2": "Xây dựng hệ thống tự động hóa tùy chỉnh theo nhu cầu",
+    "about.paragraph":
+      "Với nền tảng kỹ thuật và kinh nghiệm quản lý kinh doanh, tôi xây dựng các giải pháp phần mềm thiết thực - từ hệ thống quản lý đến ứng dụng tích hợp AI - giúp doanh nghiệp vận hành hiệu quả hơn.",
     "about.description2":
-      "Chuyên về phát triển full-stack, tích hợp AI và phát triển ứng dụng di động sử dụng các công nghệ tiên tiến như React, TypeScript, Flutter, Node.js và PostgreSQL. Chuyên gia xây dựng hệ thống thời gian thực, thiết kế kiến trúc có thể mở rộng và triển khai ứng dụng sản xuất trên AWS, Firebase và Vercel.",
+      "Chuyên về React, TypeScript, Node.js và PostgreSQL. Xây dựng hệ thống quản lý, nền tảng đặt lịch, và công cụ tự động hóa doanh nghiệp tích hợp AI.",
     "about.description3":
-      "Đam mê việc tận dụng công nghệ để giải quyết các vấn đề thực tế thông qua tự động hóa và hệ thống thông minh. Nền tảng vững chắc về cả kỹ thuật và phát triển kinh doanh, với thành tích đã được chứng minh trong việc tạo ra các ứng dụng lấy người dùng làm trung tâm và quản lý các nhóm đa chức năng.",
+      "5+ năm kinh nghiệm kỹ thuật và quản lý kinh doanh. Hiểu cả khía cạnh kỹ thuật lẫn vận hành giúp tôi mang đến giải pháp thực sự hiệu quả cho người dùng cuối.",
     "about.dateOfBirth": "Ngày sinh",
     "about.education": "Học vấn",
     "about.email": "Email",
@@ -179,9 +185,9 @@ const translations = {
     "about.clients": "Khách hàng hài lòng",
     "about.industries": "Nhiều ngành nghề",
     "about.fullStackDev": "Lập trình Full-stack",
-    "about.aiIntegration": "Tích hợp AI",
-    "about.businessOwner": "Chủ doanh nghiệp",
-    "about.mobileDev": "Lập trình Mobile",
+    "about.aiIntegration": "Tư vấn giải pháp",
+    "about.businessOwner": "Solo Founder",
+    "about.mobileDev": "AI Automation",
 
     // Experience Section
     "experience.badge": "Hành trình của tôi",
@@ -205,7 +211,7 @@ const translations = {
     // Education Section
     "education.badge": "Hành trình học tập",
     "education.title": "Học vấn & Chứng chỉ",
-    "education.description": "Nền tảng học thuật và chứng chỉ chuyên môn khẳng định năng lực",
+    "education.description": "Nền tảng học thuật và chứng chỉ chuyên môn của tôi",
     "education.educationLabel": "Học vấn",
     "education.university": "Đại học Dầu khí Việt Nam",
     "education.degree": "Kỹ sư",
@@ -258,7 +264,26 @@ const translations = {
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>("en");
+  // Sync with global i18n - read initial language from i18n
+  const [language, setLanguageState] = useState<Language>((i18n.language as Language) || "vi");
+
+  // Listen for i18n language changes (from other parts of app)
+  useEffect(() => {
+    const handleLanguageChange = (lng: string) => {
+      setLanguageState(lng as Language);
+    };
+
+    i18n.on("languageChanged", handleLanguageChange);
+    return () => {
+      i18n.off("languageChanged", handleLanguageChange);
+    };
+  }, []);
+
+  // When CV page changes language, also update global i18n
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    i18n.changeLanguage(lang);
+  };
 
   const t = (key: string): string => {
     return translations[language][key as keyof (typeof translations)["en"]] || key;

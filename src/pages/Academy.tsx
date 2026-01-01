@@ -65,10 +65,10 @@ export default function AcademyGaming() {
 
   const featuredCourse = courses[0] || {
     title: "Complete AI Agent Development Masterclass",
-    description: "Build Production-Ready AI Agents • Real-World Projects • Expert Mentorship",
+    description: "Build Production-Ready AI Agents • Real-World Projects • Practical Mentorship",
     thumbnail_url:
       "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80",
-    instructor: "AINewbieVN Expert Team",
+    instructor: "Long Sang",
     rating: 4.9,
     reviews_count: 2345,
     students_count: 12500,
@@ -160,7 +160,11 @@ export default function AcademyGaming() {
               badgeText="🔥 TRENDING THIS WEEK"
               title={featuredCourse.title}
               subtitle={featuredCourse.description || "Build Production-Ready AI Agents"}
-              instructor={featuredCourse.instructor || "AINewbieVN Expert Team"}
+              instructor={
+                typeof featuredCourse.instructor === "object"
+                  ? featuredCourse.instructor?.name
+                  : featuredCourse.instructor || "Long Sang"
+              }
               rating={featuredCourse.rating || 4.9}
               reviews={featuredCourse.reviews_count || 2345}
               students={`${Math.floor((featuredCourse.students_count || 12500) / 1000)}K`}
@@ -264,7 +268,11 @@ export default function AcademyGaming() {
                           "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=600&q=80"
                         }
                         title={course.title}
-                        instructor={course.instructor || "AINewbieVN"}
+                        instructor={
+                          typeof course.instructor === "object"
+                            ? course.instructor?.name
+                            : course.instructor || "AINewbieVN"
+                        }
                         rating={course.rating || 4.5}
                         reviews={course.reviews_count || 0}
                         students={`${Math.floor((course.students_count || 0) / 1000)}K`}

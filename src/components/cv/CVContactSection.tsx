@@ -1,33 +1,22 @@
-import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Download, ExternalLink, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { ExternalLink, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 
 const CVContactSection = () => {
   const { language } = useLanguage();
 
-  // Simple contact section - no form needed for CV
-  const handleDownloadCV = () => {
-    // TODO: Replace with actual PDF URL
-    alert(
-      language === "vi"
-        ? "Tính năng tải CV đang được cập nhật. Vui lòng liên hệ qua email để nhận CV PDF."
-        : "CV download feature is being updated. Please contact via email to receive PDF CV."
-    );
-  };
-
   return (
-    <section
-      id="contact"
-      className="section-padding bg-background-secondary relative overflow-hidden"
-    >
-      {/* Animated Background */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20" />
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/30 rounded-full blur-3xl animate-float" />
-        <div
-          className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-secondary/30 rounded-full blur-3xl animate-float"
-          style={{ animationDelay: "1s" }}
-        />
+    <section id="contact" className="section-padding relative overflow-hidden">
+      {/* Animated Background - Same style as Hero */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 opacity-25">
+          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/30 rounded-full blur-3xl animate-float" />
+          <div
+            className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-secondary/30 rounded-full blur-3xl animate-float"
+            style={{ animationDelay: "1s" }}
+          />
+        </div>
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem]" />
       </div>
 
       <div className="container mx-auto relative z-10">
@@ -67,15 +56,15 @@ const CVContactSection = () => {
             {/* Phone */}
             <a
               href="tel:+84961167717"
-              className="bg-card border border-border rounded-2xl p-8 hover:border-secondary/50 transition-all hover-lift group text-center"
+              className="bg-card border border-border rounded-2xl p-8 hover:border-emerald-500/50 transition-all hover-lift group text-center"
             >
-              <div className="w-16 h-16 mx-auto rounded-full bg-secondary/20 border-2 border-secondary/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Phone className="w-8 h-8 text-secondary" />
+              <div className="w-16 h-16 mx-auto rounded-full bg-emerald-500/20 border-2 border-emerald-500/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <Phone className="w-8 h-8 text-emerald-400" />
               </div>
               <h3 className="text-lg font-heading font-bold text-foreground mb-2">
                 {language === "vi" ? "Điện thoại" : "Phone"}
               </h3>
-              <p className="text-foreground-secondary hover:text-secondary transition-colors text-lg font-semibold">
+              <p className="text-foreground-secondary hover:text-emerald-400 transition-colors text-lg font-semibold">
                 +84 961 167 717
               </p>
               <p className="text-xs text-muted-foreground mt-2">
@@ -91,7 +80,7 @@ const CVContactSection = () => {
               <h3 className="text-lg font-heading font-bold text-foreground mb-2">
                 {language === "vi" ? "Địa điểm" : "Location"}
               </h3>
-              <p className="text-foreground-secondary text-lg">Vũng Tàu</p>
+              <p className="text-foreground-secondary text-lg">HCM</p>
               <p className="text-xs text-muted-foreground mt-2">Vietnam (UTC+7)</p>
             </div>
           </div>
@@ -110,9 +99,9 @@ const CVContactSection = () => {
             </div>
 
             {/* Social Links Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 mb-8">
               <a
-                href="https://linkedin.com/in/longsang"
+                href="https://www.linkedin.com/in/long-sang-75a781357/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 px-6 py-4 bg-blue-600/10 border border-blue-600/30 rounded-xl hover:bg-blue-600/20 transition-all group"
@@ -123,7 +112,7 @@ const CVContactSection = () => {
               </a>
 
               <a
-                href="https://github.com/longsang"
+                href="https://github.com/longsangsabo"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 px-6 py-4 bg-gray-600/10 border border-gray-600/30 rounded-xl hover:bg-gray-600/20 transition-all group"
@@ -134,6 +123,19 @@ const CVContactSection = () => {
               </a>
 
               <a
+                href="https://www.facebook.com/longsang791"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 px-6 py-4 bg-blue-500/10 border border-blue-500/30 rounded-xl hover:bg-blue-500/20 transition-all group"
+              >
+                <svg className="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
+                <span className="font-semibold text-foreground">Facebook</span>
+                <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-blue-400" />
+              </a>
+
+              <a
                 href="mailto:longsangsabo@gmail.com"
                 className="flex items-center justify-center gap-3 px-6 py-4 bg-primary/10 border border-primary/30 rounded-xl hover:bg-primary/20 transition-all group"
               >
@@ -141,15 +143,6 @@ const CVContactSection = () => {
                 <span className="font-semibold text-foreground">Email</span>
                 <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
               </a>
-
-              <Button
-                onClick={handleDownloadCV}
-                variant="outline"
-                className="flex items-center justify-center gap-3 px-6 py-4 h-auto bg-secondary/10 border border-secondary/30 hover:bg-secondary/20"
-              >
-                <Download className="w-6 h-6 text-secondary" />
-                <span className="font-semibold">CV PDF</span>
-              </Button>
             </div>
 
             {/* Availability Status */}

@@ -40,8 +40,8 @@ export const ProcessSection = () => {
 
   return (
     <section className="py-8 sm:py-12 md:py-20 relative overflow-hidden">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-primary/5" />
+      {/* Background Gradient - Removed for transparency */}
+      {/* <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-primary/5" /> */}
       <div className="absolute top-40 left-0 w-48 sm:w-72 h-48 sm:h-72 bg-primary/10 rounded-full blur-[80px] sm:blur-[100px]" />
       <div className="absolute bottom-20 right-0 w-64 sm:w-96 h-64 sm:h-96 bg-cyan-500/10 rounded-full blur-[100px] sm:blur-[120px]" />
 

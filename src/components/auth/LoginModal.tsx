@@ -191,18 +191,29 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
       if (authMethod === "password") {
         // Password-based authentication (dev mode)
         if (mode === "signin") {
-          const { error } = await supabase.auth.signInWithPassword({
+          const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
           });
 
           if (error) throw error;
 
+          // Check if user is admin
+          const userRole = data.user?.user_metadata?.role;
+          const isAdmin = userRole === "admin";
+
           toast.success("Welcome back!", {
-            description: `Signed in as ${email}`,
+            description: isAdmin ? `Chào Admin! Đang chuyển đến CRM...` : `Signed in as ${email}`,
           });
 
           onOpenChange(false);
+
+          // Redirect admin to CRM dashboard
+          if (isAdmin) {
+            window.location.href = "/admin";
+            return;
+          }
+
           onSuccess?.();
         } else {
           const { error } = await supabase.auth.signUp({

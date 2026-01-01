@@ -12,7 +12,7 @@ async function test() {
   await client.connect();
   console.log('Connected!\n');
   
-  const userId = '6490f4e9-ed96-4121-9c70-bb4ad1feb71d';
+  const userId = process.env.BRAIN_USER_ID || '89917901-cf15-45c4-a7ad-8c4c9513347e';
   const domainId = 'b4717470-4fb9-4991-a486-64d9ec62ca27';
   
   // Test get_domain_agent_context

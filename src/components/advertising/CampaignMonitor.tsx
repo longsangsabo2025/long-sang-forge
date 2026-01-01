@@ -79,7 +79,6 @@ export function CampaignMonitor() {
     wsRef.current = ws;
 
     ws.onopen = () => {
-      console.log("WebSocket connected");
       // Request to start monitoring
       ws.send(
         JSON.stringify({
@@ -109,7 +108,6 @@ export function CampaignMonitor() {
     };
 
     ws.onclose = () => {
-      console.log("WebSocket disconnected");
       if (isMonitoring) {
         // Attempt to reconnect
         setTimeout(() => {

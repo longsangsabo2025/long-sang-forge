@@ -39,17 +39,27 @@ import type {
 import { API_URL } from "@/config/api";
 
 /**
+ * Default User ID for Longsang Admin
+ * This is the primary admin user for the Brain system
+ */
+const DEFAULT_USER_ID = "89917901-cf15-45c4-a7ad-8c4c9513347e";
+
+/**
  * Get the current user ID
  * Note: This should be replaced with actual auth system integration
  */
-function getUserId(): string | null {
-  // This should be replaced with actual auth system
-  // For now, we'll try to get it from localStorage or return null
+function getUserId(): string {
+  // Try to get from localStorage first
   if (globalThis.window !== undefined) {
     const stored = globalThis.window.localStorage.getItem("userId");
     if (stored) return stored;
+    
+    // Store default user ID in localStorage for consistency
+    globalThis.window.localStorage.setItem("userId", DEFAULT_USER_ID);
   }
-  return null;
+  
+  // Return default user ID for Longsang Admin
+  return DEFAULT_USER_ID;
 }
 
 /**

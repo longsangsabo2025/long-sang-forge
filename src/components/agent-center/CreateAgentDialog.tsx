@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,10 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -18,8 +16,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import { useState } from "react";
 
 interface CreateAgentDialogProps {
   open: boolean;
@@ -48,8 +48,8 @@ const CreateAgentDialog = ({ open, onOpenChange, onSuccess }: CreateAgentDialogP
       // Parse capabilities
       const capabilities = formData.capabilities
         .split(",")
-        .map(c => c.trim())
-        .filter(c => c);
+        .map((c) => c.trim())
+        .filter((c) => c);
 
       const agentData = {
         name: formData.name,
@@ -65,10 +65,8 @@ const CreateAgentDialog = ({ open, onOpenChange, onSuccess }: CreateAgentDialogP
       };
 
       // TODO: Replace with actual API call
-      console.log("Creating agent:", agentData);
-      
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       toast({
         title: "Agent Created",
@@ -77,7 +75,7 @@ const CreateAgentDialog = ({ open, onOpenChange, onSuccess }: CreateAgentDialogP
 
       onSuccess();
       onOpenChange(false);
-      
+
       // Reset form
       setFormData({
         name: "",
@@ -104,9 +102,7 @@ const CreateAgentDialog = ({ open, onOpenChange, onSuccess }: CreateAgentDialogP
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Create New Agent</DialogTitle>
-          <DialogDescription>
-            Configure a new AI agent for your workflows
-          </DialogDescription>
+          <DialogDescription>Configure a new AI agent for your workflows</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -172,9 +168,7 @@ const CreateAgentDialog = ({ open, onOpenChange, onSuccess }: CreateAgentDialogP
               value={formData.capabilities}
               onChange={(e) => setFormData({ ...formData, capabilities: e.target.value })}
             />
-            <p className="text-xs text-muted-foreground">
-              Enter capabilities separated by commas
-            </p>
+            <p className="text-xs text-muted-foreground">Enter capabilities separated by commas</p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -208,9 +202,7 @@ const CreateAgentDialog = ({ open, onOpenChange, onSuccess }: CreateAgentDialogP
                 value={formData.temperature}
                 onChange={(e) => setFormData({ ...formData, temperature: e.target.value })}
               />
-              <p className="text-xs text-muted-foreground">
-                0 = deterministic, 2 = creative
-              </p>
+              <p className="text-xs text-muted-foreground">0 = deterministic, 2 = creative</p>
             </div>
           </div>
 

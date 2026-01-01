@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+const { createClient } = require('@supabase/supabase-js');
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL || 'https://diexsbzqwsbpilsymnfb.supabase.co';
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpZXhzYnpxd3NicGlsc3ltbmZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzOTIxOTEsImV4cCI6MjA3NTk2ODE5MX0.Nf1wHe7EDONS25Yv987KqhgyvZu07COnu6qgC0qCy2I';
@@ -11,7 +11,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
  * @param {object} input - Input data for the agent
  * @returns {Promise<object>} Execution result
  */
-export async function executeAgent(agentId, input = {}) {
+async function executeAgent(agentId, input = {}) {
   const startTime = Date.now();
   const executionId = `exec_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
@@ -198,4 +198,4 @@ function generateMockResult(agent, input) {
   };
 }
 
-export default executeAgent;
+module.exports = { executeAgent };

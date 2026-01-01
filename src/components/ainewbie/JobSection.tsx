@@ -1,6 +1,6 @@
-import { GlowCard } from "@/components/ui/glow-card";
 import { Button } from "@/components/ui/button";
-import { MapPin, DollarSign, Clock, Briefcase } from "lucide-react";
+import { GlowCard } from "@/components/ui/glow-card";
+import { Briefcase, Clock, DollarSign, MapPin } from "lucide-react";
 
 const jobs = [
   {
@@ -9,7 +9,7 @@ const jobs = [
     location: "Hà Nội",
     salary: "30-50M VNĐ",
     type: "Full-time",
-    posted: "2 ngày trước"
+    posted: "2 ngày trước",
   },
   {
     title: "Machine Learning Specialist",
@@ -17,7 +17,7 @@ const jobs = [
     location: "Hồ Chí Minh",
     salary: "25-40M VNĐ",
     type: "Full-time",
-    posted: "1 tuần trước"
+    posted: "1 tuần trước",
   },
   {
     title: "AI Product Manager",
@@ -25,22 +25,22 @@ const jobs = [
     location: "Remote",
     salary: "35-60M VNĐ",
     type: "Full-time",
-    posted: "3 ngày trước"
-  }
+    posted: "3 ngày trước",
+  },
 ];
 
 export const JobSection = () => {
   return (
     <section className="relative py-24 overflow-hidden">
       <div className="absolute inset-0 cyber-grid opacity-20" />
-      
+
       <div className="container relative z-10 mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Cơ Hội <span className="glow-text">Nghề Nghiệp</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Kết nối với các vị trí việc làm hàng đầu trong lĩnh vực AI & Machine Learning
+            Kết nối với các vị trí việc làm trong lĩnh vực AI & Machine Learning
           </p>
         </div>
 
@@ -51,7 +51,7 @@ export const JobSection = () => {
                 <div className="flex-grow">
                   <h3 className="text-xl font-bold text-foreground mb-2">{job.title}</h3>
                   <p className="text-primary mb-3">{job.company}</p>
-                  
+
                   <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                     <span className="flex items-center gap-1">
                       <MapPin className="w-4 h-4" />
@@ -81,7 +81,11 @@ export const JobSection = () => {
         </div>
 
         <div className="text-center">
-          <Button variant="outline" size="lg" className="border-primary/50 text-foreground hover:bg-primary/10 hover:border-primary">
+          <Button
+            variant="outline"
+            size="lg"
+            className="border-primary/50 text-foreground hover:bg-primary/10 hover:border-primary"
+          >
             Xem Tất Cả Công Việc
           </Button>
         </div>

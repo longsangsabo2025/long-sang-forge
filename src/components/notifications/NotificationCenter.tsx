@@ -1,35 +1,31 @@
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import {
-  Bell,
-  BellRing,
-  Check,
-  CheckCheck,
-  Info,
-  AlertCircle,
-  CheckCircle2,
-  XCircle,
-  Bot,
-  Workflow,
-  Settings,
-  Trash2,
-} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import {
+  AlertCircle,
+  Bell,
+  BellRing,
+  Bot,
+  Check,
+  CheckCheck,
+  CheckCircle2,
+  Info,
+  Settings,
+  Trash2,
+  Workflow,
+  XCircle,
+} from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface Notification {
   id: string;
   title: string;
   message: string;
-  type: 'info' | 'success' | 'warning' | 'error' | 'agent' | 'workflow' | 'system';
+  type: "info" | "success" | "warning" | "error" | "agent" | "workflow" | "system";
   category?: string;
   link?: string;
   is_read: boolean;
@@ -47,58 +43,58 @@ export const NotificationCenter = () => {
   useEffect(() => {
     const mockNotifications: Notification[] = [
       {
-        id: '1',
-        title: 'Agent Execution Complete',
-        message: 'Marketing Specialist đã hoàn thành task tạo nội dung',
-        type: 'agent',
-        category: 'agent-execution',
-        link: '/agent-center',
+        id: "1",
+        title: "Agent Execution Complete",
+        message: "Marketing Specialist đã hoàn thành task tạo nội dung",
+        type: "agent",
+        category: "agent-execution",
+        link: "/marketplace",
         is_read: false,
         created_at: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
       },
       {
-        id: '2',
-        title: 'Workflow Finished',
-        message: 'AI Content Factory workflow đã chạy thành công',
-        type: 'workflow',
-        category: 'workflow-complete',
-        link: '/admin/workflows',
+        id: "2",
+        title: "Workflow Finished",
+        message: "AI Content Factory workflow đã chạy thành công",
+        type: "workflow",
+        category: "workflow-complete",
+        link: "/admin/workflows",
         is_read: false,
         created_at: new Date(Date.now() - 1000 * 60 * 15).toISOString(),
       },
       {
-        id: '3',
-        title: 'System Update',
-        message: 'Hệ thống đã được cập nhật lên phiên bản 2.5.0',
-        type: 'system',
-        category: 'system-alert',
+        id: "3",
+        title: "System Update",
+        message: "Hệ thống đã được cập nhật lên phiên bản 2.5.0",
+        type: "system",
+        category: "system-alert",
         is_read: true,
         created_at: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
       },
       {
-        id: '4',
-        title: 'Credential Accessed',
-        message: 'OpenAI API Key đã được truy cập',
-        type: 'warning',
-        category: 'credential-access',
-        link: '/admin/credentials',
+        id: "4",
+        title: "Credential Accessed",
+        message: "OpenAI API Key đã được truy cập",
+        type: "warning",
+        category: "credential-access",
+        link: "/admin/credentials",
         is_read: false,
         created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
       },
       {
-        id: '5',
-        title: 'File Upload Complete',
-        message: '5 files đã được upload lên Google Drive',
-        type: 'success',
-        category: 'file-upload',
-        link: '/admin/files',
+        id: "5",
+        title: "File Upload Complete",
+        message: "5 files đã được upload lên Google Drive",
+        type: "success",
+        category: "file-upload",
+        link: "/admin/files",
         is_read: true,
         created_at: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
       },
     ];
 
     setNotifications(mockNotifications);
-    setUnreadCount(mockNotifications.filter(n => !n.is_read).length);
+    setUnreadCount(mockNotifications.filter((n) => !n.is_read).length);
 
     // TODO: Setup Supabase Realtime subscription
     // const subscription = supabase
@@ -113,19 +109,19 @@ export const NotificationCenter = () => {
     // };
   }, []);
 
-  const getNotificationIcon = (type: Notification['type']) => {
+  const getNotificationIcon = (type: Notification["type"]) => {
     switch (type) {
-      case 'success':
+      case "success":
         return <CheckCircle2 className="h-4 w-4 text-green-500" />;
-      case 'error':
+      case "error":
         return <XCircle className="h-4 w-4 text-red-500" />;
-      case 'warning':
+      case "warning":
         return <AlertCircle className="h-4 w-4 text-yellow-500" />;
-      case 'agent':
+      case "agent":
         return <Bot className="h-4 w-4 text-blue-500" />;
-      case 'workflow':
+      case "workflow":
         return <Workflow className="h-4 w-4 text-purple-500" />;
-      case 'system':
+      case "system":
         return <Settings className="h-4 w-4 text-gray-500" />;
       default:
         return <Info className="h-4 w-4 text-blue-500" />;
@@ -138,22 +134,20 @@ export const NotificationCenter = () => {
     const diffMs = now.getTime() - date.getTime();
     const diffMins = Math.floor(diffMs / 60000);
 
-    if (diffMins < 1) return 'Vừa xong';
+    if (diffMins < 1) return "Vừa xong";
     if (diffMins < 60) return `${diffMins} phút trước`;
     if (diffMins < 1440) return `${Math.floor(diffMins / 60)} giờ trước`;
     return `${Math.floor(diffMins / 1440)} ngày trước`;
   };
 
   const handleMarkAsRead = (id: string) => {
-    setNotifications(prev =>
-      prev.map(n => (n.id === id ? { ...n, is_read: true } : n))
-    );
-    setUnreadCount(prev => Math.max(0, prev - 1));
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)));
+    setUnreadCount((prev) => Math.max(0, prev - 1));
     // TODO: Update in Supabase
   };
 
   const handleMarkAllAsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, is_read: true })));
+    setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
     setUnreadCount(0);
     toast({
       title: "Đã đánh dấu tất cả",
@@ -163,12 +157,12 @@ export const NotificationCenter = () => {
   };
 
   const handleDelete = (id: string) => {
-    setNotifications(prev => {
-      const notification = prev.find(n => n.id === id);
+    setNotifications((prev) => {
+      const notification = prev.find((n) => n.id === id);
       if (notification && !notification.is_read) {
-        setUnreadCount(count => Math.max(0, count - 1));
+        setUnreadCount((count) => Math.max(0, count - 1));
       }
-      return prev.filter(n => n.id !== id);
+      return prev.filter((n) => n.id !== id);
     });
     // TODO: Delete from Supabase
   };
@@ -186,17 +180,13 @@ export const NotificationCenter = () => {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="ghost" size="icon" className="relative">
-          {unreadCount > 0 ? (
-            <BellRing className="h-5 w-5" />
-          ) : (
-            <Bell className="h-5 w-5" />
-          )}
+          {unreadCount > 0 ? <BellRing className="h-5 w-5" /> : <Bell className="h-5 w-5" />}
           {unreadCount > 0 && (
             <Badge
               variant="destructive"
               className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
             >
-              {unreadCount > 9 ? '9+' : unreadCount}
+              {unreadCount > 9 ? "9+" : unreadCount}
             </Badge>
           )}
         </Button>
@@ -206,16 +196,11 @@ export const NotificationCenter = () => {
           <div>
             <h3 className="font-semibold text-lg">Thông Báo</h3>
             <p className="text-sm text-muted-foreground">
-              {unreadCount > 0 ? `${unreadCount} chưa đọc` : 'Tất cả đã đọc'}
+              {unreadCount > 0 ? `${unreadCount} chưa đọc` : "Tất cả đã đọc"}
             </p>
           </div>
           {unreadCount > 0 && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleMarkAllAsRead}
-              className="gap-2"
-            >
+            <Button variant="ghost" size="sm" onClick={handleMarkAllAsRead} className="gap-2">
               <CheckCheck className="h-4 w-4" />
               Đánh dấu tất cả
             </Button>
@@ -243,14 +228,10 @@ export const NotificationCenter = () => {
                     onClick={() => handleNotificationClick(notification)}
                   >
                     <div className="flex items-start gap-3">
-                      <div className="mt-0.5">
-                        {getNotificationIcon(notification.type)}
-                      </div>
+                      <div className="mt-0.5">{getNotificationIcon(notification.type)}</div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2">
-                          <p className="font-medium text-sm">
-                            {notification.title}
-                          </p>
+                          <p className="font-medium text-sm">{notification.title}</p>
                           {!notification.is_read && (
                             <div className="h-2 w-2 rounded-full bg-blue-500 flex-shrink-0 mt-1" />
                           )}

@@ -1,6 +1,25 @@
 {
+  "auth": {
+    "authenticating": "Authenticating...",
+    "welcomeAdmin": "Hello Admin {{email}}! 🔐",
+    "welcomeUser": "Welcome {{email}}!",
+    "adminGreeting": "Hello Admin! 🔐",
+    "loginSuccess": "Login successful!",
+    "confirmSuccess": "Confirmation successful! 🔐",
+    "emailConfirmed": "Email confirmed!",
+    "errorOccurred": "An error occurred",
+    "login": "Login",
+    "loginToViewDetails": "Login to view details",
+    "loginToViewMore": "Login to view more",
+    "viewDetails": "View details",
+    "loginToViewFullInfo": "Login to view full information",
+    "viewWorkDetails": "View work details",
+    "loginToViewWorkInfo": "Login to view full work experience",
+    "details": "details",
+    "loginToView": "Login to view"
+  },
   "hero": {
-    "greeting": "Hey, I'm Long Sang 👋",
+    "greeting": "Hey there 👋",
     "headline1": "Tired of",
     "headline2": "wasting hours",
     "headline3": "on repetitive tasks?",
@@ -42,7 +61,10 @@
   "projects": {
     "header": "Some Projects",
     "subtitle": "What I've Built",
-    "viewDetails": "See details"
+    "viewDetails": "See details",
+    "viewAll": "View all projects",
+    "gateTitle": "View project details",
+    "gateSubtitle": "Login to see full project information, case studies and results achieved"
   },
   "techStack": {
     "header": "Tech Stack",
@@ -201,13 +223,274 @@
     "about": "About",
     "services": "Services",
     "projects": "Projects",
+    "subscription": "Subscription",
     "academy": "Academy",
-    "contact": "Contact"
+    "contact": "Contact",
+    "cv": "My CV",
+    "bookCall": "Book Call",
+    "login": "Login",
+    "logout": "Logout",
+    "language": "Language",
+    "mainMenu": "Main Menu",
+    "userMenu": {
+      "home": "Home",
+      "profile": "Profile",
+      "projects": "Projects",
+      "workspace": "Workspace",
+      "subscription": "Subscription"
+    }
   },
   "footer": {
-    "copyright": "© 2025 Long Sang. All rights reserved.",
+    "copyright": "© 2025 longsang.org. All rights reserved.",
     "quickLinks": "Quick Links",
     "followMe": "Follow Me",
     "builtWith": "Built with React & Supabase"
+  },
+  "consultation": {
+    "badge": "1:1 consultation with me",
+    "title": "Book",
+    "titleHighlight": "a consultation",
+    "subtitle": "Discuss directly with me to find the best solution for your business",
+    "socialProof": "100+ businesses consulted",
+    "packages": {
+      "title": "Choose the right",
+      "titleHighlight": "package",
+      "subtitle": "Each package is designed to deliver maximum value for your business",
+      "includes": "Includes:",
+      "selected": "✓ Selected",
+      "register": "Register now",
+      "basic": {
+        "duration": "30 minutes",
+        "name": "Basic Package",
+        "price": "299K",
+        "originalPrice": "399K",
+        "savings": "Save 100K",
+        "subscriptionBonus": "🎁 Free Pro plan for 1 month",
+        "features": [
+          "1:1 consultation via Google Meet",
+          "Understanding your needs",
+          "Answer AI-related questions",
+          "Suggest suitable directions"
+        ]
+      },
+      "standard": {
+        "badge": "⭐ POPULAR",
+        "duration": "60 minutes",
+        "name": "Standard Package",
+        "price": "499K",
+        "originalPrice": "699K",
+        "savings": "Save 200K",
+        "subscriptionBonus": "🎁 Free Pro plan for 1 month",
+        "features": [
+          "1:1 consultation via Google Meet",
+          "Process & pain points analysis",
+          "Propose suitable AI solutions",
+          "Estimate costs & timeline",
+          "📄 Summary document (PDF)"
+        ]
+      },
+      "premium": {
+        "badge": "🔥 BEST VALUE",
+        "duration": "120 minutes",
+        "durationNote": "(90m + 30m bonus)",
+        "name": "Premium Package",
+        "price": "999K",
+        "originalPrice": "1.5M",
+        "savings": "Save 500K",
+        "subscriptionBonus": "👑 Free VIP plan for 1 month",
+        "features": [
+          "In-depth 1:1 consultation (90 min)",
+          "Process & pain points analysis",
+          "Live AI solution demo",
+          "3-6 month implementation roadmap",
+          "📊 Detailed analysis report (PDF)"
+        ],
+        "bonus": "🎁 Free 30-minute follow-up"
+      }
+    },
+    "whyChoose": {
+      "title": "Why choose",
+      "titleHighlight": "consultation with me?",
+      "experience": { "title": "Hands-on experience", "desc": "5+ years in AI & Automation" },
+      "flexible": { "title": "Flexible format", "desc": "Online or in-person meeting" },
+      "docs": { "title": "Full documentation", "desc": "Reports & recommendations after session" },
+      "practical": { "title": "Practical solutions", "desc": "Apply immediately for your business" }
+    },
+    "booking": {
+      "title": "Choose a time",
+      "titleHighlight": "that works for you",
+      "selectedPackage": "You selected: {{name}} ({{duration}} minutes)",
+      "defaultText": "Fill in the information below, I will confirm within 24 hours"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "q1": {
+        "question": "Is consultation free?",
+        "answer": "Direct consultation with me has a fee from 300K - 1M depending on the package."
+      },
+      "q2": {
+        "question": "What do I need to prepare?",
+        "answer": "Just share about your business and the challenges you are facing."
+      },
+      "q3": {
+        "question": "Consultation format?",
+        "answer": "Your choice: in-person, video call or phone call."
+      },
+      "q4": {
+        "question": "Can I cancel/reschedule?",
+        "answer": "Yes! Please notify at least 24 hours in advance."
+      }
+    },
+    "bookingForm": {
+      "selectDateTime": "Select date & time",
+      "selectDateTimeDesc": "Choose a date and time slot that works for you",
+      "consultationType": "Consultation type",
+      "selectType": "Select consultation type",
+      "minutes": "minutes",
+      "free": "Free",
+      "consultationFee": "Consultation fee:",
+      "selectDate": "Select date",
+      "sundayNote": "Sunday off. Saturday morning only.",
+      "selectTime": "Select time",
+      "loadingSlots": "Loading time slots...",
+      "noSlotsAvailable": "No available time slots",
+      "pleaseSelectAnotherDate": "Please select another day",
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "contactInfo": "Contact information",
+      "contactDescription": "So I can confirm and contact you",
+      "fullName": "Full name",
+      "namePlaceholder": "John Doe",
+      "email": "Email",
+      "phone": "Phone number",
+      "notes": "Notes",
+      "notesPlaceholder": "Share more about your consultation needs...",
+      "bookingSummary": "Booking summary",
+      "date": "Date",
+      "time": "Time",
+      "duration": "Duration",
+      "processing": "Processing...",
+      "submitButton": "Book consultation",
+      "errorFillAll": "Please fill in all required fields",
+      "errorLoadTypes": "Failed to load consultation types",
+      "errorLoadSlots": "Failed to load available time slots",
+      "successMsg": "Booking successful! I will contact you soon.",
+      "errorSubmit": "Booking failed",
+      "loginRequired": "Login to book",
+      "loginRequiredDesc": "Please login to book a consultation. This helps you track your appointments and receive notifications.",
+      "loginButton": "Login now",
+      "noAccount": "Don't have an account?",
+      "registerNow": "Register now",
+      "proceedToPayment": "Proceed to payment",
+      "payment": {
+        "title": "Payment",
+        "scanQR": "Scan QR code to pay",
+        "amount": "Amount",
+        "transferContent": "Transfer content",
+        "bankInfo": "Bank transfer details",
+        "bank": "Bank",
+        "accountNumber": "Account number",
+        "accountName": "Account name",
+        "copy": "Copy",
+        "copied": "Copied!",
+        "confirmPayment": "I have transferred",
+        "back": "Back",
+        "note": "After transferring, click \"I have transferred\" to complete booking",
+        "processing": "Processing...",
+        "bonusTitle": "🎁 Bonus Gift",
+        "bonusPro": "After payment, you'll receive a FREE Pro plan for 1 month!",
+        "bonusVIP": "After payment, you'll receive a FREE VIP plan for 1 month!"
+      }
+    }
+  },
+  "footer": {
+    "brand": "LONGSANG.ORG",
+    "tagline": "Automation & AI Solutions",
+    "description": "Helping individuals and businesses save time and boost productivity with smart automation solutions and AI integration.",
+    "quickLinks": "Quick Links",
+    "services": "Services",
+    "links": {
+      "home": "Home",
+      "about": "About",
+      "projects": "Projects",
+      "contact": "Contact"
+    },
+    "servicesList": {
+      "mobile": "Mobile Apps",
+      "web": "Website & Web App",
+      "automation": "Automation",
+      "ai": "AI Integration"
+    },
+    "copyright": "© 2024 Long Sang. All rights reserved.",
+    "allRightsReserved": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "about": {
+    "badge": "About Me",
+    "title": "Hi, I'm Long Sang",
+    "subtitle": "Automation and AI integration specialist, helping businesses save time and boost productivity.",
+    "story1": "With over 7 years of experience in the tech industry, I've helped dozens of businesses successfully go digital.",
+    "story2": "I believe technology isn't something distant - it's a practical tool to solve real problems. Every solution I build focuses on saving time and costs for clients.",
+    "story3": "From mobile apps, web apps, to complex automation systems - I partner with you from idea to finished product.",
+    "cta": "Start a project",
+    "stats": {
+      "experience": "Years experience",
+      "projects": "Projects done",
+      "clients": "Clients",
+      "satisfaction": "Satisfaction"
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "backHome": "Back to home",
+    "lastUpdated": "Last updated",
+    "updateDate": "December 29, 2024",
+    "intro": "We are committed to protecting your privacy. This policy explains how we collect, use, and protect your personal information when you use our services.",
+    "questions": "Have questions about our privacy policy? Contact us:",
+    "sections": {
+      "collection": {
+        "title": "Information Collection",
+        "content": "We collect information you provide directly such as:\n• Name and email when registering\n• Contact info when booking consultations\n• Message content through contact forms\n• Payment information (if applicable)"
+      },
+      "usage": {
+        "title": "Information Usage",
+        "content": "Your information is used to:\n• Provide and improve services\n• Contact for consultation and support\n• Send project notifications\n• Analyze to enhance user experience"
+      },
+      "protection": {
+        "title": "Information Protection",
+        "content": "We apply security measures:\n• Data encryption in transit (SSL/TLS)\n• Secure storage on trusted cloud infrastructure\n• Limited internal access\n• No selling or sharing info with third parties"
+      },
+      "rights": {
+        "title": "Your Rights",
+        "content": "You have the right to:\n• Request to view information we store\n• Request correction of inaccurate information\n• Request account and data deletion\n• Opt out of marketing emails"
+      }
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "backHome": "Back to home",
+    "lastUpdated": "Last updated",
+    "updateDate": "December 29, 2024",
+    "intro": "By using our website and services, you agree to the following terms. Please read carefully before using.",
+    "questions": "Have questions about our terms of service? Contact us:",
+    "sections": {
+      "acceptance": {
+        "title": "Acceptance of Terms",
+        "content": "By accessing and using this website, you confirm that you have read, understood, and agree to comply with these terms of use. If you disagree, please stop using our services."
+      },
+      "services": {
+        "title": "Services Provided",
+        "content": "We provide services including:\n• Technology solution consulting\n• Mobile and web application development\n• Automation system building\n• AI and chatbot integration\n\nSpecific scope will be agreed upon in each project contract."
+      },
+      "limitations": {
+        "title": "Usage Limitations",
+        "content": "You agree not to:\n• Use services for illegal purposes\n• Infringe intellectual property rights\n• Distribute malware or harmful content\n• Interfere with system operations"
+      },
+      "liability": {
+        "title": "Limitation of Liability",
+        "content": "We strive to ensure accurate information but do not guarantee uninterrupted website operation. We are not responsible for:\n• Indirect damages arising from service use\n• Technical errors beyond our control\n• Third-party content"
+      }
+    }
   }
 }

@@ -1,4 +1,23 @@
 {
+  "auth": {
+    "authenticating": "Đang xác thực...",
+    "welcomeAdmin": "Chào Admin {{email}}! 🔐",
+    "welcomeUser": "Chào mừng {{email}}!",
+    "adminGreeting": "Chào Admin! 🔐",
+    "loginSuccess": "Đăng nhập thành công!",
+    "confirmSuccess": "Xác nhận thành công! 🔐",
+    "emailConfirmed": "Email đã được xác nhận!",
+    "errorOccurred": "Đã có lỗi xảy ra",
+    "login": "Đăng nhập",
+    "loginToViewDetails": "Đăng nhập để xem chi tiết",
+    "loginToViewMore": "Đăng nhập để xem thêm",
+    "viewDetails": "Xem chi tiết",
+    "loginToViewFullInfo": "Đăng nhập để xem đầy đủ thông tin",
+    "viewWorkDetails": "Xem chi tiết công việc",
+    "loginToViewWorkInfo": "Đăng nhập để xem đầy đủ thông tin kinh nghiệm làm việc",
+    "details": "chi tiết",
+    "loginToView": "Đăng nhập để xem"
+  },
   "nav": {
     "home": "Trang Chủ",
     "services": "Dịch Vụ",
@@ -6,17 +25,27 @@
     "techStack": "Công Nghệ",
     "learning": "Học Tập",
     "contact": "Liên Hệ",
-    "bookCall": "Đặt Lịch Tư Vấn"
+    "cv": "My CV",
+    "bookCall": "Đặt Lịch",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "language": "Ngôn ngữ",
+    "mainMenu": "Menu chính",
+    "userMenu": {
+      "home": "🏠 Trang Chủ",
+      "projects": "🎯 Dự Án",
+      "workspace": "💡 Workspace"
+    }
   },
   "hero": {
-    "greeting": "XIN CHÀO, TÔI LÀ LONG SANG",
+    "greeting": "XIN CHÀO 👋",
     "headline1": "KIẾN TẠO",
     "headline2": "GIẢI PHÁP SỐ",
     "headline3": "THÔNG MINH",
     "subheadline": "Biến Ý Tưởng Thành Sản Phẩm • Tối Ưu Quy Trình • Tăng Trưởng Bền Vững",
     "tagline": "Phát Triển Full-Stack • Tư Vấn • Đào Tạo",
     "latestBadge": "✨ Mới nhất: SABO Arena V3 - Hệ Thống Quản Lý Giải Đấu",
-    "cta1": "Đặt Lịch Tư Vấn Miễn Phí",
+    "cta1": "Đặt Lịch Tư Vấn 1:1",
     "cta2": "Xem Dự Án",
     "scrollText": "Khám Phá Dịch Vụ"
   },
@@ -118,7 +147,7 @@
       "number": "01",
       "title": "KHÁM PHÁ",
       "activities": [
-        "Tư vấn miễn phí 30 phút",
+        "Tư vấn ban đầu 30 phút",
         "Hiểu mục tiêu và thách thức của bạn",
         "Xác định phạm vi và yêu cầu dự án",
         "Đưa ra ước tính thời gian và ngân sách ban đầu"
@@ -233,7 +262,7 @@
     "info": {
       "email": "📧 EMAIL",
       "bookCall": "💬 ĐẶT LỊCH GỌI",
-      "bookCallText": "Lên lịch tư vấn miễn phí 30 phút",
+      "bookCallText": "Lên lịch tư vấn 1:1 (30 phút)",
       "connect": "🔗 KẾT NỐI",
       "location": "📍 ĐỊA ĐIỂM",
       "locationText": "Vũng Tàu, Việt Nam",
@@ -258,7 +287,7 @@
     }
   },
   "footer": {
-    "brand": "LONG SANG",
+    "brand": "LONGSANG.ORG",
     "tagline": "Nhà Phát Triển Sản Phẩm Số & Tư Vấn",
     "description": "Xây dựng ứng dụng sẵn sàng production với Flutter, React và công nghệ hiện đại. Đặt tại Vũng Tàu, Việt Nam.",
     "quickLinks": "LIÊN KẾT NHANH",
@@ -276,8 +305,232 @@
       "automation": "Tự Động Hóa Doanh Nghiệp",
       "ai": "Tích Hợp AI & Tư Vấn"
     },
-    "copyright": "© 2025 Long Sang. Được xây dựng với ❤️ bằng React + Lovable",
+    "copyright": "© 2025 longsang.org. Được xây dựng với ❤️ bằng React + Lovable",
     "privacy": "Chính Sách Bảo Mật",
     "terms": "Điều Khoản Dịch Vụ"
+  },
+  "consultation": {
+    "badge": "Tư vấn 1:1 trực tiếp với tôi",
+    "title": "Đặt lịch",
+    "titleHighlight": "tư vấn trực tiếp",
+    "subtitle": "Trao đổi trực tiếp với tôi để tìm giải pháp tối ưu cho bạn",
+    "socialProof": "100+ khách hàng đã tư vấn",
+    "packages": {
+      "title": "Chọn gói tư vấn",
+      "titleHighlight": "phù hợp",
+      "subtitle": "Mỗi gói được thiết kế để mang lại giá trị tối đa cho bạn",
+      "includes": "Bao gồm:",
+      "selected": "✓ Đã chọn",
+      "register": "Đăng ký ngay",
+      "basic": {
+        "duration": "30 phút",
+        "name": "Gói Cơ Bản",
+        "price": "299K",
+        "originalPrice": "399K",
+        "savings": "Tiết kiệm 100K",
+        "subscriptionBonus": "🎁 Tặng gói Pro 1 tháng",
+        "features": [
+          "Tư vấn 1:1 qua Google Meet",
+          "Tìm hiểu về công việc và nhu cầu",
+          "Giải đáp thắc mắc về AI",
+          "Gợi ý hướng đi phù hợp"
+        ]
+      },
+      "standard": {
+        "badge": "⭐ PHỔ BIẾ̐N",
+        "duration": "60 phút",
+        "name": "Gói Tiêu Chuẩn",
+        "price": "499K",
+        "originalPrice": "699K",
+        "savings": "Tiết kiệm 200K",
+        "subscriptionBonus": "🎁 Tặng gói Pro 1 tháng",
+        "features": [
+          "Tư vấn 1:1 qua Google Meet",
+          "Tìm hiểu về công việc và nhu cầu",
+          "Phân tích quy trình & pain points",
+          "Đề xuất giải pháp AI phù hợp",
+          "Ước tính chi phí & timeline",
+          "📄 Tài liệu tóm tắt (PDF)"
+        ]
+      },
+      "premium": {
+        "badge": "🔥 ĐÁNG GIÁ NHẤT",
+        "duration": "120 phút",
+        "durationNote": "(90p + 30p bonus)",
+        "name": "Gói Premium",
+        "price": "999K",
+        "originalPrice": "1.5M",
+        "savings": "Tiết kiệm 500K",
+        "subscriptionBonus": "👑 Tặng gói VIP 1 tháng",
+        "features": [
+          "Tư vấn 1:1 chuyên sâu (90 phút)",
+          "Tìm hiểu về công việc và nhu cầu",
+          "Phân tích quy trình & pain points",
+          "Demo giải pháp AI thực tế",
+          "Roadmap triển khai 3-6 tháng",
+          "Ước tính chi phí & timeline",
+          "📊 Báo cáo phân tích chi tiết (PDF)"
+        ],
+        "bonus": "🎁 Follow-up miễn phí 30 phút"
+      }
+    },
+    "whyChoose": {
+      "title": "Tại sao chọn",
+      "titleHighlight": "tư vấn với tôi?",
+      "experience": {
+        "title": "Kinh nghiệm thực chiến",
+        "desc": "5+ năm trong lĩnh vực AI & Automation"
+      },
+      "flexible": {
+        "title": "Linh hoạt hình thức",
+        "desc": "Online hoặc gặp trực tiếp"
+      },
+      "docs": {
+        "title": "Tài liệu đầy đủ",
+        "desc": "Báo cáo & gợi ý sau buổi tư vấn"
+      },
+      "practical": {
+        "title": "Giải pháp thực tế",
+        "desc": "Áp dụng ngay vào công việc"
+      }
+    },
+    "booking": {
+      "title": "Chọn thời gian",
+      "titleHighlight": "phù hợp với bạn",
+      "selectedPackage": "Bạn đã chọn: {{name}} ({{duration}} phút)",
+      "defaultText": "Điền thông tin bên dưới, tôi sẽ liên hệ xác nhận trong vòng 24h"
+    },
+    "faq": {
+      "title": "Câu hỏi thường gặp",
+      "q1": {
+        "question": "Tư vấn có mất phí không?",
+        "answer": "Tư vấn trực tiếp với tôi có phí từ 300K - 1M tùy gói. Nếu muốn tư vấn miễn phí, bạn có thể chat với AI trợ lý 24/7 tại trang chủ."
+      },
+      "q2": {
+        "question": "Tôi cần chuẩn bị gì?",
+        "answer": "Chỉ cần chia sẻ về công việc, dự án hoặc những thách thức bạn đang gặp phải. Tôi sẽ lắng nghe và tư vấn."
+      },
+      "q3": {
+        "question": "Hình thức tư vấn?",
+        "answer": "Tùy bạn chọn: gặp mặt trực tiếp, video call (Zoom/Google Meet) hoặc điện thoại."
+      },
+      "q4": {
+        "question": "Tôi có thể hủy/đổi lịch không?",
+        "answer": "Có thể! Vui lòng thông báo trước ít nhất 24 giờ bằng cách trả lời email xác nhận."
+      }
+    },
+    "bookingForm": {
+      "selectDateTime": "Chọn ngày & giờ",
+      "selectDateTimeDesc": "Chọn ngày và khung giờ phù hợp với bạn",
+      "consultationType": "Loại tư vấn",
+      "selectType": "Chọn loại tư vấn",
+      "minutes": "phút",
+      "free": "Miễn phí",
+      "consultationFee": "Phí tư vấn:",
+      "selectDate": "Chọn ngày",
+      "sundayNote": "Chủ nhật nghỉ. Thứ 7 chỉ làm việc buổi sáng.",
+      "selectTime": "Chọn giờ",
+      "loadingSlots": "Đang tải khung giờ...",
+      "noSlotsAvailable": "Không có khung giờ khả dụng",
+      "pleaseSelectAnotherDate": "Vui lòng chọn ngày khác",
+      "morning": "Buổi sáng",
+      "afternoon": "Buổi chiều",
+      "contactInfo": "Thông tin liên hệ",
+      "contactDescription": "Để tôi có thể xác nhận và liên hệ với bạn",
+      "fullName": "Họ và tên",
+      "namePlaceholder": "Nguyễn Văn A",
+      "email": "Email",
+      "phone": "Số điện thoại",
+      "notes": "Ghi chú",
+      "notesPlaceholder": "Chia sẻ thêm về nhu cầu tư vấn của bạn...",
+      "bookingSummary": "Tóm tắt đặt lịch",
+      "date": "Ngày",
+      "time": "Giờ",
+      "duration": "Thời lượng",
+      "processing": "Đang xử lý...",
+      "submitButton": "Đặt lịch tư vấn",
+      "errorFillAll": "Vui lòng điền đầy đủ thông tin",
+      "errorLoadTypes": "Không thể tải loại tư vấn",
+      "errorLoadSlots": "Không thể tải thời gian khả dụng",
+      "successMsg": "Đặt lịch thành công! Tôi sẽ liên hệ sớm.",
+      "errorSubmit": "Đặt lịch thất bại"
+    }
+  },
+  "subscription": {
+    "title": "Gói Đăng Ký",
+    "currentPlan": "Gói hiện tại",
+    "freePlan": "Free",
+    "proPlan": "Pro",
+    "vipPlan": "VIP",
+    "expires": "Hết hạn",
+    "expiresIn": "Còn {{days}} ngày",
+    "expiringSoon": "Sắp hết hạn!",
+    "expiringAlert": "Gói đăng ký sắp hết hạn. Gia hạn ngay để không mất quyền truy cập.",
+    "active": "Đang hoạt động",
+    "expired": "Hết hạn",
+    "pending": "Chờ thanh toán",
+    "history": "Lịch sử đăng ký",
+    "noHistory": "Chưa có lịch sử đăng ký",
+    "upgrade": "Nâng cấp",
+    "renew": "Gia hạn",
+    "renewNow": "Gia hạn ngay",
+    "upgradePlan": "Nâng cấp gói",
+    "choosePlan": "Chọn gói muốn nâng cấp",
+    "renewPlan": "Gia hạn gói",
+    "chooseCycle": "Chọn chu kỳ thanh toán",
+    "monthly": "Hàng tháng",
+    "yearly": "Hàng năm",
+    "yearlyDiscount": "Tiết kiệm 17%",
+    "perMonth": "/tháng",
+    "perYear": "/năm",
+    "viewPricing": "Xem bảng giá",
+    "manageSubscription": "Quản lý gói đăng ký",
+    "discountCode": {
+      "placeholder": "Nhập mã giảm giá",
+      "apply": "Áp dụng",
+      "applied": "Giảm",
+      "invalid": "Mã giảm giá không hợp lệ"
+    },
+    "usage": {
+      "title": "Sử dụng tính năng tháng này",
+      "used": "Đã dùng",
+      "unlimited": "Không giới hạn",
+      "nearLimit": "Còn {{remaining}} lượt",
+      "limitReached": "Đã hết lượt!"
+    },
+    "admin": {
+      "title": "Quản lý Subscriptions",
+      "stats": {
+        "total": "Tổng",
+        "active": "Đang hoạt động",
+        "pending": "Chờ thanh toán",
+        "pro": "Gói Pro",
+        "vip": "Gói VIP",
+        "revenue": "Doanh thu",
+        "thisMonth": "Tháng này"
+      },
+      "tabs": {
+        "subscriptions": "Subscriptions",
+        "discounts": "Mã giảm giá",
+        "expiring": "Sắp hết hạn"
+      },
+      "actions": {
+        "activate": "Kích hoạt",
+        "sendReminder": "Gửi nhắc nhở",
+        "createDiscount": "Tạo mã giảm giá"
+      }
+    }
+  },
+  "features": {
+    "aiChat": "AI Chat",
+    "aiChatDesc": "Trò chuyện với AI",
+    "aiImage": "AI Image",
+    "aiImageDesc": "Tạo hình ảnh AI",
+    "consultation": "Đặt lịch tư vấn",
+    "consultationDesc": "Tư vấn 1-1",
+    "showcase": "Showcase",
+    "showcaseDesc": "Xem dự án showcase",
+    "exportPdf": "Export PDF",
+    "exportPdfDesc": "Xuất báo cáo PDF"
   }
 }

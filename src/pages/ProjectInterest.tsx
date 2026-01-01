@@ -1,12 +1,12 @@
-import { motion } from "framer-motion";
-import { useParams, useNavigate } from "react-router-dom";
-import { Heart, ArrowLeft, Mail, User, Phone, MessageSquare, CheckCircle2 } from "lucide-react";
-import { projectsData } from "@/data/projects-data";
 import { GlowCard } from "@/components/GlowCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { projectsData } from "@/data/projects-data";
+import { motion } from "framer-motion";
+import { ArrowLeft, CheckCircle2, Heart, Mail, MessageSquare, Phone, User } from "lucide-react";
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ProjectInterest = () => {
   const { slug } = useParams();
@@ -16,19 +16,19 @@ const ProjectInterest = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
-  
-  const project = projectsData.find(p => p.slug === slug) || projectsData[0];
+
+  const project = projectsData.find((p) => p.slug === slug) || projectsData[0];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const projectData = project || { id: 0, name: "Unknown Project" };
-      
-      const response = await fetch('http://localhost:3001/api/project/interest', {
-        method: 'POST',
+
+      const response = await fetch("http://localhost:3001/api/project/interest", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           projectId: projectData.id,
@@ -37,24 +37,23 @@ const ProjectInterest = () => {
           fullName: name,
           email,
           phone,
-          message: message || undefined
-        })
+          message: message || undefined,
+        }),
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Failed to submit interest');
+        throw new Error(result.error || "Failed to submit interest");
       }
 
       setSubmitted(true);
       setTimeout(() => {
         navigate(`/project-showcase/${slug}`);
       }, 3000);
-      
     } catch (error) {
-      console.error('Error submitting interest:', error);
-      alert('Có lỗi xảy ra khi gửi thông tin. Vui lòng thử lại.');
+      console.error("Error submitting interest:", error);
+      alert("Có lỗi xảy ra khi gửi thông tin. Vui lòng thử lại.");
     }
   };
 
@@ -78,7 +77,7 @@ const ProjectInterest = () => {
             Cảm Ơn Bạn Đã Quan Tâm!
           </h2>
           <p className="text-muted-foreground text-lg">
-            Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.
+            Tôi sẽ liên hệ với bạn trong thời gian sớm nhất.
           </p>
         </motion.div>
       </div>
@@ -118,7 +117,8 @@ const ProjectInterest = () => {
             </h1>
           </div>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Để lại thông tin của bạn để nhận được thông báo cập nhật mới nhất về <span className="text-neon-cyan font-semibold">{project.name}</span>
+            Để lại thông tin của bạn để nhận được thông báo cập nhật mới nhất về{" "}
+            <span className="text-neon-cyan font-semibold">{project.name}</span>
           </p>
         </motion.div>
 
@@ -186,7 +186,7 @@ const ProjectInterest = () => {
                 <Textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Cho chúng tôi biết lý do bạn quan tâm đến dự án này..."
+                  placeholder="Cho tôi biết lý do bạn quan tâm đến dự án này..."
                   rows={4}
                   className="bg-dark-surface border-neon-cyan/30 focus:border-neon-cyan focus:glow-border resize-none"
                 />
@@ -221,16 +221,16 @@ const ProjectInterest = () => {
           {[
             {
               title: "Cập Nhật Định Kỳ",
-              description: "Nhận tin tức mới nhất về tiến độ dự án"
+              description: "Nhận tin tức mới nhất về tiến độ dự án",
             },
             {
               title: "Ưu Đãi Đặc Biệt",
-              description: "Được ưu tiên tham gia các chương trình"
+              description: "Được ưu tiên tham gia các chương trình",
             },
             {
               title: "Kết Nối Cộng Đồng",
-              description: "Tham gia nhóm người quan tâm dự án"
-            }
+              description: "Tham gia nhóm người quan tâm dự án",
+            },
           ].map((benefit, index) => (
             <GlowCard key={index} glowColor="blue" className="p-6 text-center">
               <h3 className="font-bold text-neon-cyan mb-2">{benefit.title}</h3>

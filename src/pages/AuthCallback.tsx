@@ -6,12 +6,14 @@
 import { supabase } from "@/integrations/supabase/client";
 import { CheckCircle, Loader2, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 export default function AuthCallback() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
-  const [message, setMessage] = useState("Đang xác thực...");
+  const [message, setMessage] = useState(t("auth.authenticating"));
 
   useEffect(() => {
     const handleCallback = async () => {
@@ -40,12 +42,24 @@ export default function AuthCallback() {
         }
 
         if (session) {
-          setStatus("success");
-          setMessage(`Chào mừng ${session.user.email}!`);
+          // Check if user is admin
+          const userRole = session.user.user_metadata?.role;
+          const isAdmin = userRole === "admin";
 
-          // Redirect to home after short delay
+          setStatus("success");
+          setMessage(
+            isAdmin
+              ? t("auth.welcomeAdmin", { email: session.user.email })
+              : t("auth.welcomeUser", { email: session.user.email })
+          );
+
+          // 🚀 ELON STRATEGY: Redirect admin to CRM, others to Welcome
           setTimeout(() => {
-            navigate("/", { replace: true });
+            if (isAdmin) {
+              navigate("/admin", { replace: true });
+            } else {
+              navigate("/welcome", { replace: true });
+            }
           }, 1500);
         } else {
           // No session yet, might be email confirmation
@@ -53,32 +67,56 @@ export default function AuthCallback() {
           const code = queryParams.get("code");
 
           if (code) {
-            const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+            const { data: exchangeData, error: exchangeError } =
+              await supabase.auth.exchangeCodeForSession(code);
 
             if (exchangeError) {
               throw exchangeError;
             }
 
-            setStatus("success");
-            setMessage("Đăng nhập thành công!");
+            // Check if user is admin after code exchange
+            const userRole = exchangeData?.user?.user_metadata?.role;
+            const isAdmin = userRole === "admin";
 
+            setStatus("success");
+            setMessage(isAdmin ? t("auth.adminGreeting") : t("auth.loginSuccess"));
+
+            // 🚀 Redirect based on role
             setTimeout(() => {
-              navigate("/", { replace: true });
+              if (isAdmin) {
+                navigate("/admin", { replace: true });
+              } else {
+                navigate("/welcome", { replace: true });
+              }
             }, 1500);
           } else {
-            // Magic link or other flow
-            setStatus("success");
-            setMessage("Email đã được xác nhận!");
+            // Magic link or other flow - need to get session again
+            const {
+              data: { session: newSession },
+            } = await supabase.auth.getSession();
+            const userRole = newSession?.user?.user_metadata?.role;
+            const isAdmin = userRole === "admin";
 
+            setStatus("success");
+            setMessage(isAdmin ? t("auth.confirmSuccess") : t("auth.emailConfirmed"));
+
+            // 🚀 Redirect based on role
             setTimeout(() => {
-              navigate("/", { replace: true });
+              if (isAdmin) {
+                navigate("/admin", { replace: true });
+              } else {
+                navigate("/welcome", { replace: true });
+              }
+            }, 1500);
+            setTimeout(() => {
+              navigate("/welcome", { replace: true });
             }, 1500);
           }
         }
       } catch (error) {
         console.error("Auth callback error:", error);
         setStatus("error");
-        setMessage(error instanceof Error ? error.message : "Đã có lỗi xảy ra");
+        setMessage(error instanceof Error ? error.message : t("auth.errorOccurred"));
 
         // Redirect to home after showing error
         setTimeout(() => {

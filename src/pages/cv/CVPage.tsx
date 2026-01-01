@@ -1,11 +1,11 @@
 import CVAboutSection from "@/components/cv/CVAboutSection";
 import CVContactSection from "@/components/cv/CVContactSection";
-import CVEducationSection from "@/components/cv/CVEducationSection";
 import CVExperienceSection from "@/components/cv/CVExperienceSection";
 import CVFooter from "@/components/cv/CVFooter";
 import CVHeroSection from "@/components/cv/CVHeroSection";
 import CVNavigation from "@/components/cv/CVNavigation";
 import CVSkillsSection from "@/components/cv/CVSkillsSection";
+import { TechBackground } from "@/components/TechBackground";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +24,8 @@ const CVPage = () => {
 
   return (
     <LanguageProvider>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen relative">
+        <TechBackground />
         {/* Back Button - z-[60] to be above CVNavigation (z-50) */}
         <button
           onClick={handleGoBack}
@@ -42,7 +43,7 @@ const CVPage = () => {
           <CVAboutSection />
           <CVExperienceSection />
           <CVSkillsSection />
-          <CVEducationSection />
+          {/* <CVEducationSection /> */}
           <CVContactSection />
         </main>
         <CVFooter />

@@ -25,12 +25,11 @@ const searchItems = [
   { title: "AI Marketplace", href: "/marketplace", icon: Bot, category: "Pages" },
   { title: "Dự án", href: "/project-showcase", icon: FileText, category: "Pages" },
   { title: "Tư vấn", href: "/consultation", icon: FileText, category: "Pages" },
-  { title: "Pricing", href: "/pricing", icon: FileText, category: "Pages" },
+  { title: "Bảng giá", href: "/subscription", icon: FileText, category: "Pages" },
 
   // Admin
   { title: "Admin Dashboard", href: "/admin", icon: Bot, category: "Admin" },
-  { title: "Automation", href: "/automation", icon: Bot, category: "Admin" },
-  { title: "Agent Center", href: "/agent-center", icon: Bot, category: "Admin" },
+  { title: "Agent Marketplace", href: "/marketplace", icon: Bot, category: "Admin" },
   { title: "Analytics", href: "/admin/analytics", icon: Bot, category: "Admin" },
 ];
 

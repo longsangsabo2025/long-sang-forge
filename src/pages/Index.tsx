@@ -1,7 +1,7 @@
 import { Layout } from "@/components/LayoutWithChat";
 import { FeaturedProject } from "@/components/sections/FeaturedProject";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { LearningSection } from "@/components/sections/LearningSection";
+// import { LearningSection } from "@/components/sections/LearningSection"; // Hidden - Academy coming soon
 import { ProcessSection } from "@/components/sections/ProcessSection";
 import { ProjectsTimeline } from "@/components/sections/ProjectsTimeline";
 import { ServicesSection } from "@/components/sections/ServicesSection";
@@ -29,8 +29,8 @@ const Index = () => {
       {/* Process */}
       <ProcessSection />
 
-      {/* Learning Hub */}
-      <LearningSection />
+      {/* Learning Hub - Hidden (Academy Coming Soon) */}
+      {/* <LearningSection /> */}
 
       {/* Contact Section - Unified with AI Chat & Consultation */}
       <UnifiedContactSection />

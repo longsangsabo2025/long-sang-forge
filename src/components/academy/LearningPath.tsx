@@ -3,20 +3,20 @@
  * Visual journey for students to follow structured courses
  */
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import {
+  ArrowRight,
+  Award,
   CheckCircle2,
   Circle,
-  Lock,
   Clock,
-  Award,
+  Lock,
   TrendingUp,
   Zap,
-  ArrowRight,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface PathStep {
   id: string;
@@ -32,59 +32,59 @@ interface PathStep {
 
 const learningPaths: PathStep[] = [
   {
-    id: '1',
-    title: 'AI Fundamentals',
-    description: 'Nền tảng cơ bản về AI, Machine Learning, và OpenAI APIs',
-    duration: '4 tuần',
+    id: "1",
+    title: "AI Fundamentals",
+    description: "Nền tảng cơ bản về AI, Machine Learning, và OpenAI APIs",
+    duration: "4 tuần",
     courses: 3,
     isCompleted: true,
     isUnlocked: true,
     isCurrent: false,
-    skills: ['Python Basics', 'OpenAI API', 'Prompt Engineering'],
+    skills: ["Python Basics", "OpenAI API", "Prompt Engineering"],
   },
   {
-    id: '2',
-    title: 'Vector Database & RAG',
-    description: 'Học cách build semantic search và retrieval systems',
-    duration: '3 tuần',
+    id: "2",
+    title: "Vector Database & RAG",
+    description: "Học cách build semantic search và retrieval systems",
+    duration: "3 tuần",
     courses: 2,
     isCompleted: false,
     isUnlocked: true,
     isCurrent: true,
-    skills: ['pgvector', 'Embeddings', 'Semantic Search', 'RAG'],
+    skills: ["pgvector", "Embeddings", "Semantic Search", "RAG"],
   },
   {
-    id: '3',
-    title: 'AI Agent Development',
-    description: 'Xây dựng autonomous agents với MCP và LangGraph',
-    duration: '6 tuần',
+    id: "3",
+    title: "AI Agent Development",
+    description: "Xây dựng autonomous agents với MCP và LangGraph",
+    duration: "6 tuần",
     courses: 4,
     isCompleted: false,
     isUnlocked: true,
     isCurrent: false,
-    skills: ['MCP Protocol', 'LangGraph', 'Multi-Agent', 'Tool Calling'],
+    skills: ["MCP Protocol", "LangGraph", "Multi-Agent", "Tool Calling"],
   },
   {
-    id: '4',
-    title: 'Advanced AI Features',
-    description: 'Multimodal AI, Streaming, và Production Deployment',
-    duration: '5 tuần',
+    id: "4",
+    title: "Advanced AI Features",
+    description: "Multimodal AI, Streaming, và Production Deployment",
+    duration: "5 tuần",
     courses: 3,
     isCompleted: false,
     isUnlocked: false,
     isCurrent: false,
-    skills: ['Vision AI', 'Audio Processing', 'Real-time Streaming', 'Observability'],
+    skills: ["Vision AI", "Audio Processing", "Real-time Streaming", "Observability"],
   },
   {
-    id: '5',
-    title: 'Production AI Systems',
-    description: 'Deploy, scale, và maintain AI applications in production',
-    duration: '4 tuần',
+    id: "5",
+    title: "Production AI Systems",
+    description: "Deploy, scale, và maintain AI applications in production",
+    duration: "4 tuần",
     courses: 3,
     isCompleted: false,
     isUnlocked: false,
     isCurrent: false,
-    skills: ['Edge Deployment', 'Monitoring', 'Cost Optimization', 'Security'],
+    skills: ["Edge Deployment", "Monitoring", "Cost Optimization", "Security"],
   },
 ];
 
@@ -112,7 +112,7 @@ export function LearningPath() {
                 {completedSteps} / {totalSteps} Completed
               </div>
               <div className="text-sm text-muted-foreground">
-                Estimated time: {learningPaths.reduce((sum, p) => sum + parseInt(p.duration), 0)}{' '}
+                Estimated time: {learningPaths.reduce((sum, p) => sum + parseInt(p.duration), 0)}{" "}
                 weeks total
               </div>
             </div>
@@ -145,12 +145,12 @@ export function LearningPath() {
                   w-12 h-12 rounded-full flex items-center justify-center z-10
                   ${
                     step.isCompleted
-                      ? 'bg-green-500 text-white'
+                      ? "bg-green-500 text-white"
                       : step.isCurrent
-                        ? 'bg-primary text-white ring-4 ring-primary/20 animate-pulse'
-                        : step.isUnlocked
-                          ? 'bg-muted text-muted-foreground'
-                          : 'bg-muted/50 text-muted-foreground'
+                      ? "bg-primary text-white ring-4 ring-primary/20 animate-pulse"
+                      : step.isUnlocked
+                      ? "bg-muted text-muted-foreground"
+                      : "bg-muted/50 text-muted-foreground"
                   }
                 `}
                 >
@@ -168,8 +168,8 @@ export function LearningPath() {
               <Card
                 className={`
                 transition-all duration-300
-                ${step.isCurrent ? 'ring-2 ring-primary shadow-lg' : ''}
-                ${step.isUnlocked ? 'hover:shadow-md cursor-pointer' : 'opacity-60'}
+                ${step.isCurrent ? "ring-2 ring-primary shadow-lg" : ""}
+                ${step.isUnlocked ? "hover:shadow-md cursor-pointer" : "opacity-60"}
               `}
               >
                 <CardHeader>
@@ -220,14 +220,10 @@ export function LearningPath() {
                   {step.isUnlocked && (
                     <Button
                       className="w-full"
-                      variant={step.isCurrent ? 'default' : 'outline'}
+                      variant={step.isCurrent ? "default" : "outline"}
                       disabled={!step.isUnlocked}
                     >
-                      {step.isCompleted
-                        ? 'Review'
-                        : step.isCurrent
-                          ? 'Continue Learning'
-                          : 'Start'}
+                      {step.isCompleted ? "Review" : step.isCurrent ? "Continue Learning" : "Start"}
                       <ArrowRight className="h-4 w-4 ml-2" />
                     </Button>
                   )}
@@ -258,7 +254,7 @@ export function LearningPath() {
               <h3 className="text-xl font-bold mb-2">Professional AI Engineer Certificate</h3>
               <p className="text-muted-foreground mb-4">
                 Hoàn thành toàn bộ learning path để nhận certificate được công nhận bởi các doanh
-                nghiệp hàng đầu
+                nghiệp
               </p>
               <div className="flex items-center gap-4">
                 <Progress value={overallProgress} className="flex-1 h-2" />

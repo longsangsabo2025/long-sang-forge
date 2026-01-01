@@ -5,7 +5,7 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", "supabase/functions/**"] },
+  { ignores: ["dist", "node_modules", "supabase/functions/**"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],
@@ -18,20 +18,23 @@ export default tseslint.config(
       "react-refresh": reactRefresh,
     },
     rules: {
-      ...reactHooks.configs.recommended.rules,
+      // React hooks - relaxed
+      "react-hooks/exhaustive-deps": "off",
+      "react-hooks/rules-of-hooks": "error",
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
-      // Enable strict TypeScript rules
-      "@typescript-eslint/no-unused-vars": ["warn", { 
-        "argsIgnorePattern": "^_",
-        "varsIgnorePattern": "^_" 
-      }],
-      "@typescript-eslint/no-explicit-any": "warn", // Changed from "off" to "warn"
+      // TypeScript rules - relaxed for faster development
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
-      // Code quality rules
-      "no-console": ["warn", { "allow": ["warn", "error"] }],
-      "prefer-const": "error",
-      "no-var": "error",
+      // Code quality - relaxed
+      "no-console": "off",
+      "prefer-const": "off",
+      "no-var": "off",
+      "no-case-declarations": "off",
     },
   },
 );

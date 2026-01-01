@@ -1,19 +1,18 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { useNavigate } from "react-router-dom";
 import GoogleDriveTest from "@/components/GoogleDriveTest";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Activity,
-  Bot,
-  Workflow,
-  Zap,
-  TrendingUp,
-  CheckCircle2,
-  XCircle,
-  Clock,
   ArrowRight,
+  Bot,
+  CheckCircle2,
+  Clock,
+  TrendingUp,
+  Workflow,
+  XCircle,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -25,7 +24,7 @@ const AdminDashboard = () => {
       change: "+3 tuần này",
       icon: Workflow,
       color: "text-blue-600",
-      bgColor: "bg-blue-100"
+      bgColor: "bg-blue-100",
     },
     {
       title: "AI Agents",
@@ -33,7 +32,7 @@ const AdminDashboard = () => {
       change: "Tất cả hoạt động",
       icon: Bot,
       color: "text-purple-600",
-      bgColor: "bg-purple-100"
+      bgColor: "bg-purple-100",
     },
     {
       title: "Thực Thi Hôm Nay",
@@ -41,7 +40,7 @@ const AdminDashboard = () => {
       change: "+23% so với hôm qua",
       icon: Activity,
       color: "text-green-600",
-      bgColor: "bg-green-100"
+      bgColor: "bg-green-100",
     },
     {
       title: "Tỷ Lệ Thành Công",
@@ -49,7 +48,7 @@ const AdminDashboard = () => {
       change: "Xuất sắc",
       icon: TrendingUp,
       color: "text-orange-600",
-      bgColor: "bg-orange-100"
+      bgColor: "bg-orange-100",
     },
   ];
 
@@ -59,28 +58,28 @@ const AdminDashboard = () => {
       description: "Mua và sử dụng AI agents có sẵn",
       icon: Bot,
       color: "bg-indigo-600",
-      action: () => navigate('/marketplace')
+      action: () => navigate("/marketplace"),
     },
     {
       title: "Kiểm Tra Quy Trình AI",
       description: "Chạy và kiểm tra các quy trình tự động",
       icon: Workflow,
       color: "bg-blue-600",
-      action: () => navigate('/admin/workflows')
+      action: () => navigate("/admin/workflows"),
     },
     {
       title: "Quản Lý AI Agents",
       description: "Điều khiển và giám sát các AI agents",
       icon: Bot,
       color: "bg-purple-600",
-      action: () => navigate('/automation')
+      action: () => navigate("/marketplace"),
     },
     {
       title: "Xem Phân Tích",
       description: "Kiểm tra hiệu suất và số liệu",
       icon: TrendingUp,
       color: "bg-green-600",
-      action: () => navigate('/analytics')
+      action: () => navigate("/admin/analytics"),
     },
   ];
 
@@ -89,31 +88,31 @@ const AdminDashboard = () => {
       type: "success",
       workflow: "Nhà Máy Nội Dung AI",
       message: "Tạo bài viết blog thành công",
-      time: "2 phút trước"
+      time: "2 phút trước",
     },
     {
       type: "success",
       workflow: "Quản Lý Khách Hàng Tiềm Năng",
       message: "Khách hàng mới được xử lý và chấm điểm",
-      time: "15 phút trước"
+      time: "15 phút trước",
     },
     {
       type: "running",
       workflow: "Email Marketing",
       message: "Chiến dịch đang thực hiện",
-      time: "23 phút trước"
+      time: "23 phút trước",
     },
     {
       type: "success",
       workflow: "Quản Lý Mạng Xã Hội",
       message: "Bài viết đã lên lịch cho LinkedIn",
-      time: "1 giờ trước"
+      time: "1 giờ trước",
     },
     {
       type: "error",
       workflow: "Hỗ Trợ Khách Hàng",
       message: "Vượt giới hạn API",
-      time: "2 giờ trước"
+      time: "2 giờ trước",
     },
   ];
 
@@ -174,7 +173,9 @@ const AdminDashboard = () => {
                 onClick={action.action}
               >
                 <CardHeader>
-                  <div className={`w-12 h-12 rounded-lg ${action.color} flex items-center justify-center mb-3`}>
+                  <div
+                    className={`w-12 h-12 rounded-lg ${action.color} flex items-center justify-center mb-3`}
+                  >
                     <Icon className="h-6 w-6 text-white" />
                   </div>
                   <CardTitle className="text-base">{action.title}</CardTitle>
@@ -197,17 +198,26 @@ const AdminDashboard = () => {
           <CardContent>
             <div className="space-y-4">
               {recentActivity.map((activity, index) => (
-                <div key={index} className="flex items-start gap-3 pb-4 border-b last:border-0 last:pb-0">
+                <div
+                  key={index}
+                  className="flex items-start gap-3 pb-4 border-b last:border-0 last:pb-0"
+                >
                   {getActivityIcon(activity.type)}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium">{activity.workflow}</p>
                     <p className="text-xs text-muted-foreground">{activity.message}</p>
                   </div>
-                  <span className="text-xs text-muted-foreground whitespace-nowrap">{activity.time}</span>
+                  <span className="text-xs text-muted-foreground whitespace-nowrap">
+                    {activity.time}
+                  </span>
                 </div>
               ))}
             </div>
-            <Button variant="outline" className="w-full mt-4" onClick={() => navigate('/automation')}>
+            <Button
+              variant="outline"
+              className="w-full mt-4"
+              onClick={() => navigate("/admin/workflows")}
+            >
               Xem Tất Cả Hoạt Động <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </CardContent>
@@ -259,8 +269,12 @@ const AdminDashboard = () => {
               </div>
             </div>
             <div className="mt-6 p-4 bg-green-50 rounded-lg">
-              <p className="text-sm font-medium text-green-800">🟢 Tất Cả Hệ Thống Hoạt Động Bình Thường</p>
-              <p className="text-xs text-green-600 mt-1">Không phát hiện sự cố. Mọi thứ đang chạy trơn tru.</p>
+              <p className="text-sm font-medium text-green-800">
+                🟢 Tất Cả Hệ Thống Hoạt Động Bình Thường
+              </p>
+              <p className="text-xs text-green-600 mt-1">
+                Không phát hiện sự cố. Mọi thứ đang chạy trơn tru.
+              </p>
             </div>
           </CardContent>
         </Card>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,10 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -18,8 +16,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import { useState } from "react";
 
 interface CreateWorkflowDialogProps {
   open: boolean;
@@ -46,8 +46,8 @@ const CreateWorkflowDialog = ({ open, onOpenChange, onSuccess }: CreateWorkflowD
       // Parse tags
       const tags = formData.tags
         .split(",")
-        .map(t => t.trim())
-        .filter(t => t);
+        .map((t) => t.trim())
+        .filter((t) => t);
 
       const workflowData = {
         name: formData.name,
@@ -63,10 +63,8 @@ const CreateWorkflowDialog = ({ open, onOpenChange, onSuccess }: CreateWorkflowD
       };
 
       // TODO: Replace with actual API call
-      console.log("Creating workflow:", workflowData);
-      
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       toast({
         title: "Workflow Created",
@@ -75,7 +73,7 @@ const CreateWorkflowDialog = ({ open, onOpenChange, onSuccess }: CreateWorkflowD
 
       onSuccess();
       onOpenChange(false);
-      
+
       // Reset form
       setFormData({
         name: "",
@@ -100,9 +98,7 @@ const CreateWorkflowDialog = ({ open, onOpenChange, onSuccess }: CreateWorkflowD
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Create New Workflow</DialogTitle>
-          <DialogDescription>
-            Define a new workflow to orchestrate your AI agents
-          </DialogDescription>
+          <DialogDescription>Define a new workflow to orchestrate your AI agents</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -158,9 +154,7 @@ const CreateWorkflowDialog = ({ open, onOpenChange, onSuccess }: CreateWorkflowD
               value={formData.tags}
               onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
             />
-            <p className="text-xs text-muted-foreground">
-              Enter tags separated by commas
-            </p>
+            <p className="text-xs text-muted-foreground">Enter tags separated by commas</p>
           </div>
 
           <div className="flex items-center space-x-2">
@@ -178,7 +172,8 @@ const CreateWorkflowDialog = ({ open, onOpenChange, onSuccess }: CreateWorkflowD
 
           <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg">
             <p className="text-sm text-blue-800 dark:text-blue-200">
-              💡 <strong>Tip:</strong> After creating the workflow, you can add agents and define steps in the workflow editor.
+              💡 <strong>Tip:</strong> After creating the workflow, you can add agents and define
+              steps in the workflow editor.
             </p>
           </div>
 

@@ -1,10 +1,11 @@
 import { ReactNode } from "react";
 import { Breadcrumbs } from "./Breadcrumbs";
+import { EnhancedStickyChat } from "./chat/EnhancedStickyChat";
 import { Footer } from "./Footer";
 import { Navigation } from "./Navigation";
 import { QuickNavPanel } from "./QuickNavPanel";
 import { ScrollToTop } from "./ScrollToTop";
-import { MobileChatButton, StickyChat } from "./StickyChat";
+import { MobileChatButton } from "./StickyChat";
 import { TechBackground } from "./TechBackground";
 
 interface LayoutProps {
@@ -52,7 +53,7 @@ export const Layout = ({ children, withStickyChat = false }: LayoutProps) => {
 
         {/* Right side - Fixed chat panel (hidden on mobile) */}
         <aside className="hidden lg:block fixed top-16 right-0 bottom-0 w-[400px] xl:w-[420px] z-40">
-          <StickyChat />
+          <EnhancedStickyChat />
         </aside>
       </div>
 

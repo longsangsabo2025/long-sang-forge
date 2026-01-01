@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2025-11-29T08:24:36.927Z",
+  "lastUpdated": "2025-12-04T06:32:00.650Z",
   "documents": [
     {
       "id": "MDAtU1RBUlQtSEVSRS5tZA==",
@@ -22,7 +22,7 @@
       "words": 325,
       "createdAt": "2025-11-29T05:21:49.719Z",
       "modifiedAt": "2025-11-29T05:31:32.251Z",
-      "ageInDays": 0
+      "ageInDays": 5
     },
     {
       "id": "MDEtQVJDSElURUNUVVJFXEFJX0ZPVU5EQVRJT05fUkVQT1JULm1k",
@@ -49,7 +49,105 @@
       "words": 1228,
       "createdAt": "2025-11-29T02:43:54.499Z",
       "modifiedAt": "2025-11-29T02:43:58.743Z",
-      "ageInDays": 0
+      "ageInDays": 5
+    },
+    {
+      "id": "MDEtQVJDSElURUNUVVJFXElOVEVHUkFUSU9OX0FSQ0hJVEVDVFVSRS5tZA==",
+      "path": "01-ARCHITECTURE\\INTEGRATION_ARCHITECTURE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\01-ARCHITECTURE\\INTEGRATION_ARCHITECTURE.md",
+      "title": "Integration Architecture - AI Advertising MVP",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "react",
+        "supabase",
+        "api",
+        "ai",
+        "google",
+        "auth",
+        "deploy"
+      ],
+      "size": 7432,
+      "lines": 199,
+      "words": 620,
+      "createdAt": "2025-11-30T03:51:29.970Z",
+      "modifiedAt": "2025-11-30T03:51:58.104Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDEtQVJDSElURUNUVVJFXE5FWFRfU1RFUFNfUkVDT01NRU5EQVRJT05TLm1k",
+      "path": "01-ARCHITECTURE\\NEXT_STEPS_RECOMMENDATIONS.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\01-ARCHITECTURE\\NEXT_STEPS_RECOMMENDATIONS.md",
+      "title": "Next Steps - Critical Recommendations",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "typescript",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "google",
+        "auth",
+        "deploy"
+      ],
+      "size": 7536,
+      "lines": 319,
+      "words": 1150,
+      "createdAt": "2025-11-30T04:51:03.930Z",
+      "modifiedAt": "2025-11-30T04:51:43.074Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcQkFPX0NBT19USUVOX0RPX0NBUF9OSEFULm1k",
+      "path": "02-FEATURES\\BAO_CAO_TIEN_DO_CAP_NHAT.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\02-FEATURES\\BAO_CAO_TIEN_DO_CAP_NHAT.md",
+      "title": "\udcca BÁO CÁO TỔNG HỢP - CẬP NHẬT TIẾN ĐỘ",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "google",
+        "deploy"
+      ],
+      "size": 13860,
+      "lines": 493,
+      "words": 1816,
+      "createdAt": "2025-11-30T05:40:51.602Z",
+      "modifiedAt": "2025-11-30T05:56:51.349Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcQ09NUExFVEVEX1VSR0VOVF9UQVNLUy5tZA==",
+      "path": "02-FEATURES\\COMPLETED_URGENT_TASKS.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\02-FEATURES\\COMPLETED_URGENT_TASKS.md",
+      "title": "Completed Urgent Tasks",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "react",
+        "api",
+        "ai"
+      ],
+      "size": 2788,
+      "lines": 101,
+      "words": 375,
+      "createdAt": "2025-11-30T05:36:35.562Z",
+      "modifiedAt": "2025-11-30T05:37:03.158Z",
+      "ageInDays": 4
     },
     {
       "id": "MDItRkVBVFVSRVNcQ09SRV9GRUFUVVJFUy5tZA==",
@@ -77,7 +175,434 @@
       "words": 1052,
       "createdAt": "2025-11-29T07:04:13.896Z",
       "modifiedAt": "2025-11-29T07:15:59.781Z",
-      "ageInDays": 0
+      "ageInDays": 5
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcRklOQUxfMTAwX1BFUkNFTlRfQ09NUExFVEUubWQ=",
+      "path": "02-FEATURES\\FINAL_100_PERCENT_COMPLETE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\02-FEATURES\\FINAL_100_PERCENT_COMPLETE.md",
+      "title": "\udf89 100% COMPLETE - AI Advertising Platform",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "google",
+        "auth",
+        "deploy"
+      ],
+      "size": 6582,
+      "lines": 259,
+      "words": 815,
+      "createdAt": "2025-11-30T04:56:55.756Z",
+      "modifiedAt": "2025-11-30T04:57:13.169Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcRklOQUxfSU1QTEVNRU5UQVRJT05fUkVQT1JULm1k",
+      "path": "02-FEATURES\\FINAL_IMPLEMENTATION_REPORT.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\02-FEATURES\\FINAL_IMPLEMENTATION_REPORT.md",
+      "title": "\udf89 AI Advertising Platform - Final Implementation Report",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "react",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "google",
+        "auth",
+        "deploy"
+      ],
+      "size": 13789,
+      "lines": 370,
+      "words": 1315,
+      "createdAt": "2025-11-30T04:40:34.232Z",
+      "modifiedAt": "2025-11-30T04:40:42.699Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcRlJPTlRFTkRfQkFDS0VORF9DT01QTEVURS5tZA==",
+      "path": "02-FEATURES\\FRONTEND_BACKEND_COMPLETE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\02-FEATURES\\FRONTEND_BACKEND_COMPLETE.md",
+      "title": "Frontend-Backend Integration - 100% Complete",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "typescript",
+        "api",
+        "ai",
+        "deploy"
+      ],
+      "size": 5851,
+      "lines": 202,
+      "words": 669,
+      "createdAt": "2025-11-30T05:19:19.871Z",
+      "modifiedAt": "2025-11-30T05:20:47.675Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcRlJPTlRFTkRfQkFDS0VORF9JTlRFR1JBVElPTi5tZA==",
+      "path": "02-FEATURES\\FRONTEND_BACKEND_INTEGRATION.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\02-FEATURES\\FRONTEND_BACKEND_INTEGRATION.md",
+      "title": "\udd17 Frontend-Backend Integration Status",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "typescript",
+        "api",
+        "ai",
+        "deploy"
+      ],
+      "size": 5948,
+      "lines": 211,
+      "words": 723,
+      "createdAt": "2025-11-30T05:18:04.411Z",
+      "modifiedAt": "2025-11-30T05:20:47.670Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcSU5URUdSQVRJT05fU1RSQVRFR1kubWQ=",
+      "path": "02-FEATURES\\INTEGRATION_STRATEGY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\02-FEATURES\\INTEGRATION_STRATEGY.md",
+      "title": "Chiến Lược Tích Hợp AI Advertising - Tinh Gọn & Thực Tế",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "api",
+        "ai",
+        "google",
+        "auth",
+        "deploy"
+      ],
+      "size": 11023,
+      "lines": 381,
+      "words": 1514,
+      "createdAt": "2025-11-30T03:57:43.264Z",
+      "modifiedAt": "2025-11-30T03:57:50.233Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcUEhBU0UxX0lNUExFTUVOVEFUSU9OX1NVTU1BUlkubWQ=",
+      "path": "02-FEATURES\\PHASE1_IMPLEMENTATION_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\02-FEATURES\\PHASE1_IMPLEMENTATION_SUMMARY.md",
+      "title": "Phase 1 Implementation Summary",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai",
+        "google",
+        "email"
+      ],
+      "size": 5742,
+      "lines": 211,
+      "words": 646,
+      "createdAt": "2025-11-30T04:01:54.180Z",
+      "modifiedAt": "2025-11-30T04:03:52.604Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcUEhBU0UyX0lNUExFTUVOVEFUSU9OX1BMQU4ubWQ=",
+      "path": "02-FEATURES\\PHASE2_IMPLEMENTATION_PLAN.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\02-FEATURES\\PHASE2_IMPLEMENTATION_PLAN.md",
+      "title": "Phase 2 Implementation Plan",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai"
+      ],
+      "size": 1969,
+      "lines": 95,
+      "words": 295,
+      "createdAt": "2025-11-30T04:09:40.630Z",
+      "modifiedAt": "2025-11-30T04:13:53.292Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcUEhBU0UyX0lNUExFTUVOVEFUSU9OX1NVTU1BUlkubWQ=",
+      "path": "02-FEATURES\\PHASE2_IMPLEMENTATION_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\02-FEATURES\\PHASE2_IMPLEMENTATION_SUMMARY.md",
+      "title": "Phase 2 Implementation Summary",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai",
+        "deploy"
+      ],
+      "size": 3591,
+      "lines": 122,
+      "words": 453,
+      "createdAt": "2025-11-30T04:13:36.675Z",
+      "modifiedAt": "2025-11-30T04:13:53.297Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcUEhBU0UzX0lNUExFTUVOVEFUSU9OX1BMQU4ubWQ=",
+      "path": "02-FEATURES\\PHASE3_IMPLEMENTATION_PLAN.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\02-FEATURES\\PHASE3_IMPLEMENTATION_PLAN.md",
+      "title": "Phase 3 Implementation Plan",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "react",
+        "api",
+        "ai",
+        "google",
+        "deploy"
+      ],
+      "size": 3085,
+      "lines": 122,
+      "words": 429,
+      "createdAt": "2025-11-30T04:29:07.902Z",
+      "modifiedAt": "2025-11-30T04:31:46.289Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcUVVJQ0tfU0VUVVBfQ09NUExFVEUubWQ=",
+      "path": "02-FEATURES\\QUICK_SETUP_COMPLETE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\02-FEATURES\\QUICK_SETUP_COMPLETE.md",
+      "title": "⚡ Quick Setup Guide - Complete System",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "api",
+        "google",
+        "deploy"
+      ],
+      "size": 1691,
+      "lines": 86,
+      "words": 172,
+      "createdAt": "2025-11-30T04:57:01.982Z",
+      "modifiedAt": "2025-11-30T04:57:13.169Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcUkVNQUlOSU5HX1RBU0tTX0NPTVBMRVRFLm1k",
+      "path": "02-FEATURES\\REMAINING_TASKS_COMPLETE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\02-FEATURES\\REMAINING_TASKS_COMPLETE.md",
+      "title": "Remaining Tasks - Đã Hoàn Thành",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai"
+      ],
+      "size": 2953,
+      "lines": 128,
+      "words": 432,
+      "createdAt": "2025-11-30T05:27:55.954Z",
+      "modifiedAt": "2025-11-30T05:29:20.921Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDQtREVQTE9ZTUVOVFxERVBMT1lNRU5UX0dVSURFLm1k",
+      "path": "04-DEPLOYMENT\\DEPLOYMENT_GUIDE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\04-DEPLOYMENT\\DEPLOYMENT_GUIDE.md",
+      "title": "AI Advertising Platform - Deployment Guide",
+      "description": "",
+      "category": "DEPLOYMENT",
+      "categoryIcon": "🚀",
+      "status": "active",
+      "tags": [
+        "api",
+        "database",
+        "ai",
+        "google",
+        "email",
+        "auth",
+        "deploy"
+      ],
+      "size": 11597,
+      "lines": 495,
+      "words": 1136,
+      "createdAt": "2025-11-30T04:43:04.659Z",
+      "modifiedAt": "2025-11-30T05:04:57.884Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDQtREVQTE9ZTUVOVFxPUEVOX1NPVVJDRV9SRVNFQVJDSC5tZA==",
+      "path": "04-DEPLOYMENT\\OPEN_SOURCE_RESEARCH.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\04-DEPLOYMENT\\OPEN_SOURCE_RESEARCH.md",
+      "title": "Open Source Tools Research cho AI Advertising MVP (2025-2026)",
+      "description": "",
+      "category": "DEPLOYMENT",
+      "categoryIcon": "🚀",
+      "status": "active",
+      "tags": [
+        "react",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "seo",
+        "google",
+        "auth"
+      ],
+      "size": 12275,
+      "lines": 435,
+      "words": 1498,
+      "createdAt": "2025-11-30T03:49:47.526Z",
+      "modifiedAt": "2025-11-30T05:04:57.927Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDQtREVQTE9ZTUVOVFxQSEFTRTFfU0VUVVBfR1VJREUubWQ=",
+      "path": "04-DEPLOYMENT\\PHASE1_SETUP_GUIDE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\04-DEPLOYMENT\\PHASE1_SETUP_GUIDE.md",
+      "title": "Phase 1 Setup Guide - AI Advertising Integration",
+      "description": "",
+      "category": "DEPLOYMENT",
+      "categoryIcon": "🚀",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai",
+        "google",
+        "email",
+        "deploy"
+      ],
+      "size": 7335,
+      "lines": 304,
+      "words": 794,
+      "createdAt": "2025-11-30T04:03:32.343Z",
+      "modifiedAt": "2025-11-30T04:03:52.605Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDQtREVQTE9ZTUVOVFxQSEFTRTJfU0VUVVBfR1VJREUubWQ=",
+      "path": "04-DEPLOYMENT\\PHASE2_SETUP_GUIDE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\04-DEPLOYMENT\\PHASE2_SETUP_GUIDE.md",
+      "title": "Phase 2 Setup Guide",
+      "description": "",
+      "category": "DEPLOYMENT",
+      "categoryIcon": "🚀",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai",
+        "google"
+      ],
+      "size": 5781,
+      "lines": 285,
+      "words": 734,
+      "createdAt": "2025-11-30T04:18:05.568Z",
+      "modifiedAt": "2025-11-30T04:18:34.118Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDQtREVQTE9ZTUVOVFxQSEFTRTJfU0VUVVBfU1RBVFVTLm1k",
+      "path": "04-DEPLOYMENT\\PHASE2_SETUP_STATUS.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\04-DEPLOYMENT\\PHASE2_SETUP_STATUS.md",
+      "title": "Phase 2 Setup Status",
+      "description": "",
+      "category": "DEPLOYMENT",
+      "categoryIcon": "🚀",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai"
+      ],
+      "size": 1803,
+      "lines": 86,
+      "words": 237,
+      "createdAt": "2025-11-30T04:25:54.938Z",
+      "modifiedAt": "2025-11-30T04:26:16.087Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDUtR1VJREVTXFBIQVNFMV9RVUlDS19TVEFSVC5tZA==",
+      "path": "05-GUIDES\\PHASE1_QUICK_START.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\05-GUIDES\\PHASE1_QUICK_START.md",
+      "title": "Phase 1 Quick Start - Step by Step",
+      "description": "",
+      "category": "GUIDES",
+      "categoryIcon": "📖",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai",
+        "google",
+        "email"
+      ],
+      "size": 6093,
+      "lines": 287,
+      "words": 800,
+      "createdAt": "2025-11-30T04:07:14.328Z",
+      "modifiedAt": "2025-11-30T04:08:32.190Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDUtR1VJREVTXFBIQVNFMV9URVNUSU5HX0dVSURFLm1k",
+      "path": "05-GUIDES\\PHASE1_TESTING_GUIDE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\05-GUIDES\\PHASE1_TESTING_GUIDE.md",
+      "title": "Phase 1 Testing Guide - Step by Step",
+      "description": "",
+      "category": "GUIDES",
+      "categoryIcon": "📖",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai",
+        "google",
+        "email"
+      ],
+      "size": 7215,
+      "lines": 351,
+      "words": 895,
+      "createdAt": "2025-11-30T04:06:32.336Z",
+      "modifiedAt": "2025-11-30T04:08:32.190Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDUtR1VJREVTXFBIQVNFMl9RVUlDS19TVEFSVC5tZA==",
+      "path": "05-GUIDES\\PHASE2_QUICK_START.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\05-GUIDES\\PHASE2_QUICK_START.md",
+      "title": "Phase 2 Quick Start - Manual Setup",
+      "description": "",
+      "category": "GUIDES",
+      "categoryIcon": "📖",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai"
+      ],
+      "size": 3187,
+      "lines": 138,
+      "words": 360,
+      "createdAt": "2025-11-30T04:26:11.128Z",
+      "modifiedAt": "2025-11-30T04:26:16.087Z",
+      "ageInDays": 4
     },
     {
       "id": "MDUtR1VJREVTXFFVSUNLX1NUQVJULm1k",
@@ -105,7 +630,7 @@
       "words": 976,
       "createdAt": "2025-11-29T07:04:14.041Z",
       "modifiedAt": "2025-11-29T07:15:59.781Z",
-      "ageInDays": 0
+      "ageInDays": 5
     },
     {
       "id": "MDYtQUlcQUkgU2Vjb25kIEJyYWluIFBoYXNlIDMgQ29yZSBMb2dpYy5wbGFuLm1k",
@@ -127,7 +652,7 @@
       "words": 851,
       "createdAt": "2025-11-29T03:25:40.289Z",
       "modifiedAt": "2025-11-29T03:25:50.898Z",
-      "ageInDays": 0
+      "ageInDays": 5
     },
     {
       "id": "MDYtQUlcQUlfQlJBSU5fUEhBU0UxX1JFUE9SVC5tZA==",
@@ -153,7 +678,7 @@
       "words": 1234,
       "createdAt": "2025-11-29T03:02:41.035Z",
       "modifiedAt": "2025-11-29T03:04:38.535Z",
-      "ageInDays": 0
+      "ageInDays": 5
     },
     {
       "id": "MDYtQUlcQUlfQlJBSU5fUEhBU0UyX1JFUE9SVC5tZA==",
@@ -178,7 +703,7 @@
       "words": 1839,
       "createdAt": "2025-11-29T03:22:12.548Z",
       "modifiedAt": "2025-11-29T03:23:00.847Z",
-      "ageInDays": 0
+      "ageInDays": 5
     },
     {
       "id": "MDYtQUlcQ09QSUxPVF9TUUxfSU5TVFJVQ1RJT05TLm1k",
@@ -199,7 +724,7 @@
       "words": 580,
       "createdAt": "2025-11-29T03:04:14.905Z",
       "modifiedAt": "2025-11-29T03:04:38.535Z",
-      "ageInDays": 0
+      "ageInDays": 5
     },
     {
       "id": "MDYtQUlcQ09QSUxPVF9TUUxfUEhBU0UyX0lOU1RSVUNUSU9OUy5tZA==",
@@ -220,7 +745,7 @@
       "words": 457,
       "createdAt": "2025-11-29T03:22:54.213Z",
       "modifiedAt": "2025-11-29T03:23:00.847Z",
-      "ageInDays": 0
+      "ageInDays": 5
     },
     {
       "id": "MDYtQUlcUEhBU0UxX0NPUElMT1RfQ09NUExFVElPTl9SRVBPUlQubWQ=",
@@ -243,7 +768,7 @@
       "words": 576,
       "createdAt": "2025-11-29T03:22:10.462Z",
       "modifiedAt": "2025-11-29T03:23:01.940Z",
-      "ageInDays": 0
+      "ageInDays": 5
     },
     {
       "id": "MDYtQUlcUEhBU0UyX0NPUElMT1RfQ09NUExFVElPTl9SRVBPUlQubWQ=",
@@ -266,7 +791,254 @@
       "words": 624,
       "createdAt": "2025-11-29T03:28:10.404Z",
       "modifiedAt": "2025-11-29T03:28:57.768Z",
-      "ageInDays": 0
+      "ageInDays": 5
+    },
+    {
+      "id": "MDYtQUlcVE9ET19SRU1BSU5JTkdfVEFTS1MubWQ=",
+      "path": "06-AI\\TODO_REMAINING_TASKS.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\06-AI\\TODO_REMAINING_TASKS.md",
+      "title": "\udccb TODO - Các Việc Còn Lại Cần Làm",
+      "description": "",
+      "category": "AI",
+      "categoryIcon": "🤖",
+      "status": "active",
+      "tags": [
+        "typescript",
+        "api",
+        "ai",
+        "google",
+        "deploy"
+      ],
+      "size": 4329,
+      "lines": 189,
+      "words": 735,
+      "createdAt": "2025-11-30T05:26:47.146Z",
+      "modifiedAt": "2025-11-30T05:29:20.921Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xDT01QTEVURV9JTlRFR1JBVElPTl9TVEFUVVMubWQ=",
+      "path": "09-REPORTS\\COMPLETE_INTEGRATION_STATUS.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\COMPLETE_INTEGRATION_STATUS.md",
+      "title": "Complete Integration Status - 100% Implementation",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai",
+        "google",
+        "auth",
+        "deploy"
+      ],
+      "size": 6207,
+      "lines": 246,
+      "words": 723,
+      "createdAt": "2025-11-30T04:56:03.289Z",
+      "modifiedAt": "2025-11-30T04:57:13.164Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xDT01QTEVURV9QUk9KRUNUX1NVTU1BUlkubWQ=",
+      "path": "09-REPORTS\\COMPLETE_PROJECT_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\COMPLETE_PROJECT_SUMMARY.md",
+      "title": "\udf89 Complete AI Advertising Platform - Final Summary",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "react",
+        "api",
+        "ai",
+        "google",
+        "deploy"
+      ],
+      "size": 8453,
+      "lines": 321,
+      "words": 972,
+      "createdAt": "2025-11-30T04:39:37.533Z",
+      "modifiedAt": "2025-11-30T04:40:42.695Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xDT01QTEVURV9VSV9VWF9JTlRFR1JBVElPTl9SRVBPUlQubWQ=",
+      "path": "09-REPORTS\\COMPLETE_UI_UX_INTEGRATION_REPORT.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\COMPLETE_UI_UX_INTEGRATION_REPORT.md",
+      "title": "UI/UX Complete Integration Report",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "typescript",
+        "api",
+        "ai",
+        "deploy"
+      ],
+      "size": 4532,
+      "lines": 181,
+      "words": 591,
+      "createdAt": "2025-11-30T05:20:39.636Z",
+      "modifiedAt": "2025-11-30T05:20:47.676Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xFWEVDVVRJVkVfUkVQT1JUX0JBT19DQU9fVE9OR19IT1AubWQ=",
+      "path": "09-REPORTS\\EXECUTIVE_REPORT_BAO_CAO_TONG_HOP.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\EXECUTIVE_REPORT_BAO_CAO_TONG_HOP.md",
+      "title": "\udcca BÁO CÁO TỔNG HỢP - AI ADVERTISING PLATFORM",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "react",
+        "api",
+        "ai",
+        "google",
+        "auth",
+        "deploy"
+      ],
+      "size": 10384,
+      "lines": 345,
+      "words": 1347,
+      "createdAt": "2025-11-30T05:00:36.396Z",
+      "modifiedAt": "2025-11-30T05:01:27.193Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xFWEVDVVRJVkVfU1VNTUFSWV9FTkdMSVNILm1k",
+      "path": "09-REPORTS\\EXECUTIVE_SUMMARY_ENGLISH.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\EXECUTIVE_SUMMARY_ENGLISH.md",
+      "title": "\udcca Executive Summary - AI Advertising Platform",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "react",
+        "api",
+        "ai",
+        "google",
+        "auth",
+        "deploy"
+      ],
+      "size": 6993,
+      "lines": 235,
+      "words": 802,
+      "createdAt": "2025-11-30T05:00:58.347Z",
+      "modifiedAt": "2025-11-30T05:01:27.193Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xGSU5BTF9DT01QTEVUSU9OX1JFUE9SVC5tZA==",
+      "path": "09-REPORTS\\FINAL_COMPLETION_REPORT.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\FINAL_COMPLETION_REPORT.md",
+      "title": "Final Completion Report - All Urgent Tasks Done!",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "react",
+        "api",
+        "ai"
+      ],
+      "size": 3763,
+      "lines": 143,
+      "words": 505,
+      "createdAt": "2025-11-30T05:36:57.964Z",
+      "modifiedAt": "2025-11-30T05:37:03.158Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xGSU5BTF9UT0RPX1NVTU1BUlkubWQ=",
+      "path": "09-REPORTS\\FINAL_TODO_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\FINAL_TODO_SUMMARY.md",
+      "title": "Final TODO Summary - Đã Hoàn Thành",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai"
+      ],
+      "size": 3761,
+      "lines": 153,
+      "words": 539,
+      "createdAt": "2025-11-30T05:29:15.267Z",
+      "modifiedAt": "2025-11-30T05:29:20.921Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xGSU5BTF9VSV9VWF9SRVBPUlQubWQ=",
+      "path": "09-REPORTS\\FINAL_UI_UX_REPORT.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\FINAL_UI_UX_REPORT.md",
+      "title": "\udfa8 UI/UX Final Report - AI Advertising Platform",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "api",
+        "ai",
+        "deploy"
+      ],
+      "size": 5740,
+      "lines": 279,
+      "words": 749,
+      "createdAt": "2025-11-30T05:19:42.150Z",
+      "modifiedAt": "2025-11-30T05:20:47.675Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xGUk9OVEVORF9CQUNLRU5EX0lOVEVHUkFUSU9OX1JFUE9SVC5tZA==",
+      "path": "09-REPORTS\\FRONTEND_BACKEND_INTEGRATION_REPORT.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\FRONTEND_BACKEND_INTEGRATION_REPORT.md",
+      "title": "\udcca Frontend-Backend Integration Report",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "typescript",
+        "api",
+        "ai",
+        "google",
+        "deploy"
+      ],
+      "size": 7531,
+      "lines": 288,
+      "words": 905,
+      "createdAt": "2025-11-30T05:11:50.559Z",
+      "modifiedAt": "2025-11-30T05:13:11.349Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xQSEFTRTFfQ09NUExFVEVfU1VNTUFSWS5tZA==",
+      "path": "09-REPORTS\\PHASE1_COMPLETE_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\PHASE1_COMPLETE_SUMMARY.md",
+      "title": "Phase 1 Implementation - Complete Summary",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai",
+        "google"
+      ],
+      "size": 6832,
+      "lines": 249,
+      "words": 758,
+      "createdAt": "2025-11-30T04:07:58.055Z",
+      "modifiedAt": "2025-11-30T04:08:32.190Z",
+      "ageInDays": 4
     },
     {
       "id": "MDktUkVQT1JUU1xQSEFTRTFfQ09NUExFVElPTl9TVU1NQVJZLm1k",
@@ -290,7 +1062,51 @@
       "words": 283,
       "createdAt": "2025-11-29T03:03:42.866Z",
       "modifiedAt": "2025-11-29T03:04:38.535Z",
-      "ageInDays": 0
+      "ageInDays": 5
+    },
+    {
+      "id": "MDktUkVQT1JUU1xQSEFTRTFfTkVYVF9TVEVQUy5tZA==",
+      "path": "09-REPORTS\\PHASE1_NEXT_STEPS.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\PHASE1_NEXT_STEPS.md",
+      "title": "Phase 1 - Next Steps (Step by Step)",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai",
+        "google",
+        "email"
+      ],
+      "size": 4125,
+      "lines": 188,
+      "words": 527,
+      "createdAt": "2025-11-30T04:08:25.658Z",
+      "modifiedAt": "2025-11-30T04:08:32.190Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xQSEFTRTJfQ09NUExFVEVfU1VNTUFSWS5tZA==",
+      "path": "09-REPORTS\\PHASE2_COMPLETE_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\PHASE2_COMPLETE_SUMMARY.md",
+      "title": "Phase 2 - Complete Implementation Summary",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai",
+        "google",
+        "deploy"
+      ],
+      "size": 5943,
+      "lines": 211,
+      "words": 721,
+      "createdAt": "2025-11-30T04:18:27.342Z",
+      "modifiedAt": "2025-11-30T04:18:34.118Z",
+      "ageInDays": 4
     },
     {
       "id": "MDktUkVQT1JUU1xQSEFTRTJfQ09NUExFVElPTl9TVU1NQVJZLm1k",
@@ -315,7 +1131,52 @@
       "words": 597,
       "createdAt": "2025-11-29T03:19:39.578Z",
       "modifiedAt": "2025-11-29T03:19:43.161Z",
-      "ageInDays": 0
+      "ageInDays": 5
+    },
+    {
+      "id": "MDktUkVQT1JUU1xQSEFTRTNfQ09NUExFVEVfU1VNTUFSWS5tZA==",
+      "path": "09-REPORTS\\PHASE3_COMPLETE_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\PHASE3_COMPLETE_SUMMARY.md",
+      "title": "Phase 3 - Complete Implementation Summary",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai",
+        "google",
+        "deploy"
+      ],
+      "size": 4570,
+      "lines": 162,
+      "words": 519,
+      "createdAt": "2025-11-30T04:36:19.997Z",
+      "modifiedAt": "2025-11-30T04:36:30.769Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xQSEFTRTNfRklOQUxfU1VNTUFSWS5tZA==",
+      "path": "09-REPORTS\\PHASE3_FINAL_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\PHASE3_FINAL_SUMMARY.md",
+      "title": "Phase 3 - Final Complete Summary",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "react",
+        "api",
+        "ai",
+        "google",
+        "deploy"
+      ],
+      "size": 5500,
+      "lines": 201,
+      "words": 633,
+      "createdAt": "2025-11-30T04:38:56.734Z",
+      "modifiedAt": "2025-11-30T04:40:42.695Z",
+      "ageInDays": 4
     },
     {
       "id": "MDktUkVQT1JUU1xQSEFTRTNfUExBTl9TVU1NQVJZLm1k",
@@ -338,7 +1199,77 @@
       "words": 408,
       "createdAt": "2025-11-29T03:25:45.985Z",
       "modifiedAt": "2025-11-29T03:25:50.898Z",
-      "ageInDays": 0
+      "ageInDays": 5
+    },
+    {
+      "id": "MDktUkVQT1JUU1xQSEFTRTNfUFJPR1JFU1MubWQ=",
+      "path": "09-REPORTS\\PHASE3_PROGRESS.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\PHASE3_PROGRESS.md",
+      "title": "Phase 3 Implementation Progress",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai",
+        "google",
+        "deploy"
+      ],
+      "size": 2055,
+      "lines": 82,
+      "words": 239,
+      "createdAt": "2025-11-30T04:31:39.695Z",
+      "modifiedAt": "2025-11-30T04:31:46.289Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xQUk9HUkVTU19VUERBVEVfUkVQT1JUX0VOLm1k",
+      "path": "09-REPORTS\\PROGRESS_UPDATE_REPORT_EN.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\PROGRESS_UPDATE_REPORT_EN.md",
+      "title": "\udcca PROGRESS UPDATE REPORT",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "google",
+        "deploy"
+      ],
+      "size": 13280,
+      "lines": 440,
+      "words": 1701,
+      "createdAt": "2025-11-30T05:44:01.236Z",
+      "modifiedAt": "2025-11-30T05:44:06.849Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xQUk9KRUNUX0NPTVBMRVRJT05fU1VNTUFSWS5tZA==",
+      "path": "09-REPORTS\\PROJECT_COMPLETION_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\PROJECT_COMPLETION_SUMMARY.md",
+      "title": "\udf89 PROJECT COMPLETION SUMMARY",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "api",
+        "ai",
+        "google",
+        "auth"
+      ],
+      "size": 3134,
+      "lines": 126,
+      "words": 366,
+      "createdAt": "2025-11-30T05:01:17.158Z",
+      "modifiedAt": "2025-11-30T05:01:27.193Z",
+      "ageInDays": 4
     },
     {
       "id": "MDktUkVQT1JUU1xTUUxfTUlHUkFUSU9OU19IQU5ET0ZGLm1k",
@@ -360,7 +1291,7 @@
       "words": 972,
       "createdAt": "2025-11-29T03:03:07.820Z",
       "modifiedAt": "2025-11-29T03:04:38.535Z",
-      "ageInDays": 0
+      "ageInDays": 5
     },
     {
       "id": "MDktUkVQT1JUU1xTUUxfTUlHUkFUSU9OU19QSEFTRTJfSEFORE9GRi5tZA==",
@@ -381,13 +1312,82 @@
       "words": 1115,
       "createdAt": "2025-11-29T03:22:46.487Z",
       "modifiedAt": "2025-11-29T03:23:00.847Z",
-      "ageInDays": 0
+      "ageInDays": 5
     },
     {
-      "id": "SU5ERVgubWQ=",
-      "path": "INDEX.md",
-      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\INDEX.md",
-      "title": "Long Sang Forge Documentation Index",
+      "id": "MDktUkVQT1JUU1xVSV9VWF9DT01QTEVURV9TVU1NQVJZLm1k",
+      "path": "09-REPORTS\\UI_UX_COMPLETE_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\UI_UX_COMPLETE_SUMMARY.md",
+      "title": "\udfa8 UI/UX Complete Summary",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "typescript",
+        "api",
+        "ai",
+        "deploy"
+      ],
+      "size": 4064,
+      "lines": 204,
+      "words": 569,
+      "createdAt": "2025-11-30T05:18:17.643Z",
+      "modifiedAt": "2025-11-30T05:20:47.673Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "MDktUkVQT1JUU1xVSV9VWF9GSU5BTF9TVEFUVVMubWQ=",
+      "path": "09-REPORTS\\UI_UX_FINAL_STATUS.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\09-REPORTS\\UI_UX_FINAL_STATUS.md",
+      "title": "UI/UX Final Status - 100% Complete",
+      "description": "",
+      "category": "REPORTS",
+      "categoryIcon": "📊",
+      "status": "active",
+      "tags": [
+        "typescript",
+        "api",
+        "ai",
+        "deploy"
+      ],
+      "size": 3345,
+      "lines": 145,
+      "words": 433,
+      "createdAt": "2025-11-30T05:20:06.668Z",
+      "modifiedAt": "2025-11-30T05:20:47.676Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "QURNSU5fSURFQVNfU1lTVEVNLm1k",
+      "path": "ADMIN_IDEAS_SYSTEM.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\ADMIN_IDEAS_SYSTEM.md",
+      "title": "ADMIN IDEAS & PLANNING SYSTEM",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "react",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "google",
+        "auth"
+      ],
+      "size": 6510,
+      "lines": 259,
+      "words": 998,
+      "createdAt": "2025-12-03T01:28:46.217Z",
+      "modifiedAt": "2025-12-03T01:28:57.324Z",
+      "ageInDays": 1
+    },
+    {
+      "id": "QkFPX0NBT19UT05HX0hPUF9DT1BJTE9UX0lOVEVHUkFUSU9OLm1k",
+      "path": "BAO_CAO_TONG_HOP_COPILOT_INTEGRATION.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\BAO_CAO_TONG_HOP_COPILOT_INTEGRATION.md",
+      "title": "\udcca BÁO CÁO TỔNG HỢP: TÍCH HỢP EXECUTION STEPS VISUALIZATION",
       "description": "",
       "category": "ARCHITECTURE",
       "categoryIcon": "🏗️",
@@ -395,18 +1395,145 @@
       "tags": [
         "react",
         "typescript",
+        "api",
+        "ai",
+        "seo",
+        "auth",
+        "deploy"
+      ],
+      "size": 19997,
+      "lines": 965,
+      "words": 2452,
+      "createdAt": "2025-11-30T11:19:55.363Z",
+      "modifiedAt": "2025-11-30T11:50:27.303Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "RTJFX1RFU1RfUkVQT1JUX0FETUlOX0lERUFTLm1k",
+      "path": "E2E_TEST_REPORT_ADMIN_IDEAS.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\E2E_TEST_REPORT_ADMIN_IDEAS.md",
+      "title": "🧪 END-TO-END TEST REPORT - ADMIN IDEAS & PLANNING SYSTEM",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "typescript",
         "supabase",
+        "api",
+        "database",
+        "ai",
+        "google",
+        "auth",
+        "deploy"
+      ],
+      "size": 8014,
+      "lines": 339,
+      "words": 1242,
+      "createdAt": "2025-12-03T01:31:51.121Z",
+      "modifiedAt": "2025-12-03T01:32:01.678Z",
+      "ageInDays": 1
+    },
+    {
+      "id": "RVhFQ1VUSU9OX1NURVBTX0FEVkFOQ0VEX0ZFQVRVUkVTLm1k",
+      "path": "EXECUTION_STEPS_ADVANCED_FEATURES.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\EXECUTION_STEPS_ADVANCED_FEATURES.md",
+      "title": "Execution Steps - Advanced Features",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "typescript",
+        "ai"
+      ],
+      "size": 4182,
+      "lines": 166,
+      "words": 467,
+      "createdAt": "2025-11-30T11:12:33.765Z",
+      "modifiedAt": "2025-11-30T11:46:10.549Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "RVhFQ1VUSU9OX1NURVBTX0NPTVBMRVRFLm1k",
+      "path": "EXECUTION_STEPS_COMPLETE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\EXECUTION_STEPS_COMPLETE.md",
+      "title": "\udf89 Execution Steps Visualization - COMPLETE",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "ai"
+      ],
+      "size": 4973,
+      "lines": 181,
+      "words": 609,
+      "createdAt": "2025-11-30T11:13:23.968Z",
+      "modifiedAt": "2025-11-30T11:46:10.542Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "RVhFQ1VUSU9OX1NURVBTX1ZJU1VBTElaQVRJT04ubWQ=",
+      "path": "EXECUTION_STEPS_VISUALIZATION.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\EXECUTION_STEPS_VISUALIZATION.md",
+      "title": "Execution Steps Visualization",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "ai"
+      ],
+      "size": 4321,
+      "lines": 167,
+      "words": 550,
+      "createdAt": "2025-11-30T11:07:04.261Z",
+      "modifiedAt": "2025-11-30T11:46:10.542Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "RklMRV9NSUdSQVRJT05fU1VNTUFSWS5tZA==",
+      "path": "FILE_MIGRATION_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\FILE_MIGRATION_SUMMARY.md",
+      "title": "\udcc1 TỔNG HỢP DI CHUYỂN FILES - EXECUTION STEPS VISUALIZATION",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [],
+      "size": 2446,
+      "lines": 96,
+      "words": 231,
+      "createdAt": "2025-11-30T11:43:40.376Z",
+      "modifiedAt": "2025-11-30T11:46:10.548Z",
+      "ageInDays": 4
+    },
+    {
+      "id": "SU5ERVgubWQ=",
+      "path": "INDEX.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\INDEX.md",
+      "title": "long-sang-forge Documentation Index",
+      "description": "> Auto-generated on 2025-11-30",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
         "api",
         "database",
         "ai",
         "deploy"
       ],
-      "size": 885,
-      "lines": 57,
-      "words": 122,
+      "size": 6002,
+      "lines": 127,
+      "words": 375,
       "createdAt": "2025-11-29T05:21:56.757Z",
-      "modifiedAt": "2025-11-29T05:31:32.251Z",
-      "ageInDays": 0
+      "modifiedAt": "2025-11-30T12:06:41.076Z",
+      "ageInDays": 4
     },
     {
       "id": "SU5WRVNUT1JfUElUQ0gubWQ=",
@@ -434,7 +1561,31 @@
       "words": 740,
       "createdAt": "2025-11-29T06:38:21.083Z",
       "modifiedAt": "2025-11-29T07:15:59.781Z",
-      "ageInDays": 0
+      "ageInDays": 5
+    },
+    {
+      "id": "VEVTVF9DSEVDS0xJU1RfQURNSU5fSURFQVMubWQ=",
+      "path": "TEST_CHECKLIST_ADMIN_IDEAS.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\long-sang-forge\\_DOCS\\TEST_CHECKLIST_ADMIN_IDEAS.md",
+      "title": "END-TO-END TEST CHECKLIST - ADMIN IDEAS & PLANNING",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "google",
+        "auth"
+      ],
+      "size": 6975,
+      "lines": 270,
+      "words": 1304,
+      "createdAt": "2025-12-03T01:30:54.120Z",
+      "modifiedAt": "2025-12-03T01:32:01.678Z",
+      "ageInDays": 1
     }
   ],
   "categories": {
@@ -562,19 +1713,20 @@
     }
   },
   "stats": {
-    "total": 18,
+    "total": 69,
     "byCategory": {
-      "ARCHITECTURE": 4,
-      "FEATURES": 1,
-      "GUIDES": 1,
-      "AI": 7,
-      "REPORTS": 5
+      "ARCHITECTURE": 13,
+      "FEATURES": 15,
+      "DEPLOYMENT": 5,
+      "GUIDES": 4,
+      "AI": 8,
+      "REPORTS": 24
     },
     "byStatus": {
-      "active": 18
+      "active": 69
     },
-    "totalWords": 13979,
-    "totalLines": 3880,
-    "avgAge": 0
+    "totalWords": 54297,
+    "totalLines": 16461,
+    "avgAge": 4
   }
 }

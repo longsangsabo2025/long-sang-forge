@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { ExternalLink, Settings, Sparkles } from "lucide-react";
-import { Link } from "react-router-dom";
+import { AnimatedBackground } from "@/components/showcase/AnimatedBackground";
 import { AppShowcaseService } from "@/services/app-showcase.service";
 import { AppShowcaseData } from "@/types/app-showcase.types";
-import { AnimatedBackground } from "@/components/showcase/AnimatedBackground";
+import { motion } from "framer-motion";
+import { ExternalLink, Settings, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const AppShowcaseList = () => {
   const [projects, setProjects] = useState<AppShowcaseData[]>([]);
@@ -37,8 +37,8 @@ const AppShowcaseList = () => {
       <AnimatedBackground />
 
       {/* Admin Button - Floating */}
-      <Link 
-        to="/app-showcase/admin"
+      <Link
+        to="/admin"
         className="fixed bottom-8 right-8 z-50 w-14 h-14 rounded-full bg-neon-cyan text-dark-bg flex items-center justify-center shadow-lg shadow-neon-cyan/50 hover:scale-110 transition-transform"
         title="Vào trang Admin"
       >
@@ -113,9 +113,7 @@ const AppShowcaseList = () => {
                       </h3>
 
                       {/* Tagline */}
-                      <p className="text-sm text-neon-cyan mb-3 font-semibold">
-                        {project.tagline}
-                      </p>
+                      <p className="text-sm text-neon-cyan mb-3 font-semibold">{project.tagline}</p>
 
                       {/* Description */}
                       <p className="text-muted-foreground text-sm mb-4 line-clamp-3">

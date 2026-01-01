@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
-import { Menu, X, Download, Phone } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Menu, Phone, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 const CVNavigation = () => {
@@ -22,7 +21,6 @@ const CVNavigation = () => {
     { name: "nav.about", href: "#about" },
     { name: "nav.experience", href: "#experience" },
     { name: "nav.skills", href: "#skills" },
-    { name: "nav.education", href: "#education" },
     { name: "nav.contact", href: "#contact" },
   ];
 
@@ -30,8 +28,8 @@ const CVNavigation = () => {
     const element = document.querySelector(id);
     if (element) {
       element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
+        behavior: "smooth",
+        block: "start",
       });
     }
     setIsMobileMenuOpen(false);
@@ -53,9 +51,9 @@ const CVNavigation = () => {
                 e.preventDefault();
                 scrollToSection("#home");
               }}
-              className="text-2xl font-heading font-bold text-gradient-gold hover:glow-gold transition-all"
+              className="hover:opacity-80 transition-all"
             >
-              VLS
+              <img src="/images/logo.png" alt="VLS" className="h-10 w-auto" />
             </a>
 
             {/* Desktop Navigation */}
@@ -86,10 +84,6 @@ const CVNavigation = () => {
                 <Phone className="w-4 h-4" />
                 +84 961 167 717
               </a>
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium">
-                <Download className="w-4 h-4 mr-2" />
-                {t('buttons.downloadCV')}
-              </Button>
             </div>
 
             {/* Mobile Menu Button */}
@@ -127,15 +121,11 @@ const CVNavigation = () => {
                 </div>
                 <a
                   href="tel:+84961167717"
-                  className="flex items-center gap-2 text-foreground-secondary hover:text-primary transition-colors mb-4"
+                  className="flex items-center gap-2 text-foreground-secondary hover:text-primary transition-colors"
                 >
                   <Phone className="w-5 h-5" />
                   +84 961 167 717
                 </a>
-                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-                  <Download className="w-4 h-4 mr-2" />
-                  {t('buttons.downloadCV')}
-                </Button>
               </div>
             </div>
           </div>

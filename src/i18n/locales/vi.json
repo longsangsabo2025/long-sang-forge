@@ -1,6 +1,25 @@
 {
+  "auth": {
+    "authenticating": "Đang xác thực...",
+    "welcomeAdmin": "Chào Admin {{email}}! 🔐",
+    "welcomeUser": "Chào mừng {{email}}!",
+    "adminGreeting": "Chào Admin! 🔐",
+    "loginSuccess": "Đăng nhập thành công!",
+    "confirmSuccess": "Xác nhận thành công! 🔐",
+    "emailConfirmed": "Email đã được xác nhận!",
+    "errorOccurred": "Đã có lỗi xảy ra",
+    "login": "Đăng nhập",
+    "loginToViewDetails": "Đăng nhập để xem chi tiết",
+    "loginToViewMore": "Đăng nhập để xem thêm",
+    "viewDetails": "Xem chi tiết",
+    "loginToViewFullInfo": "Đăng nhập để xem đầy đủ thông tin",
+    "viewWorkDetails": "Xem chi tiết công việc",
+    "loginToViewWorkInfo": "Đăng nhập để xem đầy đủ thông tin kinh nghiệm làm việc",
+    "details": "chi tiết",
+    "loginToView": "Đăng nhập để xem"
+  },
   "hero": {
-    "greeting": "Chào bạn, tôi là Long Sang 👋",
+    "greeting": "Chào bạn 👋",
     "headline1": "Bạn đang mất quá nhiều thời gian",
     "headline2": "cho các công việc lặp đi lặp lại đến phát ngán?",
     "subheadline1": "Tôi có thể giúp bạn làm ít hơn, được nhiều hơn — tiết kiệm 10-20 giờ/tuần, tăng năng suất làm việc lên nhiều lần nhờ các công cụ AI và hệ thống tự động hóa.",
@@ -8,7 +27,7 @@
     "tagline": "Tư vấn, cung cấp giải pháp, dịch vụ tự động hóa cho cá nhân và doanh nghiệp.",
     "latestBadge": "📱 Vừa hoàn thành: App quản lý billiards",
     "cta1": "Xem các dự án",
-    "cta2": "Nhận tư vấn miễn phí",
+    "cta2": "Liên hệ tư vấn",
     "scrollText": "Xem tôi có thể giúp gì"
   },
   "stats": {
@@ -42,7 +61,10 @@
   "projects": {
     "header": "Một Số Dự Án",
     "subtitle": "Tôi Đã Làm Được Gì",
-    "viewDetails": "Xem chi tiết"
+    "viewDetails": "Xem chi tiết",
+    "viewAll": "Xem tất cả dự án",
+    "gateTitle": "Xem chi tiết dự án",
+    "gateSubtitle": "Đăng nhập để xem đầy đủ thông tin về các dự án, case studies và kết quả đạt được"
   },
   "techStack": {
     "header": "Công Nghệ",
@@ -205,13 +227,277 @@
     "about": "Giới Thiệu",
     "services": "Dịch Vụ",
     "projects": "Dự Án",
+    "subscription": "Gói Đăng Ký",
     "academy": "Học Viện",
-    "contact": "Liên Hệ"
+    "contact": "Liên Hệ",
+    "cv": "My CV",
+    "bookCall": "Đặt Lịch",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "language": "Ngôn ngữ",
+    "mainMenu": "Menu chính",
+    "userMenu": {
+      "home": "Trang Chủ",
+      "profile": "Hồ sơ",
+      "projects": "Dự Án",
+      "workspace": "Workspace",
+      "subscription": "Gói Đăng Ký"
+    }
   },
   "footer": {
-    "copyright": "© 2025 Long Sang. Bảo lưu mọi quyền.",
+    "copyright": "© 2025 longsang.org. Bảo lưu mọi quyền.",
     "quickLinks": "Liên Kết",
     "followMe": "Theo Dõi",
     "builtWith": "Xây dựng với React & Supabase"
+  },
+  "consultation": {
+    "badge": "Tư vấn 1:1 trực tiếp với tôi",
+    "title": "Đặt lịch",
+    "titleHighlight": "tư vấn trực tiếp",
+    "subtitle": "Trao đổi trực tiếp với tôi để tìm giải pháp tối ưu cho doanh nghiệp của bạn",
+    "socialProof": "100+ doanh nghiệp đã tư vấn",
+    "packages": {
+      "title": "Chọn gói tư vấn",
+      "titleHighlight": "phù hợp",
+      "subtitle": "Mỗi gói được thiết kế để mang lại giá trị tối đa cho doanh nghiệp của bạn",
+      "includes": "Bao gồm:",
+      "selected": "✓ Đã chọn",
+      "register": "Đăng ký ngay",
+      "basic": {
+        "duration": "30 phút",
+        "name": "Gói Cơ Bản",
+        "price": "299K",
+        "originalPrice": "399K",
+        "savings": "Tiết kiệm 100K",
+        "subscriptionBonus": "🎁 Tặng gói Pro 1 tháng",
+        "features": [
+          "Tư vấn 1:1 qua Google Meet",
+          "Tìm hiểu về công việc và nhu cầu",
+          "Giải đáp thắc mắc về AI",
+          "Gợi ý hướng đi phù hợp"
+        ]
+      },
+      "standard": {
+        "badge": "⭐ PHỔ BIẾN",
+        "duration": "60 phút",
+        "name": "Gói Tiêu Chuẩn",
+        "price": "499K",
+        "originalPrice": "699K",
+        "savings": "Tiết kiệm 200K",
+        "subscriptionBonus": "🎁 Tặng gói Pro 1 tháng",
+        "features": [
+          "Tư vấn 1:1 qua Google Meet",
+          "Phân tích quy trình & pain points",
+          "Đề xuất giải pháp AI phù hợp",
+          "Ước tính chi phí & timeline",
+          "📄 Tài liệu tóm tắt (PDF)"
+        ]
+      },
+      "premium": {
+        "badge": "🔥 ĐÁNG GIÁ NHẤT",
+        "duration": "120 phút",
+        "durationNote": "(90p + 30p bonus)",
+        "name": "Gói Premium",
+        "price": "999K",
+        "originalPrice": "1.5M",
+        "savings": "Tiết kiệm 500K",
+        "subscriptionBonus": "👑 Tặng gói VIP 1 tháng",
+        "features": [
+          "Tư vấn 1:1 chuyên sâu (90 phút)",
+          "Phân tích quy trình & pain points",
+          "Demo giải pháp AI thực tế",
+          "Roadmap triển khai 3-6 tháng",
+          "📊 Báo cáo phân tích chi tiết (PDF)"
+        ],
+        "bonus": "🎁 Follow-up miễn phí 30 phút"
+      }
+    },
+    "whyChoose": {
+      "title": "Tại sao chọn",
+      "titleHighlight": "tư vấn với tôi?",
+      "experience": {
+        "title": "Kinh nghiệm thực chiến",
+        "desc": "5+ năm trong lĩnh vực AI & Automation"
+      },
+      "flexible": { "title": "Linh hoạt hình thức", "desc": "Online hoặc gặp trực tiếp" },
+      "docs": { "title": "Tài liệu đầy đủ", "desc": "Báo cáo & gợi ý sau buổi tư vấn" },
+      "practical": { "title": "Giải pháp thực tế", "desc": "Áp dụng ngay cho doanh nghiệp" }
+    },
+    "booking": {
+      "title": "Chọn thời gian",
+      "titleHighlight": "phù hợp với bạn",
+      "selectedPackage": "Bạn đã chọn: {{name}} ({{duration}} phút)",
+      "defaultText": "Điền thông tin bên dưới, tôi sẽ liên hệ xác nhận trong vòng 24h"
+    },
+    "faq": {
+      "title": "Câu hỏi thường gặp",
+      "q1": {
+        "question": "Tư vấn có mất phí không?",
+        "answer": "Tư vấn trực tiếp với tôi có phí từ 300K - 1M tùy gói."
+      },
+      "q2": {
+        "question": "Tôi cần chuẩn bị gì?",
+        "answer": "Chỉ cần chia sẻ về doanh nghiệp và những thách thức bạn đang gặp phải."
+      },
+      "q3": {
+        "question": "Hình thức tư vấn?",
+        "answer": "Tùy bạn chọn: gặp mặt trực tiếp, video call hoặc điện thoại."
+      },
+      "q4": {
+        "question": "Tôi có thể hủy/đổi lịch không?",
+        "answer": "Có thể! Vui lòng thông báo trước ít nhất 24 giờ."
+      }
+    },
+    "bookingForm": {
+      "selectDateTime": "Chọn ngày & giờ",
+      "selectDateTimeDesc": "Chọn ngày và khung giờ phù hợp với bạn",
+      "consultationType": "Loại tư vấn",
+      "selectType": "Chọn loại tư vấn",
+      "minutes": "phút",
+      "free": "Miễn phí",
+      "consultationFee": "Phí tư vấn:",
+      "selectDate": "Chọn ngày",
+      "sundayNote": "Chủ nhật nghỉ. Thứ 7 chỉ làm việc buổi sáng.",
+      "selectTime": "Chọn giờ",
+      "loadingSlots": "Đang tải khung giờ...",
+      "noSlotsAvailable": "Không có khung giờ khả dụng",
+      "pleaseSelectAnotherDate": "Vui lòng chọn ngày khác",
+      "morning": "Buổi sáng",
+      "afternoon": "Buổi chiều",
+      "contactInfo": "Thông tin liên hệ",
+      "contactDescription": "Để tôi có thể xác nhận và liên hệ với bạn",
+      "fullName": "Họ và tên",
+      "namePlaceholder": "Nguyễn Văn A",
+      "email": "Email",
+      "phone": "Số điện thoại",
+      "notes": "Ghi chú",
+      "notesPlaceholder": "Chia sẻ thêm về nhu cầu tư vấn của bạn...",
+      "bookingSummary": "Tóm tắt đặt lịch",
+      "date": "Ngày",
+      "time": "Giờ",
+      "duration": "Thời lượng",
+      "processing": "Đang xử lý...",
+      "submitButton": "Đặt lịch tư vấn",
+      "errorFillAll": "Vui lòng điền đầy đủ thông tin",
+      "errorLoadTypes": "Không thể tải loại tư vấn",
+      "errorLoadSlots": "Không thể tải thời gian khả dụng",
+      "successMsg": "Đặt lịch thành công! Tôi sẽ liên hệ sớm.",
+      "errorSubmit": "Đặt lịch thất bại",
+      "loginRequired": "Đăng nhập để đặt lịch",
+      "loginRequiredDesc": "Vui lòng đăng nhập để đặt lịch tư vấn. Điều này giúp bạn theo dõi lịch hẹn và nhận thông báo.",
+      "loginButton": "Đăng nhập ngay",
+      "noAccount": "Chưa có tài khoản?",
+      "registerNow": "Đăng ký ngay",
+      "proceedToPayment": "Tiến hành thanh toán",
+      "payment": {
+        "title": "Thanh toán",
+        "scanQR": "Quét mã QR để thanh toán",
+        "amount": "Số tiền",
+        "transferContent": "Nội dung chuyển khoản",
+        "bankInfo": "Thông tin chuyển khoản",
+        "bank": "Ngân hàng",
+        "accountNumber": "Số tài khoản",
+        "accountName": "Chủ tài khoản",
+        "copy": "Sao chép",
+        "copied": "Đã sao chép!",
+        "confirmPayment": "Tôi đã chuyển khoản",
+        "back": "Quay lại",
+        "note": "Sau khi chuyển khoản, bấm \"Tôi đã chuyển khoản\" để hoàn tất đặt lịch",
+        "processing": "Đang xử lý...",
+        "bonusTitle": "🎁 Quà tặng kèm",
+        "bonusPro": "Sau khi thanh toán, bạn sẽ được tặng gói Pro miễn phí 1 tháng!",
+        "bonusVIP": "Sau khi thanh toán, bạn sẽ được tặng gói VIP miễn phí 1 tháng!"
+      }
+    }
+  },
+  "footer": {
+    "brand": "LONGSANG.ORG",
+    "tagline": "Tư vấn & Giải pháp Tự động hóa",
+    "description": "Giúp cá nhân và doanh nghiệp tiết kiệm thời gian, tăng năng suất với các giải pháp tự động hóa và tích hợp AI thông minh.",
+    "quickLinks": "Liên kết",
+    "services": "Dịch vụ",
+    "links": {
+      "home": "Trang chủ",
+      "about": "Giới thiệu",
+      "projects": "Dự án",
+      "contact": "Liên hệ"
+    },
+    "servicesList": {
+      "mobile": "Ứng dụng Mobile",
+      "web": "Website & Web App",
+      "automation": "Tự động hóa",
+      "ai": "Tích hợp AI"
+    },
+    "copyright": "© 2024 Long Sang. Tất cả quyền được bảo lưu.",
+    "allRightsReserved": "Tất cả quyền được bảo lưu.",
+    "privacy": "Chính sách bảo mật",
+    "terms": "Điều khoản sử dụng"
+  },
+  "about": {
+    "badge": "Về Tôi",
+    "title": "Xin Chào, Tôi Là Long Sang",
+    "subtitle": "Chuyên gia tự động hóa và tích hợp AI, giúp doanh nghiệp tiết kiệm thời gian và tăng năng suất.",
+    "story1": "Với hơn 7 năm kinh nghiệm trong ngành công nghệ, tôi đã giúp hàng chục doanh nghiệp chuyển đổi số thành công.",
+    "story2": "Tôi tin rằng công nghệ không phải là thứ xa vời - mà là công cụ thiết thực để giải quyết vấn đề thực tế. Mỗi giải pháp tôi xây dựng đều tập trung vào việc tiết kiệm thời gian và chi phí cho khách hàng.",
+    "story3": "Từ ứng dụng mobile, web app, đến hệ thống tự động hóa phức tạp - tôi đồng hành cùng bạn từ ý tưởng đến sản phẩm hoàn chỉnh.",
+    "cta": "Bắt đầu dự án",
+    "stats": {
+      "experience": "Năm kinh nghiệm",
+      "projects": "Dự án hoàn thành",
+      "clients": "Khách hàng",
+      "satisfaction": "Hài lòng"
+    }
+  },
+  "privacy": {
+    "title": "Chính Sách Bảo Mật",
+    "backHome": "Quay lại trang chủ",
+    "lastUpdated": "Cập nhật lần cuối",
+    "updateDate": "29/12/2024",
+    "intro": "Chúng tôi cam kết bảo vệ quyền riêng tư của bạn. Chính sách này giải thích cách chúng tôi thu thập, sử dụng và bảo vệ thông tin cá nhân của bạn khi bạn sử dụng dịch vụ của chúng tôi.",
+    "questions": "Có thắc mắc về chính sách bảo mật? Liên hệ với chúng tôi:",
+    "sections": {
+      "collection": {
+        "title": "Thu Thập Thông Tin",
+        "content": "Chúng tôi thu thập thông tin bạn cung cấp trực tiếp như:\n• Tên và email khi đăng ký\n• Thông tin liên hệ khi đặt lịch tư vấn\n• Nội dung tin nhắn qua form liên hệ\n• Thông tin thanh toán (nếu có)"
+      },
+      "usage": {
+        "title": "Sử Dụng Thông Tin",
+        "content": "Thông tin của bạn được sử dụng để:\n• Cung cấp và cải thiện dịch vụ\n• Liên hệ tư vấn và hỗ trợ\n• Gửi thông báo về dự án\n• Phân tích để nâng cao trải nghiệm người dùng"
+      },
+      "protection": {
+        "title": "Bảo Vệ Thông Tin",
+        "content": "Chúng tôi áp dụng các biện pháp bảo mật:\n• Mã hóa dữ liệu truyền tải (SSL/TLS)\n• Lưu trữ an toàn trên hạ tầng đám mây uy tín\n• Hạn chế quyền truy cập nội bộ\n• Không bán hoặc chia sẻ thông tin cho bên thứ ba"
+      },
+      "rights": {
+        "title": "Quyền Của Bạn",
+        "content": "Bạn có quyền:\n• Yêu cầu xem thông tin chúng tôi lưu trữ\n• Yêu cầu chỉnh sửa thông tin không chính xác\n• Yêu cầu xóa tài khoản và dữ liệu\n• Từ chối nhận email marketing"
+      }
+    }
+  },
+  "terms": {
+    "title": "Điều Khoản Sử Dụng",
+    "backHome": "Quay lại trang chủ",
+    "lastUpdated": "Cập nhật lần cuối",
+    "updateDate": "29/12/2024",
+    "intro": "Bằng việc sử dụng website và dịch vụ của chúng tôi, bạn đồng ý với các điều khoản dưới đây. Vui lòng đọc kỹ trước khi sử dụng.",
+    "questions": "Có thắc mắc về điều khoản sử dụng? Liên hệ với chúng tôi:",
+    "sections": {
+      "acceptance": {
+        "title": "Chấp Nhận Điều Khoản",
+        "content": "Khi truy cập và sử dụng website này, bạn xác nhận đã đọc, hiểu và đồng ý tuân thủ các điều khoản sử dụng. Nếu không đồng ý, vui lòng ngừng sử dụng dịch vụ."
+      },
+      "services": {
+        "title": "Dịch Vụ Cung Cấp",
+        "content": "Chúng tôi cung cấp các dịch vụ:\n• Tư vấn giải pháp công nghệ\n• Phát triển ứng dụng mobile và web\n• Xây dựng hệ thống tự động hóa\n• Tích hợp AI và chatbot\n\nPhạm vi cụ thể sẽ được thỏa thuận trong hợp đồng từng dự án."
+      },
+      "limitations": {
+        "title": "Giới Hạn Sử Dụng",
+        "content": "Bạn cam kết không:\n• Sử dụng dịch vụ cho mục đích bất hợp pháp\n• Xâm phạm quyền sở hữu trí tuệ\n• Phát tán mã độc hoặc nội dung có hại\n• Can thiệp vào hoạt động của hệ thống"
+      },
+      "liability": {
+        "title": "Giới Hạn Trách Nhiệm",
+        "content": "Chúng tôi cố gắng đảm bảo thông tin chính xác nhưng không bảo đảm website hoạt động không gián đoạn. Chúng tôi không chịu trách nhiệm cho:\n• Thiệt hại gián tiếp phát sinh từ việc sử dụng dịch vụ\n• Lỗi kỹ thuật ngoài tầm kiểm soát\n• Nội dung từ bên thứ ba"
+      }
+    }
   }
 }

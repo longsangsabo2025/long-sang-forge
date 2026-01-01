@@ -1,4 +1,23 @@
 {
+  "auth": {
+    "authenticating": "Authenticating...",
+    "welcomeAdmin": "Hello Admin {{email}}! 🔐",
+    "welcomeUser": "Welcome {{email}}!",
+    "adminGreeting": "Hello Admin! 🔐",
+    "loginSuccess": "Login successful!",
+    "confirmSuccess": "Confirmation successful! 🔐",
+    "emailConfirmed": "Email confirmed!",
+    "errorOccurred": "An error occurred",
+    "login": "Login",
+    "loginToViewDetails": "Login to view details",
+    "loginToViewMore": "Login to view more",
+    "viewDetails": "View details",
+    "loginToViewFullInfo": "Login to view full information",
+    "viewWorkDetails": "View work details",
+    "loginToViewWorkInfo": "Login to view full work experience",
+    "details": "details",
+    "loginToView": "Login to view"
+  },
   "nav": {
     "home": "Home",
     "services": "Services",
@@ -6,10 +25,20 @@
     "techStack": "Tech Stack",
     "learning": "Learning",
     "contact": "Contact",
-    "bookCall": "Book Call"
+    "cv": "My CV",
+    "bookCall": "Book Call",
+    "login": "Login",
+    "logout": "Logout",
+    "language": "Language",
+    "mainMenu": "Main Menu",
+    "userMenu": {
+      "home": "🏠 Home",
+      "projects": "🎯 Projects",
+      "workspace": "💡 Workspace"
+    }
   },
   "hero": {
-    "greeting": "HI, I'M LONG SANG",
+    "greeting": "HI THERE 👋",
     "headline1": "CRAFTING",
     "headline2": "SMART SOLUTIONS",
     "headline3": "THAT SCALE",
@@ -258,7 +287,7 @@
     }
   },
   "footer": {
-    "brand": "LONG SANG",
+    "brand": "LONGSANG.ORG",
     "tagline": "Digital Product Developer & Consultant",
     "description": "Build production-ready applications with Flutter, React, and modern tech. Based in Vũng Tàu, Vietnam.",
     "quickLinks": "QUICK LINKS",
@@ -276,8 +305,232 @@
       "automation": "Business Automation",
       "ai": "AI Solutions & Consulting"
     },
-    "copyright": "© 2025 Long Sang. Built with ❤️ using React + Lovable",
+    "copyright": "© 2025 longsang.org. Built with ❤️ using React + Lovable",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service"
+  },
+  "consultation": {
+    "badge": "1:1 Consultation with me",
+    "title": "Book a",
+    "titleHighlight": "direct consultation",
+    "subtitle": "Talk directly with me to find the optimal solution for you",
+    "socialProof": "100+ clients consulted",
+    "packages": {
+      "title": "Choose the",
+      "titleHighlight": "right package",
+      "subtitle": "Each package is designed to deliver maximum value for you",
+      "includes": "Includes:",
+      "selected": "✓ Selected",
+      "register": "Register now",
+      "basic": {
+        "duration": "30 minutes",
+        "name": "Basic Package",
+        "price": "299K",
+        "originalPrice": "399K",
+        "savings": "Save 100K",
+        "subscriptionBonus": "🎁 Free Pro plan for 1 month",
+        "features": [
+          "1:1 consultation via Google Meet",
+          "Understand your work and needs",
+          "Answer questions about AI",
+          "Suggest suitable direction"
+        ]
+      },
+      "standard": {
+        "badge": "⭐ POPULAR",
+        "duration": "60 minutes",
+        "name": "Standard Package",
+        "price": "499K",
+        "originalPrice": "699K",
+        "savings": "Save 200K",
+        "subscriptionBonus": "🎁 Free Pro plan for 1 month",
+        "features": [
+          "1:1 consultation via Google Meet",
+          "Understand your work and needs",
+          "Process & pain points analysis",
+          "Propose suitable AI solutions",
+          "Cost & timeline estimation",
+          "📄 Summary document (PDF)"
+        ]
+      },
+      "premium": {
+        "badge": "🔥 BEST VALUE",
+        "duration": "120 minutes",
+        "durationNote": "(90m + 30m bonus)",
+        "name": "Premium Package",
+        "price": "999K",
+        "originalPrice": "1.5M",
+        "savings": "Save 500K",
+        "subscriptionBonus": "👑 Free VIP plan for 1 month",
+        "features": [
+          "In-depth 1:1 consultation (90 minutes)",
+          "Understand your work and needs",
+          "Process & pain points analysis",
+          "Live AI solution demo",
+          "3-6 month implementation roadmap",
+          "Cost & timeline estimation",
+          "📊 Detailed analysis report (PDF)"
+        ],
+        "bonus": "🎁 Free 30-minute follow-up"
+      }
+    },
+    "whyChoose": {
+      "title": "Why choose",
+      "titleHighlight": "consultation with me?",
+      "experience": {
+        "title": "Hands-on experience",
+        "desc": "5+ years in AI & Automation"
+      },
+      "flexible": {
+        "title": "Flexible format",
+        "desc": "Online or in-person"
+      },
+      "docs": {
+        "title": "Complete documentation",
+        "desc": "Report & suggestions after session"
+      },
+      "practical": {
+        "title": "Practical solutions",
+        "desc": "Apply immediately to your work"
+      }
+    },
+    "booking": {
+      "title": "Choose a time",
+      "titleHighlight": "that suits you",
+      "selectedPackage": "You selected: {{name}} ({{duration}} minutes)",
+      "defaultText": "Fill in the information below, I will contact you within 24h"
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "q1": {
+        "question": "Is the consultation free?",
+        "answer": "Direct consultation with me costs from 300K - 1M depending on the package. For free consultation, you can chat with the AI assistant 24/7 on the homepage."
+      },
+      "q2": {
+        "question": "What do I need to prepare?",
+        "answer": "Just share about your work, projects or challenges you're facing. I will listen and advise."
+      },
+      "q3": {
+        "question": "Consultation format?",
+        "answer": "Your choice: in-person meeting, video call (Zoom/Google Meet) or phone call."
+      },
+      "q4": {
+        "question": "Can I cancel/reschedule?",
+        "answer": "Yes! Please notify at least 24 hours in advance by replying to the confirmation email."
+      }
+    },
+    "bookingForm": {
+      "selectDateTime": "Select date & time",
+      "selectDateTimeDesc": "Choose a date and time slot that works for you",
+      "consultationType": "Consultation type",
+      "selectType": "Select consultation type",
+      "minutes": "minutes",
+      "free": "Free",
+      "consultationFee": "Consultation fee:",
+      "selectDate": "Select date",
+      "sundayNote": "Sunday off. Saturday morning only.",
+      "selectTime": "Select time",
+      "loadingSlots": "Loading time slots...",
+      "noSlotsAvailable": "No available time slots",
+      "pleaseSelectAnotherDate": "Please select another day",
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "contactInfo": "Contact information",
+      "contactDescription": "So I can confirm and contact you",
+      "fullName": "Full name",
+      "namePlaceholder": "John Doe",
+      "email": "Email",
+      "phone": "Phone number",
+      "notes": "Notes",
+      "notesPlaceholder": "Share more about your consultation needs...",
+      "bookingSummary": "Booking summary",
+      "date": "Date",
+      "time": "Time",
+      "duration": "Duration",
+      "processing": "Processing...",
+      "submitButton": "Book consultation",
+      "errorFillAll": "Please fill in all required fields",
+      "errorLoadTypes": "Failed to load consultation types",
+      "errorLoadSlots": "Failed to load available time slots",
+      "successMsg": "Booking successful! I will contact you soon.",
+      "errorSubmit": "Booking failed"
+    }
+  },
+  "subscription": {
+    "title": "Subscription",
+    "currentPlan": "Current plan",
+    "freePlan": "Free",
+    "proPlan": "Pro",
+    "vipPlan": "VIP",
+    "expires": "Expires",
+    "expiresIn": "{{days}} days left",
+    "expiringSoon": "Expiring soon!",
+    "expiringAlert": "Your subscription is expiring soon. Renew now to keep your access.",
+    "active": "Active",
+    "expired": "Expired",
+    "pending": "Pending payment",
+    "history": "Subscription history",
+    "noHistory": "No subscription history",
+    "upgrade": "Upgrade",
+    "renew": "Renew",
+    "renewNow": "Renew Now",
+    "upgradePlan": "Upgrade plan",
+    "choosePlan": "Choose plan to upgrade",
+    "renewPlan": "Renew plan",
+    "chooseCycle": "Choose billing cycle",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "yearlyDiscount": "Save 17%",
+    "perMonth": "/month",
+    "perYear": "/year",
+    "viewPricing": "View pricing",
+    "manageSubscription": "Manage subscription",
+    "discountCode": {
+      "placeholder": "Enter discount code",
+      "apply": "Apply",
+      "applied": "Discount",
+      "invalid": "Invalid discount code"
+    },
+    "usage": {
+      "title": "Feature usage this month",
+      "used": "Used",
+      "unlimited": "Unlimited",
+      "nearLimit": "{{remaining}} remaining",
+      "limitReached": "Limit reached!"
+    },
+    "admin": {
+      "title": "Subscription Management",
+      "stats": {
+        "total": "Total",
+        "active": "Active",
+        "pending": "Pending",
+        "pro": "Pro Plan",
+        "vip": "VIP Plan",
+        "revenue": "Revenue",
+        "thisMonth": "This Month"
+      },
+      "tabs": {
+        "subscriptions": "Subscriptions",
+        "discounts": "Discount Codes",
+        "expiring": "Expiring Soon"
+      },
+      "actions": {
+        "activate": "Activate",
+        "sendReminder": "Send Reminder",
+        "createDiscount": "Create Discount"
+      }
+    }
+  },
+  "features": {
+    "aiChat": "AI Chat",
+    "aiChatDesc": "Chat with AI",
+    "aiImage": "AI Image",
+    "aiImageDesc": "Generate AI images",
+    "consultation": "Book consultation",
+    "consultationDesc": "1-on-1 consultation",
+    "showcase": "Showcase",
+    "showcaseDesc": "View showcase projects",
+    "exportPdf": "Export PDF",
+    "exportPdfDesc": "Export PDF reports"
   }
 }

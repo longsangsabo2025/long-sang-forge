@@ -4,26 +4,18 @@
  * Helps students with questions, debugging, and understanding concepts
  */
 
-import { useState, useRef, useEffect } from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { 
-  Bot, 
-  Send, 
-  Sparkles, 
-  User,
-  X,
-  Minimize2,
-  Maximize2 
-} from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { AnimatePresence, motion } from "framer-motion";
+import { Bot, Maximize2, Minimize2, Send, Sparkles, User, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 export interface Message {
   id: string;
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
   timestamp: Date;
 }
@@ -36,18 +28,18 @@ export interface AIAssistantProps {
   onToggle?: () => void;
 }
 
-export function AIAssistant({ 
-  lessonId, 
-  lessonTitle, 
-  lessonContext = '',
+export function AIAssistant({
+  lessonId,
+  lessonTitle,
+  lessonContext = "",
   isOpen: controlledIsOpen,
-  onToggle
+  onToggle,
 }: AIAssistantProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
-      id: '1',
-      role: 'assistant',
-      content: `Hi! I'm your AI Learning Assistant for **${lessonTitle}**. 
+      id: "1",
+      role: "assistant",
+      content: `Hi! I'm your AI Learning Assistant for **${lessonTitle}**.
 
 I can help you with:
 - 🎯 Understanding concepts
@@ -56,10 +48,10 @@ I can help you with:
 - 🚀 Best practices
 
 Ask me anything!`,
-      timestamp: new Date()
-    }
+      timestamp: new Date(),
+    },
   ]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [internalIsOpen, setInternalIsOpen] = useState(true);
   const [isMinimized, setIsMinimized] = useState(false);
@@ -79,62 +71,62 @@ Ask me anything!`,
 
     const userMessage: Message = {
       id: Date.now().toString(),
-      role: 'user',
+      role: "user",
       content: input,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
-    setInput('');
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
     setIsLoading(true);
 
     try {
       // Call AI Assistant API
-      const response = await fetch('http://localhost:3001/api/ai-assistant', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/ai-assistant", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           lessonId,
           lessonTitle,
           lessonContext,
-          messages: messages.map(m => ({
+          messages: messages.map((m) => ({
             role: m.role,
-            content: m.content
+            content: m.content,
           })),
-          userMessage: input
-        })
+          userMessage: input,
+        }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to get response');
+        throw new Error(data.error || "Failed to get response");
       }
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: data.response || 'Sorry, I encountered an error. Please try again.',
-        timestamp: new Date()
+        role: "assistant",
+        content: data.response || "Sorry, I encountered an error. Please try again.",
+        timestamp: new Date(),
       };
 
-      setMessages(prev => [...prev, assistantMessage]);
+      setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-      console.error('AI Assistant error:', error);
+      console.error("AI Assistant error:", error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: '❌ Sorry, I\'m having trouble connecting. Please try again in a moment.',
-        timestamp: new Date()
+        role: "assistant",
+        content: "❌ Sorry, I'm having trouble connecting. Please try again in a moment.",
+        timestamp: new Date(),
       };
-      setMessages(prev => [...prev, errorMessage]);
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
@@ -174,11 +166,11 @@ Ask me anything!`,
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0, y: 100, scale: 0.8 }}
-        animate={{ 
-          opacity: 1, 
-          y: 0, 
+        animate={{
+          opacity: 1,
+          y: 0,
           scale: 1,
-          height: isMinimized ? '60px' : '600px'
+          height: isMinimized ? "60px" : "600px",
         }}
         exit={{ opacity: 0, y: 100, scale: 0.8 }}
         className="fixed bottom-6 right-6 z-50 w-96"
@@ -207,7 +199,11 @@ Ask me anything!`,
                 onClick={toggleMinimize}
                 className="text-white hover:bg-white/20 h-8 w-8"
               >
-                {isMinimized ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
+                {isMinimized ? (
+                  <Maximize2 className="w-4 h-4" />
+                ) : (
+                  <Minimize2 className="w-4 h-4" />
+                )}
               </Button>
               <Button
                 variant="ghost"
@@ -230,19 +226,27 @@ Ask me anything!`,
                       key={message.id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className={`flex gap-3 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}
+                      className={`flex gap-3 ${message.role === "user" ? "flex-row-reverse" : ""}`}
                     >
                       <Avatar className="w-8 h-8 mt-1">
-                        <AvatarFallback className={message.role === 'user' ? 'bg-gaming-cyan' : 'bg-gaming-purple'}>
-                          {message.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                        <AvatarFallback
+                          className={
+                            message.role === "user" ? "bg-gaming-cyan" : "bg-gaming-purple"
+                          }
+                        >
+                          {message.role === "user" ? (
+                            <User className="w-4 h-4" />
+                          ) : (
+                            <Bot className="w-4 h-4" />
+                          )}
                         </AvatarFallback>
                       </Avatar>
-                      <div className={`flex-1 ${message.role === 'user' ? 'text-right' : ''}`}>
+                      <div className={`flex-1 ${message.role === "user" ? "text-right" : ""}`}>
                         <div
                           className={`inline-block p-3 rounded-lg ${
-                            message.role === 'user'
-                              ? 'bg-gaming-cyan/20 text-white'
-                              : 'bg-gaming-purple/10 text-foreground'
+                            message.role === "user"
+                              ? "bg-gaming-cyan/20 text-white"
+                              : "bg-gaming-purple/10 text-foreground"
                           }`}
                         >
                           <div className="text-sm whitespace-pre-wrap">{message.content}</div>

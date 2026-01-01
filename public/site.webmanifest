@@ -1,7 +1,7 @@
 {
-  "name": "Long Sang Arena",
-  "short_name": "LS Arena",
-  "description": "Premier gaming and esports platform in Vietnam",
+  "name": "Long Sang - AI Solutions",
+  "short_name": "Long Sang",
+  "description": "AI Solutions for Vietnamese Businesses",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
@@ -9,24 +9,24 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/icon-192.svg",
+      "src": "/images/logo.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "/icon-512.svg", 
+      "src": "/images/logo.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "/apple-touch-icon.svg",
+      "src": "/images/logo.png",
       "sizes": "180x180",
-      "type": "image/svg+xml"
+      "type": "image/png"
     }
   ],
-  "categories": ["games", "sports", "entertainment"],
+  "categories": ["business", "technology", "ai"],
   "lang": "vi-VN",
   "dir": "ltr",
   "scope": "/",

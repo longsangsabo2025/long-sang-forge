@@ -1,31 +1,34 @@
-import { useState } from "react";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import { UserProfile } from "@/components/auth/UserProfile";
 import { NotificationCenter } from "@/components/notifications/NotificationCenter";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import {
-  LayoutDashboard,
-  Bot,
-  Workflow,
-  Settings,
   BarChart3,
-  Menu,
-  X,
-  Home,
-  Zap,
+  BookOpen,
+  Bot,
+  Calendar,
   Database,
   FileText,
-  Calendar,
+  GraduationCap,
+  Home,
   Key,
+  LayoutDashboard,
+  Lightbulb,
+  MapPin,
+  Menu,
+  Settings,
   TrendingUp,
   Users,
-  MapPin,
-  GraduationCap,
-  BookOpen,
+  Workflow,
+  X,
+  Zap,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+
+const SIDEBAR_STORAGE_KEY = "admin-sidebar-open";
 
 const adminNavGroups = [
   {
@@ -43,7 +46,17 @@ const adminNavGroups = [
         icon: BarChart3,
         href: "/admin/analytics",
       },
-    ]
+      {
+        title: "💡 Ideas & Planning",
+        icon: Lightbulb,
+        href: "/admin/ideas",
+      },
+      {
+        title: "🎯 Project Showcase",
+        icon: Zap,
+        href: "/admin/projects",
+      },
+    ],
   },
   {
     label: "AI & Automation",
@@ -58,14 +71,14 @@ const adminNavGroups = [
       {
         title: "👤 User Dashboard",
         icon: Bot,
-        href: "/automation",
+        href: "/dashboard",
       },
       {
-        title: "⚙️ Admin Management",
+        title: "⚙️ Agent Marketplace",
         icon: Zap,
-        href: "/agent-center",
+        href: "/marketplace",
       },
-    ]
+    ],
   },
   {
     label: "SEO & Marketing",
@@ -102,7 +115,7 @@ const adminNavGroups = [
         icon: MapPin,
         href: "/admin/google-maps",
       },
-    ]
+    ],
   },
   {
     label: "Đào Tạo",
@@ -119,13 +132,18 @@ const adminNavGroups = [
         icon: BookOpen,
         href: "/admin/courses",
       },
-    ]
+    ],
   },
   {
     label: "Quản Lý",
     color: "text-orange-500",
     bgColor: "hover:bg-orange-500/10",
     items: [
+      {
+        title: "CRM / Leads",
+        icon: Users,
+        href: "/admin/contacts",
+      },
       {
         title: "Tư Vấn",
         icon: Calendar,
@@ -146,7 +164,7 @@ const adminNavGroups = [
         icon: Users,
         href: "/admin/users",
       },
-    ]
+    ],
   },
   {
     label: "Hệ Thống",
@@ -164,9 +182,9 @@ const adminNavGroups = [
         href: "/admin/integrations",
       },
       {
-        title: "Gói Đăng Ký",
+        title: "💳 Gói Đăng Ký",
         icon: Key,
-        href: "/admin/subscription",
+        href: "/admin/subscriptions",
       },
       {
         title: "Cơ Sở Dữ Liệu",
@@ -178,14 +196,25 @@ const adminNavGroups = [
         icon: Settings,
         href: "/admin/settings",
       },
-    ]
+    ],
   },
 ];
 
 export const AdminLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Sidebar mặc định mở (true) cho user đã đăng nhập, đọc từ localStorage
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    const saved = localStorage.getItem(SIDEBAR_STORAGE_KEY);
+    // Mặc định true nếu chưa có giá trị lưu (lần đầu đăng nhập)
+    return saved !== null ? saved === "true" : true;
+  });
+
+  // Lưu trạng thái sidebar vào localStorage khi thay đổi
+  useEffect(() => {
+    localStorage.setItem(SIDEBAR_STORAGE_KEY, String(sidebarOpen));
+  }, [sidebarOpen]);
 
   const isActive = (path: string) => {
     if (path === "/admin") {
@@ -227,12 +256,7 @@ export const AdminLayout = () => {
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <NotificationCenter />
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => navigate('/')}
-              className="gap-2"
-            >
+            <Button variant="outline" size="sm" onClick={() => navigate("/")} className="gap-2">
               <Home className="h-4 w-4" />
               <span className="hidden sm:inline">Trang Chủ</span>
             </Button>
@@ -245,7 +269,7 @@ export const AdminLayout = () => {
       <aside
         className={`
           fixed left-0 top-16 z-40 h-[calc(100vh-4rem)] w-64 border-r bg-background transition-transform duration-200 ease-in-out
-          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0
         `}
       >
@@ -259,34 +283,34 @@ export const AdminLayout = () => {
                     {group.label}
                   </h3>
                 </div>
-                
+
                 {/* Group Items */}
                 <div className="space-y-1">
                   {group.items.map((item) => {
                     const Icon = item.icon;
                     const active = isActive(item.href);
-                    
+
                     return (
                       <Button
                         key={item.href}
                         variant={active ? "secondary" : "ghost"}
-                        className={`w-full justify-start gap-3 ${active ? 'bg-secondary' : group.bgColor}`}
+                        className={`w-full justify-start gap-3 ${
+                          active ? "bg-secondary" : group.bgColor
+                        }`}
                         onClick={() => {
                           navigate(item.href);
                           setSidebarOpen(false);
                         }}
                       >
-                        <Icon className={`h-4 w-4 ${active ? '' : group.color}`} />
+                        <Icon className={`h-4 w-4 ${active ? "" : group.color}`} />
                         <span className="text-sm font-medium">{item.title}</span>
                       </Button>
                     );
                   })}
                 </div>
-                
+
                 {/* Separator between groups (except last) */}
-                {group.label !== adminNavGroups.at(-1)?.label && (
-                  <Separator className="my-4" />
-                )}
+                {group.label !== adminNavGroups.at(-1)?.label && <Separator className="my-4" />}
               </div>
             ))}
           </div>
@@ -295,7 +319,9 @@ export const AdminLayout = () => {
 
           {/* Quick Stats */}
           <div className="px-3 space-y-2">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase">Thống Kê Nhanh</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase">
+              Thống Kê Nhanh
+            </h3>
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">Quy Trình Hoạt Động</span>

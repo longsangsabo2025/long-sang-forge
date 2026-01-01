@@ -7,8 +7,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 // import { useSearchShortcut } from "@/hooks/useSearchShortcut"; // Hidden - admin only
-import { FileText, GraduationCap, LogOut, Mail, Menu, Sparkles, User, X } from "lucide-react";
+import { Briefcase, CreditCard, Home, Lightbulb, LogOut, Mail, Menu, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 // import { SearchDialog, SearchTrigger } from "./SearchDialog"; // Hidden - admin only
@@ -17,20 +18,24 @@ import { LoginModal } from "./auth/LoginModal";
 
 // Navigation links - Same for both guest and logged in users
 const navLinks = [
-  { name: "Dịch Vụ", href: "#services" },
-  { name: "Dự Án", href: "#projects" },
-  { name: "Công Nghệ", href: "#tech-stack" },
-  { name: "Liên Hệ", href: "#contact" },
+  { key: "nav.services", href: "#services" },
+  { key: "nav.projects", href: "#projects" },
+  { key: "nav.subscription", href: "/subscription" },
+  { key: "nav.cv", href: "/cv" },
+  { key: "nav.contact", href: "#contact" },
 ];
 
-// User menu links (when logged in)
+// User menu links (when logged in) - SIMPLIFIED: Elon style
 const userMenuLinks = [
-  { name: "Dashboard", href: "/dashboard", icon: User },
-  { name: "AI Marketplace", href: "/marketplace", icon: Sparkles },
-  { name: "Academy", href: "/academy", icon: GraduationCap },
+  { key: "nav.userMenu.home", href: "/welcome", icon: Home },
+  { key: "nav.userMenu.profile", href: "/profile", icon: User },
+  { key: "nav.userMenu.projects", href: "/showcase", icon: Briefcase },
+  { key: "nav.userMenu.workspace", href: "/workspace", icon: Lightbulb },
+  { key: "nav.userMenu.subscription", href: "/subscription", icon: CreditCard },
 ];
 
 export const Navigation = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -154,10 +159,11 @@ export const Navigation = () => {
               onClick={(e) => handleNavClick(e, "#home")}
               className="flex items-center gap-3 group flex-shrink-0"
             >
-              <div className="relative">
-                <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full group-hover:bg-primary/30 transition-all"></div>
-                <div className="relative text-2xl md:text-3xl font-bold text-primary">LS</div>
-              </div>
+              <img
+                src="/images/logo.png"
+                alt="Long Sang"
+                className="h-10 md:h-12 w-auto object-contain"
+              />
             </a>
 
             {/* Desktop Navigation - Centered */}
@@ -165,7 +171,7 @@ export const Navigation = () => {
               {/* Navigation Links - Same for all users */}
               {navLinks.map((link) => (
                 <a
-                  key={link.name}
+                  key={link.key}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
                   className={`
@@ -177,7 +183,7 @@ export const Navigation = () => {
                     }
                   `}
                 >
-                  {link.name}
+                  {t(link.key)}
                 </a>
               ))}
             </div>
@@ -196,11 +202,11 @@ export const Navigation = () => {
               <Button
                 variant="default"
                 size="sm"
-                onClick={() => navigate("/#contact")}
+                onClick={() => navigate("/consultation")}
                 className="hidden md:flex items-center gap-2 min-h-[44px] touch-manipulation"
               >
                 <Mail className="w-4 h-4" />
-                <span className="hidden lg:inline">Liên hệ</span>
+                <span className="hidden lg:inline">{t("nav.bookCall")}</span>
               </Button>
 
               {/* User Menu */}
@@ -232,7 +238,7 @@ export const Navigation = () => {
                           className="min-h-[44px]"
                         >
                           <IconComponent className="w-4 h-4 mr-2" />
-                          {link.name}
+                          {t(link.key)}
                         </DropdownMenuItem>
                       );
                     })}
@@ -240,7 +246,7 @@ export const Navigation = () => {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleLogout} className="text-red-600 min-h-[44px]">
                       <LogOut className="w-4 h-4 mr-2" />
-                      Đăng xuất
+                      {t("nav.logout")}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -251,20 +257,9 @@ export const Navigation = () => {
                   variant="outline"
                   className="min-h-[44px] touch-manipulation"
                 >
-                  Đăng nhập
+                  {t("nav.login")}
                 </Button>
               )}
-
-              {/* My CV Button */}
-              <Button
-                onClick={() => navigate("/cv")}
-                size="sm"
-                variant="outline"
-                className="hidden md:flex items-center gap-2 border-primary/50 text-primary hover:bg-primary/10 hover:border-primary min-h-[44px] touch-manipulation"
-              >
-                <FileText className="w-4 h-4" />
-                <span>My CV</span>
-              </Button>
 
               {/* Mobile Menu Toggle - Ensure min 44x44px touch target */}
               <Button
@@ -297,27 +292,31 @@ export const Navigation = () => {
           <div className="relative h-full overflow-y-auto animate-slide-in-right">
             <div className="min-h-full flex flex-col px-4 sm:px-6 py-16 sm:py-20 will-change-transform">
               {/* Logo Section */}
-              <div className="mb-8 animate-slide-up opacity-0 animate-delay-[0.1s]">
+              <div className="mb-8 animate-slide-up opacity-0 animate-delay-100">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="text-3xl font-bold text-primary">LS</div>
+                  <img
+                    src="/images/logo.png"
+                    alt="Long Sang"
+                    className="h-10 w-auto object-contain"
+                  />
                   <div className="text-lg font-semibold text-foreground">Long Sang</div>
                 </div>
-                <p className="text-sm text-muted-foreground">AI Automation & Development</p>
+                <p className="text-sm text-muted-foreground">AI Solutions for Business</p>
               </div>
 
               {/* Navigation Links with staggered animation */}
               <div className="space-y-2 mb-8">
-                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3 animate-slide-up opacity-0 animate-delay-[0.15s]">
-                  Menu chính
+                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3 animate-slide-up opacity-0 animate-delay-150">
+                  {t("nav.mainMenu")}
                 </div>
                 {navLinks.map((link, index) => (
                   <a
-                    key={link.name}
+                    key={link.key}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
                     className={`
-                      block px-4 py-3 rounded-lg text-sm sm:text-base font-medium transition-all duration-200
-                      hover:scale-[1.02] hover:shadow-md min-h-[48px] flex items-center touch-manipulation
+                      flex px-4 py-3 rounded-lg text-sm sm:text-base font-medium transition-all duration-200
+                      hover:scale-[1.02] hover:shadow-md min-h-[48px] items-center touch-manipulation
                       animate-slide-up opacity-0 will-change-transform
                       ${
                         isLinkActive(link.href) || location.pathname === link.href
@@ -330,7 +329,7 @@ export const Navigation = () => {
                       animationFillMode: "forwards",
                     }}
                   >
-                    {link.name}
+                    {t(link.key)}
                   </a>
                 ))}
               </div>
@@ -339,34 +338,23 @@ export const Navigation = () => {
               <div className="space-y-3 mt-auto pt-8 border-t border-border">
                 {/* Language Switcher */}
                 <div className="flex items-center justify-between px-4 py-2">
-                  <span className="text-sm font-medium text-muted-foreground">Ngôn ngữ</span>
+                  <span className="text-sm font-medium text-muted-foreground">
+                    {t("nav.language")}
+                  </span>
                   <LanguageSwitcher />
                 </div>
 
                 {/* CTA Buttons */}
                 <Button
                   onClick={() => {
-                    navigate("/#contact");
+                    navigate("/consultation");
                     setIsMenuOpen(false);
                   }}
                   className="w-full"
                   size="lg"
                 >
                   <Mail className="w-4 h-4 mr-2" />
-                  Liên hệ
-                </Button>
-
-                <Button
-                  onClick={() => {
-                    navigate("/cv");
-                    setIsMenuOpen(false);
-                  }}
-                  variant="outline"
-                  className="w-full border-primary/50 text-primary"
-                  size="lg"
-                >
-                  <FileText className="w-4 h-4 mr-2" />
-                  My CV
+                  {t("nav.bookCall")}
                 </Button>
 
                 {/* Auth Section */}
@@ -390,7 +378,7 @@ export const Navigation = () => {
                           className="w-full justify-start"
                         >
                           <IconComponent className="w-4 h-4 mr-2" />
-                          {link.name}
+                          {t(link.key)}
                         </Button>
                       );
                     })}
@@ -401,12 +389,12 @@ export const Navigation = () => {
                       className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950"
                     >
                       <LogOut className="w-4 h-4 mr-2" />
-                      Đăng xuất
+                      {t("nav.logout")}
                     </Button>
                   </div>
                 ) : (
                   <Button onClick={handleLogin} variant="outline" className="w-full" size="lg">
-                    Đăng nhập
+                    {t("nav.login")}
                   </Button>
                 )}
 
@@ -432,8 +420,8 @@ export const Navigation = () => {
         open={loginOpen}
         onOpenChange={setLoginOpen}
         onSuccess={() => {
-          // Redirect to user dashboard after successful login
-          navigate("/dashboard");
+          // 🚀 ELON STRATEGY: Redirect to Welcome page → Convert!
+          navigate("/welcome");
         }}
       />
     </>

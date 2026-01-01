@@ -1,23 +1,24 @@
-import { useState } from "react";
-import { ProjectSidebar } from "@/components/ProjectSidebar";
-import { ProjectHero } from "@/components/ProjectHero";
-import { OverviewSection } from "@/components/OverviewSection";
-import { TechArchitecture } from "@/components/TechArchitecture";
 import { FeaturesGrid } from "@/components/FeaturesGrid";
-import { StatsChart } from "@/components/StatsChart";
+import { OverviewSection } from "@/components/OverviewSection";
 import { ProjectCTA } from "@/components/ProjectCTA";
-import { projectsData } from "@/data/projects-data";
-import { Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { ProjectHero } from "@/components/ProjectHero";
+import { ProjectSidebar } from "@/components/ProjectSidebar";
 import { ProjectSEO } from "@/components/SEO";
+import { StatsChart } from "@/components/StatsChart";
+import { TechArchitecture } from "@/components/TechArchitecture";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { useProjectData } from "@/hooks/useProjectData";
+import { AnimatePresence, motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
 
 const ProjectShowcase = () => {
   const [activeProjectId, setActiveProjectId] = useState(1);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
-  // Get active project data
-  const activeProject = projectsData.find(p => p.id === activeProjectId) || projectsData[0];
+
+  // Get projects with merged data (static + database)
+  const { projects } = useProjectData();
+  const activeProject = projects.find((p) => p.id === activeProjectId) || projects[0];
 
   const handleProjectChange = (id: number) => {
     setActiveProjectId(id);
@@ -25,7 +26,27 @@ const ProjectShowcase = () => {
   };
 
   return (
-    <div className="flex min-h-screen w-full bg-gradient-to-br from-dark-bg via-dark-surface to-dark-bg">
+    <div className="flex min-h-screen w-full bg-gradient-to-br from-dark-bg via-dark-surface to-dark-bg relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Neural Network Image */}
+        <div
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage: `url('/images/neural-network.jpg')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-dark-bg/90 via-dark-surface/80 to-dark-bg/90" />
+        {/* Radial Glow - Top Right */}
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/20 rounded-full blur-[120px]" />
+        {/* Radial Glow - Bottom Left */}
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-accent/15 rounded-full blur-[120px]" />
+      </div>
+
       <ProjectSEO project={activeProject} section="overview" />
       {/* Mobile Menu Button */}
       <button
@@ -33,7 +54,11 @@ const ProjectShowcase = () => {
         className="fixed top-4 left-4 z-50 md:hidden bg-primary/20 hover:bg-primary/30 backdrop-blur-sm rounded-lg p-3 border border-primary/20 transition-colors"
         aria-label="Toggle project menu"
       >
-        {isMobileMenuOpen ? <X className="w-6 h-6 text-primary" /> : <Menu className="w-6 h-6 text-primary" />}
+        {isMobileMenuOpen ? (
+          <X className="w-6 h-6 text-primary" />
+        ) : (
+          <Menu className="w-6 h-6 text-primary" />
+        )}
       </button>
 
       {/* Theme Toggle - Desktop */}
@@ -65,7 +90,7 @@ const ProjectShowcase = () => {
               className="absolute left-0 top-0 bottom-0 w-80 max-w-[85vw]"
               onClick={(e) => e.stopPropagation()}
             >
-              <ProjectSidebar 
+              <ProjectSidebar
                 activeProjectId={activeProjectId}
                 onProjectChange={handleProjectChange}
               />
@@ -76,10 +101,7 @@ const ProjectShowcase = () => {
 
       {/* Desktop Sidebar - 30% */}
       <aside className="w-[30%] hidden md:block">
-        <ProjectSidebar 
-          activeProjectId={activeProjectId}
-          onProjectChange={setActiveProjectId}
-        />
+        <ProjectSidebar activeProjectId={activeProjectId} onProjectChange={setActiveProjectId} />
       </aside>
 
       {/* Main Content - 70% on desktop, full width on mobile */}

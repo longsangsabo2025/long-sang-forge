@@ -1,25 +1,25 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { projectsData } from "@/data/projects-data";
 import { GlowCard } from "@/components/GlowCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { 
-  User,
-  Mail,
-  Phone,
+import { projectsData } from "@/data/projects-data";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Award,
   Building2,
+  CheckCircle2,
   DollarSign,
   FileText,
-  CheckCircle2,
-  ArrowRight,
-  ArrowLeft,
-  Award,
+  Mail,
+  Phone,
   Shield,
-  TrendingUp
+  TrendingUp,
+  User,
 } from "lucide-react";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface FormData {
   // Step 1: Personal Information
@@ -27,18 +27,18 @@ interface FormData {
   email: string;
   phone: string;
   address: string;
-  
+
   // Step 2: Investment Details
   investmentAmount: string;
   investmentPurpose: string;
   companyName?: string;
   investorType: "individual" | "institution" | "fund" | "";
-  
+
   // Step 3: Experience & Verification
   investmentExperience: string;
   riskTolerance: "low" | "medium" | "high" | "";
   identityDocument: string;
-  
+
   // Step 4: Legal Agreements
   agreeTerms: boolean;
   agreeRisk: boolean;
@@ -49,7 +49,7 @@ const InvestmentApply = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const project = projectsData.find((p) => p.slug === slug);
-  
+
   const [currentStep, setCurrentStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
   const totalSteps = 4;
@@ -77,18 +77,18 @@ const InvestmentApply = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     } else {
       // Final submission to API
       try {
         const projectData = project || { id: 0, name: "Unknown Project" };
-        
-        const response = await fetch('http://localhost:3001/api/investment/apply', {
-          method: 'POST',
+
+        const response = await fetch("http://localhost:3001/api/investment/apply", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             projectId: projectData.id,
@@ -107,25 +107,24 @@ const InvestmentApply = () => {
             identityDocument: formData.identityDocument,
             agreeTerms: formData.agreeTerms,
             agreeRisk: formData.agreeRisk,
-            agreePrivacy: formData.agreePrivacy
-          })
+            agreePrivacy: formData.agreePrivacy,
+          }),
         });
 
         const result = await response.json();
 
         if (!response.ok) {
-          throw new Error(result.error || 'Failed to submit application');
+          throw new Error(result.error || "Failed to submit application");
         }
 
         setSubmitted(true);
-        
+
         setTimeout(() => {
           navigate(`/project-showcase/${slug}`);
         }, 5000);
-        
       } catch (error) {
-        console.error('Error submitting application:', error);
-        alert('Có lỗi xảy ra khi gửi đơn. Vui lòng thử lại.');
+        console.error("Error submitting application:", error);
+        alert("Có lỗi xảy ra khi gửi đơn. Vui lòng thử lại.");
       }
     }
   };
@@ -167,15 +166,16 @@ const InvestmentApply = () => {
             >
               <CheckCircle2 className="w-12 h-12 text-white" />
             </motion.div>
-            
-            <h2 className="text-3xl font-bold mb-4">
-              Đăng Ký Thành Công! 🎉
-            </h2>
+
+            <h2 className="text-3xl font-bold mb-4">Đăng Ký Thành Công! 🎉</h2>
             <p className="text-gray-400 mb-6">
-              Cảm ơn bạn đã quan tâm đầu tư vào <span className="text-yellow-400 font-semibold">{project.name}</span>.
+              Cảm ơn bạn đã quan tâm đầu tư vào{" "}
+              <span className="text-yellow-400 font-semibold">{project.name}</span>.
             </p>
             <p className="text-gray-400 mb-8">
-              Đội ngũ chúng tôi sẽ xem xét hồ sơ và liên hệ với bạn trong vòng <span className="text-cyan-400 font-semibold">48 giờ</span> để thảo luận chi tiết về cơ hội đầu tư.
+              Tôi sẽ xem xét hồ sơ và liên hệ với bạn trong vòng{" "}
+              <span className="text-cyan-400 font-semibold">48 giờ</span> để thảo luận chi tiết về
+              cơ hội đầu tư.
             </p>
 
             <div className="grid md:grid-cols-3 gap-4 mb-8">
@@ -193,9 +193,7 @@ const InvestmentApply = () => {
               </div>
             </div>
 
-            <p className="text-sm text-gray-500">
-              Tự động quay lại trang dự án sau 5 giây...
-            </p>
+            <p className="text-sm text-gray-500">Tự động quay lại trang dự án sau 5 giây...</p>
           </GlowCard>
         </motion.div>
       </div>
@@ -205,15 +203,9 @@ const InvestmentApply = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       {/* Header with Progress */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-      >
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-6">
-          Đăng Ký Đầu Tư
-        </h1>
-        
+      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-center mb-6">Đăng Ký Đầu Tư</h1>
+
         {/* Progress Steps */}
         <div className="flex items-center justify-center gap-2 mb-8">
           {Array.from({ length: totalSteps }, (_, i) => i + 1).map((step) => (
@@ -432,11 +424,17 @@ const InvestmentApply = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Mức Độ Chấp Nhận Rủi Ro *</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Mức Độ Chấp Nhận Rủi Ro *
+                  </label>
                   <div className="grid grid-cols-3 gap-3">
                     {[
                       { value: "low", label: "Thấp", color: "from-green-500 to-emerald-500" },
-                      { value: "medium", label: "Trung Bình", color: "from-yellow-500 to-orange-500" },
+                      {
+                        value: "medium",
+                        label: "Trung Bình",
+                        color: "from-yellow-500 to-orange-500",
+                      },
                       { value: "high", label: "Cao", color: "from-red-500 to-pink-500" },
                     ].map((risk) => (
                       <Button
@@ -469,9 +467,7 @@ const InvestmentApply = () => {
                     className="bg-white/5 border-white/10"
                     required
                   />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Thông tin này được bảo mật tuyệt đối
-                  </p>
+                  <p className="text-xs text-gray-500 mt-1">Thông tin này được bảo mật tuyệt đối</p>
                 </div>
               </motion.div>
             )}
@@ -542,7 +538,7 @@ const InvestmentApply = () => {
                   <p className="text-sm text-yellow-400">
                     <Shield className="w-4 h-4 inline mr-2" />
                     <strong>Lưu ý:</strong> Thông tin của bạn được bảo mật theo tiêu chuẩn quốc tế.
-                    Chúng tôi cam kết không chia sẻ dữ liệu với bên thứ ba mà không có sự đồng ý của bạn.
+                    Tôi cam kết không chia sẻ dữ liệu với bên thứ ba mà không có sự đồng ý của bạn.
                   </p>
                 </div>
               </motion.div>

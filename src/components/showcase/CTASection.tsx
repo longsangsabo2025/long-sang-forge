@@ -1,16 +1,16 @@
+import { AppShowcaseData } from "@/types/app-showcase.types";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
-import { 
-  FaApple, 
-  FaGooglePlay, 
-  FaFacebook, 
-  FaInstagram, 
-  FaYoutube, 
-  FaTiktok,
+import {
+  FaApple,
   FaDiscord,
-  FaTwitter
+  FaFacebook,
+  FaGooglePlay,
+  FaInstagram,
+  FaTiktok,
+  FaTwitter,
+  FaYoutube,
 } from "react-icons/fa";
-import { AppShowcaseData } from "@/types/app-showcase.types";
 
 interface CTASectionProps {
   data: AppShowcaseData;
@@ -83,12 +83,14 @@ export const CTASection = ({ data }: CTASectionProps) => {
                 <Star key={i} size={16} fill="currentColor" className="text-accent" />
               ))}
             </div>
-            <span className="text-sm">{data.cta.rating.score} từ {data.cta.rating.totalUsers}</span>
+            <span className="text-sm">
+              {data.cta.rating.score} từ {data.cta.rating.totalUsers}
+            </span>
           </div>
 
           {/* Social Media Links */}
           <div className="flex flex-col items-center gap-4">
-            <p className="text-sm text-muted-foreground font-semibold">Theo dõi chúng tôi trên</p>
+            <p className="text-sm text-muted-foreground font-semibold">Theo dõi tôi trên</p>
             <div className="flex gap-4">
               {data.social.facebook && (
                 <motion.a

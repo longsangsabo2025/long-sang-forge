@@ -3,34 +3,39 @@
 // ================================================
 // Global configuration for admins
 
-import { useState, useEffect } from 'react';
-import { Layout } from '@/components/Layout';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
-import { Settings, Bell, Key, DollarSign, Brain, Save, Loader2 } from 'lucide-react';
+import { Layout } from "@/components/Layout";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
+import { Bell, Brain, DollarSign, Key, Loader2, Save, Settings } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function AdminSettings() {
   const { toast } = useToast();
   const [saving, setSaving] = useState(false);
 
   // General Settings
-  const [defaultAiModel, setDefaultAiModel] = useState('gpt-4o-mini');
+  const [defaultAiModel, setDefaultAiModel] = useState("gpt-4o-mini");
   const [autoApprove, setAutoApprove] = useState(false);
   const [systemWideLogging, setSystemWideLogging] = useState(true);
 
   // Notification Settings
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [toastNotifications, setToastNotifications] = useState(true);
-  const [notificationEmail, setNotificationEmail] = useState('');
-  const [webhookUrl, setWebhookUrl] = useState('');
+  const [notificationEmail, setNotificationEmail] = useState("");
+  const [webhookUrl, setWebhookUrl] = useState("");
 
   // Budget Settings
   const [globalDailyLimit, setGlobalDailyLimit] = useState(50);
@@ -38,9 +43,9 @@ export default function AdminSettings() {
   const [alertThreshold, setAlertThreshold] = useState(75);
 
   // API Keys
-  const [openaiKey, setOpenaiKey] = useState('');
-  const [resendKey, setResendKey] = useState('');
-  const [linkedinKey, setLinkedinKey] = useState('');
+  const [openaiKey, setOpenaiKey] = useState("");
+  const [resendKey, setResendKey] = useState("");
+  const [linkedinKey, setLinkedinKey] = useState("");
 
   useEffect(() => {
     loadSettings();
@@ -75,18 +80,17 @@ export default function AdminSettings() {
       };
 
       // In production, save to profiles table or system config table
-      console.log('Saving settings:', settings);
 
       toast({
-        title: '✅ Settings Saved',
-        description: 'All settings have been updated successfully',
+        title: "✅ Settings Saved",
+        description: "All settings have been updated successfully",
       });
     } catch (error) {
-      console.error('Failed to save settings:', error);
+      console.error("Failed to save settings:", error);
       toast({
-        title: '❌ Save Failed',
-        description: 'Could not save settings',
-        variant: 'destructive',
+        title: "❌ Save Failed",
+        description: "Could not save settings",
+        variant: "destructive",
       });
     } finally {
       setSaving(false);
@@ -132,9 +136,7 @@ export default function AdminSettings() {
             <Card>
               <CardHeader>
                 <CardTitle>General Settings</CardTitle>
-                <CardDescription>
-                  Configure default behavior for all agents
-                </CardDescription>
+                <CardDescription>Configure default behavior for all agents</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-2">
@@ -183,9 +185,7 @@ export default function AdminSettings() {
             <Card>
               <CardHeader>
                 <CardTitle>Notification Preferences</CardTitle>
-                <CardDescription>
-                  Choose how you want to be notified
-                </CardDescription>
+                <CardDescription>Choose how you want to be notified</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="flex items-center justify-between p-4 border rounded-lg">
@@ -213,9 +213,7 @@ export default function AdminSettings() {
                 <div className="flex items-center justify-between p-4 border rounded-lg">
                   <div>
                     <Label>Toast Notifications</Label>
-                    <p className="text-sm text-muted-foreground">
-                      Show in-app notification toasts
-                    </p>
+                    <p className="text-sm text-muted-foreground">Show in-app notification toasts</p>
                   </div>
                   <Switch checked={toastNotifications} onCheckedChange={setToastNotifications} />
                 </div>
@@ -241,9 +239,7 @@ export default function AdminSettings() {
             <Card>
               <CardHeader>
                 <CardTitle>Global Budget Limits</CardTitle>
-                <CardDescription>
-                  Set system-wide spending limits across all agents
-                </CardDescription>
+                <CardDescription>Set system-wide spending limits across all agents</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-2">
@@ -308,15 +304,16 @@ export default function AdminSettings() {
             <Card>
               <CardHeader>
                 <CardTitle>API Keys Management</CardTitle>
-                <CardDescription>
-                  Configure API keys for external services
-                </CardDescription>
+                <CardDescription>Configure API keys for external services</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
                   <p className="text-sm text-blue-900">
-                    <strong>Security Note:</strong> API keys are stored securely in Supabase Secrets.
-                    For production, use the CLI: <code className="bg-blue-100 px-1 rounded">npx supabase secrets set KEY_NAME="value"</code>
+                    <strong>Security Note:</strong> API keys are stored securely in Supabase
+                    Secrets. For production, use the CLI:{" "}
+                    <code className="bg-blue-100 px-1 rounded">
+                      npx supabase secrets set KEY_NAME="value"
+                    </code>
                   </p>
                 </div>
 
@@ -329,7 +326,15 @@ export default function AdminSettings() {
                     onChange={(e) => setOpenaiKey(e.target.value)}
                   />
                   <p className="text-sm text-muted-foreground">
-                    Get from <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener" className="text-primary underline">platform.openai.com/api-keys</a>
+                    Get from{" "}
+                    <a
+                      href="https://platform.openai.com/api-keys"
+                      target="_blank"
+                      rel="noopener"
+                      className="text-primary underline"
+                    >
+                      platform.openai.com/api-keys
+                    </a>
                   </p>
                 </div>
 
@@ -342,7 +347,15 @@ export default function AdminSettings() {
                     onChange={(e) => setResendKey(e.target.value)}
                   />
                   <p className="text-sm text-muted-foreground">
-                    Get from <a href="https://resend.com/api-keys" target="_blank" rel="noopener" className="text-primary underline">resend.com/api-keys</a>
+                    Get from{" "}
+                    <a
+                      href="https://resend.com/api-keys"
+                      target="_blank"
+                      rel="noopener"
+                      className="text-primary underline"
+                    >
+                      resend.com/api-keys
+                    </a>
                   </p>
                 </div>
 
@@ -371,20 +384,41 @@ export default function AdminSettings() {
             <Card>
               <CardHeader>
                 <CardTitle>AI Models Overview</CardTitle>
-                <CardDescription>
-                  Compare models and their costs
-                </CardDescription>
+                <CardDescription>Compare models and their costs</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {[
-                    { name: 'GPT-4o', cost: '$0.01/request', speed: 'Fast', quality: 'Excellent' },
-                    { name: 'GPT-4o Mini', cost: '$0.002/request', speed: 'Very Fast', quality: 'Very Good' },
-                    { name: 'GPT-3.5 Turbo', cost: '$0.001/request', speed: 'Fastest', quality: 'Good' },
-                    { name: 'Claude Sonnet 4', cost: '$0.015/request', speed: 'Fast', quality: 'Excellent' },
-                    { name: 'Claude Haiku', cost: '$0.0008/request', speed: 'Very Fast', quality: 'Good' },
+                    { name: "GPT-4o", cost: "$0.01/request", speed: "Fast", quality: "Excellent" },
+                    {
+                      name: "GPT-4o Mini",
+                      cost: "$0.002/request",
+                      speed: "Very Fast",
+                      quality: "Very Good",
+                    },
+                    {
+                      name: "GPT-3.5 Turbo",
+                      cost: "$0.001/request",
+                      speed: "Fastest",
+                      quality: "Good",
+                    },
+                    {
+                      name: "Claude Sonnet 4",
+                      cost: "$0.015/request",
+                      speed: "Fast",
+                      quality: "Excellent",
+                    },
+                    {
+                      name: "Claude Haiku",
+                      cost: "$0.0008/request",
+                      speed: "Very Fast",
+                      quality: "Good",
+                    },
                   ].map((model) => (
-                    <div key={model.name} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div
+                      key={model.name}
+                      className="flex items-center justify-between p-4 border rounded-lg"
+                    >
                       <div>
                         <h4 className="font-semibold">{model.name}</h4>
                         <div className="flex gap-3 mt-1 text-sm text-muted-foreground">

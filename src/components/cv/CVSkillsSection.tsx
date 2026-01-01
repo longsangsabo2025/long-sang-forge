@@ -1,5 +1,18 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Brain, Code, MessageSquare, Target, Users, Wrench } from "lucide-react";
+import {
+  Brain,
+  Briefcase,
+  Code,
+  Cpu,
+  Factory,
+  Lightbulb,
+  MessageSquare,
+  Rocket,
+  Target,
+  Users,
+  Wrench,
+  Zap,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const CVSkillsSection = () => {
@@ -7,85 +20,199 @@ const CVSkillsSection = () => {
   const [inView, setInView] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Updated skills with progress percentages instead of vague labels
-  const technicalSkills =
+  // HARD SKILLS - Technical capabilities
+  const hardSkills =
     language === "vi"
-      ? [
-          {
-            name: "React / Next.js",
-            progress: 75,
-            description: "Xây dựng web apps, landing pages",
-          },
-          { name: "TypeScript", progress: 70, description: "Phát triển type-safe" },
-          { name: "Flutter / Dart", progress: 55, description: "Ứng dụng mobile đa nền tảng" },
-          {
-            name: "Node.js / Express",
-            progress: 70,
-            description: "REST APIs, backend services",
-          },
-          {
-            name: "PostgreSQL / Supabase",
-            progress: 75,
-            description: "Thiết kế database, queries",
-          },
-          {
-            name: "Tích hợp AI (OpenAI, Gemini)",
-            progress: 60,
-            description: "Chatbot, automation, agents",
-          },
-          { name: "Git / GitHub", progress: 80, description: "Quản lý phiên bản, cộng tác" },
-          { name: "Firebase", progress: 65, description: "Auth, Firestore, hosting" },
-        ]
-      : [
-          {
-            name: "React / Next.js",
-            progress: 75,
-            description: "Building web apps, landing pages",
-          },
-          { name: "TypeScript", progress: 70, description: "Type-safe development" },
-          { name: "Flutter / Dart", progress: 55, description: "Cross-platform mobile apps" },
-          {
-            name: "Node.js / Express",
-            progress: 70,
-            description: "REST APIs, backend services",
-          },
-          {
-            name: "PostgreSQL / Supabase",
-            progress: 75,
-            description: "Database design, queries",
-          },
-          {
-            name: "AI Integration (OpenAI, Gemini)",
-            progress: 60,
-            description: "Chatbot, automation, agents",
-          },
-          {
-            name: "Git / GitHub",
-            progress: 80,
-            description: "Version control, collaboration",
-          },
-          { name: "Firebase", progress: 65, description: "Auth, Firestore, hosting" },
-        ];
+      ? {
+          title: "Kỹ năng Kỹ thuật",
+          subtitle: "Các công nghệ đang sử dụng",
+          categories: [
+            {
+              name: "Frontend Development",
+              icon: Code,
+              skills: ["React / Next.js", "TypeScript", "Tailwind CSS", "Flutter / Dart"],
+            },
+            {
+              name: "Backend & Database",
+              icon: Cpu,
+              skills: ["Node.js / Express", "PostgreSQL / Supabase", "REST APIs", "Firebase"],
+            },
+            {
+              name: "AI & Automation",
+              icon: Brain,
+              skills: [
+                "OpenAI / Gemini API",
+                "Chatbot Development",
+                "AI Agents",
+                "Process Automation",
+              ],
+            },
+            {
+              name: "DevOps & Tools",
+              icon: Wrench,
+              skills: ["Git / GitHub", "Vercel / Netlify", "CI/CD Pipelines", "Docker Basics"],
+            },
+          ],
+        }
+      : {
+          title: "Technical Skills",
+          subtitle: "Technologies I work with",
+          categories: [
+            {
+              name: "Frontend Development",
+              icon: Code,
+              skills: ["React / Next.js", "TypeScript", "Tailwind CSS", "Flutter / Dart"],
+            },
+            {
+              name: "Backend & Database",
+              icon: Cpu,
+              skills: ["Node.js / Express", "PostgreSQL / Supabase", "REST APIs", "Firebase"],
+            },
+            {
+              name: "AI & Automation",
+              icon: Brain,
+              skills: [
+                "OpenAI / Gemini API",
+                "Chatbot Development",
+                "AI Agents",
+                "Process Automation",
+              ],
+            },
+            {
+              name: "DevOps & Tools",
+              icon: Wrench,
+              skills: ["Git / GitHub", "Vercel / Netlify", "CI/CD Pipelines", "Docker Basics"],
+            },
+          ],
+        };
 
-  const softwareTools = [
-    { name: "React", icon: Code, status: "daily" },
-    { name: "TypeScript", icon: Code, status: "daily" },
-    { name: "Flutter", icon: Target, status: "production" },
-    { name: "Node.js", icon: Wrench, status: "daily" },
-    { name: "Supabase", icon: Brain, status: "daily" },
-    { name: "Vercel", icon: Users, status: "daily" },
-    { name: "Firebase", icon: MessageSquare, status: "production" },
-    { name: "Git/GitHub", icon: Code, status: "daily" },
-    { name: "Figma", icon: Target, status: "familiar" },
-  ];
+  // SOFT SKILLS - Interpersonal and thinking skills
+  const softSkills =
+    language === "vi"
+      ? {
+          title: "Kỹ năng Mềm",
+          subtitle: "Những kỹ năng tôi đang rèn luyện",
+          items: [
+            {
+              name: "Giao tiếp",
+              icon: MessageSquare,
+              description: "Giải thích vấn đề kỹ thuật dễ hiểu",
+            },
+            {
+              name: "Tư duy Logic",
+              icon: Target,
+              description: "Phân tích và giải quyết từ nguyên nhân gốc",
+            },
+            {
+              name: "Giải quyết vấn đề",
+              icon: Lightbulb,
+              description: "Tìm giải pháp thực tế, không chỉ lý thuyết",
+            },
+            {
+              name: "Học hỏi liên tục",
+              icon: Rocket,
+              description: "Luôn cập nhật công nghệ mới",
+            },
+            {
+              name: "Làm việc nhóm",
+              icon: Users,
+              description: "Hợp tác hiệu quả trong mọi vai trò",
+            },
+            {
+              name: "Quản lý thời gian",
+              icon: Zap,
+              description: "Hoàn thành công việc đúng deadline",
+            },
+          ],
+        }
+      : {
+          title: "Soft Skills",
+          subtitle: "Skills I continuously develop",
+          items: [
+            {
+              name: "Communication",
+              icon: MessageSquare,
+              description: "Explain technical concepts clearly",
+            },
+            {
+              name: "Logical Thinking",
+              icon: Target,
+              description: "Analyze and solve from root cause",
+            },
+            {
+              name: "Problem Solving",
+              icon: Lightbulb,
+              description: "Find practical solutions, not just theory",
+            },
+            {
+              name: "Continuous Learning",
+              icon: Rocket,
+              description: "Always updating with new technologies",
+            },
+            {
+              name: "Teamwork",
+              icon: Users,
+              description: "Collaborate effectively in any role",
+            },
+            {
+              name: "Time Management",
+              icon: Zap,
+              description: "Deliver work on schedule",
+            },
+          ],
+        };
 
-  const competencyKeys = [
-    "skills.communication",
-    "skills.teamwork",
-    "skills.problemSolving",
-    "skills.selfLearning",
-  ];
-  const competencyIcons = [MessageSquare, Users, Target, Brain];
+  // DOMAIN EXPERTISE - Industry experience
+  const domainExpertise =
+    language === "vi"
+      ? {
+          title: "Kinh nghiệm Ngành",
+          subtitle: "Các lĩnh vực đã làm việc",
+          domains: [
+            {
+              name: "Oil & Gas Industry",
+              icon: Factory,
+              years: "5+",
+              details: ["Kỹ thuật hóa học dầu khí", "Quy trình HSE", "Quản lý chất lượng"],
+            },
+            {
+              name: "Business & Startup",
+              icon: Briefcase,
+              years: "3+",
+              details: ["Quản lý doanh nghiệp", "Digital Marketing", "Sales & BD"],
+            },
+            {
+              name: "Tech & Software",
+              icon: Code,
+              years: "2+",
+              details: ["Full-stack Development", "AI Integration", "SaaS Products"],
+            },
+          ],
+        }
+      : {
+          title: "Industry Experience",
+          subtitle: "Fields I have worked in",
+          domains: [
+            {
+              name: "Oil & Gas Industry",
+              icon: Factory,
+              years: "5+",
+              details: ["Refinery operations", "HSE processes", "Quality management"],
+            },
+            {
+              name: "Business & Startup",
+              icon: Briefcase,
+              years: "3+",
+              details: ["Business management", "Digital Marketing", "Sales & BD"],
+            },
+            {
+              name: "Tech & Software",
+              icon: Code,
+              years: "2+",
+              details: ["Full-stack Development", "AI Integration", "SaaS Products"],
+            },
+          ],
+        };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -104,21 +231,19 @@ const CVSkillsSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Helper function to get progress bar color
-  const getProgressColor = (progress: number) => {
-    if (progress >= 75) return "bg-green-500";
-    if (progress >= 60) return "bg-primary";
-    return "bg-secondary";
-  };
-
   return (
-    <section
-      ref={sectionRef}
-      id="skills"
-      className="section-padding bg-background-secondary relative"
-    >
-      {/* Decorative Background */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+    <section ref={sectionRef} id="skills" className="section-padding relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-accent/30 rounded-full blur-3xl animate-float" />
+          <div
+            className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-float"
+            style={{ animationDelay: "1.2s" }}
+          />
+        </div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      </div>
 
       <div className="container mx-auto relative z-10">
         {/* Section Header */}
@@ -126,138 +251,147 @@ const CVSkillsSection = () => {
           <div className="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full">
             <p className="text-sm text-primary font-medium">{t("skills.badge")}</p>
           </div>
-
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground">
             {t("skills.title")}
           </h2>
-
           <p className="text-lg text-foreground-secondary max-w-2xl mx-auto">
             {t("skills.description")}
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 mb-12">
-          {/* Technical Skills with Progress Bars */}
-          <div className="bg-card border border-border rounded-2xl p-8 shadow-card">
-            <div className="flex items-center gap-3 mb-8">
-              <Code className="w-8 h-8 text-primary" />
-              <h3 className="text-2xl font-heading font-bold text-foreground">
-                {t("skills.technical")}
-              </h3>
+        {/* SECTION 1: HARD SKILLS */}
+        <div className="mb-12">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
+              <Code className="w-5 h-5 text-blue-400" />
             </div>
+            <div>
+              <h3 className="text-2xl font-heading font-bold text-foreground">
+                {hardSkills.title}
+              </h3>
+              <p className="text-sm text-foreground-secondary">{hardSkills.subtitle}</p>
+            </div>
+          </div>
 
-            <div className="space-y-5">
-              {technicalSkills.map((skill, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {hardSkills.categories.map((category, catIndex) => {
+              const CategoryIcon = category.icon;
+              return (
                 <div
-                  key={skill.name}
-                  className="group"
+                  key={category.name}
+                  className="bg-card border border-border rounded-xl p-5 hover:border-blue-500/50 transition-all group"
+                  style={{
+                    animation: inView ? `fade-in 0.5s ease-out ${catIndex * 100}ms both` : "none",
+                  }}
+                >
+                  <div className="flex items-center gap-2 mb-4">
+                    <CategoryIcon className="w-5 h-5 text-blue-400" />
+                    <h4 className="font-semibold text-foreground text-sm">{category.name}</h4>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {category.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-2.5 py-1 text-xs bg-blue-500/10 text-blue-300 border border-blue-500/20 rounded-md"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* SECTION 2: SOFT SKILLS */}
+        <div className="mb-12">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">
+              <Users className="w-5 h-5 text-green-400" />
+            </div>
+            <div>
+              <h3 className="text-2xl font-heading font-bold text-foreground">
+                {softSkills.title}
+              </h3>
+              <p className="text-sm text-foreground-secondary">{softSkills.subtitle}</p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {softSkills.items.map((item, index) => {
+              const ItemIcon = item.icon;
+              return (
+                <div
+                  key={item.name}
+                  className="bg-card border border-border rounded-xl p-5 hover:border-green-500/50 transition-all group"
                   style={{
                     animation: inView ? `fade-in 0.5s ease-out ${index * 80}ms both` : "none",
                   }}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <div>
-                      <span className="font-medium text-foreground">{skill.name}</span>
-                      <p className="text-xs text-foreground-secondary">{skill.description}</p>
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                      <ItemIcon className="w-5 h-5 text-green-400" />
                     </div>
-                    <span className="text-sm font-semibold text-primary">{skill.progress}%</span>
-                  </div>
-                  {/* Progress Bar */}
-                  <div className="h-2 bg-muted rounded-full overflow-hidden">
-                    <div
-                      className={`h-full ${getProgressColor(
-                        skill.progress
-                      )} rounded-full transition-all duration-1000 ease-out`}
-                      style={{
-                        width: inView ? `${skill.progress}%` : "0%",
-                        transitionDelay: `${index * 100}ms`,
-                      }}
-                    />
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-1">{item.name}</h4>
+                      <p className="text-sm text-foreground-secondary">{item.description}</p>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Software & Tools */}
-          <div className="bg-card border border-border rounded-2xl p-8 shadow-card">
-            <div className="flex items-center gap-3 mb-8">
-              <Wrench className="w-8 h-8 text-secondary" />
-              <h3 className="text-2xl font-heading font-bold text-foreground">
-                {t("skills.software")}
-              </h3>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4">
-              {softwareTools.map((tool, index) => {
-                const IconComponent = tool.icon;
-                const statusColors = {
-                  daily: "bg-green-500/20 text-green-400 border-green-500/30",
-                  production: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-                  familiar: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-                };
-                const statusLabels =
-                  language === "vi"
-                    ? {
-                        daily: "Hàng ngày",
-                        production: "Production",
-                        familiar: "Quen thuộc",
-                      }
-                    : {
-                        daily: "Daily Use",
-                        production: "Production",
-                        familiar: "Familiar",
-                      };
-                return (
-                  <div
-                    key={tool.name}
-                    className="bg-muted border border-border rounded-xl p-4 text-center hover:border-secondary/50 hover-lift transition-all group"
-                    style={{
-                      animation: inView ? `fade-in 0.5s ease-out ${index * 100}ms both` : "none",
-                    }}
-                  >
-                    <div className="w-12 h-12 mx-auto mb-3 rounded-lg bg-secondary/20 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all">
-                      <IconComponent className="w-6 h-6 text-secondary" />
-                    </div>
-                    <p className="font-semibold text-foreground text-sm mb-2">{tool.name}</p>
-                    <span
-                      className={`text-xs px-2 py-1 rounded-full border ${
-                        statusColors[tool.status as keyof typeof statusColors]
-                      }`}
-                    >
-                      {statusLabels[tool.status as keyof typeof statusLabels]}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Professional Competencies */}
-        <div className="bg-card border border-border rounded-2xl p-8 shadow-card">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-heading font-bold text-foreground mb-2">
-              {t("skills.competencies")}
-            </h3>
-            <p className="text-foreground-secondary">{t("skills.competenciesDesc")}</p>
+        {/* SECTION 3: DOMAIN EXPERTISE */}
+        <div>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center">
+              <Briefcase className="w-5 h-5 text-amber-400" />
+            </div>
+            <div>
+              <h3 className="text-2xl font-heading font-bold text-foreground">
+                {domainExpertise.title}
+              </h3>
+              <p className="text-sm text-foreground-secondary">{domainExpertise.subtitle}</p>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {competencyKeys.map((key, index) => {
-              const Icon = competencyIcons[index];
+          <div className="grid md:grid-cols-3 gap-6">
+            {domainExpertise.domains.map((domain, index) => {
+              const DomainIcon = domain.icon;
               return (
                 <div
-                  key={key}
-                  className="flex flex-col items-center gap-3 p-6 bg-muted rounded-xl hover:bg-primary/10 hover:border-primary/30 border border-transparent transition-all hover-lift group"
+                  key={domain.name}
+                  className="bg-card border border-border rounded-xl p-6 hover:border-amber-500/50 transition-all group relative overflow-hidden"
                   style={{
                     animation: inView ? `scale-in 0.5s ease-out ${index * 150}ms both` : "none",
                   }}
                 >
-                  <div className="w-16 h-16 rounded-full bg-primary/20 border-2 border-primary/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all">
-                    <Icon className="w-8 h-8 text-primary" />
+                  {/* Years badge */}
+                  <div className="absolute top-4 right-4 px-3 py-1 bg-amber-500/20 border border-amber-500/30 rounded-full">
+                    <span className="text-sm font-bold text-amber-400">{domain.years} years</span>
                   </div>
-                  <p className="font-semibold text-foreground text-center">{t(key)}</p>
+
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <DomainIcon className="w-6 h-6 text-amber-400" />
+                    </div>
+                    <h4 className="font-bold text-foreground text-lg">{domain.name}</h4>
+                  </div>
+
+                  <ul className="space-y-2">
+                    {domain.details.map((detail) => (
+                      <li
+                        key={detail}
+                        className="flex items-center gap-2 text-foreground-secondary"
+                      >
+                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                        <span className="text-sm">{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               );
             })}

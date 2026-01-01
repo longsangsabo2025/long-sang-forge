@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { HeroSection } from "@/components/showcase/HeroSection";
-import { FeaturesSection } from "@/components/showcase/FeaturesSectionDynamic";
-import { CTASection } from "@/components/showcase/CTASection";
-import { FooterSection } from "@/components/showcase/FooterSection";
 import { AnimatedBackground } from "@/components/showcase/AnimatedBackground";
-import { Settings } from "lucide-react";
+import { CTASection } from "@/components/showcase/CTASection";
+import { FeaturesSection } from "@/components/showcase/FeaturesSectionDynamic";
+import { FooterSection } from "@/components/showcase/FooterSection";
+import { HeroSection } from "@/components/showcase/HeroSection";
 import { AppShowcaseService } from "@/services/app-showcase.service";
 import { AppShowcaseData } from "@/types/app-showcase.types";
-import SaboHubShowcase from "./SaboHubShowcase";
+import { Settings } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import AINewbieShowcase from "./AINewbieShowcase";
+import SaboHubShowcase from "./SaboHubShowcase";
 
 const AppShowcaseDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -26,34 +26,36 @@ const AppShowcaseDetail = () => {
 
     const loadDataAsync = async () => {
       if (!slug) {
-        navigate('/app-showcase');
+        navigate("/app-showcase");
         return;
       }
-      
+
       setLoading(true);
       const appData = await AppShowcaseService.loadData(slug);
       setData(appData);
       setLoading(false);
     };
-    
+
     loadDataAsync();
-    
+
     // Subscribe to realtime changes from Supabase
-    const unsubscribe = slug ? AppShowcaseService.subscribeToChanges(slug, (newData) => {
-      setData(newData);
-      setLoading(false);
-    }) : () => {};
-    
+    const unsubscribe = slug
+      ? AppShowcaseService.subscribeToChanges(slug, (newData) => {
+          setData(newData);
+          setLoading(false);
+        })
+      : () => {};
+
     // Also listen for custom event (admin save triggers this)
     const handleAppUpdate = () => {
       loadDataAsync();
     };
-    
-    globalThis.addEventListener('app-showcase-updated', handleAppUpdate);
-    
+
+    globalThis.addEventListener("app-showcase-updated", handleAppUpdate);
+
     return () => {
       unsubscribe();
-      globalThis.removeEventListener('app-showcase-updated', handleAppUpdate);
+      globalThis.removeEventListener("app-showcase-updated", handleAppUpdate);
     };
   }, [slug, navigate]);
 
@@ -89,16 +91,16 @@ const AppShowcaseDetail = () => {
   return (
     <div className="min-h-screen overflow-x-hidden">
       <AnimatedBackground />
-      
+
       {/* Admin Button - Floating */}
-      <Link 
-        to="/app-showcase/admin"
+      <Link
+        to="/admin"
         className="fixed bottom-8 right-8 z-50 w-14 h-14 rounded-full bg-neon-cyan text-dark-bg flex items-center justify-center shadow-lg shadow-neon-cyan/50 hover:scale-110 transition-transform"
         title="Vào trang Admin"
       >
         <Settings size={24} />
       </Link>
-      
+
       <HeroSection data={data} />
       <FeaturesSection data={data} />
       <CTASection data={data} />

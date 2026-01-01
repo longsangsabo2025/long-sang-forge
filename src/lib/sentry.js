@@ -5,8 +5,11 @@
 // which then triggers GitHub Auto-Fix workflow
 // ================================================
 
-const LONGSANG_ADMIN_URL = 'https://longsang-admin.vercel.app';
-const PROJECT_NAME = 'long-sang-forge'; // Will be replaced by setup script
+const LONGSANG_ADMIN_URL = "https://longsang-admin.vercel.app";
+const PROJECT_NAME = "long-sang-forge"; // Will be replaced by setup script
+const IS_DEV =
+  typeof window !== "undefined" &&
+  (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
 
 class SentryClient {
   constructor() {
@@ -16,34 +19,44 @@ class SentryClient {
 
   init() {
     if (this.initialized) return;
-    
+
+    // Skip error reporting in development
+    if (IS_DEV) {
+      this.initialized = true;
+      console.log(
+        `🔴 Sentry Client initialized for ${PROJECT_NAME} (DEV MODE - not sending errors)`
+      );
+      return;
+    }
+
     // Global error handler
-    window.addEventListener('error', (event) => {
+    window.addEventListener("error", (event) => {
       this.captureException({
-        type: 'Error',
+        type: "Error",
         message: event.message,
         filename: event.filename,
         lineno: event.lineno,
         colno: event.colno,
-        stack: event.error?.stack || ''
+        stack: event.error?.stack || "",
       });
     });
 
     // Promise rejection handler
-    window.addEventListener('unhandledrejection', (event) => {
+    window.addEventListener("unhandledrejection", (event) => {
       this.captureException({
-        type: 'UnhandledRejection',
+        type: "UnhandledRejection",
         message: event.reason?.message || String(event.reason),
-        stack: event.reason?.stack || ''
+        stack: event.reason?.stack || "",
       });
     });
 
     // Console error interceptor
     const originalConsoleError = console.error;
     console.error = (...args) => {
-      this.captureMessage('ConsoleError', args.map(a => 
-        typeof a === 'object' ? JSON.stringify(a) : String(a)
-      ).join(' '));
+      this.captureMessage(
+        "ConsoleError",
+        args.map((a) => (typeof a === "object" ? JSON.stringify(a) : String(a))).join(" ")
+      );
       originalConsoleError.apply(console, args);
     };
 
@@ -54,10 +67,10 @@ class SentryClient {
   captureException(error) {
     const errorData = {
       project: PROJECT_NAME,
-      environment: import.meta?.env?.MODE || 'production',
-      level: 'error',
+      environment: import.meta?.env?.MODE || "production",
+      level: "error",
       message: error.message,
-      type: error.type || 'Error',
+      type: error.type || "Error",
       stack: error.stack,
       filename: error.filename,
       lineno: error.lineno,
@@ -65,7 +78,7 @@ class SentryClient {
       url: window.location.href,
       userAgent: navigator.userAgent,
       timestamp: new Date().toISOString(),
-      extra: {}
+      extra: {},
     };
 
     this.sendError(errorData);
@@ -74,11 +87,11 @@ class SentryClient {
   captureMessage(level, message) {
     const errorData = {
       project: PROJECT_NAME,
-      environment: import.meta?.env?.MODE || 'production',
+      environment: import.meta?.env?.MODE || "production",
       level: level.toLowerCase(),
       message: message,
       url: window.location.href,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     this.sendError(errorData);
@@ -91,23 +104,23 @@ class SentryClient {
     // Send to longsang-admin
     try {
       const response = await fetch(`${LONGSANG_ADMIN_URL}/api/errors`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(errorData)
+        body: JSON.stringify(errorData),
       });
 
       if (!response.ok) {
-        console.warn('Failed to send error to longsang-admin:', response.status);
+        console.warn("Failed to send error to longsang-admin:", response.status);
       } else {
         const result = await response.json();
         if (result.autoFixTriggered) {
-          console.log('🤖 Auto-fix triggered for this error!');
+          console.log("🤖 Auto-fix triggered for this error!");
         }
       }
     } catch (err) {
-      console.warn('Could not reach longsang-admin:', err.message);
+      console.warn("Could not reach longsang-admin:", err.message);
       // Store for retry later
       this.storeForRetry(errorData);
     }
@@ -115,9 +128,9 @@ class SentryClient {
 
   storeForRetry(errorData) {
     try {
-      const stored = JSON.parse(localStorage.getItem('sentry_retry_queue') || '[]');
+      const stored = JSON.parse(localStorage.getItem("sentry_retry_queue") || "[]");
       stored.push(errorData);
-      localStorage.setItem('sentry_retry_queue', JSON.stringify(stored.slice(-50))); // Keep last 50
+      localStorage.setItem("sentry_retry_queue", JSON.stringify(stored.slice(-50))); // Keep last 50
     } catch (e) {
       // localStorage might be full
     }
@@ -125,13 +138,13 @@ class SentryClient {
 
   async retryStoredErrors() {
     try {
-      const stored = JSON.parse(localStorage.getItem('sentry_retry_queue') || '[]');
+      const stored = JSON.parse(localStorage.getItem("sentry_retry_queue") || "[]");
       if (stored.length === 0) return;
 
       for (const error of stored) {
         await this.sendError(error);
       }
-      localStorage.removeItem('sentry_retry_queue');
+      localStorage.removeItem("sentry_retry_queue");
     } catch (e) {
       // Ignore
     }
@@ -140,9 +153,9 @@ class SentryClient {
   // Manual error reporting
   report(message, extra = {}) {
     this.captureException({
-      type: 'ManualReport',
+      type: "ManualReport",
       message: message,
-      extra: extra
+      extra: extra,
     });
   }
 }
@@ -151,7 +164,7 @@ class SentryClient {
 export const sentry = new SentryClient();
 
 // Auto-init on load
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   sentry.init();
   // Retry stored errors after 5 seconds
   setTimeout(() => sentry.retryStoredErrors(), 5000);

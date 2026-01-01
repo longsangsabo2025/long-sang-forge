@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { ConsultationManager } from '@/components/consultation/ConsultationManager';
-import { useAuth } from '@/components/auth/AuthProvider';
-import { Navigate } from 'react-router-dom';
+import { useAuth } from "@/components/auth/AuthProvider";
+import { ConsultationManager } from "@/components/consultation/ConsultationManager";
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 export default function AdminConsultations() {
   const { user } = useAuth();
@@ -26,7 +26,7 @@ export default function AdminConsultations() {
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   return (

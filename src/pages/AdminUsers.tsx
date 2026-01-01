@@ -1,21 +1,23 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/lib/subscription/api";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { 
-  Users, 
-  Search, 
-  Filter,
-  Crown,
-  Ban,
-  CheckCircle,
-  XCircle,
-  TrendingUp
-} from "lucide-react";
-import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -24,298 +26,364 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  CheckCircle,
+  Crown,
+  Filter,
+  MoreHorizontal,
+  Search,
+  TrendingUp,
+  Users,
+  XCircle,
+} from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
-interface UserWithSubscription {
+interface UserProfile {
   id: string;
-  email: string;
-  created_at: string;
-  raw_user_meta_data: {
-    full_name?: string;
-  };
-  subscription: {
-    plan: {
-      display_name: string;
-      name: string;
-    };
-    status: string;
-    billing_cycle: string;
-  };
-  usage: {
-    api_calls_count: number;
-    workflows_executed: number;
-    agents_created: number;
+  full_name: string | null;
+  avatar_url: string | null;
+  role: string | null;
+  created_at: string | null;
+  is_active: boolean | null;
+  last_seen_at: string | null;
+}
+
+interface UserSubscription {
+  user_id: string;
+  status: string;
+  plan_id: string;
+  current_period_end: string;
+  plan?: {
+    name: string;
+    display_name: string;
   };
 }
 
+interface CombinedUser extends UserProfile {
+  subscription?: UserSubscription;
+}
+
 export default function AdminUsers() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [planFilter, setPlanFilter] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [roleFilter, setRoleFilter] = useState<string>("all");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
 
-  const { data: users, isLoading } = useQuery({
-    queryKey: ['admin-users'],
+  const {
+    data: users,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["admin-users-list"],
     queryFn: async () => {
-      // Get all users with their subscriptions
-      const { data: authUsers, error: userError } = await supabase.auth.admin.listUsers();
-      
-      if (userError) throw userError;
+      // 1. Fetch profiles
+      const { data: profiles, error: profilesError } = await supabase
+        .from("profiles")
+        .select("*")
+        .order("created_at", { ascending: false });
 
-      // Get subscriptions and usage for each user
-      const usersWithData = await Promise.all(
-        authUsers.users.map(async (user) => {
-          const { data: subscription } = await supabase
-            .from('user_subscriptions')
-            .select(`
-              *,
-              plan:subscription_plans(display_name, name)
-            `)
-            .eq('user_id', user.id)
-            .single();
+      if (profilesError) throw profilesError;
 
-          const { data: usage } = await supabase
-            .from('usage_tracking')
-            .select('*')
-            .eq('user_id', user.id)
-            .order('created_at', { ascending: false })
-            .limit(1)
-            .single();
+      // 2. Fetch subscriptions for these users
+      const userIds = profiles.map((p) => p.id);
+      let subscriptions: UserSubscription[] = [];
 
-          return {
-            ...user,
-            subscription,
-            usage: usage || { api_calls_count: 0, workflows_executed: 0, agents_created: 0 }
-          };
-        })
-      );
+      if (userIds.length > 0) {
+        const { data: subs, error: subsError } = await supabase
+          .from("user_subscriptions")
+          .select(
+            `
+            *,
+            plan:subscription_plans(name, display_name)
+          `
+          )
+          .in("user_id", userIds);
 
-      return usersWithData as UserWithSubscription[];
+        if (subsError) {
+          console.error("Error fetching subscriptions:", subsError);
+        } else {
+          subscriptions = subs as unknown as UserSubscription[];
+        }
+      }
+
+      // 3. Combine data
+      const combinedData: CombinedUser[] = profiles.map((profile) => {
+        const sub = subscriptions.find((s) => s.user_id === profile.id);
+        return {
+          ...profile,
+          subscription: sub
+            ? {
+                ...sub,
+                plan: sub.plan,
+              }
+            : undefined,
+        };
+      });
+
+      return combinedData;
+    },
+  });
+
+  const filteredUsers = users?.filter((user) => {
+    const matchesSearch =
+      (user.full_name?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+      user.id.includes(searchQuery);
+    const matchesRole = roleFilter === "all" || (user.role || "user") === roleFilter;
+    const matchesStatus =
+      statusFilter === "all" ||
+      (statusFilter === "active" && user.is_active) ||
+      (statusFilter === "inactive" && !user.is_active);
+
+    return matchesSearch && matchesRole && matchesStatus;
+  });
+
+  const handleToggleStatus = async (userId: string, currentStatus: boolean) => {
+    try {
+      const { error } = await supabase
+        .from("profiles")
+        .update({ is_active: !currentStatus })
+        .eq("id", userId);
+
+      if (error) throw error;
+      toast.success(`User ${!currentStatus ? "activated" : "deactivated"} successfully`);
+      refetch();
+    } catch (error) {
+      console.error("Error updating user status:", error);
+      toast.error("Failed to update user status");
     }
-  });
-
-  const filteredUsers = users?.filter(user => {
-    const matchesSearch = user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.raw_user_meta_data?.full_name?.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesStatus = statusFilter === 'all' || user.subscription?.status === statusFilter;
-    const matchesPlan = planFilter === 'all' || user.subscription?.plan?.name === planFilter;
-
-    return matchesSearch && matchesStatus && matchesPlan;
-  });
-
-  const stats = {
-    total: users?.length || 0,
-    active: users?.filter(u => u.subscription?.status === 'active').length || 0,
-    free: users?.filter(u => u.subscription?.plan?.name === 'free').length || 0,
-    pro: users?.filter(u => u.subscription?.plan?.name === 'pro').length || 0,
-    enterprise: users?.filter(u => u.subscription?.plan?.name === 'enterprise').length || 0,
   };
 
-  if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <Skeleton className="h-32" />
-        <Skeleton className="h-96" />
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6 pb-16">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Users Management</h1>
+          <p className="text-muted-foreground">Manage user access, roles, and subscriptions</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" onClick={() => refetch()}>
+            <TrendingUp className="mr-2 h-4 w-4" />
+            Refresh Data
+          </Button>
+          <Button>
+            <Users className="mr-2 h-4 w-4" />
+            Add User
+          </Button>
+        </div>
+      </div>
+
       {/* Stats Cards */}
-      <div className="grid md:grid-cols-5 gap-4">
+      <div className="grid gap-4 md:grid-cols-3">
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              Total Users
-            </CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.total}</div>
+            <div className="text-2xl font-bold">{users?.length || 0}</div>
+            <p className="text-xs text-muted-foreground">Registered accounts</p>
           </CardContent>
         </Card>
-
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <CheckCircle className="h-4 w-4 text-green-500" />
-              Active
-            </CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Subscriptions</CardTitle>
+            <Crown className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">{stats.active}</div>
+            <div className="text-2xl font-bold">
+              {users?.filter((u) => u.subscription?.status === "active").length || 0}
+            </div>
+            <p className="text-xs text-muted-foreground">Paying customers</p>
           </CardContent>
         </Card>
-
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">Free Plan</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Users</CardTitle>
+            <CheckCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.free}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Crown className="h-4 w-4 text-blue-500" />
-              Pro Plan
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">{stats.pro}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-purple-500" />
-              Enterprise
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-purple-600">{stats.enterprise}</div>
+            <div className="text-2xl font-bold">
+              {users?.filter((u) => u.is_active).length || 0}
+            </div>
+            <p className="text-xs text-muted-foreground">Currently active accounts</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Filters */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5" />
-            Customer Management
-          </CardTitle>
-          <CardDescription>View and manage all registered users</CardDescription>
+          <CardTitle>User Directory</CardTitle>
+          <CardDescription>
+            A list of all users including their name, role, and subscription status.
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search by email or name..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-4">
+            <div className="flex items-center gap-2 flex-1">
+              <div className="relative flex-1 max-w-sm">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search users..."
+                  className="pl-8"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <Filter className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Filter by Role</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => setRoleFilter("all")}>
+                    All Roles
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setRoleFilter("admin")}>Admins</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setRoleFilter("user")}>Users</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
-
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[180px]">
-                <Filter className="h-4 w-4 mr-2" />
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="cancelled">Cancelled</SelectItem>
-                <SelectItem value="expired">Expired</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select value={planFilter} onValueChange={setPlanFilter}>
-              <SelectTrigger className="w-[180px]">
-                <Crown className="h-4 w-4 mr-2" />
-                <SelectValue placeholder="Plan" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Plans</SelectItem>
-                <SelectItem value="free">Free</SelectItem>
-                <SelectItem value="pro">Pro</SelectItem>
-                <SelectItem value="enterprise">Enterprise</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="flex items-center gap-2">
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Filter by status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="inactive">Inactive</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
-          {/* Users Table */}
           <div className="rounded-md border">
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>User</TableHead>
-                  <TableHead>Plan</TableHead>
+                  <TableHead>Role</TableHead>
                   <TableHead>Status</TableHead>
-                  <TableHead className="text-right">API Calls</TableHead>
-                  <TableHead className="text-right">Workflows</TableHead>
-                  <TableHead className="text-right">Agents</TableHead>
+                  <TableHead>Subscription</TableHead>
                   <TableHead>Joined</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredUsers?.map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell>
-                      <div>
-                        <div className="font-medium">{user.email}</div>
-                        <div className="text-sm text-muted-foreground">
-                          {user.raw_user_meta_data?.full_name || 'No name'}
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={
-                        user.subscription?.plan?.name === 'enterprise' ? 'default' :
-                        user.subscription?.plan?.name === 'pro' ? 'secondary' : 'outline'
-                      }>
-                        {user.subscription?.plan?.display_name || 'Free'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      {user.subscription?.status === 'active' ? (
-                        <Badge variant="default" className="bg-green-500">
-                          <CheckCircle className="h-3 w-3 mr-1" />
-                          Active
-                        </Badge>
-                      ) : (
-                        <Badge variant="outline">
-                          <XCircle className="h-3 w-3 mr-1" />
-                          {user.subscription?.status || 'N/A'}
-                        </Badge>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-right font-mono">
-                      {user.usage?.api_calls_count?.toLocaleString() || 0}
-                    </TableCell>
-                    <TableCell className="text-right font-mono">
-                      {user.usage?.workflows_executed || 0}
-                    </TableCell>
-                    <TableCell className="text-right font-mono">
-                      {user.usage?.agents_created || 0}
-                    </TableCell>
-                    <TableCell>
-                      {new Date(user.created_at).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex gap-2 justify-end">
-                        <Button variant="outline" size="sm">
-                          View
-                        </Button>
-                        <Button variant="destructive" size="sm">
-                          <Ban className="h-4 w-4" />
-                        </Button>
-                      </div>
+                {isLoading ? (
+                  Array.from({ length: 5 }).map((_, i) => (
+                    <TableRow key={i}>
+                      <TableCell>
+                        <Skeleton className="h-10 w-[200px]" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-6 w-[80px]" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-6 w-[80px]" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-6 w-[100px]" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-6 w-[100px]" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-8 w-8 ml-auto" />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : filteredUsers?.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                      No users found matching your criteria
                     </TableCell>
                   </TableRow>
-                ))}
+                ) : (
+                  filteredUsers?.map((user) => (
+                    <TableRow key={user.id}>
+                      <TableCell>
+                        <div className="flex flex-col">
+                          <span className="font-medium">{user.full_name || "Unnamed User"}</span>
+                          <span
+                            className="text-xs text-muted-foreground font-mono truncate max-w-[200px]"
+                            title={user.id}
+                          >
+                            ID: {user.id}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={user.role === "admin" ? "default" : "secondary"}>
+                          {user.role || "user"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          {user.is_active ? (
+                            <CheckCircle className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <XCircle className="h-4 w-4 text-red-500" />
+                          )}
+                          <span className="text-sm text-muted-foreground">
+                            {user.is_active ? "Active" : "Inactive"}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        {user.subscription ? (
+                          <div className="flex flex-col gap-1">
+                            <Badge variant="outline" className="w-fit">
+                              {user.subscription.plan?.display_name || "Unknown Plan"}
+                            </Badge>
+                            <span className="text-xs text-muted-foreground capitalize">
+                              {user.subscription.status}
+                            </span>
+                          </div>
+                        ) : (
+                          <span className="text-sm text-muted-foreground">-</span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <span className="text-sm text-muted-foreground">
+                          {new Date(user.created_at || "").toLocaleDateString()}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                              <span className="sr-only">Open menu</span>
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem
+                              onClick={() => navigator.clipboard.writeText(user.id)}
+                            >
+                              Copy User ID
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={() => handleToggleStatus(user.id, user.is_active || false)}
+                            >
+                              {user.is_active ? "Deactivate User" : "Activate User"}
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </div>
-
-          {filteredUsers?.length === 0 && (
-            <div className="text-center py-12 text-muted-foreground">
-              No users found matching your filters.
-            </div>
-          )}
         </CardContent>
       </Card>
     </div>

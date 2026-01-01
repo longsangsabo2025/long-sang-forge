@@ -1,13 +1,7 @@
-import { motion } from "framer-motion";
-import { PhoneMockup } from "./PhoneMockup";
 import { AppShowcaseData } from "@/types/app-showcase.types";
-import * as LucideIcons from "lucide-react";
-import * as HeroIcons from "@heroicons/react/24/solid";
-import * as PhosphorIcons from "@phosphor-icons/react";
-import * as ReactIcons from "react-icons/ri";
-import * as TablerIcons from "react-icons/tb";
-import * as BoxIcons from "react-icons/bi";
-import * as GameIcons from "react-icons/gi";
+import { motion } from "framer-motion";
+import { getIconByName } from "./iconRegistry";
+import { PhoneMockup } from "./PhoneMockup";
 
 interface FeaturesSectionProps {
   data: AppShowcaseData;
@@ -16,50 +10,31 @@ interface FeaturesSectionProps {
 const FeatureIcon = ({ children, color }: { children: React.ReactNode; color: string }) => (
   <motion.div
     className="relative inline-flex"
-    animate={{ 
+    animate={{
       rotate: [0, 5, 0, -5, 0],
       scale: [1, 1.1, 1, 1.1, 1],
     }}
     transition={{
       duration: 4,
       repeat: Infinity,
-      ease: "easeInOut"
+      ease: "easeInOut",
     }}
   >
     <motion.div
       className={`absolute inset-0 ${color} rounded-full blur-lg`}
       animate={{
         scale: [1, 1.5, 1],
-        opacity: [0.5, 0.8, 0.5]
+        opacity: [0.5, 0.8, 0.5],
       }}
       transition={{
         duration: 2,
         repeat: Infinity,
-        ease: "easeInOut"
+        ease: "easeInOut",
       }}
     />
-    <div className={`relative ${color} rounded-full p-2`}>
-      {children}
-    </div>
+    <div className={`relative ${color} rounded-full p-2`}>{children}</div>
   </motion.div>
 );
-
-// Get icon component by name - Support multiple high-quality icon libraries
-const getIconComponent = (iconName: string) => {
-  // Merge all icon libraries (Hero Icons và Phosphor có chất lượng cao hơn)
-  const allIcons = { 
-    ...HeroIcons,       // Hero Icons (Tailwind team - rất đẹp)
-    ...PhosphorIcons,   // Phosphor Icons (professional design)
-    ...LucideIcons,     // Lucide (fork của Feather)
-    ...ReactIcons,      // Remix Icons
-    ...TablerIcons,     // Tabler Icons
-    ...BoxIcons,        // Box Icons
-    ...GameIcons        // Game Icons
-  };
-  
-  type IconMap = Record<string, React.ComponentType<{ className?: string; size?: number; weight?: string }>>;
-  return (allIcons as IconMap)[iconName] || LucideIcons.Sparkles;
-};
 
 export const FeaturesSection = ({ data }: FeaturesSectionProps) => {
   return (
@@ -81,21 +56,25 @@ export const FeaturesSection = ({ data }: FeaturesSectionProps) => {
 
         <div className="space-y-20">
           {data.features.map((feature, index) => {
-            const IconComponent = getIconComponent(feature.icon);
+            const IconComponent = getIconByName(feature.icon);
             const isEven = index % 2 === 0;
 
             return (
               <motion.div
                 key={feature.id}
-                className={`grid lg:grid-cols-2 gap-8 items-center ${!isEven ? 'lg:flex-row-reverse' : ''}`}
+                className={`grid lg:grid-cols-2 gap-8 items-center ${
+                  !isEven ? "lg:flex-row-reverse" : ""
+                }`}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
               >
-                <div className={`${!isEven ? 'lg:order-2' : 'order-2 lg:order-1'}`}>
+                <div className={`${!isEven ? "lg:order-2" : "order-2 lg:order-1"}`}>
                   {feature.badge && (
-                    <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-${feature.badge.color}/10 border border-${feature.badge.color}/30 mb-4`}>
+                    <div
+                      className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-${feature.badge.color}/10 border border-${feature.badge.color}/30 mb-4`}
+                    >
                       <FeatureIcon color={`bg-${feature.badge.color}`}>
                         <IconComponent className={`w-5 h-5 text-${feature.badge.color}`} />
                       </FeatureIcon>
@@ -104,11 +83,11 @@ export const FeaturesSection = ({ data }: FeaturesSectionProps) => {
                       </span>
                     </div>
                   )}
-                  
+
                   <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-display">
                     {feature.title}
                   </h3>
-                  
+
                   <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
                     {feature.description}
                   </p>
@@ -127,7 +106,7 @@ export const FeaturesSection = ({ data }: FeaturesSectionProps) => {
                   {feature.stats && feature.stats.length > 0 && (
                     <div className="grid grid-cols-2 gap-4">
                       {feature.stats.map((stat, idx) => {
-                        const StatIcon = stat.icon ? getIconComponent(stat.icon) : null;
+                        const StatIcon = stat.icon ? getIconByName(stat.icon) : null;
                         return (
                           <motion.div
                             key={idx}
@@ -145,11 +124,11 @@ export const FeaturesSection = ({ data }: FeaturesSectionProps) => {
                   )}
                 </div>
 
-                <div className={`${!isEven ? 'lg:order-1' : 'order-1 lg:order-2'}`}>
+                <div className={`${!isEven ? "lg:order-1" : "order-1 lg:order-2"}`}>
                   <PhoneMockup delay={index * 0.2}>
                     {feature.screenshot ? (
-                      <img 
-                        src={feature.screenshot} 
+                      <img
+                        src={feature.screenshot}
                         alt={feature.title}
                         className="w-full h-full object-cover"
                       />

@@ -1,9 +1,11 @@
-import { AuthGateModal } from "@/components/auth/AuthGateModal";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { LoginModal } from "@/components/auth/LoginModal";
+import { ChatMarkdownSimple } from "@/components/chat/ChatMarkdown";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useChatHistory } from "@/hooks/useChatHistory";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Bot,
@@ -12,6 +14,7 @@ import {
   MessageCircle,
   Minimize2,
   Send,
+  Trash2,
   User,
   X,
   Zap,
@@ -25,27 +28,18 @@ interface ChatMessage {
   timestamp: Date;
 }
 
+interface SuggestedAction {
+  label: string;
+  action: string;
+  type: "link" | "message" | "contact";
+}
+
 export const StickyChat = () => {
   const { user } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: "1",
-      role: "assistant",
-      content: `Chào bạn! 👋 Tôi là AI Assistant của Long Sang.
-
-💡 **Đọc và có ý tưởng?** Ghi lại ngay tại đây!
-
-Tôi có thể giúp bạn:
-• Tư vấn giải pháp Web/AI/Automation
-• Giải đáp thắc mắc kỹ thuật
-• Brainstorm ý tưởng dự án
-
-Hãy chat bất cứ lúc nào! 🚀`,
-      timestamp: new Date(),
-    },
-  ]);
+  const [suggestedActions, setSuggestedActions] = useState<SuggestedAction[]>([]);
+  const { messages, setMessages, clearHistory, isLoaded } = useChatHistory("longsang_chat_desktop");
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -78,17 +72,15 @@ Hãy chat bất cứ lúc nào! 🚀`,
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/ai-assistant", {
+      // 🚀 Sales Consultant AI - Tư vấn bán hàng thông minh
+      const response = await fetch("/api/sales-consultant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          lessonId: "sticky-assistant",
-          lessonTitle: "Tư vấn Real-time",
-          lessonContext: `Bạn là AI trợ lý của Long Sang - công ty chuyên về phát triển Web/App, AI, Automation và SEO.
-Hãy tư vấn ngắn gọn, đi vào trọng tâm. Khuyến khích user chia sẻ ý tưởng.
-Khi user có ý tưởng mới, hãy giúp họ phát triển thêm và gợi ý các bước tiếp theo.`,
           messages: messages.map((m) => ({ role: m.role, content: m.content })),
           userMessage: input,
+          customerInfo: { userId: user?.id },
+          source: "sticky-chat",
         }),
       });
 
@@ -102,6 +94,11 @@ Khi user có ý tưởng mới, hãy giúp họ phát triển thêm và gợi ý
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
+
+      // Show suggested actions if available
+      if (data.suggestedActions && data.suggestedActions.length > 0) {
+        setSuggestedActions(data.suggestedActions);
+      }
     } catch (error) {
       console.error("AI error:", error);
       setMessages((prev) => [
@@ -147,14 +144,27 @@ Khi user có ý tưởng mới, hãy giúp họ phát triển thêm và gợi ý
             </div>
           </div>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8"
-          onClick={() => setIsExpanded(!isExpanded)}
-        >
-          {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
-        </Button>
+        <div className="flex items-center gap-1">
+          {messages.length > 1 && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 text-muted-foreground hover:text-destructive"
+              onClick={clearHistory}
+              title="Xóa lịch sử chat"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          )}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            onClick={() => setIsExpanded(!isExpanded)}
+          >
+            {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+          </Button>
+        </div>
       </div>
 
       <AnimatePresence mode="wait">
@@ -213,7 +223,10 @@ Khi user có ý tưởng mới, hãy giúp họ phát triển thêm và gợi ý
                           : "bg-muted/80 rounded-tl-sm"
                       }`}
                     >
-                      <p className="text-sm whitespace-pre-wrap leading-relaxed">{msg.content}</p>
+                      <ChatMarkdownSimple
+                        content={msg.content}
+                        className="text-sm leading-relaxed"
+                      />
                       <p className="text-[10px] opacity-50 mt-1.5">
                         {msg.timestamp.toLocaleTimeString("vi-VN", {
                           hour: "2-digit",
@@ -236,6 +249,32 @@ Khi user có ý tưởng mới, hãy giúp họ phát triển thêm và gợi ý
                         <span className="w-2 h-2 bg-foreground/40 rounded-full animate-bounce [animation-delay:0.2s]" />
                       </div>
                     </div>
+                  </div>
+                )}
+
+                {/* Suggested Actions */}
+                {suggestedActions.length > 0 && !isLoading && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {suggestedActions.map((action, idx) => (
+                      <Button
+                        key={idx}
+                        variant="outline"
+                        size="sm"
+                        className="text-xs h-8 bg-muted/50 hover:bg-primary hover:text-primary-foreground transition-colors"
+                        onClick={() => {
+                          if (action.type === "link") {
+                            window.open(action.action, "_blank");
+                          } else if (action.type === "message") {
+                            setInput(action.action);
+                          } else if (action.type === "contact") {
+                            window.location.href = action.action;
+                          }
+                          setSuggestedActions([]);
+                        }}
+                      >
+                        {action.label}
+                      </Button>
+                    ))}
                   </div>
                 )}
               </div>
@@ -297,12 +336,10 @@ Khi user có ý tưởng mới, hãy giúp họ phát triển thêm và gợi ý
         )}
       </AnimatePresence>
 
-      {/* Auth Gate Modal */}
-      <AuthGateModal
+      {/* Login Modal */}
+      <LoginModal
         open={showAuthModal}
         onOpenChange={setShowAuthModal}
-        title="Đăng nhập để chat"
-        subtitle="Tạo tài khoản miễn phí"
         onSuccess={() => setShowAuthModal(false)}
       />
     </div>
@@ -374,12 +411,10 @@ export const MobileChatButton = () => {
         )}
       </AnimatePresence>
 
-      {/* Auth Gate Modal */}
-      <AuthGateModal
+      {/* Login Modal */}
+      <LoginModal
         open={showAuthModal}
         onOpenChange={setShowAuthModal}
-        title="Đăng nhập để chat"
-        subtitle="Tạo tài khoản miễn phí"
         onSuccess={() => setShowAuthModal(false)}
       />
     </>
@@ -389,20 +424,10 @@ export const MobileChatButton = () => {
 // Separate component for mobile chat content
 const MobileChatContent = ({ onRequireAuth }: { onRequireAuth: () => void }) => {
   const { user } = useAuth();
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: "1",
-      role: "assistant",
-      content: `Xin chào! 👋 Tôi là AI Assistant.
-
-💡 Có ý tưởng gì muốn chia sẻ không?
-
-Tôi có thể giúp bạn brainstorm và phát triển ý tưởng! 🚀`,
-      timestamp: new Date(),
-    },
-  ]);
+  const { messages, setMessages, clearHistory } = useChatHistory("longsang_chat_mobile", true);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [suggestedActions, setSuggestedActions] = useState<SuggestedAction[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -432,15 +457,14 @@ Tôi có thể giúp bạn brainstorm và phát triển ý tưởng! 🚀`,
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/ai-assistant", {
+      // 🚀 Sales Consultant AI - Mobile
+      const response = await fetch("/api/sales-consultant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          lessonId: "mobile-assistant",
-          lessonTitle: "Mobile Chat",
-          lessonContext: `AI trợ lý Long Sang. Tư vấn ngắn gọn, giúp user phát triển ý tưởng.`,
           messages: messages.map((m) => ({ role: m.role, content: m.content })),
           userMessage: input,
+          source: "mobile-chat",
         }),
       });
 
@@ -455,6 +479,11 @@ Tôi có thể giúp bạn brainstorm và phát triển ý tưởng! 🚀`,
           timestamp: new Date(),
         },
       ]);
+
+      // Show suggested actions if available
+      if (data.suggestedActions && data.suggestedActions.length > 0) {
+        setSuggestedActions(data.suggestedActions);
+      }
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -495,7 +524,7 @@ Tôi có thể giúp bạn brainstorm và phát triển ý tưởng! 🚀`,
                   msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
                 }`}
               >
-                <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                <ChatMarkdownSimple content={msg.content} className="text-sm" />
                 <p className="text-[10px] opacity-50 mt-1">
                   {msg.timestamp.toLocaleTimeString("vi-VN", {
                     hour: "2-digit",
@@ -519,6 +548,32 @@ Tôi có thể giúp bạn brainstorm và phát triển ý tưởng! 🚀`,
               </div>
             </div>
           )}
+
+          {/* Suggested Actions - Mobile */}
+          {suggestedActions.length > 0 && !isLoading && (
+            <div className="flex flex-wrap gap-2 mt-2">
+              {suggestedActions.map((action, idx) => (
+                <Button
+                  key={idx}
+                  variant="outline"
+                  size="sm"
+                  className="text-xs h-8 bg-muted/50 hover:bg-primary hover:text-primary-foreground transition-colors"
+                  onClick={() => {
+                    if (action.type === "link") {
+                      window.open(action.action, "_blank");
+                    } else if (action.type === "message") {
+                      setInput(action.action);
+                    } else if (action.type === "contact") {
+                      window.location.href = action.action;
+                    }
+                    setSuggestedActions([]);
+                  }}
+                >
+                  {action.label}
+                </Button>
+              ))}
+            </div>
+          )}
         </div>
       </ScrollArea>
 
@@ -540,6 +595,17 @@ Tôi có thể giúp bạn brainstorm và phát triển ý tưởng! 🚀`,
             <Send className="w-4 h-4" />
           </Button>
         </div>
+        {messages.length > 1 && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="w-full mt-2 text-xs text-muted-foreground hover:text-destructive"
+            onClick={clearHistory}
+          >
+            <Trash2 className="w-3 h-3 mr-1" />
+            Xóa lịch sử chat
+          </Button>
+        )}
       </div>
     </div>
   );

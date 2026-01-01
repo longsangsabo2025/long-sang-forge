@@ -5,7 +5,7 @@ export const TechBackground = () => {
       {/* Using scale to fill screen while maintaining quality */}
       <div className="fixed inset-0 bg-[#0a0f1a] overflow-hidden" style={{ zIndex: -30 }}>
         <img
-          src="/images/backgrounds/neural-network.jpg.jpg"
+          src="/images/backgrounds/neural-network.jpg?v=20251230"
           alt=""
           className="w-full h-full object-cover scale-110 origin-center"
           loading="eager"

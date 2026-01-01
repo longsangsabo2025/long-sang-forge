@@ -1,11 +1,11 @@
 /**
  * Real-time Executions Hook
- * 
+ *
  * Subscribes to workflow execution updates via Supabase real-time
  */
 
-import { useEffect, useState } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from "@/integrations/supabase/client";
+import { useEffect, useState } from "react";
 
 interface Execution {
   id: string;
@@ -33,44 +33,36 @@ export const useRealtimeExecutions = () => {
 
     // Subscribe to real-time updates
     const channel = supabase
-      .channel('workflow_executions_changes')
+      .channel("workflow_executions_changes")
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: '*', // Listen to all events (INSERT, UPDATE, DELETE)
-          schema: 'public',
-          table: 'workflow_executions'
+          event: "*", // Listen to all events (INSERT, UPDATE, DELETE)
+          schema: "public",
+          table: "workflow_executions",
         },
         (payload) => {
-          console.log('Real-time update received:', payload);
-          
           switch (payload.eventType) {
-            case 'INSERT':
+            case "INSERT":
               // Add new execution
-              setExecutions(prev => [payload.new as Execution, ...prev]);
+              setExecutions((prev) => [payload.new as Execution, ...prev]);
               break;
-            
-            case 'UPDATE':
+
+            case "UPDATE":
               // Update existing execution
-              setExecutions(prev => 
-                prev.map(exec => 
-                  exec.id === payload.new.id ? payload.new as Execution : exec
-                )
+              setExecutions((prev) =>
+                prev.map((exec) => (exec.id === payload.new.id ? (payload.new as Execution) : exec))
               );
               break;
-            
-            case 'DELETE':
+
+            case "DELETE":
               // Remove deleted execution
-              setExecutions(prev => 
-                prev.filter(exec => exec.id !== payload.old.id)
-              );
+              setExecutions((prev) => prev.filter((exec) => exec.id !== payload.old.id));
               break;
           }
         }
       )
-      .subscribe((status) => {
-        console.log('Subscription status:', status);
-      });
+      .subscribe();
 
     // Cleanup subscription on unmount
     return () => {
@@ -81,30 +73,33 @@ export const useRealtimeExecutions = () => {
   const fetchExecutions = async () => {
     try {
       setLoading(true);
-      
+
       const { data, error: fetchError } = await supabase
-        .from('workflow_executions')
-        .select(`
+        .from("workflow_executions")
+        .select(
+          `
           *,
           workflows:workflow_id (
             name
           )
-        `)
-        .order('created_at', { ascending: false })
+        `
+        )
+        .order("created_at", { ascending: false })
         .limit(50);
 
       if (fetchError) throw fetchError;
 
       // Transform data to include workflow name
-      const transformedData = data?.map(exec => ({
-        ...exec,
-        workflow_name: exec.workflows?.name || 'Unknown Workflow'
-      })) || [];
+      const transformedData =
+        data?.map((exec) => ({
+          ...exec,
+          workflow_name: exec.workflows?.name || "Unknown Workflow",
+        })) || [];
 
       setExecutions(transformedData);
       setError(null);
     } catch (err) {
-      console.error('Error fetching executions:', err);
+      console.error("Error fetching executions:", err);
       setError(err as Error);
     } finally {
       setLoading(false);
@@ -119,7 +114,7 @@ export const useRealtimeExecutions = () => {
     executions,
     loading,
     error,
-    refetch
+    refetch,
   };
 };
 
@@ -134,9 +129,9 @@ export const useExecutionSubscription = (executionId: string) => {
     // Fetch initial data
     const fetchExecution = async () => {
       const { data, error } = await supabase
-        .from('workflow_executions')
-        .select('*')
-        .eq('id', executionId)
+        .from("workflow_executions")
+        .select("*")
+        .eq("id", executionId)
         .single();
 
       if (!error && data) {
@@ -151,12 +146,12 @@ export const useExecutionSubscription = (executionId: string) => {
     const channel = supabase
       .channel(`execution_${executionId}`)
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'workflow_executions',
-          filter: `id=eq.${executionId}`
+          event: "UPDATE",
+          schema: "public",
+          table: "workflow_executions",
+          filter: `id=eq.${executionId}`,
         },
         (payload) => {
           setExecution(payload.new as Execution);

@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => ({
     port: 5000,
     proxy: {
       "/api": {
-        target: "http://localhost:3002",
+        target: "http://localhost:3001",
         changeOrigin: true,
       },
     },
@@ -161,7 +161,7 @@ export default defineConfig(({ mode }) => ({
           ],
           "showcase-pages": [
             "./src/pages/ProjectShowcase",
-            "./src/pages/EnhancedProjectShowcase",
+            "./src/pages/EnhancedProjectShowcaseV2",
             "./src/pages/AppShowcaseDetail",
           ],
           "investment-pages": [

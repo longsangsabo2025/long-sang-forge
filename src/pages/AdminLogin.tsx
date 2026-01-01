@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
-import { toast as sonnerToast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
-import { Lock, Mail, ArrowLeft, Zap } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { ArrowLeft, Lock, Mail, Zap } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast as sonnerToast } from "sonner";
 
 const isDev = import.meta.env.DEV;
 
@@ -25,15 +25,15 @@ const AdminLogin = () => {
       // Dev bypass - create fake session
       if (isDev) {
         // Store dev session flag
-        localStorage.setItem('dev-auth-bypass', 'true');
-        localStorage.setItem('dev-user-email', 'admin@test.com');
-        
-        sonnerToast.success('Quick login successful! (Dev Mode)', {
-          description: 'Logged in as admin@test.com',
+        localStorage.setItem("dev-auth-bypass", "true");
+        localStorage.setItem("dev-user-email", "admin@test.com");
+
+        sonnerToast.success("Quick login successful! (Dev Mode)", {
+          description: "Logged in as admin@test.com",
         });
-        
+
         navigate("/admin");
-        
+
         // Force page reload to apply auth state
         setTimeout(() => {
           window.location.reload();
@@ -43,27 +43,27 @@ const AdminLogin = () => {
 
       // Production mode - use real auth
       const { error } = await supabase.auth.signInWithPassword({
-        email: 'admin@test.com',
-        password: 'admin123',
+        email: "admin@test.com",
+        password: "admin123",
       });
 
       if (error) {
         // If failing, show helpful message
-        sonnerToast.error('Quick login needs setup', {
-          description: 'Please visit /dev-setup to create admin account first',
+        sonnerToast.error("Quick login needs setup", {
+          description: "Please visit /dev-setup to create admin account first",
           duration: 5000,
         });
         return;
       }
 
-      sonnerToast.success('Quick login successful!', {
-        description: 'Logged in as admin@test.com',
+      sonnerToast.success("Quick login successful!", {
+        description: "Logged in as admin@test.com",
       });
-      
+
       navigate("/admin");
     } catch (error: any) {
-      sonnerToast.error('Quick login failed', {
-        description: 'Visit /dev-setup to create admin account',
+      sonnerToast.error("Quick login failed", {
+        description: "Visit /dev-setup to create admin account",
         duration: 5000,
       });
     } finally {
@@ -104,11 +104,7 @@ const AdminLogin = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
       <div className="w-full max-w-md space-y-6">
         {/* Back Button */}
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/")}
-          className="gap-2"
-        >
+        <Button variant="ghost" onClick={() => navigate("/")} className="gap-2">
           <ArrowLeft className="h-4 w-4" />
           Back to Home
         </Button>
@@ -144,7 +140,9 @@ const AdminLogin = () => {
                     <Separator className="w-full" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                    <span className="bg-background px-2 text-muted-foreground">
+                      Or continue with
+                    </span>
                   </div>
                 </div>
               </>
@@ -186,12 +184,7 @@ const AdminLogin = () => {
               </div>
 
               {/* Submit Button */}
-              <Button
-                type="submit"
-                className="w-full"
-                size="lg"
-                disabled={loading}
-              >
+              <Button type="submit" className="w-full" size="lg" disabled={loading}>
                 {loading ? "Signing in..." : "Sign In to Admin Portal"}
               </Button>
             </form>
