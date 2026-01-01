@@ -5,14 +5,20 @@
   "installCommand": "npm install",
   "framework": "vite",
   "alias": ["longsang.org", "www.longsang.org"],
-  "rewrites": [
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30,
+      "includeFiles": "api/**"
+    }
+  },
+  "routes": [
     {
-      "source": "/api/agents/:agentId",
-      "destination": "/api/agents/[agentId]"
+      "src": "/api/(.*)",
+      "dest": "/api/index.js"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }

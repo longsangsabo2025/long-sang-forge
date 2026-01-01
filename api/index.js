@@ -9,18 +9,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
-const googleDriveRoutes = require("./google-drive");
-const googleAnalyticsRoutes = require("./routes/google/analytics");
-const googleCalendarRoutes = require("./routes/google/calendar");
-const googleGmailRoutes = require("./routes/google/gmail");
-const googleMapsRoutes = require("./routes/google/maps");
-const googleIndexingRoutes = require("./routes/google/indexing");
-const credentialsRoutes = require("./routes/credentials");
-const stripeRoutes = require("./routes/stripe");
-const emailRoutes = require("./routes/email");
-const vnpayRoutes = require("./routes/vnpay");
-const cassoRoutes = require("./routes/casso-webhook");
+// Routes - now in ../server/ folder
+const googleDriveRoutes = require("../server/google-drive");
+const googleAnalyticsRoutes = require("../server/routes/google/analytics");
+const googleCalendarRoutes = require("../server/routes/google/calendar");
+const googleGmailRoutes = require("../server/routes/google/gmail");
+const googleMapsRoutes = require("../server/routes/google/maps");
+const googleIndexingRoutes = require("../server/routes/google/indexing");
+const credentialsRoutes = require("../server/routes/credentials");
+const stripeRoutes = require("../server/routes/stripe");
+const emailRoutes = require("../server/routes/email");
+const vnpayRoutes = require("../server/routes/vnpay");
+const cassoRoutes = require("../server/routes/casso-webhook");
 
 app.use("/api/drive", googleDriveRoutes);
 app.use("/api/google/analytics", googleAnalyticsRoutes);
