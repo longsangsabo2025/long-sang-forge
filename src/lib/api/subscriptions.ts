@@ -53,22 +53,154 @@ export interface UserSubscription {
 
 export type PlanId = "free" | "pro" | "vip";
 
+// Feature labels for display - only features that ACTUALLY exist
+const FEATURE_LABELS: Record<
+  string,
+  { label: string; label_vi: string; desc: string; desc_vi: string }
+> = {
+  showcase_premium: {
+    label: "Premium Showcase",
+    label_vi: "Showcase Premium",
+    desc: "Access premium project views",
+    desc_vi: "Xem dự án cao cấp",
+  },
+  investment_access: {
+    label: "Investment Access",
+    label_vi: "Cơ hội đầu tư",
+    desc: "Priority access to investment opportunities",
+    desc_vi: "Ưu tiên các cơ hội đầu tư",
+  },
+  priority_support: {
+    label: "Priority Support",
+    label_vi: "Hỗ trợ ưu tiên",
+    desc: "24h response time",
+    desc_vi: "Phản hồi trong 24 giờ",
+  },
+  community_pro: {
+    label: "Pro Community",
+    label_vi: "Cộng đồng Pro",
+    desc: "Access exclusive Discord channels",
+    desc_vi: "Truy cập Discord độc quyền",
+  },
+  beta_access: {
+    label: "Beta Access",
+    label_vi: "Truy cập Beta",
+    desc: "Test new features first",
+    desc_vi: "Thử nghiệm tính năng mới",
+  },
+  direct_chat: {
+    label: "1:1 Support",
+    label_vi: "Hỗ trợ 1:1",
+    desc: "Direct chat with founder",
+    desc_vi: "Chat trực tiếp với founder",
+  },
+  roadmap_strategy: {
+    label: "Strategy Roadmap",
+    label_vi: "Roadmap chiến lược",
+    desc: "Access strategic roadmap",
+    desc_vi: "Xem lộ trình phát triển",
+  },
+  showcase_limit: {
+    label: "Project Views",
+    label_vi: "Xem dự án",
+    desc: "Number of projects viewable",
+    desc_vi: "Số dự án có thể xem",
+  },
+  consultation_discount: {
+    label: "Consultation Discount",
+    label_vi: "Giảm giá tư vấn",
+    desc: "Discount on consultations",
+    desc_vi: "Giảm giá khi đặt tư vấn",
+  },
+  early_access_days: {
+    label: "Early Access",
+    label_vi: "Truy cập sớm",
+    desc: "Days of early access",
+    desc_vi: "Số ngày truy cập sớm",
+  },
+  support_response_hours: {
+    label: "Support Response",
+    label_vi: "Thời gian phản hồi",
+    desc: "Support response time",
+    desc_vi: "Thời gian phản hồi hỗ trợ",
+  },
+  brain_domains: {
+    label: "Second Brain Domains",
+    label_vi: "Second Brain",
+    desc: "Number of brain domains",
+    desc_vi: "Số domain Second Brain",
+  },
+  brain_docs_per_domain: {
+    label: "Docs per Domain",
+    label_vi: "Tài liệu/Domain",
+    desc: "Documents per domain",
+    desc_vi: "Số tài liệu mỗi domain",
+  },
+  brain_queries_per_month: {
+    label: "Brain Queries",
+    label_vi: "Queries Brain",
+    desc: "Monthly brain queries",
+    desc_vi: "Số câu hỏi Brain/tháng",
+  },
+};
+
 // ============= API FUNCTIONS =============
 
 /**
- * Parse features field - ensures it's always an array
+ * Parse features field - converts object to array with labels
  */
 function parseFeatures(features: any): SubscriptionFeature[] {
   if (!features) return [];
+
+  // If already array, return as-is
   if (Array.isArray(features)) return features;
+
+  // If string, try to parse
   if (typeof features === "string") {
     try {
       const parsed = JSON.parse(features);
-      return Array.isArray(parsed) ? parsed : [];
+      if (Array.isArray(parsed)) return parsed;
+      features = parsed;
     } catch {
       return [];
     }
   }
+
+  // If object, convert to array with labels
+  if (typeof features === "object") {
+    return Object.entries(features)
+      .filter(([key, value]) => {
+        // Filter out false/0/null values for cleaner display
+        if (value === false || value === 0 || value === null) return false;
+        return true;
+      })
+      .map(([key, value]) => {
+        const labels = FEATURE_LABELS[key] || {
+          label: key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()),
+          label_vi: key.replace(/_/g, " "),
+          desc: "",
+          desc_vi: "",
+        };
+
+        // Format value for display
+        let displayValue = value;
+        if (value === true) displayValue = "Có";
+        else if (value === -1) displayValue = "Không giới hạn";
+        else if (typeof value === "number" && key.includes("discount")) displayValue = `${value}%`;
+        else if (typeof value === "number" && key.includes("hours")) displayValue = `${value}h`;
+        else if (typeof value === "number" && key.includes("days")) displayValue = `${value} ngày`;
+
+        return {
+          key,
+          value,
+          label: labels.label,
+          label_vi: labels.label_vi,
+          desc: typeof displayValue === "string" ? displayValue : String(displayValue),
+          desc_vi: typeof displayValue === "string" ? displayValue : String(displayValue),
+        };
+      });
+  }
+
   return [];
 }
 
@@ -289,6 +421,7 @@ export async function getFeatureValue(featureKey: string): Promise<any> {
 }
 
 // ============= DEFAULT PLANS (Fallback) =============
+// Features that ACTUALLY exist in the system
 
 function getDefaultPlans(): SubscriptionPlan[] {
   return [
@@ -296,34 +429,74 @@ function getDefaultPlans(): SubscriptionPlan[] {
       id: "free",
       name: "Free",
       name_vi: "Miễn Phí",
-      description: "Basic access to AI updates and community",
-      description_vi: "Truy cập cơ bản vào cập nhật AI và cộng đồng",
+      description: "Basic access to AI chat and community",
+      description_vi: "Truy cập cơ bản vào Chat AI và cộng đồng",
       price: 0,
       duration_days: 36500,
       features: [
         {
-          key: "ai_updates",
-          value: "monthly",
-          label: "AI Updates",
-          label_vi: "Cập nhật AI",
-          desc: "Monthly digest",
-          desc_vi: "Bản tin hàng tháng",
+          key: "ai_chat",
+          value: 10,
+          label: "AI Chat",
+          label_vi: "Chat AI",
+          desc: "10 credits/day",
+          desc_vi: "10 credits/ngày",
         },
         {
-          key: "showcase_access",
-          value: 3,
-          label: "Showcase",
-          label_vi: "Showcase",
-          desc: "3 basic projects",
-          desc_vi: "3 dự án cơ bản",
+          key: "showcase_limit",
+          value: 1,
+          label: "Project Views",
+          label_vi: "Xem dự án",
+          desc: "1 project",
+          desc_vi: "1 dự án",
         },
         {
-          key: "consultation_discount",
+          key: "brain_domains",
           value: 0,
-          label: "Discount",
-          label_vi: "Giảm giá",
-          desc: "0%",
-          desc_vi: "0%",
+          label: "Second Brain AI",
+          label_vi: "Second Brain AI",
+          desc: "Not included",
+          desc_vi: "Không có",
+        },
+        {
+          key: "brain_docs",
+          value: 0,
+          label: "Brain Docs",
+          label_vi: "Docs nạp vào Brain",
+          desc: "Not included",
+          desc_vi: "Không có",
+        },
+        {
+          key: "early_access_days",
+          value: 0,
+          label: "Early Access",
+          label_vi: "Truy cập sớm",
+          desc: "Not included",
+          desc_vi: "Không có",
+        },
+        {
+          key: "email_updates",
+          value: true,
+          label: "Email Updates",
+          label_vi: "Email cập nhật",
+          desc: "Included",
+          desc_vi: "Có",
+        },
+        {
+          key: "investment_access",
+          value: false,
+          label: "Investment Access",
+          label_vi: "Đầu tư dự án",
+          desc: "Not included",
+          desc_vi: "Không có",
+        },
+        {
+          key: "community_pro",
+          value: false,
+          label: "Pro Community",
+          label_vi: "Cộng đồng Pro",
+          desc: "Not included",
+          desc_vi: "Không có",
         },
       ],
       is_active: true,
@@ -333,34 +506,74 @@ function getDefaultPlans(): SubscriptionPlan[] {
       id: "pro",
       name: "Pro",
       name_vi: "Pro",
-      description: "Weekly updates, early access, and Pro community",
+      description: "Weekly updates, early access and Pro community",
       description_vi: "Cập nhật hàng tuần, truy cập sớm và cộng đồng Pro",
       price: 49000,
       duration_days: 30,
       features: [
         {
-          key: "ai_updates",
-          value: "weekly",
-          label: "AI Updates",
-          label_vi: "Cập nhật AI",
-          desc: "Weekly insights",
-          desc_vi: "Thông tin hàng tuần",
+          key: "ai_chat",
+          value: 500,
+          label: "AI Chat",
+          label_vi: "Chat AI",
+          desc: "500 credits/month",
+          desc_vi: "500 credits/tháng",
         },
         {
-          key: "showcase_access",
-          value: 10,
-          label: "Showcase",
-          label_vi: "Showcase",
-          desc: "10+ projects",
-          desc_vi: "10+ dự án",
+          key: "showcase_limit",
+          value: 3,
+          label: "Project Views",
+          label_vi: "Xem dự án",
+          desc: "3 projects",
+          desc_vi: "3 dự án",
         },
         {
-          key: "consultation_discount",
-          value: 10,
-          label: "Discount",
-          label_vi: "Giảm giá",
-          desc: "10%",
-          desc_vi: "10%",
+          key: "brain_domains",
+          value: 2,
+          label: "Second Brain",
+          label_vi: "Second Brain",
+          desc: "2 brains",
+          desc_vi: "2 brain",
+        },
+        {
+          key: "brain_docs",
+          value: 100,
+          label: "Brain Docs",
+          label_vi: "Docs nạp vào Brain",
+          desc: "100 docs/brain",
+          desc_vi: "100 docs/brain",
+        },
+        {
+          key: "early_access_days",
+          value: 3,
+          label: "Early Access",
+          label_vi: "Truy cập sớm",
+          desc: "3 days early",
+          desc_vi: "3 ngày",
+        },
+        {
+          key: "email_updates",
+          value: true,
+          label: "Email Updates",
+          label_vi: "Email cập nhật",
+          desc: "Included",
+          desc_vi: "Có",
+        },
+        {
+          key: "investment_access",
+          value: false,
+          label: "Investment Access",
+          label_vi: "Đầu tư dự án",
+          desc: "Not included",
+          desc_vi: "Không có",
+        },
+        {
+          key: "community_pro",
+          value: true,
+          label: "Pro Community",
+          label_vi: "Cộng đồng Pro",
+          desc: "Exclusive Discord",
+          desc_vi: "Discord độc quyền",
         },
       ],
       is_active: true,
@@ -370,34 +583,74 @@ function getDefaultPlans(): SubscriptionPlan[] {
       id: "vip",
       name: "VIP",
       name_vi: "VIP",
-      description: "Real-time updates, priority access, and exclusive benefits",
+      description: "Real-time updates, priority access and exclusive benefits",
       description_vi: "Cập nhật real-time, truy cập ưu tiên và quyền lợi độc quyền",
       price: 99000,
       duration_days: 30,
       features: [
         {
-          key: "ai_updates",
-          value: "realtime",
-          label: "AI Updates",
-          label_vi: "Cập nhật AI",
-          desc: "Real-time + Early",
-          desc_vi: "Real-time + Sớm",
+          key: "ai_chat",
+          value: 1200,
+          label: "AI Chat",
+          label_vi: "Chat AI",
+          desc: "1200 credits/month",
+          desc_vi: "1200 credits/tháng",
         },
         {
-          key: "showcase_access",
-          value: "unlimited",
-          label: "Showcase",
-          label_vi: "Showcase",
+          key: "showcase_limit",
+          value: -1,
+          label: "Project Views",
+          label_vi: "Xem dự án",
           desc: "Unlimited",
           desc_vi: "Không giới hạn",
         },
         {
-          key: "consultation_discount",
-          value: 20,
-          label: "Discount",
-          label_vi: "Giảm giá",
-          desc: "20%",
-          desc_vi: "20%",
+          key: "brain_domains",
+          value: 5,
+          label: "Second Brain",
+          label_vi: "Second Brain",
+          desc: "5 brains",
+          desc_vi: "5 brain",
+        },
+        {
+          key: "brain_docs",
+          value: 500,
+          label: "Brain Docs",
+          label_vi: "Docs nạp vào Brain",
+          desc: "500 docs/brain",
+          desc_vi: "500 docs/brain",
+        },
+        {
+          key: "early_access_days",
+          value: 7,
+          label: "Early Access",
+          label_vi: "Truy cập sớm",
+          desc: "7 days early",
+          desc_vi: "7 ngày",
+        },
+        {
+          key: "email_updates",
+          value: true,
+          label: "Email Updates",
+          label_vi: "Email cập nhật",
+          desc: "Included",
+          desc_vi: "Có",
+        },
+        {
+          key: "investment_access",
+          value: true,
+          label: "Investment Access",
+          label_vi: "Đầu tư dự án",
+          desc: "Invest in projects",
+          desc_vi: "Đầu tư vào dự án",
+        },
+        {
+          key: "community_pro",
+          value: true,
+          label: "Pro Community",
+          label_vi: "Cộng đồng Pro",
+          desc: "Exclusive Discord",
+          desc_vi: "Discord độc quyền",
         },
       ],
       is_active: true,

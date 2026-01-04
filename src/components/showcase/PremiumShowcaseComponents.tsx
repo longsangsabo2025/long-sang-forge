@@ -365,7 +365,7 @@ export const VideoEmbed: React.FC<VideoEmbedProps> = ({
               <motion.div
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/50 touch-manipulation"
+                className="w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-primary/40 backdrop-blur-sm flex items-center justify-center shadow-lg shadow-primary/50 touch-manipulation border border-primary/50"
               >
                 <Play
                   className="w-6 h-6 sm:w-8 sm:h-8 text-primary-foreground ml-0.5 sm:ml-1"

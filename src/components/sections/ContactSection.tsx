@@ -544,7 +544,7 @@ export const ContactSection = () => {
               <Button
                 type="submit"
                 disabled={isSubmitting || !turnstileToken}
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 rounded-xl text-base font-semibold hover:scale-[1.02] transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full bg-primary/30 backdrop-blur-sm hover:bg-primary/50 text-primary-foreground px-8 py-6 rounded-xl text-base font-semibold hover:scale-[1.02] transition-all duration-300 border border-primary/40 hover:border-primary/60 shadow-[0_0_20px_hsl(var(--primary)/0.2)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)] disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? t("contact.form.submitting") : t("contact.form.submit")}
               </Button>
@@ -568,7 +568,7 @@ export const ContactSection = () => {
               </div>
               <Button
                 onClick={() => navigate("/consultation")}
-                className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground font-semibold py-6 text-lg"
+                className="w-full bg-gradient-to-r from-primary/30 to-secondary/30 backdrop-blur-sm hover:from-primary/50 hover:to-secondary/50 text-primary-foreground font-semibold py-6 text-lg transition-all duration-300 border border-primary/40 hover:border-primary/60 shadow-[0_0_20px_hsl(var(--primary)/0.2)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)]"
               >
                 Xem lịch & Đặt ngay →
               </Button>
@@ -609,7 +609,27 @@ export const ContactSection = () => {
                 </p>
                 <div className="flex gap-4">
                   <a
-                    href="https://linkedin.com/company/longsang"
+                    href="https://www.facebook.com/longsang791"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary hover:scale-110 hover:rotate-6 transition-all duration-250"
+                    aria-label="Facebook"
+                  >
+                    <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                  </a>
+                  <a
+                    href="https://zalo.me/0961167717"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary hover:scale-110 hover:rotate-6 transition-all duration-250"
+                    aria-label="Zalo"
+                  >
+                    <span className="text-sm font-bold">Zalo</span>
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/long-sang-75a781357/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-primary hover:scale-110 hover:rotate-6 transition-all duration-250"
@@ -618,22 +638,13 @@ export const ContactSection = () => {
                     <LinkedInIcon />
                   </a>
                   <a
-                    href="https://github.com/longsangautomation-max"
+                    href="https://github.com/user-longsang"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-primary hover:scale-110 hover:rotate-6 transition-all duration-250"
                     aria-label="GitHub"
                   >
                     <GitHubIcon />
-                  </a>
-                  <a
-                    href="https://x.com/longsangorg"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-primary hover:scale-110 hover:rotate-6 transition-all duration-250"
-                    aria-label="X (Twitter)"
-                  >
-                    <XIcon />
                   </a>
                   <a
                     href="mailto:contact@longsang.org"

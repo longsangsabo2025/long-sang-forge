@@ -85,7 +85,7 @@ export const HeroSection = () => {
               <Button
                 onClick={() => scrollToSection("#contact")}
                 size="lg"
-                className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground px-6 sm:px-8 py-5 sm:py-6 rounded-xl text-base sm:text-lg font-semibold hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl min-h-[48px] touch-manipulation w-full xs:w-auto"
+                className="bg-gradient-to-r from-primary/30 to-secondary/30 backdrop-blur-sm hover:from-primary/50 hover:to-secondary/50 text-primary-foreground px-6 sm:px-8 py-5 sm:py-6 rounded-xl text-base sm:text-lg font-semibold hover:scale-105 transition-all duration-300 border border-primary/40 hover:border-primary/60 shadow-[0_0_20px_hsl(var(--primary)/0.2)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)] min-h-[48px] touch-manipulation w-full xs:w-auto"
               >
                 {t("hero.cta2")}
               </Button>
@@ -98,7 +98,7 @@ export const HeroSection = () => {
               <img
                 src="/images/avatarpro.png"
                 alt="Long Sang - Software Developer"
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-cover object-top lg:object-center"
                 loading="eager"
                 onError={(e) => {
                   // Fallback to icon if image not found

@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Twitter } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -27,7 +27,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-[#0a0f1a] border-t border-border/10">
+    <footer className="bg-transparent border-t border-border/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-24 py-10 sm:py-12 md:py-16 lg:py-20">
         {/* Top Section - 3 Columns */}
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr] gap-6 sm:gap-8 md:gap-12 lg:gap-16 mb-8 sm:mb-10 md:mb-12">
@@ -51,7 +51,27 @@ export const Footer = () => {
             {/* Social Icons - Touch-friendly 44px targets */}
             <div className="flex gap-3 sm:gap-4 md:gap-5 mt-6 sm:mt-8">
               <a
-                href="https://linkedin.com/in/longsang"
+                href="https://www.facebook.com/longsang791"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary hover:scale-110 transition-all duration-250 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
+                aria-label="Facebook"
+              >
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
+              </a>
+              <a
+                href="https://zalo.me/0961167717"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary hover:scale-110 transition-all duration-250 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
+                aria-label="Zalo"
+              >
+                <span className="text-xs font-bold">Zalo</span>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/long-sang-75a781357/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary hover:scale-110 transition-all duration-250 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
@@ -60,22 +80,13 @@ export const Footer = () => {
                 <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
               </a>
               <a
-                href="https://github.com/longsang"
+                href="https://github.com/user-longsang"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary hover:scale-110 transition-all duration-250 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
                 aria-label="GitHub"
               >
                 <Github className="w-5 h-5 sm:w-6 sm:h-6" />
-              </a>
-              <a
-                href="https://x.com/longsang_dev"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary hover:scale-110 transition-all duration-250 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
-                aria-label="Twitter"
-              >
-                <Twitter className="w-5 h-5 sm:w-6 sm:h-6" />
               </a>
               <a
                 href="mailto:contact@longsang.org"

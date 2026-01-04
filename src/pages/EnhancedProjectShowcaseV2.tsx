@@ -22,6 +22,7 @@ import { CaseStudyCard } from "@/components/showcase/CaseStudyCard";
 import { ProjectCTA } from "@/components/showcase/ProjectCTA";
 import { ProjectHero } from "@/components/showcase/ProjectHero";
 import { MobileSidebar, ProjectSidebar } from "@/components/showcase/ProjectSidebar";
+import { QuickNav } from "@/components/showcase/QuickNav";
 import { RelatedProjects } from "@/components/showcase/RelatedProjects";
 import { SocialShare } from "@/components/showcase/SocialShare";
 import { TestimonialsSection } from "@/components/showcase/TestimonialsSection";
@@ -109,7 +110,7 @@ const EnhancedProjectShowcaseV2 = () => {
           </p>
           <button
             onClick={() => navigate("/")}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-xl transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary/20 hover:bg-primary/40 backdrop-blur-sm text-primary-foreground font-medium rounded-xl transition-all duration-300 border border-primary/40 hover:border-primary/60 hover:shadow-[0_0_20px_hsl(var(--primary)/0.3)]"
           >
             <ArrowLeft className="w-4 h-4" />
             Quay lại trang chủ
@@ -213,8 +214,42 @@ const EnhancedProjectShowcaseV2 = () => {
               transition={{ duration: 0.3 }}
               className="max-w-5xl mx-auto px-4 md:px-8 space-y-8 pb-8"
             >
+              {/* Landing Page Banner for SABO Arena */}
+              {activeProject.slug === "sabo-arena-billiards-platform" && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-gradient-to-r from-emerald-500/20 via-cyan-500/20 to-yellow-500/20 backdrop-blur-sm rounded-2xl p-4 border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-4"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🎱</span>
+                    <div>
+                      <p className="font-semibold text-foreground">Xem Landing Page Marketing</p>
+                      <p className="text-sm text-muted-foreground">
+                        Trang giới thiệu sản phẩm với download links
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => navigate("/showcase/sabo-arena-billiards-platform")}
+                    className="px-5 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/40 backdrop-blur-sm text-emerald-400 font-medium border border-emerald-500/40 hover:border-emerald-500/60 transition-all duration-300 whitespace-nowrap"
+                  >
+                    Xem Landing Page →
+                  </button>
+                </motion.div>
+              )}
+
               {/* Hero */}
               <ProjectHero project={activeProject} />
+
+              {/* Quick Navigation */}
+              <div className="flex justify-center sticky top-16 z-30 -mx-4 md:-mx-8 px-4 md:px-8 py-3 bg-background/30 backdrop-blur-sm">
+                <QuickNav
+                  hasVideo={!!activeProject.video_url}
+                  hasTestimonials={true}
+                  hasCaseStudy={!!activeProject.case_study}
+                />
+              </div>
 
               {/* Social Share */}
               <SocialShare
@@ -228,34 +263,52 @@ const EnhancedProjectShowcaseV2 = () => {
               />
 
               {/* Overview */}
-              {projectForLegacy && <OverviewSection project={projectForLegacy} />}
+              {projectForLegacy && (
+                <div id="overview">
+                  <OverviewSection project={projectForLegacy} />
+                </div>
+              )}
 
               {/* Tech Architecture */}
-              {projectForLegacy && <TechArchitecture project={projectForLegacy} />}
+              {projectForLegacy && (
+                <div id="tech">
+                  <TechArchitecture project={projectForLegacy} />
+                </div>
+              )}
 
               {/* Features */}
-              {projectForLegacy && <FeaturesGrid project={projectForLegacy} />}
+              {projectForLegacy && (
+                <div id="features">
+                  <FeaturesGrid project={projectForLegacy} />
+                </div>
+              )}
 
               {/* Video (if available) */}
               {activeProject.video_url && (
-                <VideoEmbed
-                  videoUrl={activeProject.video_url}
-                  thumbnailUrl={activeProject.screenshots?.[0]?.url || "/images/placeholder.jpg"}
-                  title={`Demo ${activeProject.name}`}
-                />
+                <div id="video">
+                  <VideoEmbed
+                    videoUrl={activeProject.video_url}
+                    thumbnailUrl={activeProject.screenshots?.[0]?.url || "/images/placeholder.jpg"}
+                    title={`Demo ${activeProject.name}`}
+                  />
+                </div>
               )}
 
               {/* Testimonials */}
-              <TestimonialsSection title={`Khách Hàng Nói Gì Về ${activeProject.name}`} />
+              <div id="testimonials">
+                <TestimonialsSection title={`Khách Hàng Nói Gì Về ${activeProject.name}`} />
+              </div>
 
               {/* Case Study (if available in database) */}
               {activeProject.case_study && (
-                <CaseStudyCard
-                  problem={activeProject.case_study.problem}
-                  solution={activeProject.case_study.solution}
-                  result={activeProject.case_study.result}
-                  metrics={activeProject.case_study.metrics}
-                />
+                <div id="case-study">
+                  <CaseStudyCard
+                    problem={activeProject.case_study.problem}
+                    solution={activeProject.case_study.solution}
+                    result={activeProject.case_study.result}
+                    metrics={activeProject.case_study.metrics}
+                  />
+                </div>
               )}
 
               {/* Related Projects */}

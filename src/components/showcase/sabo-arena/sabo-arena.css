@@ -1,0 +1,187 @@
+/**
+ * SABO Arena Landing Page Styles
+ * Custom CSS for the landing page components
+ */
+
+/* === SABO Arena Landing Specific Styles === */
+.sabo-arena-landing {
+  --sabo-primary: hsl(180, 70%, 45%);
+  --sabo-secondary: hsl(45, 65%, 52%);
+  --sabo-accent: hsl(180, 100%, 70%);
+
+  /* Background with neural network */
+  background: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    radial-gradient(ellipse at top, hsla(220, 30%, 12%, 0.85) 0%, hsla(220, 30%, 6%, 0.92) 100%),
+    url("/images/backgrounds/neural-network.jpg");
+  background-size: 60px 60px, 60px 60px, cover, cover;
+  background-position: center, center, center, center;
+  background-attachment: scroll, scroll, fixed, fixed;
+}
+
+/* Section Container */
+.sabo-arena-landing .section-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Section Titles */
+.sabo-arena-landing .section-title {
+  @apply text-3xl md:text-4xl lg:text-5xl font-bold;
+}
+
+.sabo-arena-landing .section-subtitle {
+  @apply text-lg text-muted-foreground max-w-2xl;
+}
+
+/* Glass Card */
+.sabo-arena-landing .glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+}
+
+.sabo-arena-landing .glass-card-hover {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+}
+
+.sabo-arena-landing .glass-card-hover:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-4px);
+}
+
+/* Gradient Text */
+.sabo-arena-landing .text-gradient-primary {
+  background: linear-gradient(135deg, hsl(180, 70%, 45%) 0%, hsl(200, 80%, 55%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sabo-arena-landing .text-gradient-gold {
+  background: linear-gradient(135deg, hsl(45, 65%, 52%) 0%, hsl(35, 75%, 55%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sabo-arena-landing .text-gradient-cyan {
+  background: linear-gradient(135deg, hsl(180, 100%, 70%) 0%, hsl(200, 100%, 65%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Blob Gradients */
+.sabo-arena-landing .blob-gradient {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.sabo-arena-landing .blob-green {
+  background: radial-gradient(circle, hsl(150, 60%, 40%) 0%, transparent 70%);
+}
+
+.sabo-arena-landing .blob-cyan {
+  background: radial-gradient(circle, hsl(180, 70%, 45%) 0%, transparent 70%);
+}
+
+.sabo-arena-landing .blob-gold {
+  background: radial-gradient(circle, hsl(45, 65%, 52%) 0%, transparent 70%);
+}
+
+/* Gradient Radial */
+.sabo-arena-landing .bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-from) 0%, var(--tw-gradient-to) 100%);
+}
+
+/* Buttons */
+.sabo-arena-landing .btn-primary-gradient {
+  @apply px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300;
+  background: linear-gradient(135deg, hsl(180, 70%, 45%) 0%, hsl(150, 60%, 40%) 100%);
+  box-shadow: 0 4px 15px rgba(0, 180, 170, 0.3);
+}
+
+.sabo-arena-landing .btn-primary-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 180, 170, 0.4);
+}
+
+.sabo-arena-landing .btn-outline-glow {
+  @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.sabo-arena-landing .btn-outline-glow:hover {
+  border-color: hsl(180, 70%, 45%);
+  box-shadow: 0 0 20px rgba(0, 180, 170, 0.3);
+}
+
+/* iPhone Frame */
+.sabo-arena-landing .iphone-frame {
+  position: relative;
+  background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%);
+  border-radius: 40px;
+  padding: 12px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.sabo-arena-landing .iphone-frame::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 25px;
+  background: #0d0d0d;
+  border-radius: 20px;
+  z-index: 10;
+}
+
+.sabo-arena-landing .iphone-screen {
+  border-radius: 30px;
+  overflow: hidden;
+  aspect-ratio: 9 / 19.5;
+  background: #000;
+}
+
+/* Animations */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+.sabo-arena-landing .animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+.sabo-arena-landing .delay-2000 {
+  animation-delay: 2s;
+}
+
+.sabo-arena-landing .delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Font Display */
+.sabo-arena-landing .font-display {
+  font-family: "Lexend", "Space Grotesk", system-ui, sans-serif;
+}

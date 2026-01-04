@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { sendAIAssistantMessage } from "@/lib/api-client";
 import { AnimatePresence, motion } from "framer-motion";
 import { Bot, Maximize2, Minimize2, Send, Sparkles, User, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -81,32 +82,26 @@ Ask me anything!`,
     setIsLoading(true);
 
     try {
-      // Call AI Assistant API
-      const response = await fetch("/api/ai-assistant", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          lessonId,
-          lessonTitle,
-          lessonContext,
-          messages: messages.map((m) => ({
-            role: m.role,
-            content: m.content,
-          })),
-          userMessage: input,
-        }),
+      // Call AI Assistant API via Supabase Edge Function
+      const data = await sendAIAssistantMessage({
+        lessonId,
+        lessonTitle,
+        lessonContext,
+        messages: messages.map((m) => ({
+          role: m.role,
+          content: m.content,
+        })),
+        userMessage: input,
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
+      if (!data.success) {
         throw new Error(data.error || "Failed to get response");
       }
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: data.response || "Sorry, I encountered an error. Please try again.",
+        content: (data.message as string) || "Sorry, I encountered an error. Please try again.",
         timestamp: new Date(),
       };
 

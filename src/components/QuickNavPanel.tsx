@@ -77,13 +77,13 @@ export const QuickNavPanel = () => {
           onClick={() => setIsOpen(!isOpen)}
           className={`
             flex items-center gap-1
-            bg-primary text-white
+            bg-primary/20 backdrop-blur-md text-white border border-primary/40
             pl-3 pr-2 py-3
             rounded-r-xl
             shadow-lg hover:shadow-xl
-            hover:pl-4
+            hover:pl-4 hover:bg-primary/40 hover:border-primary/60
             transition-all duration-300
-            ${isOpen ? "bg-primary/90" : ""}
+            ${isOpen ? "bg-primary/40" : ""}
           `}
           aria-label="Quick Navigation Menu"
         >

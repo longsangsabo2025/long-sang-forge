@@ -1,11 +1,15 @@
 import dashboardHero from "@/assets/dashboard-hero.png";
+import { EditableImage, EditableText } from "@/components/admin";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+    >
       {/* Removed solid background - now uses parent's neural network background */}
 
       {/* Floating Elements */}
@@ -37,21 +41,35 @@ export const Hero = () => {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              <span className="gradient-text">Quản Lý Thông Minh,</span>
+              <EditableText
+                textKey="hero-title-1"
+                defaultText="Quản Lý Thông Minh,"
+                as="span"
+                className="gradient-text"
+              />
               <br />
-              <span className="text-foreground">Kinh Doanh Hiệu Quả</span>
+              <EditableText
+                textKey="hero-title-2"
+                defaultText="Kinh Doanh Hiệu Quả"
+                as="span"
+                className="text-foreground"
+              />
             </h1>
           </motion.div>
 
           {/* Subheadline */}
-          <motion.p
-            className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto"
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Nền tảng quản lý toàn diện cho doanh nghiệp dịch vụ - 8 hệ thống trong 1 ứng dụng
-          </motion.p>
+            <EditableText
+              textKey="hero-subtitle"
+              defaultText="Nền tảng quản lý toàn diện cho doanh nghiệp dịch vụ - 8 hệ thống trong 1 ứng dụng"
+              as="p"
+              className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto"
+            />
+          </motion.div>
 
           {/* CTA Buttons */}
           <motion.div
@@ -62,7 +80,7 @@ export const Hero = () => {
           >
             <Button
               size="lg"
-              className="bg-gradient-to-r from-primary to-secondary text-white hover:opacity-90 transition-opacity text-lg px-8 py-6 h-auto group"
+              className="bg-gradient-to-r from-primary/30 to-secondary/30 backdrop-blur-sm text-white hover:from-primary/50 hover:to-secondary/50 transition-all duration-300 text-lg px-8 py-6 h-auto group border border-primary/40 hover:border-primary/60 shadow-[0_0_20px_hsl(var(--primary)/0.2)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)]"
             >
               Dùng Thử Miễn Phí
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -85,11 +103,11 @@ export const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             <div className="glass-card p-4 rounded-2xl glow-purple">
-              <img
-                src={dashboardHero}
+              <EditableImage
+                imageKey="hero-dashboard"
+                defaultSrc={dashboardHero}
                 alt="SABOHUB Dashboard Interface"
                 className="w-full rounded-lg shadow-2xl"
-                loading="eager"
               />
             </div>
           </motion.div>

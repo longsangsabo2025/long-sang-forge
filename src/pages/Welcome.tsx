@@ -18,6 +18,7 @@ import {
   Rocket,
   Sparkles,
   Star,
+  User,
   Zap,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -44,6 +45,26 @@ export default function Welcome() {
       setTimeout(() => setShowConfetti(false), 3000);
     }
   }, [isNew]);
+
+  // 👤 USER ACTIONS - Personal shortcuts
+  const userActions = [
+    {
+      icon: Lightbulb,
+      title: "Workspace",
+      description: "Ý tưởng, dự án & lịch hẹn của bạn",
+      href: "/workspace",
+      gradient: "from-yellow-500 via-amber-500 to-orange-500",
+      badge: "💡",
+    },
+    {
+      icon: User,
+      title: "Hồ Sơ",
+      description: "Thông tin cá nhân & gói đăng ký",
+      href: "/profile",
+      gradient: "from-violet-500 via-purple-500 to-fuchsia-500",
+      badge: "👤",
+    },
+  ];
 
   // 🎯 PRIMARY CTAs
   const primaryActions = [
@@ -176,7 +197,7 @@ export default function Welcome() {
                 </h1>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                   Chúc mừng bạn đã gia nhập{" "}
-                  <span className="text-primary font-semibold">Long Sang</span>! Hãy bắt đầu hành
+                  <span className="text-primary font-semibold">longsang.org</span>! Hãy bắt đầu hành
                   trình AI của bạn ngay.
                 </p>
               </>
@@ -198,6 +219,43 @@ export default function Welcome() {
                 </p>
               </>
             )}
+          </motion.div>
+
+          {/* 👤 USER ACTIONS - Quick Access */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.6 }}
+            className="grid md:grid-cols-2 gap-6 mb-8"
+          >
+            {userActions.map((action) => (
+              <motion.button
+                key={action.href}
+                onClick={() => navigate(action.href)}
+                whileHover={{ scale: 1.02, y: -5 }}
+                whileTap={{ scale: 0.98 }}
+                className="group relative overflow-hidden rounded-2xl p-8 text-left bg-card/50 backdrop-blur-sm border border-border/20 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_20px_60px_rgba(0,0,0,0.4)]"
+              >
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
+                />
+                <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-white/5 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
+                <span className="absolute top-4 right-4 text-3xl">{action.badge}</span>
+                <div
+                  className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${action.gradient} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}
+                >
+                  <action.icon className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2 text-foreground flex items-center gap-3">
+                  {action.title}
+                  <ArrowRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                </h3>
+                <p className="text-muted-foreground text-lg">{action.description}</p>
+                <div
+                  className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r ${action.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm`}
+                />
+              </motion.button>
+            ))}
           </motion.div>
 
           {/* 🎯 PRIMARY ACTIONS - Big Cards */}
@@ -315,12 +373,12 @@ export default function Welcome() {
                 Sẵn sàng bắt đầu dự án?
               </h3>
               <p className="text-muted-foreground mb-8 max-w-lg mx-auto text-lg">
-                Đội ngũ Long Sang sẵn sàng giúp bạn tự động hóa và tối ưu hóa công việc với AI.
+                Đội ngũ longsang.org sẵn sàng giúp bạn tự động hóa và tối ưu hóa công việc với AI.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
                   size="lg"
-                  className="bg-gradient-to-r from-primary to-cyan-500 hover:from-primary/90 hover:to-cyan-500/90 text-white px-8 py-6 text-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                  className="bg-gradient-to-r from-primary/30 to-cyan-500/30 backdrop-blur-sm hover:from-primary/50 hover:to-cyan-500/50 text-white px-8 py-6 text-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 border border-primary/40 hover:border-primary/60"
                   onClick={() => navigate("/consultation")}
                 >
                   <Calendar className="w-5 h-5 mr-2" />
@@ -345,7 +403,7 @@ export default function Welcome() {
             transition={{ delay: 0.6 }}
             className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-muted-foreground"
           >
-            {["Tư vấn AI miễn phí", "Không cam kết", "Báo giá trong 24h"].map((text) => (
+            {["Chat AI miễn phí", "Không cam kết", "Báo giá trong 24h"].map((text) => (
               <span key={text} className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-green-500" />
                 {text}

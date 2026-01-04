@@ -133,7 +133,7 @@ export function PricingPage() {
               }`}
             >
               {isPopular && (
-                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary">
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary/30 backdrop-blur-sm border border-primary/50">
                   Most Popular
                 </Badge>
               )}

@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { useState } from "react";
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +10,7 @@ export const Navigation = () => {
     { label: "Dịch Vụ", href: "#services" },
     { label: "Workflows", href: "#workflows" },
     { label: "Công Việc", href: "#jobs" },
-    { label: "Liên Hệ", href: "#contact" }
+    { label: "Liên Hệ", href: "#contact" },
   ];
 
   return (
@@ -40,19 +40,19 @@ export const Navigation = () => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="outline" className="border-primary/50 text-foreground hover:bg-primary/10">
+            <Button
+              variant="outline"
+              className="border-primary/50 text-foreground hover:bg-primary/10"
+            >
               Đăng Nhập
             </Button>
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_15px_hsl(var(--primary)/0.4)]">
+            <Button className="bg-primary/20 hover:bg-primary/40 backdrop-blur-sm text-primary-foreground border border-primary/40 hover:border-primary/60 shadow-[0_0_15px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_25px_hsl(var(--primary)/0.5)] transition-all duration-300">
               Đăng Ký
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-foreground"
-            onClick={() => setIsOpen(!isOpen)}
-          >
+          <button className="md:hidden text-foreground" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X /> : <Menu />}
           </button>
         </div>
@@ -75,7 +75,7 @@ export const Navigation = () => {
                 <Button variant="outline" className="w-full border-primary/50">
                   Đăng Nhập
                 </Button>
-                <Button className="w-full bg-primary hover:bg-primary/90">
+                <Button className="w-full bg-primary/20 hover:bg-primary/40 backdrop-blur-sm border border-primary/40 hover:border-primary/60 transition-all duration-300">
                   Đăng Ký
                 </Button>
               </div>

@@ -50,7 +50,7 @@ const CVHeroSection = () => {
             <div className="flex flex-wrap gap-4 pt-4">
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-glow"
+                className="bg-primary/30 backdrop-blur-sm hover:bg-primary/50 text-primary-foreground font-semibold shadow-glow border border-primary/50 hover:border-primary/70 transition-all duration-300"
                 onClick={() =>
                   document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })
                 }
@@ -60,7 +60,7 @@ const CVHeroSection = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                className="border-primary/50 text-primary hover:bg-primary/20 hover:text-primary-foreground backdrop-blur-sm transition-all duration-300"
                 onClick={() =>
                   document.querySelector("#experience")?.scrollIntoView({ behavior: "smooth" })
                 }

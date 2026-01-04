@@ -151,12 +151,13 @@ class ChatAnalytics {
       "giá",
       "chi phí",
       "báo giá",
-      "dầu ăn",
-      "cooking oil",
       "đầu tư",
       "invest",
       "liên hệ",
       "contact",
+      "automation",
+      "training",
+      "academy",
     ];
 
     const lowerContent = content.toLowerCase();
@@ -206,20 +207,12 @@ class ChatAnalytics {
 
   // Send to backend for persistent storage
   private async sendToBackend(eventType: string, data: Record<string, unknown>): Promise<void> {
+    // NOTE: Serverless mode - analytics stored in localStorage
+    // Backend endpoint disabled
     try {
+      // TODO: If needed, call Supabase Edge Function for analytics
       // Fire and forget - don't block UI
-      fetch("/api/analytics/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: this.sessionId,
-          eventType,
-          data,
-          timestamp: new Date().toISOString(),
-        }),
-      }).catch(() => {
-        // Silently fail - analytics shouldn't break the app
-      });
+      return; // Skip for now - using localStorage
     } catch {
       // Ignore errors
     }

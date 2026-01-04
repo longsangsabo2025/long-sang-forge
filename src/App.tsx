@@ -9,6 +9,7 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import { ScrollRestoration } from "./components/ScrollRestoration";
 import { AdminRoute } from "./components/auth/AdminRoute";
 import { AuthProvider } from "./components/auth/AuthProvider";
+import { ChatLayoutProvider } from "./components/chat/GlobalChat";
 import { ThemeProvider } from "./components/theme/ThemeProvider";
 
 // Loading component for suspense fallback
@@ -34,6 +35,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 // ============================================
 const EnhancedProjectShowcase = lazy(() => import("./pages/EnhancedProjectShowcaseV2"));
 const AppShowcaseDetail = lazy(() => import("./pages/AppShowcaseDetail"));
+const ProjectShowcaseDetailPage = lazy(() => import("./pages/ProjectShowcaseDetailPage"));
 const ProjectInterest = lazy(() => import("./pages/ProjectInterest"));
 
 // Investment Portal
@@ -57,10 +59,12 @@ const MVPMarketplace = lazy(() => import("./pages/ComingSoon"));
 const AgentDetailPage = lazy(() => import("./pages/ComingSoon"));
 
 // ============================================
-// AI SECOND BRAIN (COMING SOON)
+// AI SECOND BRAIN (ENABLED!)
 // ============================================
-const BrainDashboard = lazy(() => import("./pages/ComingSoon"));
-const DomainView = lazy(() => import("./pages/ComingSoon"));
+const BrainDashboard = lazy(() => import("./pages/BrainDashboard"));
+const DomainView = lazy(() => import("./pages/DomainView"));
+const MyBrain = lazy(() => import("./pages/MyBrain"));
+const BrainPricing = lazy(() => import("./pages/BrainPricing"));
 
 // Coming Soon Page
 const ComingSoon = lazy(() => import("./pages/ComingSoon"));
@@ -76,6 +80,7 @@ const UserDashboard = lazy(() => import("./pages/UserDashboard"));
 const UserProfile = lazy(() => import("./pages/UserProfile"));
 const Welcome = lazy(() => import("./pages/Welcome"));
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const ConsultationBooking = lazy(() => import("./pages/ConsultationBooking"));
 
 // ============================================
@@ -87,8 +92,7 @@ const UserWorkspaceLayout = lazy(() =>
   }))
 );
 const WorkspaceDashboard = lazy(() => import("./pages/workspace/WorkspaceDashboard"));
-const IdeasHub = lazy(() => import("./pages/workspace/IdeasHub"));
-const MyProjects = lazy(() => import("./pages/workspace/MyProjects"));
+const CommandCenter = lazy(() => import("./pages/workspace/CommandCenter"));
 const SavedProducts = lazy(() => import("./pages/workspace/SavedProducts"));
 const MyConsultations = lazy(() => import("./pages/workspace/MyConsultations"));
 
@@ -103,6 +107,7 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminIdeas = lazy(() => import("./pages/AdminIdeas"));
 const AdminUsers = lazy(() => import("./pages/AdminUsers"));
 const AdminSettings = lazy(() => import("./pages/AdminSettings"));
+const AdminAIConfig = lazy(() => import("./pages/AdminAIConfig"));
 const AdminSEOCenter = lazy(() => import("./pages/AdminSEOCenter"));
 const AdminWorkflows = lazy(() => import("./pages/AdminWorkflows"));
 const AdminCourses = lazy(() => import("./pages/AdminCourses"));
@@ -121,7 +126,20 @@ const ProjectShowcaseEditor = lazy(() => import("./pages/admin/ProjectShowcaseEd
 // ============================================
 const SubscriptionPricing = lazy(() => import("./pages/SubscriptionPricing"));
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // Cache data for 5 minutes before refetching
+      staleTime: 5 * 60 * 1000,
+      // Keep unused data in cache for 30 minutes
+      gcTime: 30 * 60 * 1000,
+      // Retry failed requests 2 times
+      retry: 2,
+      // Don't refetch on window focus in production
+      refetchOnWindowFocus: import.meta.env.DEV,
+    },
+  },
+});
 
 const App = () => (
   <ErrorBoundary>
@@ -138,108 +156,122 @@ const App = () => (
                   v7_relativeSplatPath: true,
                 }}
               >
-                <ScrollRestoration />
-                <Suspense fallback={<PageLoader />}>
-                  <Routes>
-                    {/* ===== PORTFOLIO HOME ===== */}
-                    <Route path="/" element={<Index />} />
+                <ChatLayoutProvider>
+                  <ScrollRestoration />
+                  <Suspense fallback={<PageLoader />}>
+                    <Routes>
+                      {/* ===== PORTFOLIO HOME ===== */}
+                      <Route path="/" element={<Index />} />
 
-                    {/* ===== MY CV ===== */}
-                    <Route path="/cv" element={<CVPage />} />
+                      {/* ===== MY CV ===== */}
+                      <Route path="/cv" element={<CVPage />} />
 
-                    {/* ===== PAYMENT SUCCESS ===== */}
-                    <Route path="/payment-success" element={<PaymentSuccess />} />
+                      {/* ===== PAYMENT SUCCESS ===== */}
+                      <Route path="/payment-success" element={<PaymentSuccess />} />
 
-                    {/* ===== PROJECT SHOWCASE (V2 - 100% Database) ===== */}
-                    <Route path="/showcase" element={<EnhancedProjectShowcase />} />
-                    <Route path="/project-showcase" element={<EnhancedProjectShowcase />} />
-                    <Route path="/projects/:slug" element={<EnhancedProjectShowcase />} />
-                    <Route path="/showcase/:slug" element={<AppShowcaseDetail />} />
-                    <Route path="/project-showcase/:slug" element={<AppShowcaseDetail />} />
-                    <Route path="/project-showcase/:slug/interest" element={<ProjectInterest />} />
+                      {/* ===== PROJECT SHOWCASE (V2 - 100% Database) ===== */}
+                      <Route path="/showcase" element={<EnhancedProjectShowcase />} />
+                      <Route path="/project-showcase" element={<EnhancedProjectShowcase />} />
+                      <Route path="/projects" element={<EnhancedProjectShowcase />} />
+                      <Route path="/projects/:slug" element={<EnhancedProjectShowcase />} />
+                      <Route path="/showcase/:slug" element={<AppShowcaseDetail />} />
+                      <Route
+                        path="/project-showcase/:slug"
+                        element={<ProjectShowcaseDetailPage />}
+                      />
+                      <Route
+                        path="/project-showcase/:slug/interest"
+                        element={<ProjectInterest />}
+                      />
 
-                    {/* Investment Portal */}
-                    <Route
-                      path="/project-showcase/:slug/investment"
-                      element={<InvestmentPortalLayout />}
-                    >
-                      <Route index element={<InvestmentOverview />} />
-                      <Route path="roadmap" element={<InvestmentRoadmap />} />
-                      <Route path="financials" element={<InvestmentFinancials />} />
-                      <Route path="apply" element={<InvestmentApply />} />
-                    </Route>
+                      {/* Investment Portal */}
+                      <Route
+                        path="/project-showcase/:slug/investment"
+                        element={<InvestmentPortalLayout />}
+                      >
+                        <Route index element={<InvestmentOverview />} />
+                        <Route path="roadmap" element={<InvestmentRoadmap />} />
+                        <Route path="financials" element={<InvestmentFinancials />} />
+                        <Route path="apply" element={<InvestmentApply />} />
+                      </Route>
 
-                    {/* ===== ACADEMY (COMING SOON) ===== */}
-                    <Route path="/academy" element={<ComingSoon />} />
-                    <Route path="/academy/*" element={<ComingSoon />} />
-                    <Route path="/coming-soon/:feature" element={<ComingSoon />} />
+                      {/* ===== ACADEMY (COMING SOON) ===== */}
+                      <Route path="/academy" element={<ComingSoon />} />
+                      <Route path="/academy/*" element={<ComingSoon />} />
+                      <Route path="/coming-soon/:feature" element={<ComingSoon />} />
 
-                    {/* ===== MARKETPLACE (COMING SOON) ===== */}
-                    <Route path="/marketplace" element={<ComingSoon />} />
-                    <Route path="/marketplace/*" element={<ComingSoon />} />
+                      {/* ===== MARKETPLACE (COMING SOON) ===== */}
+                      <Route path="/marketplace" element={<ComingSoon />} />
+                      <Route path="/marketplace/*" element={<ComingSoon />} />
 
-                    {/* ===== AI SECOND BRAIN (COMING SOON) ===== */}
-                    <Route path="/brain" element={<ComingSoon />} />
-                    <Route path="/brain/*" element={<ComingSoon />} />
+                      {/* ===== AI SECOND BRAIN (ENABLED!) ===== */}
+                      <Route path="/brain" element={<BrainDashboard />} />
+                      <Route path="/brain/domain/:domainId" element={<DomainView />} />
+                      <Route path="/my-brain" element={<MyBrain />} />
+                      <Route path="/brain/pricing" element={<BrainPricing />} />
 
-                    {/* ===== LEGAL PAGES ===== */}
-                    <Route path="/privacy" element={<PrivacyPolicy />} />
-                    <Route path="/terms" element={<TermsOfService />} />
+                      {/* ===== LEGAL PAGES ===== */}
+                      <Route path="/privacy" element={<PrivacyPolicy />} />
+                      <Route path="/terms" element={<TermsOfService />} />
 
-                    {/* ===== USER PAGES ===== */}
-                    <Route path="/dashboard" element={<Welcome />} />
-                    <Route path="/welcome" element={<Welcome />} />
-                    <Route path="/profile" element={<UserProfile />} />
-                    <Route path="/consultation" element={<ConsultationBooking />} />
+                      {/* ===== USER PAGES ===== */}
+                      <Route path="/dashboard" element={<Welcome />} />
+                      <Route path="/welcome" element={<Welcome />} />
+                      <Route path="/profile" element={<UserProfile />} />
+                      <Route path="/consultation" element={<ConsultationBooking />} />
 
-                    {/* ===== USER SUBSCRIPTION ===== */}
-                    <Route path="/subscription" element={<SubscriptionPricing />} />
+                      {/* ===== USER SUBSCRIPTION ===== */}
+                      <Route path="/subscription" element={<SubscriptionPricing />} />
 
-                    {/* ===== USER WORKSPACE ===== */}
-                    <Route path="/workspace" element={<UserWorkspaceLayout />}>
-                      <Route index element={<WorkspaceDashboard />} />
-                      <Route path="ideas" element={<IdeasHub />} />
-                      <Route path="projects" element={<MyProjects />} />
-                      <Route path="saved" element={<SavedProducts />} />
-                      <Route path="consultations" element={<MyConsultations />} />
-                    </Route>
+                      {/* ===== USER WORKSPACE ===== */}
+                      <Route path="/workspace" element={<UserWorkspaceLayout />}>
+                        <Route index element={<WorkspaceDashboard />} />
+                        <Route path="hub" element={<CommandCenter />} />
+                        <Route path="ideas" element={<CommandCenter />} />
+                        <Route path="projects" element={<CommandCenter />} />
+                        <Route path="saved" element={<SavedProducts />} />
+                        <Route path="consultations" element={<MyConsultations />} />
+                      </Route>
 
-                    {/* ===== AUTH CALLBACK ===== */}
-                    <Route path="/auth/callback" element={<AuthCallback />} />
+                      {/* ===== AUTH CALLBACK ===== */}
+                      <Route path="/auth/callback" element={<AuthCallback />} />
+                      <Route path="/reset-password" element={<ResetPassword />} />
 
-                    {/* ===== ADMIN ROUTES ===== */}
-                    <Route path="/admin/login" element={<AdminLogin />} />
-                    <Route
-                      path="/admin"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout />
-                        </AdminRoute>
-                      }
-                    >
-                      <Route index element={<AdminDashboard />} />
-                      <Route path="ideas" element={<AdminIdeas />} />
-                      <Route path="users" element={<AdminUsers />} />
-                      <Route path="settings" element={<AdminSettings />} />
-                      <Route path="seo-center" element={<AdminSEOCenter />} />
-                      <Route path="workflows" element={<AdminWorkflows />} />
-                      <Route path="courses" element={<AdminCourses />} />
-                      <Route path="content-queue" element={<AdminContentQueue />} />
-                      <Route path="consultations" element={<AdminConsultations />} />
-                      <Route path="contacts" element={<AdminContacts />} />
-                      <Route path="analytics" element={<AdminAnalytics />} />
-                      <Route path="files" element={<AdminFileManager />} />
-                      <Route path="documents" element={<AdminDocumentEditor />} />
-                      <Route path="subscriptions" element={<AdminSubscriptions />} />
-                      <Route path="projects" element={<ProjectShowcaseList />} />
-                      <Route path="projects/new" element={<ProjectShowcaseEditor />} />
-                      <Route path="projects/:projectId" element={<ProjectShowcaseEditor />} />
-                    </Route>
+                      {/* ===== ADMIN ROUTES ===== */}
+                      <Route path="/admin/login" element={<AdminLogin />} />
+                      <Route
+                        path="/admin"
+                        element={
+                          <AdminRoute>
+                            <AdminLayout />
+                          </AdminRoute>
+                        }
+                      >
+                        <Route index element={<AdminDashboard />} />
+                        <Route path="ideas" element={<AdminIdeas />} />
+                        <Route path="users" element={<AdminUsers />} />
+                        <Route path="settings" element={<AdminSettings />} />
+                        <Route path="ai-config" element={<AdminAIConfig />} />
+                        <Route path="seo-center" element={<AdminSEOCenter />} />
+                        <Route path="workflows" element={<AdminWorkflows />} />
+                        <Route path="courses" element={<AdminCourses />} />
+                        <Route path="content-queue" element={<AdminContentQueue />} />
+                        <Route path="consultations" element={<AdminConsultations />} />
+                        <Route path="contacts" element={<AdminContacts />} />
+                        <Route path="analytics" element={<AdminAnalytics />} />
+                        <Route path="files" element={<AdminFileManager />} />
+                        <Route path="documents" element={<AdminDocumentEditor />} />
+                        <Route path="subscriptions" element={<AdminSubscriptions />} />
+                        <Route path="projects" element={<ProjectShowcaseList />} />
+                        <Route path="projects/new" element={<ProjectShowcaseEditor />} />
+                        <Route path="projects/:projectId" element={<ProjectShowcaseEditor />} />
+                      </Route>
 
-                    {/* ===== 404 NOT FOUND ===== */}
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Suspense>
+                      {/* ===== 404 NOT FOUND ===== */}
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </Suspense>
+                </ChatLayoutProvider>
               </BrowserRouter>
             </TooltipProvider>
           </AuthProvider>

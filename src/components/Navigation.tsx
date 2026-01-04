@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 // import { useSearchShortcut } from "@/hooks/useSearchShortcut"; // Hidden - admin only
-import { Briefcase, CreditCard, Home, Lightbulb, LogOut, Mail, Menu, User, X } from "lucide-react";
+import { Lightbulb, LogOut, Mail, Menu, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -25,13 +25,11 @@ const navLinks = [
   { key: "nav.contact", href: "#contact" },
 ];
 
-// User menu links (when logged in) - SIMPLIFIED: Elon style
+// User menu links (when logged in) - ELON STYLE: Only what user needs
+// Merged: Home+Workspace → Workspace, Profile+Subscription → Profile
 const userMenuLinks = [
-  { key: "nav.userMenu.home", href: "/welcome", icon: Home },
-  { key: "nav.userMenu.profile", href: "/profile", icon: User },
-  { key: "nav.userMenu.projects", href: "/showcase", icon: Briefcase },
   { key: "nav.userMenu.workspace", href: "/workspace", icon: Lightbulb },
-  { key: "nav.userMenu.subscription", href: "/subscription", icon: CreditCard },
+  { key: "nav.userMenu.profile", href: "/profile", icon: User },
 ];
 
 export const Navigation = () => {

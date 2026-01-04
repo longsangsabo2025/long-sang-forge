@@ -27,7 +27,7 @@ export function SEO({
     "platform",
   ],
   image = "/og-image.jpg",
-  url = "https://longsang.ai",
+  url = "https://longsang.org",
   type = "website",
   twitterCard = "summary_large_image",
   author = "SABO Investments",
@@ -35,8 +35,8 @@ export function SEO({
   modifiedTime,
 }: SEOProps) {
   const fullTitle = title.includes("SABO") ? title : `${title} | SABO Investments`;
-  const fullUrl = url.startsWith("http") ? url : `https://longsang.ai${url}`;
-  const fullImage = image.startsWith("http") ? image : `https://longsang.ai${image}`;
+  const fullUrl = url.startsWith("http") ? url : `https://longsang.org${url}`;
+  const fullImage = image.startsWith("http") ? image : `https://longsang.org${image}`;
 
   return (
     <Helmet>

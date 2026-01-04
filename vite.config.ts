@@ -5,16 +5,11 @@ import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
+// ALL API calls now go directly to Supabase Edge Functions - no proxy needed!
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 5000,
-    proxy: {
-      "/api": {
-        target: "http://localhost:3001",
-        changeOrigin: true,
-      },
-    },
   },
   plugins: [
     react(),
@@ -51,6 +46,9 @@ export default defineConfig(({ mode }) => ({
           ],
         },
         workbox: {
+          skipWaiting: true,
+          clientsClaim: true,
+          cleanupOutdatedCaches: true,
           globPatterns: ["**/*.{js,css,html,ico,png,svg,woff,woff2}"],
           maximumFileSizeToCacheInBytes: 20 * 1024 * 1024, // 20MB limit
           runtimeCaching: [

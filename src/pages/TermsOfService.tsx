@@ -34,9 +34,9 @@ const TermsOfService = () => {
   return (
     <Layout>
       <Helmet>
-        <title>{t("terms.title")} | Long Sang</title>
-        <meta name="description" content={t("terms.intro")} />
-        <meta property="og:title" content={`${t("terms.title")} | Long Sang`} />
+        <title>{t("terms.title")} | longsang.org</title>
+        <meta name="description" content={t("terms.description")} />
+        <meta property="og:title" content={`${t("terms.title")} | longsang.org`} />
         <meta property="og:description" content={t("terms.intro")} />
         <link rel="canonical" href="https://longsang.org/terms" />
       </Helmet>

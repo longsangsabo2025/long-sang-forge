@@ -49,7 +49,7 @@ const featureConfigs: Record<
       "Chứng chỉ hoàn thành khóa học",
       "Cộng đồng học viên hỗ trợ 24/7",
     ],
-    eta: "Q1 2025",
+    eta: "Q2 2026",
   },
   marketplace: {
     title: "AI Marketplace",
@@ -64,7 +64,7 @@ const featureConfigs: Record<
       "Tích hợp 1-click với các nền tảng",
       "Hỗ trợ customize theo yêu cầu",
     ],
-    eta: "Q2 2025",
+    eta: "Q3 2026",
   },
   brain: {
     title: "AI Second Brain",
@@ -79,7 +79,7 @@ const featureConfigs: Record<
       "Tự động tạo insights từ data",
       "Tích hợp với Notion, Obsidian",
     ],
-    eta: "Q1 2025",
+    eta: "Đã ra mắt! 🎉",
   },
 };
 
@@ -213,7 +213,7 @@ export default function ComingSoon() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-primary to-cyan-500 hover:from-primary/90 hover:to-cyan-500/90"
+                className="bg-gradient-to-r from-primary/30 to-cyan-500/30 backdrop-blur-sm hover:from-primary/50 hover:to-cyan-500/50 border border-primary/40 hover:border-primary/60 text-white"
                 onClick={() => navigate("/consultation")}
               >
                 <Calendar className="w-4 h-4 mr-2" />

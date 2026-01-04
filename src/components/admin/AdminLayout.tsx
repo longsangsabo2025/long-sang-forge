@@ -187,6 +187,11 @@ const adminNavGroups = [
         href: "/admin/subscriptions",
       },
       {
+        title: "🤖 AI Config",
+        icon: Settings,
+        href: "/admin/ai-config",
+      },
+      {
         title: "Cơ Sở Dữ Liệu",
         icon: Settings,
         href: "/admin/database-schema",
@@ -240,7 +245,7 @@ export const AdminLayout = () => {
 
           {/* Logo & Title */}
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-lg">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/30 backdrop-blur-sm text-primary-foreground font-bold text-lg border border-primary/50">
               LS
             </div>
             <div className="hidden sm:block">

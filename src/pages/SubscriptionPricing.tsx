@@ -23,49 +23,31 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-// Feature comparison data for each plan
-const planFeatures = {
-  free: [
-    { key: "ai_chat", value: "5/tháng", value_en: "5/month" },
-    { key: "ai_image", value: "2/tháng", value_en: "2/month" },
-    { key: "consultation", value: "1/tháng", value_en: "1/month" },
-    { key: "showcase", value: "10/tháng", value_en: "10/month" },
-    { key: "export_pdf", value: false },
-    { key: "priority_support", value: false },
-    { key: "early_access", value: false },
-    { key: "dedicated_support", value: false },
-  ],
-  pro: [
-    { key: "ai_chat", value: "100/tháng", value_en: "100/month" },
-    { key: "ai_image", value: "50/tháng", value_en: "50/month" },
-    { key: "consultation", value: "5/tháng", value_en: "5/month" },
-    { key: "showcase", value: "Không giới hạn", value_en: "Unlimited" },
-    { key: "export_pdf", value: "10/tháng", value_en: "10/month" },
-    { key: "priority_support", value: false },
-    { key: "early_access", value: true },
-    { key: "dedicated_support", value: false },
-  ],
-  vip: [
-    { key: "ai_chat", value: "Không giới hạn", value_en: "Unlimited" },
-    { key: "ai_image", value: "Không giới hạn", value_en: "Unlimited" },
-    { key: "consultation", value: "Không giới hạn", value_en: "Unlimited" },
-    { key: "showcase", value: "Không giới hạn", value_en: "Unlimited" },
-    { key: "export_pdf", value: "Không giới hạn", value_en: "Unlimited" },
-    { key: "priority_support", value: true },
-    { key: "early_access", value: true },
-    { key: "dedicated_support", value: "1/tháng", value_en: "1/month" },
-  ],
+// January 2026 Promotion - Limited time discount
+const PROMOTION = {
+  isActive: true,
+  endDate: new Date("2026-01-31T23:59:59"),
+  discountPercent: 50,
+  originalPrices: {
+    pro: 99000, // Original: 99K -> Now: 49K
+    vip: 199000, // Original: 199K -> Now: 99K
+  },
+  banner: {
+    vi: "🔥 GIẢM 50% - Chỉ trong tháng 01/2026",
+    en: "🔥 50% OFF - January 2026 Only",
+  },
 };
 
-const featureLabels: Record<string, { vi: string; en: string }> = {
-  ai_chat: { vi: "Chat AI", en: "AI Chat" },
-  ai_image: { vi: "Tạo ảnh AI", en: "AI Images" },
-  consultation: { vi: "Đặt lịch tư vấn", en: "Consultations" },
-  showcase: { vi: "Xem dự án", en: "Project Views" },
-  export_pdf: { vi: "Xuất PDF", en: "Export PDF" },
-  priority_support: { vi: "Hỗ trợ ưu tiên", en: "Priority Support" },
-  early_access: { vi: "Tính năng mới", en: "Early Access" },
-  dedicated_support: { vi: "Hỗ trợ 1:1", en: "1:1 Support" },
+// Feature display configuration - matches PricingPage.tsx
+const featureDisplay: Record<string, { icon: string; label: string; label_vi: string }> = {
+  ai_chat: { icon: "💬", label: "AI Chat", label_vi: "Chat AI" },
+  showcase_limit: { icon: "👁️", label: "Project Views", label_vi: "Xem dự án" },
+  brain_domains: { icon: "🧠", label: "Second Brain AI", label_vi: "Second Brain AI" },
+  brain_docs: { icon: "📚", label: "Brain Docs", label_vi: "Docs nạp vào Brain" },
+  early_access_days: { icon: "🚀", label: "Early Access", label_vi: "Truy cập sớm" },
+  email_updates: { icon: "📧", label: "Email Updates", label_vi: "Email cập nhật" },
+  investment_access: { icon: "💎", label: "Investment Access", label_vi: "Đầu tư dự án" },
+  community_pro: { icon: "👥", label: "Pro Community", label_vi: "Cộng đồng Pro" },
 };
 
 export default function SubscriptionPricing() {
@@ -193,12 +175,22 @@ export default function SubscriptionPricing() {
     return isVietnamese ? "Chọn gói này" : "Select Plan";
   };
 
-  const renderFeatureValue = (value: string | boolean, isVietnamese: boolean) => {
+  const renderFeatureValue = (value: string | number | boolean, isVietnamese: boolean) => {
     if (value === true) {
       return <CheckCircle className="h-4 w-4 text-green-500" />;
     }
-    if (value === false) {
+    if (value === false || value === 0) {
       return <X className="h-4 w-4 text-muted-foreground/40" />;
+    }
+    if (value === -1) {
+      return (
+        <span className="text-sm text-green-600 font-medium">
+          {isVietnamese ? "Không giới hạn" : "Unlimited"}
+        </span>
+      );
+    }
+    if (typeof value === "number") {
+      return <span className="text-sm font-medium">{value}</span>;
     }
     const isUnlimited = value === "Không giới hạn" || value === "Unlimited";
     return (
@@ -234,6 +226,20 @@ export default function SubscriptionPricing() {
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-500/15 rounded-full blur-[120px] animate-pulse" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-[150px]" />
       </div>
+      {/* Promotion Banner */}
+      {PROMOTION.isActive && (
+        <div className="bg-gradient-to-r from-red-600 via-orange-500 to-red-600 text-white py-3 text-center animate-pulse">
+          <div className="container mx-auto px-4 flex items-center justify-center gap-2 flex-wrap">
+            <span className="text-lg md:text-xl font-bold">
+              {isVietnamese ? PROMOTION.banner.vi : PROMOTION.banner.en}
+            </span>
+            <Badge className="bg-white text-red-600 font-bold px-3 py-1">
+              -{PROMOTION.discountPercent}%
+            </Badge>
+          </div>
+        </div>
+      )}
+
       {/* Hero Section */}
       <section className="relative py-16 md:py-20 pt-24">
         <div className="container mx-auto px-4 text-center">
@@ -294,13 +300,12 @@ export default function SubscriptionPricing() {
       <section className="container mx-auto px-4 pb-20">
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
           {plans.map((plan) => {
-            const isCurrentPlan = plan.id === planId;
+            const isCurrentPlan = user ? plan.id === planId : false;
             const isPopular = plan.id === "pro";
             const displayPrice = getDisplayPrice(plan);
             const monthlyEquivalent = getMonthlyEquivalent(plan);
             const yearlySavings = getYearlySavings(plan);
-            const isSelectable = !isCurrentPlan && plan.id !== "free";
-            const features = planFeatures[plan.id as keyof typeof planFeatures] || [];
+            const isSelectable = plan.id !== "free" && (!user || !isCurrentPlan);
 
             return (
               <Card
@@ -320,7 +325,7 @@ export default function SubscriptionPricing() {
               >
                 {/* Popular Badge */}
                 {isPopular && (
-                  <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-primary to-cyan-500 text-white text-center py-2 text-sm font-medium">
+                  <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-primary/40 to-cyan-500/40 backdrop-blur-sm text-white text-center py-2 text-sm font-medium border-b border-primary/50">
                     <Star className="h-4 w-4 inline mr-1" />
                     {isVietnamese ? "Phổ biến nhất" : "Most Popular"}
                   </div>
@@ -349,7 +354,7 @@ export default function SubscriptionPricing() {
                     {isVietnamese ? plan.name_vi : plan.name}
                   </h3>
 
-                  {/* Price - FIXED */}
+                  {/* Price - With Promotion */}
                   <div className="mt-4">
                     {plan.price === 0 ? (
                       <div className="text-4xl md:text-5xl font-bold text-white">
@@ -357,8 +362,42 @@ export default function SubscriptionPricing() {
                       </div>
                     ) : (
                       <>
+                        {/* Promotion Badge */}
+                        {PROMOTION.isActive &&
+                          PROMOTION.originalPrices[
+                            plan.id as keyof typeof PROMOTION.originalPrices
+                          ] && (
+                            <Badge className="bg-red-500 text-white font-bold mb-2 animate-bounce">
+                              -{PROMOTION.discountPercent}%
+                            </Badge>
+                          )}
+
+                        {/* Original Price - Crossed out */}
+                        {PROMOTION.isActive &&
+                          PROMOTION.originalPrices[
+                            plan.id as keyof typeof PROMOTION.originalPrices
+                          ] && (
+                            <div className="text-lg text-white/40 line-through mb-1">
+                              {new Intl.NumberFormat("vi-VN").format(
+                                PROMOTION.originalPrices[
+                                  plan.id as keyof typeof PROMOTION.originalPrices
+                                ]
+                              )}
+                              đ/{isVietnamese ? "tháng" : "mo"}
+                            </div>
+                          )}
+
                         <div className="flex items-baseline justify-center gap-1">
-                          <span className="text-4xl md:text-5xl font-bold text-white">
+                          <span
+                            className={`text-4xl md:text-5xl font-bold ${
+                              PROMOTION.isActive &&
+                              PROMOTION.originalPrices[
+                                plan.id as keyof typeof PROMOTION.originalPrices
+                              ]
+                                ? "text-green-400"
+                                : "text-white"
+                            }`}
+                          >
                             {new Intl.NumberFormat("vi-VN").format(
                               billingCycle === "yearly" ? monthlyEquivalent : displayPrice
                             )}
@@ -393,21 +432,22 @@ export default function SubscriptionPricing() {
                 <CardContent className="space-y-4 px-6">
                   <Separator className="bg-white/10" />
 
-                  {/* Feature Comparison in Card */}
+                  {/* Feature Comparison in Card - Using API data */}
                   <div className="space-y-3">
-                    {features.map((feature) => {
-                      const label = featureLabels[feature.key];
-                      const value = isVietnamese
-                        ? feature.value
-                        : feature.value_en || feature.value;
+                    {plan.features.map((feature) => {
+                      const display = featureDisplay[feature.key];
+                      const value = feature.value;
+                      const label = isVietnamese ? feature.label_vi : feature.label;
+                      const desc = isVietnamese ? feature.desc_vi : feature.desc;
 
                       return (
                         <div
                           key={feature.key}
                           className="flex items-center justify-between text-sm"
                         >
-                          <span className="text-white/70">
-                            {isVietnamese ? label?.vi : label?.en}
+                          <span className="text-white/70 flex items-center gap-2">
+                            <span>{display?.icon || "✓"}</span>
+                            {label}
                           </span>
                           <span className="font-medium text-white">
                             {renderFeatureValue(value, isVietnamese)}
@@ -422,18 +462,24 @@ export default function SubscriptionPricing() {
                   <Button
                     className={`w-full h-12 text-base font-semibold ${
                       isPopular
-                        ? "bg-gradient-to-r from-primary to-cyan-500 hover:from-primary/90 hover:to-cyan-500/90 text-white"
+                        ? "bg-gradient-to-r from-primary/30 to-cyan-500/30 backdrop-blur-sm hover:from-primary/50 hover:to-cyan-500/50 text-white border border-primary/40 hover:border-primary/60"
                         : "bg-white/10 hover:bg-white/20 text-white border border-white/20"
                     }`}
-                    disabled={isCurrentPlan || plan.id === "free"}
+                    disabled={user ? isCurrentPlan || plan.id === "free" : plan.id === "free"}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleSelectPlan(plan);
                     }}
                   >
-                    {isCurrentPlan && <CheckCircle className="h-4 w-4 mr-2" />}
-                    {!isCurrentPlan && plan.id !== "free" && <Zap className="h-4 w-4 mr-2" />}
-                    {getButtonLabel(plan)}
+                    {isCurrentPlan && user && <CheckCircle className="h-4 w-4 mr-2" />}
+                    {(!isCurrentPlan || !user) && plan.id !== "free" && (
+                      <Zap className="h-4 w-4 mr-2" />
+                    )}
+                    {!user && plan.id !== "free"
+                      ? isVietnamese
+                        ? "Đăng nhập để mua"
+                        : "Login to Buy"
+                      : getButtonLabel(plan)}
                   </Button>
                 </CardFooter>
               </Card>
@@ -502,7 +548,7 @@ export default function SubscriptionPricing() {
           <div className="flex flex-wrap justify-center gap-4">
             <Button
               size="lg"
-              className="bg-gradient-to-r from-primary to-cyan-500"
+              className="bg-gradient-to-r from-primary/30 to-cyan-500/30 backdrop-blur-sm hover:from-primary/50 hover:to-cyan-500/50 border border-primary/40 hover:border-primary/60 text-white"
               onClick={() => handleSelectPlan(plans.find((p) => p.id === "pro")!)}
             >
               <Rocket className="h-5 w-5 mr-2" />

@@ -142,15 +142,15 @@ export function LearningPath() {
               <div className="absolute left-0 top-6 flex items-center justify-center">
                 <div
                   className={`
-                  w-12 h-12 rounded-full flex items-center justify-center z-10
+                  w-12 h-12 rounded-full flex items-center justify-center z-10 backdrop-blur-sm
                   ${
                     step.isCompleted
-                      ? "bg-green-500 text-white"
+                      ? "bg-green-500/30 text-white border border-green-500/50"
                       : step.isCurrent
-                      ? "bg-primary text-white ring-4 ring-primary/20 animate-pulse"
+                      ? "bg-primary/30 text-white ring-4 ring-primary/20 animate-pulse border border-primary/50"
                       : step.isUnlocked
-                      ? "bg-muted text-muted-foreground"
-                      : "bg-muted/50 text-muted-foreground"
+                      ? "bg-muted/50 text-muted-foreground border border-muted-foreground/30"
+                      : "bg-muted/30 text-muted-foreground border border-muted-foreground/20"
                   }
                 `}
                 >

@@ -405,7 +405,9 @@ export function MySubscription() {
                   </div>
                   <div
                     className={`w-5 h-5 rounded-full border-2 ${
-                      billingCycle === "monthly" ? "border-primary bg-primary" : "border-muted"
+                      billingCycle === "monthly"
+                        ? "border-primary bg-primary/50 backdrop-blur-sm"
+                        : "border-muted"
                     }`}
                   />
                 </div>
@@ -438,7 +440,9 @@ export function MySubscription() {
                   </div>
                   <div
                     className={`w-5 h-5 rounded-full border-2 ${
-                      billingCycle === "yearly" ? "border-primary bg-primary" : "border-muted"
+                      billingCycle === "yearly"
+                        ? "border-primary bg-primary/50 backdrop-blur-sm"
+                        : "border-muted"
                     }`}
                   />
                 </div>

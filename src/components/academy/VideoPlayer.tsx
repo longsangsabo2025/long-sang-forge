@@ -3,25 +3,25 @@
  * Features: Progress tracking, speed control, quality selector, captions
  */
 
-import { useState, useRef, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import {
-  Play,
-  Pause,
-  Volume2,
-  VolumeX,
-  Maximize,
-  Settings,
-  SkipBack,
-  SkipForward,
-} from 'lucide-react';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
+import { Slider } from "@/components/ui/slider";
+import {
+  Maximize,
+  Pause,
+  Play,
+  Settings,
+  SkipBack,
+  SkipForward,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 interface VideoPlayerProps {
   src: string;
@@ -46,7 +46,7 @@ export function VideoPlayer({
   const [isMuted, setIsMuted] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [quality, setQuality] = useState('1080p');
+  const [quality, setQuality] = useState("1080p");
 
   useEffect(() => {
     const video = videoRef.current;
@@ -75,14 +75,14 @@ export function VideoPlayer({
       onComplete?.();
     };
 
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
-    video.addEventListener('timeupdate', handleTimeUpdate);
-    video.addEventListener('ended', handleEnded);
+    video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    video.addEventListener("timeupdate", handleTimeUpdate);
+    video.addEventListener("ended", handleEnded);
 
     return () => {
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      video.removeEventListener('timeupdate', handleTimeUpdate);
-      video.removeEventListener('ended', handleEnded);
+      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      video.removeEventListener("timeupdate", handleTimeUpdate);
+      video.removeEventListener("ended", handleEnded);
     };
   }, [initialProgress, onProgress, onComplete]);
 
@@ -161,9 +161,9 @@ export function VideoPlayer({
     const m = Math.floor((seconds % 3600) / 60);
     const s = Math.floor(seconds % 60);
     if (h > 0) {
-      return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+      return `${h}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
     }
-    return `${m}:${s.toString().padStart(2, '0')}`;
+    return `${m}:${s.toString().padStart(2, "0")}`;
   };
 
   return (
@@ -257,11 +257,7 @@ export function VideoPlayer({
               {/* Playback Speed */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-white hover:bg-white/20"
-                  >
+                  <Button variant="ghost" size="sm" className="text-white hover:bg-white/20">
                     {playbackRate}x
                   </Button>
                 </DropdownMenuTrigger>
@@ -270,9 +266,9 @@ export function VideoPlayer({
                     <DropdownMenuItem
                       key={rate}
                       onClick={() => changePlaybackRate(rate)}
-                      className={playbackRate === rate ? 'bg-accent' : ''}
+                      className={playbackRate === rate ? "bg-accent" : ""}
                     >
-                      {rate}x {rate === 1 && '(Normal)'}
+                      {rate}x {rate === 1 && "(Normal)"}
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>
@@ -281,22 +277,18 @@ export function VideoPlayer({
               {/* Quality */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-white hover:bg-white/20"
-                  >
+                  <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
                     <Settings className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  {['1080p', '720p', '480p', '360p', 'Auto'].map((q) => (
+                  {["1080p", "720p", "480p", "360p", "Auto"].map((q) => (
                     <DropdownMenuItem
                       key={q}
                       onClick={() => setQuality(q)}
-                      className={quality === q ? 'bg-accent' : ''}
+                      className={quality === q ? "bg-accent" : ""}
                     >
-                      {q} {q === 'Auto' && '(Recommended)'}
+                      {q} {q === "Auto" && "(Recommended)"}
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>
@@ -322,7 +314,7 @@ export function VideoPlayer({
           <Button
             size="icon"
             onClick={togglePlay}
-            className="w-20 h-20 rounded-full bg-primary/80 hover:bg-primary"
+            className="w-20 h-20 rounded-full bg-primary/30 hover:bg-primary/50 backdrop-blur-md border border-primary/50 hover:border-primary/70 transition-all duration-300"
           >
             <Play className="h-10 w-10" />
           </Button>

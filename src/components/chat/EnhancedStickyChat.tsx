@@ -51,6 +51,9 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+// Serverless Edge Function URL
+const EDGE_FUNCTION_URL = "https://diexsbzqwsbpilsymnfb.supabase.co/functions/v1/sales-consultant";
+
 interface ChatMessage {
   id: string;
   role: "user" | "assistant";
@@ -76,7 +79,11 @@ export const EnhancedStickyChat = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
   const [suggestedActions, setSuggestedActions] = useState<SuggestedAction[]>([]);
-  const { messages, setMessages, clearHistory, isLoaded } = useChatHistory("longsang_chat_desktop");
+  const { messages, setMessages, clearHistory, isLoaded, isSyncing } = useChatHistory(
+    "longsang_chat_unified",
+    false,
+    user?.id // Pass userId for DB sync
+  );
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [streamingContent, setStreamingContent] = useState("");
@@ -149,7 +156,7 @@ export const EnhancedStickyChat = () => {
     setStreamingContent("");
 
     try {
-      const response = await fetch("/api/sales-consultant", {
+      const response = await fetch(EDGE_FUNCTION_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -288,7 +295,7 @@ export const EnhancedStickyChat = () => {
               <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-background" />
             </div>
             <div>
-              <h3 className="font-semibold text-sm">Tư Vấn AI</h3>
+              <h3 className="font-semibold text-sm">Long Sang AI</h3>
               <Badge
                 variant="secondary"
                 className="text-[10px] px-1.5 py-0 bg-emerald-500/10 text-emerald-400"
@@ -415,8 +422,8 @@ export const EnhancedStickyChat = () => {
                       <div
                         className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${
                           msg.role === "user"
-                            ? "bg-primary"
-                            : "bg-gradient-to-br from-blue-600 to-cyan-500"
+                            ? "bg-primary/40 backdrop-blur-sm border border-primary/50"
+                            : "bg-gradient-to-br from-blue-600/40 to-cyan-500/40 backdrop-blur-sm border border-blue-500/50"
                         }`}
                       >
                         {msg.role === "user" ? (
@@ -428,8 +435,8 @@ export const EnhancedStickyChat = () => {
                       <div
                         className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 ${
                           msg.role === "user"
-                            ? "bg-primary text-primary-foreground rounded-tr-sm"
-                            : "bg-muted/80 rounded-tl-sm"
+                            ? "bg-primary/30 backdrop-blur-sm text-primary-foreground rounded-tr-sm border border-primary/40"
+                            : "bg-muted/50 backdrop-blur-sm rounded-tl-sm border border-muted-foreground/20"
                         }`}
                       >
                         <ChatMarkdownSimple
@@ -507,6 +514,7 @@ export const EnhancedStickyChat = () => {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                    onFocus={() => !user && setShowAuthModal(true)}
                     disabled={isLoading}
                     className="flex-1 h-10 bg-muted/50 border-border/50 focus:bg-background transition-colors"
                   />
@@ -635,7 +643,11 @@ export const EnhancedMobileChatButton = () => {
 // Mobile Chat Content Component
 const EnhancedMobileChatContent = ({ onRequireAuth }: { onRequireAuth: () => void }) => {
   const { user } = useAuth();
-  const { messages, setMessages, clearHistory } = useChatHistory("longsang_chat_mobile", true);
+  const { messages, setMessages, clearHistory, isSyncing } = useChatHistory(
+    "longsang_chat_unified",
+    true,
+    user?.id // Pass userId for DB sync
+  );
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [suggestedActions, setSuggestedActions] = useState<SuggestedAction[]>([]);
@@ -677,7 +689,7 @@ const EnhancedMobileChatContent = ({ onRequireAuth }: { onRequireAuth: () => voi
       setShowQuickReplies(false);
 
       try {
-        const response = await fetch("/api/sales-consultant", {
+        const response = await fetch(EDGE_FUNCTION_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -804,7 +816,9 @@ const EnhancedMobileChatContent = ({ onRequireAuth }: { onRequireAuth: () => voi
             >
               <div
                 className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                  msg.role === "user" ? "bg-primary" : "bg-gradient-to-br from-blue-600 to-cyan-500"
+                  msg.role === "user"
+                    ? "bg-primary/40 backdrop-blur-sm border border-primary/50"
+                    : "bg-gradient-to-br from-blue-600/40 to-cyan-500/40 backdrop-blur-sm border border-blue-500/50"
                 }`}
               >
                 {msg.role === "user" ? (
@@ -815,7 +829,9 @@ const EnhancedMobileChatContent = ({ onRequireAuth }: { onRequireAuth: () => voi
               </div>
               <div
                 className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                  msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
+                  msg.role === "user"
+                    ? "bg-primary/30 backdrop-blur-sm text-primary-foreground border border-primary/40"
+                    : "bg-muted/50 backdrop-blur-sm border border-muted-foreground/20"
                 }`}
               >
                 <ChatMarkdownSimple content={msg.content} className="text-sm" />
@@ -873,6 +889,7 @@ const EnhancedMobileChatContent = ({ onRequireAuth }: { onRequireAuth: () => voi
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
+            onFocus={() => !user && onRequireAuth()}
             disabled={isLoading}
             className="flex-1"
           />

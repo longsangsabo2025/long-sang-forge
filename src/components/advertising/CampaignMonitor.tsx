@@ -28,8 +28,11 @@ export function CampaignMonitor() {
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [error, setError] = useState<string | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-  const WS_URL = API_URL.replace("http://", "ws://").replace("https://", "wss://");
+  // TODO: Create Supabase Edge Function for Campaign Monitoring
+  const SUPABASE_URL =
+    import.meta.env.VITE_SUPABASE_URL || "https://diexsbzqwsbpilsymnfb.supabase.co";
+  const API_URL = `${SUPABASE_URL}/functions/v1`;
+  const WS_URL = "wss://diexsbzqwsbpilsymnfb.supabase.co/realtime/v1";
 
   useEffect(() => {
     // Cleanup on unmount

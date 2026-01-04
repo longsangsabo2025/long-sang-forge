@@ -55,7 +55,7 @@ const AboutSection = () => {
               href="#contact"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-primary/20 backdrop-blur-sm text-primary-foreground rounded-lg font-medium hover:bg-primary/40 border border-primary/40 hover:border-primary/60 transition-all duration-300 shadow-[0_0_20px_hsl(var(--primary)/0.2)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)]"
             >
               {t("about.cta")}
               <Rocket className="w-4 h-4" />

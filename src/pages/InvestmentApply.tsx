@@ -81,11 +81,13 @@ const InvestmentApply = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Final submission to API
+      // Final submission to Supabase Edge Function
       try {
         const projectData = project || { id: 0, name: "Unknown Project" };
+        const SUPABASE_URL =
+          import.meta.env.VITE_SUPABASE_URL || "https://diexsbzqwsbpilsymnfb.supabase.co";
 
-        const response = await fetch("http://localhost:3001/api/investment/apply", {
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/investment`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -120,7 +122,7 @@ const InvestmentApply = () => {
         setSubmitted(true);
 
         setTimeout(() => {
-          navigate(`/project-showcase/${slug}`);
+          navigate(`/projects/${slug}`);
         }, 5000);
       } catch (error) {
         console.error("Error submitting application:", error);

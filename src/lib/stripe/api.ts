@@ -1,13 +1,16 @@
 /**
  * Stripe Payment API Client
+ * Uses Supabase Edge Functions
  */
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+import { EDGE_FUNCTIONS } from "@/config/api";
+
+const EDGE_BASE = EDGE_FUNCTIONS.BASE;
 
 export interface CheckoutSessionRequest {
   planId: string;
   userId: string;
-  billingCycle?: 'monthly' | 'yearly';
+  billingCycle?: "monthly" | "yearly";
 }
 
 export interface CheckoutSessionResponse {
@@ -22,16 +25,16 @@ export async function createCheckoutSession(
   request: CheckoutSessionRequest
 ): Promise<CheckoutSessionResponse> {
   const response = await fetch(`${API_URL}/api/stripe/create-checkout-session`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(request),
   });
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Failed to create checkout session');
+    throw new Error(error.message || "Failed to create checkout session");
   }
 
   return response.json();
@@ -42,16 +45,16 @@ export async function createCheckoutSession(
  */
 export async function getCustomerPortalUrl(userId: string): Promise<string> {
   const response = await fetch(`${API_URL}/api/stripe/customer-portal`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ userId }),
   });
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Failed to get customer portal URL');
+    throw new Error(error.message || "Failed to get customer portal URL");
   }
 
   const data = await response.json();
@@ -64,7 +67,7 @@ export async function getCustomerPortalUrl(userId: string): Promise<string> {
 export async function redirectToCheckout(
   planId: string,
   userId: string,
-  billingCycle: 'monthly' | 'yearly' = 'monthly'
+  billingCycle: "monthly" | "yearly" = "monthly"
 ): Promise<void> {
   try {
     const { url } = await createCheckoutSession({
@@ -76,7 +79,7 @@ export async function redirectToCheckout(
     // Redirect to Stripe checkout
     window.location.href = url;
   } catch (error) {
-    console.error('Checkout error:', error);
+    console.error("Checkout error:", error);
     throw error;
   }
 }
@@ -87,9 +90,9 @@ export async function redirectToCheckout(
 export async function openCustomerPortal(userId: string): Promise<void> {
   try {
     const url = await getCustomerPortalUrl(userId);
-    window.open(url, '_blank');
+    window.open(url, "_blank");
   } catch (error) {
-    console.error('Customer portal error:', error);
+    console.error("Customer portal error:", error);
     throw error;
   }
 }

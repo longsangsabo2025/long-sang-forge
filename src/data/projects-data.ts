@@ -132,7 +132,7 @@ export const projectsData: ProjectData[] = [
     ],
     // Enhanced sidebar fields
     status: "live",
-    logoUrl: "/images/logos/sabo-arena-logo.png",
+    logoUrl: "/images/project card/logosabo.png",
 
     heroTitle: "SABO ARENA",
     heroDescription:
@@ -335,7 +335,7 @@ export const projectsData: ProjectData[] = [
     productionUrl: "https://sabohub.vercel.app",
     // Enhanced sidebar fields
     status: "live",
-    logoUrl: "/images/logos/sabohub-logo.png",
+    logoUrl: "/images/project card/logosabohub.png",
 
     heroTitle: "SABOHUB",
     heroDescription:
@@ -579,7 +579,7 @@ export const projectsData: ProjectData[] = [
     productionUrl: "https://www.ainewbievn.shop",
     // Enhanced sidebar fields
     status: "live",
-    logoUrl: "/images/logos/ainewbievn-logo.png",
+    logoUrl: "/images/project card/logoainewbie.png",
 
     heroTitle: "AINEWBIEVN",
     heroDescription:

@@ -112,7 +112,7 @@ const AdminLogin = () => {
         {/* Login Card */}
         <Card className="border-2">
           <CardHeader className="space-y-3 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/30 backdrop-blur-sm text-primary-foreground border border-primary/50">
               <Lock className="h-8 w-8" />
             </div>
             <CardTitle className="text-3xl font-bold">Admin Portal</CardTitle>

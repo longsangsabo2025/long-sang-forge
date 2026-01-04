@@ -25,7 +25,7 @@
     "subheadline1": "Tôi có thể giúp bạn làm ít hơn, được nhiều hơn — tiết kiệm 10-20 giờ/tuần, tăng năng suất làm việc lên nhiều lần nhờ các công cụ AI và hệ thống tự động hóa.",
     "subheadline2": "Doanh nghiệp của bạn có đang làm thủ công... trong khi các đối thủ đã bắt đầu tự động hóa? Tôi có thể xây dựng ứng dụng nội bộ tích hợp trợ lý AI hoặc hệ thống tự động hóa tùy chỉnh theo nhu cầu.",
     "tagline": "Tư vấn, cung cấp giải pháp, dịch vụ tự động hóa cho cá nhân và doanh nghiệp.",
-    "latestBadge": "📱 Vừa hoàn thành: App quản lý billiards",
+    "latestBadge": "🎱 App SABO ARENA",
     "cta1": "Xem các dự án",
     "cta2": "Liên hệ tư vấn",
     "scrollText": "Xem tôi có thể giúp gì"
@@ -73,24 +73,24 @@
   "featured": {
     "badge": "Dự Án Gần Đây",
     "title": "SABO ARENA",
-    "tagline": "App Gaming & Billiards",
+    "tagline": "Nền Tảng Giải Đấu Bi-a #1 Việt Nam",
     "challengeTitle": "Vấn Đề",
-    "challengeText": "Chủ quán billiards cần app quản lý bàn, theo dõi doanh thu và tổ chức giải đấu - nhưng các giải pháp có sẵn quá đắt hoặc không phù hợp",
+    "challengeText": "CLB tổ chức giải đấu bằng tay - mất hàng giờ lên bracket. Không có hệ thống xếp hạng chuẩn - tình trạng bịp hạng tràn lan. Cơ thủ không biết trình độ thực sự của mình.",
     "solutionTitle": "Cách Giải Quyết",
-    "solutionIntro": "Xây app riêng với đúng những tính năng cần thiết",
+    "solutionIntro": "Nền tảng giải đấu chuyên nghiệp với công nghệ real-time",
     "features": [
-      "Quản lý bàn và theo dõi thời gian",
-      "Tự động tính tiền và báo cáo doanh thu",
-      "Tổ chức giải đấu và xếp hạng",
-      "Thông báo cho khách hàng"
+      "Tự động tạo bracket và quản lý giải đấu",
+      "Hệ thống ELO 10 cấp từ K đến C - chống bịp hạng",
+      "Live scoring và thông báo real-time",
+      "Kết nối cộng đồng cơ thủ toàn quốc"
     ],
     "techStackTitle": "Công Nghệ Sử Dụng",
     "resultsTitle": "Kết Quả",
     "results": [
-      "Đang được sử dụng tại nhiều quán",
-      "Giảm 80% thời gian tính tiền thủ công",
-      "Chủ quán theo dõi doanh thu realtime",
-      "Khách hàng đánh giá 4.8/5 sao"
+      "2,500+ cơ thủ đã đăng ký",
+      "150+ giải đấu đã tổ chức thành công",
+      "500K+ VNĐ tổng giải thưởng",
+      "Có mặt trên App Store & Google Play"
     ],
     "cta": "Xem chi tiết"
   },
@@ -237,11 +237,8 @@
     "language": "Ngôn ngữ",
     "mainMenu": "Menu chính",
     "userMenu": {
-      "home": "Trang Chủ",
-      "profile": "Hồ sơ",
-      "projects": "Dự Án",
       "workspace": "Workspace",
-      "subscription": "Gói Đăng Ký"
+      "profile": "Hồ Sơ"
     }
   },
   "footer": {
@@ -428,7 +425,7 @@
       "automation": "Tự động hóa",
       "ai": "Tích hợp AI"
     },
-    "copyright": "© 2024 Long Sang. Tất cả quyền được bảo lưu.",
+    "copyright": "© 2026 longsang.org. Tất cả quyền được bảo lưu.",
     "allRightsReserved": "Tất cả quyền được bảo lưu.",
     "privacy": "Chính sách bảo mật",
     "terms": "Điều khoản sử dụng"

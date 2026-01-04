@@ -15,31 +15,25 @@ interface FeatureLimit {
   remaining: number | null;
 }
 
-// Feature limits by plan
+// Feature limits by plan - only features that ACTUALLY exist in the system
 const FEATURE_LIMITS: Record<string, Record<FeatureKey, number | true>> = {
   free: {
     [FEATURE_KEYS.AI_CHAT]: 5,
-    [FEATURE_KEYS.AI_IMAGE]: 2,
     [FEATURE_KEYS.CONSULTATION_BOOK]: 1,
-    [FEATURE_KEYS.SHOWCASE_VIEW]: 10,
-    [FEATURE_KEYS.EXPORT_PDF]: 0,
+    [FEATURE_KEYS.SHOWCASE_VIEW]: 3,
     [FEATURE_KEYS.PRIORITY_SUPPORT]: 0,
   },
   pro: {
     [FEATURE_KEYS.AI_CHAT]: 100,
-    [FEATURE_KEYS.AI_IMAGE]: 50,
     [FEATURE_KEYS.CONSULTATION_BOOK]: 5,
     [FEATURE_KEYS.SHOWCASE_VIEW]: true, // unlimited
-    [FEATURE_KEYS.EXPORT_PDF]: 10,
     [FEATURE_KEYS.PRIORITY_SUPPORT]: 0,
   },
   vip: {
     [FEATURE_KEYS.AI_CHAT]: true, // unlimited
-    [FEATURE_KEYS.AI_IMAGE]: true, // unlimited
     [FEATURE_KEYS.CONSULTATION_BOOK]: true, // unlimited
     [FEATURE_KEYS.SHOWCASE_VIEW]: true, // unlimited
-    [FEATURE_KEYS.EXPORT_PDF]: true, // unlimited
-    [FEATURE_KEYS.PRIORITY_SUPPORT]: true, // unlimited
+    [FEATURE_KEYS.PRIORITY_SUPPORT]: true, // has priority support
   },
 };
 

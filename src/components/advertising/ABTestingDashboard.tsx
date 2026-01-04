@@ -3,13 +3,12 @@
  * View and analyze A/B test results
  */
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2, TrendingUp, TrendingDown, BarChart3, CheckCircle2, XCircle } from 'lucide-react';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { BarChart3, CheckCircle2, Loader2, TrendingDown, TrendingUp, XCircle } from "lucide-react";
+import { useState } from "react";
 
 interface ABTestResult {
   success: boolean;
@@ -30,19 +29,22 @@ interface ABTestResult {
 
 export function ABTestingDashboard() {
   const [campaignData, setCampaignData] = useState({
-    variant_a_name: 'Variant A',
-    variant_b_name: 'Variant B',
+    variant_a_name: "Variant A",
+    variant_b_name: "Variant B",
     variant_a_impressions: 1000,
     variant_b_impressions: 1000,
     variant_a_conversions: 45,
-    variant_b_conversions: 62
+    variant_b_conversions: 62,
   });
   const [testResult, setTestResult] = useState<ABTestResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-  const MCP_SERVER_URL = process.env.NEXT_PUBLIC_MCP_SERVER_URL || 'http://localhost:3003';
+  // TODO: Create Supabase Edge Function for A/B Testing
+  const SUPABASE_URL =
+    import.meta.env.VITE_SUPABASE_URL || "https://diexsbzqwsbpilsymnfb.supabase.co";
+  const API_URL = `${SUPABASE_URL}/functions/v1`;
+  const MCP_SERVER_URL = `${SUPABASE_URL}/functions/v1`;
 
   const runABTest = async () => {
     setLoading(true);
@@ -50,8 +52,8 @@ export function ABTestingDashboard() {
 
     try {
       const response = await fetch(`${MCP_SERVER_URL}/mcp/ab-testing/analyze`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           campaign_data: {
             variant_a_name: campaignData.variant_a_name,
@@ -60,20 +62,20 @@ export function ABTestingDashboard() {
               variant_a_conversions: campaignData.variant_a_conversions,
               variant_a_impressions: campaignData.variant_a_impressions,
               variant_b_conversions: campaignData.variant_b_conversions,
-              variant_b_impressions: campaignData.variant_b_impressions
+              variant_b_impressions: campaignData.variant_b_impressions,
             },
             metrics: {
               CTR: {
                 variant_a: [2.1, 2.3, 2.0, 2.2, 2.4],
-                variant_b: [2.5, 2.7, 2.6, 2.8, 2.9]
-              }
-            }
+                variant_b: [2.5, 2.7, 2.6, 2.8, 2.9],
+              },
+            },
           },
-          confidence_level: 0.95
-        })
+          confidence_level: 0.95,
+        }),
       });
 
-      if (!response.ok) throw new Error('A/B test failed');
+      if (!response.ok) throw new Error("A/B test failed");
 
       const data = await response.json();
       setTestResult(data);
@@ -105,14 +107,18 @@ export function ABTestingDashboard() {
                 <label className="text-sm font-medium">Variant A Name</label>
                 <Input
                   value={campaignData.variant_a_name}
-                  onChange={(e) => setCampaignData({ ...campaignData, variant_a_name: e.target.value })}
+                  onChange={(e) =>
+                    setCampaignData({ ...campaignData, variant_a_name: e.target.value })
+                  }
                 />
               </div>
               <div>
                 <label className="text-sm font-medium">Variant B Name</label>
                 <Input
                   value={campaignData.variant_b_name}
-                  onChange={(e) => setCampaignData({ ...campaignData, variant_b_name: e.target.value })}
+                  onChange={(e) =>
+                    setCampaignData({ ...campaignData, variant_b_name: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -123,7 +129,12 @@ export function ABTestingDashboard() {
                 <Input
                   type="number"
                   value={campaignData.variant_a_impressions}
-                  onChange={(e) => setCampaignData({ ...campaignData, variant_a_impressions: parseInt(e.target.value) })}
+                  onChange={(e) =>
+                    setCampaignData({
+                      ...campaignData,
+                      variant_a_impressions: parseInt(e.target.value),
+                    })
+                  }
                 />
               </div>
               <div>
@@ -131,7 +142,12 @@ export function ABTestingDashboard() {
                 <Input
                   type="number"
                   value={campaignData.variant_b_impressions}
-                  onChange={(e) => setCampaignData({ ...campaignData, variant_b_impressions: parseInt(e.target.value) })}
+                  onChange={(e) =>
+                    setCampaignData({
+                      ...campaignData,
+                      variant_b_impressions: parseInt(e.target.value),
+                    })
+                  }
                 />
               </div>
             </div>
@@ -142,7 +158,12 @@ export function ABTestingDashboard() {
                 <Input
                   type="number"
                   value={campaignData.variant_a_conversions}
-                  onChange={(e) => setCampaignData({ ...campaignData, variant_a_conversions: parseInt(e.target.value) })}
+                  onChange={(e) =>
+                    setCampaignData({
+                      ...campaignData,
+                      variant_a_conversions: parseInt(e.target.value),
+                    })
+                  }
                 />
               </div>
               <div>
@@ -150,7 +171,12 @@ export function ABTestingDashboard() {
                 <Input
                   type="number"
                   value={campaignData.variant_b_conversions}
-                  onChange={(e) => setCampaignData({ ...campaignData, variant_b_conversions: parseInt(e.target.value) })}
+                  onChange={(e) =>
+                    setCampaignData({
+                      ...campaignData,
+                      variant_b_conversions: parseInt(e.target.value),
+                    })
+                  }
                 />
               </div>
             </div>
@@ -180,8 +206,8 @@ export function ABTestingDashboard() {
             {testResult ? (
               <div className="space-y-4">
                 <div>
-                  <Badge variant={testResult.summary.overall_winner ? 'default' : 'secondary'}>
-                    Overall Winner: {testResult.summary.overall_winner || 'None'}
+                  <Badge variant={testResult.summary.overall_winner ? "default" : "secondary"}>
+                    Overall Winner: {testResult.summary.overall_winner || "None"}
                   </Badge>
                 </div>
 
@@ -218,8 +244,13 @@ export function ABTestingDashboard() {
                           ) : (
                             <TrendingDown className="h-3 w-3 text-red-600" />
                           )}
-                          <span className={`text-xs ${result.improvement_percent > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                            {result.improvement_percent > 0 ? '+' : ''}{result.improvement_percent.toFixed(1)}%
+                          <span
+                            className={`text-xs ${
+                              result.improvement_percent > 0 ? "text-green-600" : "text-red-600"
+                            }`}
+                          >
+                            {result.improvement_percent > 0 ? "+" : ""}
+                            {result.improvement_percent.toFixed(1)}%
                           </span>
                         </div>
                       )}
@@ -228,9 +259,7 @@ export function ABTestingDashboard() {
                 </div>
               </div>
             ) : (
-              <p className="text-muted-foreground text-center py-8">
-                Run A/B test to see results
-              </p>
+              <p className="text-muted-foreground text-center py-8">Run A/B test to see results</p>
             )}
           </CardContent>
         </Card>
@@ -246,4 +275,3 @@ export function ABTestingDashboard() {
     </div>
   );
 }
-

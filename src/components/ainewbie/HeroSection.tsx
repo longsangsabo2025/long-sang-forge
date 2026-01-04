@@ -1,10 +1,14 @@
 import heroHologram from "@/assets/ainewbie/hero-hologram.jpg";
+import { EditableImage, EditableText } from "@/components/admin";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 export const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden cyber-grid">
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden cyber-grid"
+    >
       {/* Removed solid background - now uses parent's neural network background */}
 
       {/* Glowing orbs */}
@@ -21,22 +25,39 @@ export const HeroSection = () => {
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-              <span className="glow-text">AINewbieVN</span>
+              <EditableText
+                textKey="hero-title-1"
+                defaultText="AINewbieVN"
+                as="span"
+                className="glow-text"
+              />
               <br />
-              <span className="text-foreground/80">Cộng Đồng AI</span>
+              <EditableText
+                textKey="hero-title-2"
+                defaultText="Cộng Đồng AI"
+                as="span"
+                className="text-foreground/80"
+              />
               <br />
-              <span className="text-primary">Việt Nam</span>
+              <EditableText
+                textKey="hero-title-3"
+                defaultText="Việt Nam"
+                as="span"
+                className="text-primary"
+              />
             </h1>
 
-            <p className="text-xl text-muted-foreground max-w-xl">
-              Nền tảng sản phẩm số AI, workflow tự động hóa, và kết nối nhân tài công nghệ cho người
-              Việt
-            </p>
+            <EditableText
+              textKey="hero-subtitle"
+              defaultText="Nền tảng sản phẩm số AI, workflow tự động hóa, và kết nối nhân tài công nghệ cho người Việt"
+              as="p"
+              className="text-xl text-muted-foreground max-w-xl"
+            />
 
             <div className="flex flex-wrap gap-4">
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_30px_hsl(var(--primary)/0.5)] group"
+                className="bg-primary/30 backdrop-blur-sm hover:bg-primary/50 text-primary-foreground shadow-[0_0_30px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_40px_hsl(var(--primary)/0.5)] group border border-primary/50 hover:border-primary/70 transition-all duration-300"
               >
                 Khám Phá Ngay
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -69,7 +90,12 @@ export const HeroSection = () => {
           {/* Right: Hero Image */}
           <div className="relative">
             <div className="relative rounded-2xl overflow-hidden glow-box">
-              <img src={heroHologram} alt="AI Technology Hologram" className="w-full h-auto" />
+              <EditableImage
+                imageKey="hero-image"
+                defaultSrc={heroHologram}
+                alt="AI Technology Hologram"
+                className="w-full h-auto"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
             </div>
 

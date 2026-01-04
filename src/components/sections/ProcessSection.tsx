@@ -139,7 +139,7 @@ export const ProcessSection = () => {
         <div className="mt-10 sm:mt-12 md:mt-16 text-center">
           <button
             onClick={scrollToContact}
-            className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-primary to-cyan-500 hover:from-primary/90 hover:to-cyan-500/90 text-white px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 rounded-lg sm:rounded-xl text-sm sm:text-base md:text-lg font-semibold hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/25 min-h-[48px] touch-manipulation"
+            className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-primary/30 to-cyan-500/30 backdrop-blur-sm hover:from-primary/50 hover:to-cyan-500/50 text-white px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 rounded-lg sm:rounded-xl text-sm sm:text-base md:text-lg font-semibold hover:scale-105 transition-all duration-300 border border-primary/40 hover:border-primary/60 shadow-[0_0_20px_hsl(var(--primary)/0.2)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)] min-h-[48px] touch-manipulation"
           >
             Bắt đầu dự án của bạn
             <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />

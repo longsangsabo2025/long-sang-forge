@@ -1,11 +1,12 @@
+import aiBrain from "@/assets/ainewbie/ai-brain.jpg";
+import { EditableImage, EditableText } from "@/components/admin";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight } from "lucide-react";
-import aiBrain from "@/assets/ainewbie/ai-brain.jpg";
 
 export const CTASection = () => {
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section id="cta" className="relative py-24 overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0 bg-gradient-to-t from-tech-darker via-background to-tech-dark" />
       <div className="absolute inset-0 cyber-grid opacity-10" />
@@ -17,19 +18,29 @@ export const CTASection = () => {
             {/* AI Brain Image */}
             <div className="w-48 h-48 mx-auto mb-8 relative">
               <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl animate-pulse" />
-              <img
-                src={aiBrain}
+              <EditableImage
+                imageKey="cta-brain-image"
+                defaultSrc={aiBrain}
                 alt="AI Brain"
                 className="relative w-full h-full object-cover rounded-full glow-box"
               />
             </div>
 
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Sẵn Sàng Bắt Đầu <span className="glow-text">Hành Trình AI?</span>
+              <EditableText textKey="cta-title-1" defaultText="Sẵn Sàng Bắt Đầu " as="span" />
+              <EditableText
+                textKey="cta-title-2"
+                defaultText="Hành Trình AI?"
+                as="span"
+                className="glow-text"
+              />
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-              Tham gia cộng đồng AI Việt Nam và khám phá tiềm năng vô hạn của công nghệ trí tuệ nhân tạo
-            </p>
+            <EditableText
+              textKey="cta-subtitle"
+              defaultText="Tham gia cộng đồng AI Việt Nam và khám phá tiềm năng vô hạn của công nghệ trí tuệ nhân tạo"
+              as="p"
+              className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8"
+            />
           </div>
 
           {/* CTA Cards */}
@@ -39,7 +50,7 @@ export const CTASection = () => {
               <p className="text-muted-foreground mb-6">
                 Khám phá các giải pháp AI tùy chỉnh và dịch vụ tư vấn chuyên nghiệp
               </p>
-              <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_20px_hsl(var(--primary)/0.5)] group">
+              <Button className="w-full bg-primary/20 hover:bg-primary/40 backdrop-blur-sm text-primary-foreground border border-primary/40 hover:border-primary/60 shadow-[0_0_20px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] group transition-all duration-300">
                 Yêu Cầu Tư Vấn
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
@@ -50,7 +61,7 @@ export const CTASection = () => {
               <p className="text-muted-foreground mb-6">
                 Tham gia cộng đồng, chia sẻ workflows và tìm kiếm cơ hội việc làm
               </p>
-              <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_20px_hsl(var(--primary)/0.5)] group">
+              <Button className="w-full bg-primary/20 hover:bg-primary/40 backdrop-blur-sm text-primary-foreground border border-primary/40 hover:border-primary/60 shadow-[0_0_20px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] group transition-all duration-300">
                 Đăng Ký Ngay
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
@@ -71,7 +82,7 @@ export const CTASection = () => {
                 placeholder="Email của bạn"
                 className="flex-grow bg-background/50 border-primary/30 focus:border-primary"
               />
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_15px_hsl(var(--primary)/0.4)]">
+              <Button className="bg-primary/20 hover:bg-primary/40 backdrop-blur-sm text-primary-foreground border border-primary/40 hover:border-primary/60 shadow-[0_0_15px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_25px_hsl(var(--primary)/0.5)] transition-all duration-300">
                 Đăng Ký
               </Button>
             </div>

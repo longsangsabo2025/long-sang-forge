@@ -3,42 +3,42 @@
  * Deploy campaigns to multiple platforms
  */
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Badge } from '@/components/ui/badge';
-import { Loader2, Rocket, CheckCircle2, XCircle } from 'lucide-react';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { CheckCircle2, Loader2, Rocket, XCircle } from "lucide-react";
+import { useState } from "react";
 
 export function MultiPlatformDeploy() {
-  const [campaignName, setCampaignName] = useState('');
+  const [campaignName, setCampaignName] = useState("");
   const [productInfo, setProductInfo] = useState({
-    name: '',
-    description: '',
-    category: '',
-    url: ''
+    name: "",
+    description: "",
+    category: "",
+    url: "",
   });
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['facebook']);
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(["facebook"]);
   const [budget, setBudget] = useState(1000);
   const [deploymentResult, setDeploymentResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+  // TODO: Create Supabase Edge Function for Multi-Platform Deploy
+  const SUPABASE_URL =
+    import.meta.env.VITE_SUPABASE_URL || "https://diexsbzqwsbpilsymnfb.supabase.co";
+  const API_URL = `${SUPABASE_URL}/functions/v1`;
 
   const platforms = [
-    { id: 'facebook', name: 'Facebook Ads', sdk: 'Official SDK' },
-    { id: 'google', name: 'Google Ads', sdk: 'Official SDK' },
-    { id: 'tiktok', name: 'TikTok Ads', sdk: 'Community API' }
+    { id: "facebook", name: "Facebook Ads", sdk: "Official SDK" },
+    { id: "google", name: "Google Ads", sdk: "Official SDK" },
+    { id: "tiktok", name: "TikTok Ads", sdk: "Community API" },
   ];
 
   const togglePlatform = (platformId: string) => {
-    setSelectedPlatforms(prev =>
-      prev.includes(platformId)
-        ? prev.filter(p => p !== platformId)
-        : [...prev, platformId]
+    setSelectedPlatforms((prev) =>
+      prev.includes(platformId) ? prev.filter((p) => p !== platformId) : [...prev, platformId]
     );
   };
 
@@ -48,18 +48,18 @@ export function MultiPlatformDeploy() {
 
     try {
       const response = await fetch(`${API_URL}/api/multi-platform/deploy`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           campaign_name: campaignName,
           product_info: productInfo,
           platforms: selectedPlatforms,
           budget: budget,
-          creatives: []
-        })
+          creatives: [],
+        }),
       });
 
-      if (!response.ok) throw new Error('Deployment failed');
+      if (!response.ok) throw new Error("Deployment failed");
 
       const data = await response.json();
       setDeploymentResult(data);
@@ -195,8 +195,8 @@ export function MultiPlatformDeploy() {
                       )}
                       <span className="font-medium capitalize">{deployment.platform}</span>
                     </div>
-                    <Badge variant={deployment.success ? 'default' : 'destructive'}>
-                      {deployment.success ? 'Success' : 'Failed'}
+                    <Badge variant={deployment.success ? "default" : "destructive"}>
+                      {deployment.success ? "Success" : "Failed"}
                     </Badge>
                   </div>
                   {deployment.campaign_id && (
@@ -232,4 +232,3 @@ export function MultiPlatformDeploy() {
     </div>
   );
 }
-

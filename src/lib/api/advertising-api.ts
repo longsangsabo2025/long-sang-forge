@@ -1,9 +1,12 @@
 /**
  * Advertising API Client
  * Type-safe API client for advertising platform
+ * NOTE: Advertising features require backend implementation
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+import { EDGE_FUNCTIONS } from "@/config/api";
+
+const API_BASE_URL = EDGE_FUNCTIONS.BASE;
 
 export interface ProductInfo {
   name: string;

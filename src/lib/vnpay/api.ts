@@ -1,8 +1,7 @@
 /**
  * VNPay Payment API Client
+ * Uses Supabase Edge Functions
  */
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 export interface VNPayPaymentRequest {
   planId: string;
@@ -25,16 +24,16 @@ export async function createVNPayPayment(
   request: VNPayPaymentRequest
 ): Promise<VNPayPaymentResponse> {
   const response = await fetch(`${API_URL}/api/vnpay/create-payment-url`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(request),
   });
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Failed to create VNPay payment');
+    throw new Error(error.message || "Failed to create VNPay payment");
   }
 
   return response.json();
@@ -60,7 +59,7 @@ export async function redirectToVNPay(
     // Redirect to VNPay payment page
     window.location.href = paymentUrl;
   } catch (error) {
-    console.error('VNPay payment error:', error);
+    console.error("VNPay payment error:", error);
     throw error;
   }
 }
@@ -70,16 +69,16 @@ export async function redirectToVNPay(
  */
 export async function queryVNPayTransaction(orderId: string): Promise<any> {
   const response = await fetch(`${API_URL}/api/vnpay/query-transaction`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ orderId }),
   });
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Failed to query transaction');
+    throw new Error(error.message || "Failed to query transaction");
   }
 
   return response.json();

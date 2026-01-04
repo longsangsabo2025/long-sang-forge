@@ -209,7 +209,9 @@ export default function Academy() {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                     {course.is_free && (
-                      <Badge className="absolute top-2 left-2 bg-green-500">MIỄN PHÍ</Badge>
+                      <Badge className="absolute top-2 left-2 bg-green-500/20 text-green-300 border border-green-500/40 backdrop-blur-sm">
+                        MIỄN PHÍ
+                      </Badge>
                     )}
                     {course.progress !== undefined && (
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-muted">

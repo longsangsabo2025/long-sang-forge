@@ -1,12 +1,6 @@
-import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
-import { Plus, Trash2, Edit, Globe, Check, X, ExternalLink } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -16,6 +10,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import {
   Table,
   TableBody,
@@ -24,6 +21,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useToast } from "@/hooks/use-toast";
+import { Check, Edit, ExternalLink, Globe, Plus, Trash2, X } from "lucide-react";
+import { useState } from "react";
 
 interface Domain {
   id: string;
@@ -49,27 +49,27 @@ export function DomainManagement() {
       autoIndex: true,
       totalUrls: 310,
       indexedUrls: 0,
-      lastUpdated: "2025-11-11T20:18:00Z"
+      lastUpdated: "2025-11-11T20:18:00Z",
     },
     {
       id: "2",
       name: "Long Sang Forge",
-      url: "https://longsang.ai",
+      url: "https://longsang.org",
       enabled: true,
       autoIndex: false,
       totalUrls: 0,
       indexedUrls: 0,
-      lastUpdated: "2025-11-11T20:18:00Z"
-    }
+      lastUpdated: "2025-11-11T20:18:00Z",
+    },
   ]);
-  
+
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [editingDomain, setEditingDomain] = useState<Domain | null>(null);
   const [newDomain, setNewDomain] = useState({
     name: "",
     url: "",
     googleApiKey: "",
-    bingApiKey: ""
+    bingApiKey: "",
   });
 
   const handleAddDomain = () => {
@@ -77,7 +77,7 @@ export function DomainManagement() {
       toast({
         title: "Lỗi",
         description: "Vui lòng nhập tên và URL domain",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -92,46 +92,42 @@ export function DomainManagement() {
       bingApiKey: newDomain.bingApiKey,
       totalUrls: 0,
       indexedUrls: 0,
-      lastUpdated: new Date().toISOString()
+      lastUpdated: new Date().toISOString(),
     };
 
     setDomains([...domains, domain]);
     setNewDomain({ name: "", url: "", googleApiKey: "", bingApiKey: "" });
     setIsAddDialogOpen(false);
-    
+
     toast({
       title: "✅ Thành công",
-      description: `Đã thêm domain ${domain.name}`
+      description: `Đã thêm domain ${domain.name}`,
     });
   };
 
   const handleToggleEnabled = (id: string) => {
-    setDomains(domains.map(d => 
-      d.id === id ? { ...d, enabled: !d.enabled } : d
-    ));
-    
+    setDomains(domains.map((d) => (d.id === id ? { ...d, enabled: !d.enabled } : d)));
+
     toast({
       title: "Đã cập nhật",
-      description: "Trạng thái domain đã được thay đổi"
+      description: "Trạng thái domain đã được thay đổi",
     });
   };
 
   const handleToggleAutoIndex = (id: string) => {
-    setDomains(domains.map(d => 
-      d.id === id ? { ...d, autoIndex: !d.autoIndex } : d
-    ));
-    
+    setDomains(domains.map((d) => (d.id === id ? { ...d, autoIndex: !d.autoIndex } : d)));
+
     toast({
       title: "Đã cập nhật",
-      description: "Cài đặt tự động indexing đã được thay đổi"
+      description: "Cài đặt tự động indexing đã được thay đổi",
     });
   };
 
   const handleDeleteDomain = (id: string) => {
-    setDomains(domains.filter(d => d.id !== id));
+    setDomains(domains.filter((d) => d.id !== id));
     toast({
       title: "Đã xóa",
-      description: "Domain đã được xóa khỏi hệ thống"
+      description: "Domain đã được xóa khỏi hệ thống",
     });
   };
 
@@ -144,11 +140,9 @@ export function DomainManagement() {
               <Globe className="w-5 h-5" />
               Quản Lý Domains
             </CardTitle>
-            <CardDescription>
-              Thêm và quản lý các domains cần SEO automation
-            </CardDescription>
+            <CardDescription>Thêm và quản lý các domains cần SEO automation</CardDescription>
           </div>
-          
+
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
               <Button className="flex items-center gap-2">
@@ -163,7 +157,7 @@ export function DomainManagement() {
                   Nhập thông tin domain và API keys để bắt đầu SEO automation
                 </DialogDescription>
               </DialogHeader>
-              
+
               <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
                   <Label htmlFor="name">Tên Domain</Label>
@@ -171,44 +165,44 @@ export function DomainManagement() {
                     id="name"
                     placeholder="SABO Arena"
                     value={newDomain.name}
-                    onChange={(e) => setNewDomain({...newDomain, name: e.target.value})}
+                    onChange={(e) => setNewDomain({ ...newDomain, name: e.target.value })}
                   />
                 </div>
-                
+
                 <div className="grid gap-2">
                   <Label htmlFor="url">URL</Label>
                   <Input
                     id="url"
                     placeholder="https://saboarena.com"
                     value={newDomain.url}
-                    onChange={(e) => setNewDomain({...newDomain, url: e.target.value})}
+                    onChange={(e) => setNewDomain({ ...newDomain, url: e.target.value })}
                   />
                 </div>
-                
+
                 <div className="grid gap-2">
                   <Label htmlFor="googleKey">Google API Service Account JSON (Optional)</Label>
                   <Input
                     id="googleKey"
                     placeholder="Paste JSON hoặc để trống"
                     value={newDomain.googleApiKey}
-                    onChange={(e) => setNewDomain({...newDomain, googleApiKey: e.target.value})}
+                    onChange={(e) => setNewDomain({ ...newDomain, googleApiKey: e.target.value })}
                   />
                   <p className="text-xs text-muted-foreground">
                     Để trống nếu muốn dùng API key chung của hệ thống
                   </p>
                 </div>
-                
+
                 <div className="grid gap-2">
                   <Label htmlFor="bingKey">Bing Webmaster API Key (Optional)</Label>
                   <Input
                     id="bingKey"
                     placeholder="Bing API key hoặc để trống"
                     value={newDomain.bingApiKey}
-                    onChange={(e) => setNewDomain({...newDomain, bingApiKey: e.target.value})}
+                    onChange={(e) => setNewDomain({ ...newDomain, bingApiKey: e.target.value })}
                   />
                 </div>
               </div>
-              
+
               <DialogFooter>
                 <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
                   Hủy
@@ -219,7 +213,7 @@ export function DomainManagement() {
           </Dialog>
         </div>
       </CardHeader>
-      
+
       <CardContent>
         <Table>
           <TableHeader>
@@ -239,9 +233,9 @@ export function DomainManagement() {
                   <div className="flex flex-col gap-1">
                     <div className="font-medium flex items-center gap-2">
                       {domain.name}
-                      <a 
-                        href={domain.url} 
-                        target="_blank" 
+                      <a
+                        href={domain.url}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="text-muted-foreground hover:text-primary"
                       >
@@ -256,9 +250,10 @@ export function DomainManagement() {
                   <div className="flex items-center gap-2">
                     {domain.indexedUrls}
                     <Badge variant="secondary" className="text-xs">
-                      {domain.totalUrls > 0 
-                        ? Math.round((domain.indexedUrls / domain.totalUrls) * 100) 
-                        : 0}%
+                      {domain.totalUrls > 0
+                        ? Math.round((domain.indexedUrls / domain.totalUrls) * 100)
+                        : 0}
+                      %
                     </Badge>
                   </div>
                 </TableCell>
@@ -286,18 +281,10 @@ export function DomainManagement() {
                         <Check className="w-4 h-4 text-green-500" />
                       )}
                     </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setEditingDomain(domain)}
-                    >
+                    <Button variant="ghost" size="sm" onClick={() => setEditingDomain(domain)}>
                       <Edit className="w-4 h-4" />
                     </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleDeleteDomain(domain.id)}
-                    >
+                    <Button variant="ghost" size="sm" onClick={() => handleDeleteDomain(domain.id)}>
                       <Trash2 className="w-4 h-4 text-red-500" />
                     </Button>
                   </div>
@@ -306,7 +293,7 @@ export function DomainManagement() {
             ))}
           </TableBody>
         </Table>
-        
+
         {domains.length === 0 && (
           <div className="text-center py-8 text-muted-foreground">
             Chưa có domain nào. Nhấn "Thêm Domain" để bắt đầu.

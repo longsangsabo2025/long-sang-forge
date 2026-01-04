@@ -112,20 +112,6 @@ export function DiscountCodeInput({
           )}
         </div>
       )}
-
-      {/* Popular codes hint */}
-      <div className="flex flex-wrap gap-1">
-        {["WELCOME10", "VIP20"].map((hint) => (
-          <button
-            key={hint}
-            onClick={() => setCode(hint)}
-            className="text-xs text-muted-foreground hover:text-primary transition-colors"
-            disabled={loading || validation?.is_valid}
-          >
-            {hint}
-          </button>
-        ))}
-      </div>
     </div>
   );
 }

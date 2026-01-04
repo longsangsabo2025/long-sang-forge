@@ -1,28 +1,30 @@
-import { useState, useEffect } from "react";
+import { AppShowcaseService } from "@/services/app-showcase.service";
+import { AppFeature, AppShowcaseData } from "@/types/app-showcase.types";
 import { motion } from "framer-motion";
-import { 
-  Save, 
-  Upload, 
-  Eye, 
-  Plus, 
-  Trash2, 
+import {
   ArrowLeft,
-  Settings,
+  Eye,
   Image as ImageIcon,
   Link as LinkIcon,
   Palette,
-  Star
+  Plus,
+  Save,
+  Settings,
+  Star,
+  Trash2,
+  Upload,
 } from "lucide-react";
-import { AppShowcaseData, AppFeature } from "@/types/app-showcase.types";
-import { AppShowcaseService } from "@/services/app-showcase.service";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const AppShowcaseAdmin = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState<'general' | 'features' | 'branding' | 'links'>('general');
-  
+  const [activeTab, setActiveTab] = useState<"general" | "features" | "branding" | "links">(
+    "general"
+  );
+
   const [formData, setFormData] = useState<AppShowcaseData | null>(null);
 
   useEffect(() => {
@@ -40,14 +42,14 @@ export const AppShowcaseAdmin = () => {
 
   const handleSave = async () => {
     if (!formData) return;
-    
+
     setSaving(true);
     const success = await AppShowcaseService.saveData(formData);
     setSaving(false);
-    
+
     if (success) {
       // Dispatch event to notify other tabs/windows
-      window.dispatchEvent(new Event('app-showcase-updated'));
+      window.dispatchEvent(new Event("app-showcase-updated"));
       alert("✅ Đã lưu thành công!");
     } else {
       alert("❌ Lưu thất bại, vui lòng thử lại!");
@@ -57,56 +59,56 @@ export const AppShowcaseAdmin = () => {
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
     const file = e.target.files?.[0];
     if (!file || !formData) return;
-    
+
     const imageUrl = await AppShowcaseService.uploadImage(file);
-    
+
     // Update nested field
-    const keys = field.split('.');
+    const keys = field.split(".");
     const updatedData = { ...formData };
     let current: any = updatedData;
-    
+
     for (let i = 0; i < keys.length - 1; i++) {
       current = current[keys[i]];
     }
     current[keys[keys.length - 1]] = imageUrl;
-    
+
     setFormData(updatedData);
   };
 
   const addFeature = () => {
     if (!formData) return;
-    
+
     const newFeature: AppFeature = {
       id: `feature-${Date.now()}`,
       title: "New Feature",
       description: "Feature description",
-      icon: "Star"
+      icon: "Star",
     };
-    
+
     setFormData({
       ...formData,
-      features: [...formData.features, newFeature]
+      features: [...formData.features, newFeature],
     });
   };
 
   const updateFeature = (index: number, updates: Partial<AppFeature>) => {
     if (!formData) return;
-    
+
     const newFeatures = [...formData.features];
     newFeatures[index] = { ...newFeatures[index], ...updates };
-    
+
     setFormData({
       ...formData,
-      features: newFeatures
+      features: newFeatures,
     });
   };
 
   const deleteFeature = (index: number) => {
     if (!formData) return;
-    
+
     setFormData({
       ...formData,
-      features: formData.features.filter((_, i) => i !== index)
+      features: formData.features.filter((_, i) => i !== index),
     });
   };
 
@@ -126,9 +128,9 @@ export const AppShowcaseAdmin = () => {
       <div className="min-h-screen bg-dark-bg flex items-center justify-center">
         <div className="text-center">
           <p className="text-destructive text-xl mb-4">❌ Không tìm thấy dữ liệu</p>
-          <button 
-            onClick={() => navigate('/')}
-            className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90"
+          <button
+            onClick={() => navigate("/")}
+            className="px-6 py-3 bg-primary/20 backdrop-blur-sm text-primary-foreground rounded-lg hover:bg-primary/40 transition-all duration-300 border border-primary/40 hover:border-primary/60 hover:shadow-[0_0_20px_hsl(var(--primary)/0.3)]"
           >
             Về trang chủ
           </button>
@@ -145,7 +147,7 @@ export const AppShowcaseAdmin = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => navigate('/app-showcase')}
+                onClick={() => navigate("/app-showcase")}
                 className="p-2 hover:bg-foreground/10 rounded-lg transition-colors"
               >
                 <ArrowLeft size={24} />
@@ -155,10 +157,10 @@ export const AppShowcaseAdmin = () => {
                 <p className="text-sm text-muted-foreground">Quản lý nội dung {formData.appName}</p>
               </div>
             </div>
-            
+
             <div className="flex gap-3">
               <button
-                onClick={() => navigate('/app-showcase')}
+                onClick={() => navigate("/app-showcase")}
                 className="px-4 py-2 rounded-lg glass-panel text-foreground flex items-center gap-2 hover:bg-foreground/5"
               >
                 <Eye size={18} />
@@ -184,10 +186,10 @@ export const AppShowcaseAdmin = () => {
         <div className="container mx-auto px-6">
           <div className="flex gap-1">
             {[
-              { id: 'general', label: 'Thông tin chung', icon: Settings },
-              { id: 'features', label: 'Tính năng', icon: Star },
-              { id: 'branding', label: 'Branding', icon: Palette },
-              { id: 'links', label: 'Liên kết', icon: LinkIcon }
+              { id: "general", label: "Thông tin chung", icon: Settings },
+              { id: "features", label: "Tính năng", icon: Star },
+              { id: "branding", label: "Branding", icon: Palette },
+              { id: "links", label: "Liên kết", icon: LinkIcon },
             ].map((tab) => {
               const Icon = tab.icon;
               return (
@@ -196,8 +198,8 @@ export const AppShowcaseAdmin = () => {
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`px-6 py-3 flex items-center gap-2 border-b-2 transition-colors ${
                     activeTab === tab.id
-                      ? 'border-neon-cyan text-neon-cyan'
-                      : 'border-transparent text-muted-foreground hover:text-foreground'
+                      ? "border-neon-cyan text-neon-cyan"
+                      : "border-transparent text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   <Icon size={18} />
@@ -211,26 +213,26 @@ export const AppShowcaseAdmin = () => {
 
       {/* Content */}
       <div className="container mx-auto px-6 py-8">
-        {activeTab === 'general' && (
-          <GeneralTab formData={formData} setFormData={setFormData} onImageUpload={handleImageUpload} />
+        {activeTab === "general" && (
+          <GeneralTab
+            formData={formData}
+            setFormData={setFormData}
+            onImageUpload={handleImageUpload}
+          />
         )}
-        
-        {activeTab === 'features' && (
-          <FeaturesTab 
+
+        {activeTab === "features" && (
+          <FeaturesTab
             features={formData.features}
             onAdd={addFeature}
             onUpdate={updateFeature}
             onDelete={deleteFeature}
           />
         )}
-        
-        {activeTab === 'branding' && (
-          <BrandingTab formData={formData} setFormData={setFormData} />
-        )}
-        
-        {activeTab === 'links' && (
-          <LinksTab formData={formData} setFormData={setFormData} />
-        )}
+
+        {activeTab === "branding" && <BrandingTab formData={formData} setFormData={setFormData} />}
+
+        {activeTab === "links" && <LinksTab formData={formData} setFormData={setFormData} />}
       </div>
     </div>
   );
@@ -244,7 +246,7 @@ const GeneralTab = ({ formData, setFormData, onImageUpload }: any) => (
         <Settings size={20} />
         Thông tin cơ bản
       </h2>
-      
+
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-semibold mb-2">Tên ứng dụng</label>
@@ -255,7 +257,7 @@ const GeneralTab = ({ formData, setFormData, onImageUpload }: any) => (
             className="w-full px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none"
           />
         </div>
-        
+
         <div>
           <label className="block text-sm font-semibold mb-2">Tagline</label>
           <input
@@ -265,7 +267,7 @@ const GeneralTab = ({ formData, setFormData, onImageUpload }: any) => (
             className="w-full px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none"
           />
         </div>
-        
+
         <div>
           <label className="block text-sm font-semibold mb-2">Mô tả</label>
           <textarea
@@ -280,66 +282,74 @@ const GeneralTab = ({ formData, setFormData, onImageUpload }: any) => (
 
     <div className="glass-panel rounded-xl p-6">
       <h2 className="text-xl font-bold mb-4">Hero Section</h2>
-      
+
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-semibold mb-2">Badge Text</label>
           <input
             type="text"
             value={formData.hero.badge}
-            onChange={(e) => setFormData({ 
-              ...formData, 
-              hero: { ...formData.hero, badge: e.target.value }
-            })}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                hero: { ...formData.hero, badge: e.target.value },
+              })
+            }
             className="w-full px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none"
           />
         </div>
-        
+
         <div className="grid md:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-semibold mb-2">Số người dùng</label>
             <input
               type="text"
               value={formData.hero.stats.users}
-              onChange={(e) => setFormData({ 
-                ...formData, 
-                hero: { 
-                  ...formData.hero, 
-                  stats: { ...formData.hero.stats, users: e.target.value }
-                }
-              })}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  hero: {
+                    ...formData.hero,
+                    stats: { ...formData.hero.stats, users: e.target.value },
+                  },
+                })
+              }
               className="w-full px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-semibold mb-2">Rating</label>
             <input
               type="text"
               value={formData.hero.stats.rating}
-              onChange={(e) => setFormData({ 
-                ...formData, 
-                hero: { 
-                  ...formData.hero, 
-                  stats: { ...formData.hero.stats, rating: e.target.value }
-                }
-              })}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  hero: {
+                    ...formData.hero,
+                    stats: { ...formData.hero.stats, rating: e.target.value },
+                  },
+                })
+              }
               className="w-full px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-semibold mb-2">Số giải đấu</label>
             <input
               type="text"
               value={formData.hero.stats.tournaments}
-              onChange={(e) => setFormData({ 
-                ...formData, 
-                hero: { 
-                  ...formData.hero, 
-                  stats: { ...formData.hero.stats, tournaments: e.target.value }
-                }
-              })}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  hero: {
+                    ...formData.hero,
+                    stats: { ...formData.hero.stats, tournaments: e.target.value },
+                  },
+                })
+              }
               className="w-full px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none"
             />
           </div>
@@ -349,29 +359,33 @@ const GeneralTab = ({ formData, setFormData, onImageUpload }: any) => (
 
     <div className="glass-panel rounded-xl p-6">
       <h2 className="text-xl font-bold mb-4">CTA Section</h2>
-      
+
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-semibold mb-2">Tiêu đề CTA</label>
           <input
             type="text"
             value={formData.cta.heading}
-            onChange={(e) => setFormData({ 
-              ...formData, 
-              cta: { ...formData.cta, heading: e.target.value }
-            })}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                cta: { ...formData.cta, heading: e.target.value },
+              })
+            }
             className="w-full px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none"
           />
         </div>
-        
+
         <div>
           <label className="block text-sm font-semibold mb-2">Mô tả CTA</label>
           <textarea
             value={formData.cta.description}
-            onChange={(e) => setFormData({ 
-              ...formData, 
-              cta: { ...formData.cta, description: e.target.value }
-            })}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                cta: { ...formData.cta, description: e.target.value },
+              })
+            }
             rows={2}
             className="w-full px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none resize-none"
           />
@@ -407,7 +421,7 @@ const FeaturesTab = ({ features, onAdd, onUpdate, onDelete }: any) => (
               <Trash2 size={18} />
             </button>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-4">
             <div className="md:col-span-2">
               <label className="block text-sm font-semibold mb-2">Tiêu đề</label>
@@ -418,7 +432,7 @@ const FeaturesTab = ({ features, onAdd, onUpdate, onDelete }: any) => (
                 className="w-full px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none"
               />
             </div>
-            
+
             <div className="md:col-span-2">
               <label className="block text-sm font-semibold mb-2">Mô tả</label>
               <textarea
@@ -428,7 +442,7 @@ const FeaturesTab = ({ features, onAdd, onUpdate, onDelete }: any) => (
                 className="w-full px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none resize-none"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-semibold mb-2">Icon name</label>
               <input
@@ -439,13 +453,13 @@ const FeaturesTab = ({ features, onAdd, onUpdate, onDelete }: any) => (
                 className="w-full px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-semibold mb-2">Screenshot URL</label>
               <div className="flex gap-2">
                 <input
                   type="text"
-                  value={feature.screenshot || ''}
+                  value={feature.screenshot || ""}
                   onChange={(e) => onUpdate(index, { screenshot: e.target.value })}
                   placeholder="URL hoặc upload..."
                   className="flex-1 px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none"
@@ -471,7 +485,7 @@ const BrandingTab = ({ formData, setFormData }: any) => (
         <Palette size={20} />
         Màu sắc thương hiệu
       </h2>
-      
+
       <div className="grid md:grid-cols-3 gap-6">
         <div>
           <label className="block text-sm font-semibold mb-2">Primary Color</label>
@@ -479,67 +493,79 @@ const BrandingTab = ({ formData, setFormData }: any) => (
             <input
               type="color"
               value={formData.branding.primaryColor}
-              onChange={(e) => setFormData({
-                ...formData,
-                branding: { ...formData.branding, primaryColor: e.target.value }
-              })}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  branding: { ...formData.branding, primaryColor: e.target.value },
+                })
+              }
               className="w-16 h-12 rounded-lg cursor-pointer"
             />
             <input
               type="text"
               value={formData.branding.primaryColor}
-              onChange={(e) => setFormData({
-                ...formData,
-                branding: { ...formData.branding, primaryColor: e.target.value }
-              })}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  branding: { ...formData.branding, primaryColor: e.target.value },
+                })
+              }
               className="flex-1 px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none font-mono"
             />
           </div>
         </div>
-        
+
         <div>
           <label className="block text-sm font-semibold mb-2">Secondary Color</label>
           <div className="flex gap-2">
             <input
               type="color"
               value={formData.branding.secondaryColor}
-              onChange={(e) => setFormData({
-                ...formData,
-                branding: { ...formData.branding, secondaryColor: e.target.value }
-              })}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  branding: { ...formData.branding, secondaryColor: e.target.value },
+                })
+              }
               className="w-16 h-12 rounded-lg cursor-pointer"
             />
             <input
               type="text"
               value={formData.branding.secondaryColor}
-              onChange={(e) => setFormData({
-                ...formData,
-                branding: { ...formData.branding, secondaryColor: e.target.value }
-              })}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  branding: { ...formData.branding, secondaryColor: e.target.value },
+                })
+              }
               className="flex-1 px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none font-mono"
             />
           </div>
         </div>
-        
+
         <div>
           <label className="block text-sm font-semibold mb-2">Accent Color</label>
           <div className="flex gap-2">
             <input
               type="color"
               value={formData.branding.accentColor}
-              onChange={(e) => setFormData({
-                ...formData,
-                branding: { ...formData.branding, accentColor: e.target.value }
-              })}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  branding: { ...formData.branding, accentColor: e.target.value },
+                })
+              }
               className="w-16 h-12 rounded-lg cursor-pointer"
             />
             <input
               type="text"
               value={formData.branding.accentColor}
-              onChange={(e) => setFormData({
-                ...formData,
-                branding: { ...formData.branding, accentColor: e.target.value }
-              })}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  branding: { ...formData.branding, accentColor: e.target.value },
+                })
+              }
               className="flex-1 px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none font-mono"
             />
           </div>
@@ -552,13 +578,17 @@ const BrandingTab = ({ formData, setFormData }: any) => (
         <ImageIcon size={20} />
         Logo & Hình ảnh
       </h2>
-      
+
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-semibold mb-2">App Logo</label>
           <div className="flex gap-4 items-center">
             {formData.branding.logo && (
-              <img src={formData.branding.logo} alt="Logo" className="w-20 h-20 rounded-lg object-cover" />
+              <img
+                src={formData.branding.logo}
+                alt="Logo"
+                className="w-20 h-20 rounded-lg object-cover"
+              />
             )}
             <label className="px-6 py-3 bg-dark-surface border border-border rounded-lg cursor-pointer hover:bg-foreground/5 flex items-center gap-2">
               <Upload size={18} />
@@ -577,31 +607,35 @@ const LinksTab = ({ formData, setFormData }: any) => (
   <div className="max-w-4xl space-y-6">
     <div className="glass-panel rounded-xl p-6">
       <h2 className="text-xl font-bold mb-4">Download Links</h2>
-      
+
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-semibold mb-2">App Store URL</label>
           <input
             type="url"
-            value={formData.downloads.appStore || ''}
-            onChange={(e) => setFormData({
-              ...formData,
-              downloads: { ...formData.downloads, appStore: e.target.value }
-            })}
+            value={formData.downloads.appStore || ""}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                downloads: { ...formData.downloads, appStore: e.target.value },
+              })
+            }
             placeholder="https://apps.apple.com/..."
             className="w-full px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none"
           />
         </div>
-        
+
         <div>
           <label className="block text-sm font-semibold mb-2">Google Play URL</label>
           <input
             type="url"
-            value={formData.downloads.googlePlay || ''}
-            onChange={(e) => setFormData({
-              ...formData,
-              downloads: { ...formData.downloads, googlePlay: e.target.value }
-            })}
+            value={formData.downloads.googlePlay || ""}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                downloads: { ...formData.downloads, googlePlay: e.target.value },
+              })
+            }
             placeholder="https://play.google.com/..."
             className="w-full px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none"
           />
@@ -611,18 +645,20 @@ const LinksTab = ({ formData, setFormData }: any) => (
 
     <div className="glass-panel rounded-xl p-6">
       <h2 className="text-xl font-bold mb-4">Social Media Links</h2>
-      
+
       <div className="grid md:grid-cols-2 gap-4">
         {Object.entries(formData.social).map(([platform, url]) => (
           <div key={platform}>
             <label className="block text-sm font-semibold mb-2 capitalize">{platform}</label>
             <input
               type="url"
-              value={(url as string) || ''}
-              onChange={(e) => setFormData({
-                ...formData,
-                social: { ...formData.social, [platform]: e.target.value }
-              })}
+              value={(url as string) || ""}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  social: { ...formData.social, [platform]: e.target.value },
+                })
+              }
               placeholder={`https://${platform}.com/...`}
               className="w-full px-4 py-3 bg-dark-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none"
             />

@@ -1,4 +1,4 @@
-import { Plus, Users, TrendingUp, Calendar, Table } from "lucide-react";
+import { Calendar, Plus, Table, TrendingUp, Users } from "lucide-react";
 
 export const ClubDashboardScreen = () => {
   return (
@@ -53,7 +53,7 @@ export const ClubDashboardScreen = () => {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-2 gap-2">
-        <button className="px-3 py-2 bg-gradient-to-r from-primary to-neon-cyan rounded-lg text-white text-xs font-semibold flex items-center justify-center gap-2">
+        <button className="px-3 py-2 bg-gradient-to-r from-primary/30 to-neon-cyan/30 backdrop-blur-sm rounded-lg text-white text-xs font-semibold flex items-center justify-center gap-2 border border-primary/50">
           <Plus className="w-3 h-3" />
           Create Tournament
         </button>

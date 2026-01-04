@@ -46,16 +46,25 @@ const planColors: Record<string, { bg: string; border: string; badge: string }> 
   },
 };
 
-// Feature display mapping
+// Feature display mapping - only features that ACTUALLY exist in the system
 const featureDisplay: Record<string, { icon: string; included: (value: any) => boolean }> = {
-  ai_updates: { icon: "📡", included: (v) => v !== "none" },
-  product_announcements: { icon: "🚀", included: (v) => v !== "none" },
-  showcase_access: { icon: "🎨", included: (v) => v && v !== 0 },
-  roadmap_access: { icon: "🗺️", included: (v) => v !== "none" },
-  community: { icon: "💬", included: (v) => v !== "none" },
-  investment_access: { icon: "💎", included: (v) => v && v !== false },
-  support: { icon: "🛟", included: (v) => v && v !== "none" },
+  // Boolean features from database
+  showcase_premium: { icon: "🎨", included: (v) => v === true },
+  investment_access: { icon: "💎", included: (v) => v === true },
+  priority_support: { icon: "⚡", included: (v) => v === true },
+  community_pro: { icon: "💬", included: (v) => v === true },
+  beta_access: { icon: "🧪", included: (v) => v === true },
+  direct_chat: { icon: "🗣️", included: (v) => v === true },
+  roadmap_strategy: { icon: "🗺️", included: (v) => v === true },
+  // Number features from database
+  showcase_limit: { icon: "👁️", included: (v) => v && v !== 0 },
   consultation_discount: { icon: "🎁", included: (v) => v && v > 0 },
+  early_access_days: { icon: "🚀", included: (v) => v && v > 0 },
+  support_response_hours: { icon: "🛟", included: (v) => v && v > 0 },
+  // Brain features
+  brain_domains: { icon: "🧠", included: (v) => v && v > 0 },
+  brain_docs_per_domain: { icon: "📚", included: (v) => v && v > 0 },
+  brain_queries_per_month: { icon: "💡", included: (v) => v && v > 0 },
 };
 
 export default function PricingPage() {

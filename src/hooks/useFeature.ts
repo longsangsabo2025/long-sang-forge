@@ -1,9 +1,13 @@
 /**
  * Feature Gate Hook & Component
  * Simple: Boolean check + Number limits
+ *
+ * ELON AUDIT: Now supports User Override System
+ * Admin can grant extra features to individual users
  */
 
 import { useSubscription } from "./useSubscription";
+import { useOverridesMap } from "./useUserOverrides";
 
 // Feature keys matching database
 export type BooleanFeature =
@@ -40,6 +44,7 @@ const FREE_DEFAULTS: Record<FeatureKey, boolean | number> = {
 
 /**
  * Hook to check feature access
+ * Now merges subscription features with user overrides
  *
  * @example
  * // Boolean check
@@ -53,12 +58,45 @@ const FREE_DEFAULTS: Record<FeatureKey, boolean | number> = {
  */
 export function useFeature(featureKey: FeatureKey) {
   const { subscription, loading, planId } = useSubscription();
+  const { overrides, isLoading: overridesLoading } = useOverridesMap();
 
-  // Get features from subscription plan
-  const features = subscription?.plan?.features as Record<string, boolean | number> | undefined;
+  // Get features from subscription plan - features is an array of {key, value, ...}
+  const featuresArray = subscription?.plan?.features as
+    | Array<{ key: string; value: boolean | number }>
+    | undefined;
 
-  // Get value with fallback
-  const value = features?.[featureKey] ?? FREE_DEFAULTS[featureKey];
+  // Find the feature by key in the array
+  const foundFeature = featuresArray?.find((f) => f.key === featureKey);
+
+  // Get base value from subscription plan or fallback
+  const baseValue = foundFeature?.value ?? FREE_DEFAULTS[featureKey];
+
+  // Check for user override (admin-granted special access)
+  const overrideValue = overrides[featureKey];
+  const hasOverride = overrideValue !== undefined;
+
+  // Final value: override takes precedence
+  // For number features, use MAX of base and override (more permissive)
+  // For boolean features, use OR logic (if either is true, grant access)
+  let value: boolean | number;
+  if (hasOverride) {
+    if (typeof baseValue === "number" && typeof overrideValue === "number") {
+      // For limits: take the higher value (more access)
+      // Special case: -1 means unlimited, always wins
+      if (baseValue === -1 || overrideValue === -1) {
+        value = -1;
+      } else {
+        value = Math.max(baseValue, overrideValue as number);
+      }
+    } else if (typeof baseValue === "boolean") {
+      // For booleans: grant access if either is true
+      value = baseValue || Boolean(overrideValue);
+    } else {
+      value = overrideValue as boolean | number;
+    }
+  } else {
+    value = baseValue;
+  }
 
   // Boolean features: direct check
   // Number features: -1 means unlimited, 0 means disabled, >0 means limit
@@ -73,6 +111,7 @@ export function useFeature(featureKey: FeatureKey) {
     value,
     limit,
     isUnlimited,
+    hasOverride,
     loading,
     planId,
     // Helpers
@@ -91,10 +130,13 @@ export function useFeature(featureKey: FeatureKey) {
  */
 export function useFeatures(featureKeys: FeatureKey[]) {
   const { subscription, loading, planId } = useSubscription();
-  const features = subscription?.plan?.features as Record<string, boolean | number> | undefined;
+  const featuresArray = subscription?.plan?.features as
+    | Array<{ key: string; value: boolean | number }>
+    | undefined;
 
   const result = featureKeys.reduce((acc, key) => {
-    const value = features?.[key] ?? FREE_DEFAULTS[key];
+    const foundFeature = featuresArray?.find((f) => f.key === key);
+    const value = foundFeature?.value ?? FREE_DEFAULTS[key];
     acc[key] = {
       canAccess: typeof value === "boolean" ? value : value === -1 || value > 0,
       value,
@@ -119,9 +161,10 @@ export function useConsultationDiscount() {
 
 /**
  * Check if user can view showcase (with limit)
+ * Includes user overrides for extra access
  */
 export function useShowcaseAccess() {
-  const { canAccess, limit, isUnlimited } = useFeature("showcase_limit");
+  const { canAccess, limit, isUnlimited, hasOverride, planId } = useFeature("showcase_limit");
   const { canAccess: isPremium } = useFeature("showcase_premium");
 
   return {
@@ -129,5 +172,9 @@ export function useShowcaseAccess() {
     limit: isUnlimited ? Infinity : limit ?? 3,
     isPremium,
     isUnlimited,
+    hasOverride,
+    isFree: planId === "free",
+    isPro: planId === "pro",
+    isVip: planId === "vip",
   };
 }

@@ -351,7 +351,7 @@ export default function WorkspaceDashboard() {
               <p className="text-muted-foreground mb-4">
                 Xem các dự án thực tế, case studies và tìm cảm hứng cho ý tưởng của bạn
               </p>
-              <Button onClick={() => navigate("/projects")}>
+              <Button onClick={() => navigate("/showcase")}>
                 <Star className="h-4 w-4 mr-2" />
                 Xem Showcase
               </Button>

@@ -7,12 +7,13 @@ import { BulkOperations } from "@/brain/components/BulkOperations";
 import { DomainManager } from "@/brain/components/DomainManager";
 import { KnowledgeIngestion } from "@/brain/components/KnowledgeIngestion";
 import { KnowledgeSearch } from "@/brain/components/KnowledgeSearch";
-import { useDomains } from "@/brain/hooks/useDomains";
+import { YouTubeImporter } from "@/brain/components/YouTubeImporter";
 import { useCoreLogic } from "@/brain/hooks/useCoreLogic";
+import { useDomains } from "@/brain/hooks/useDomains";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { BookOpen, Brain, FolderOpen, Search, Upload, Sparkles } from "lucide-react";
+import { BookOpen, Brain, FolderOpen, Search, Sparkles, Upload } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -84,18 +85,23 @@ export default function BrainDashboard() {
 
         {/* Knowledge Ingestion Tab */}
         <TabsContent value="knowledge" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Add Knowledge</CardTitle>
-              <CardDescription>
-                Add new knowledge to your brain. The system will automatically generate embeddings
-                for semantic search.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <KnowledgeIngestion selectedDomainId={selectedDomainId} />
-            </CardContent>
-          </Card>
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Add Knowledge</CardTitle>
+                <CardDescription>
+                  Add new knowledge to your brain. The system will automatically generate embeddings
+                  for semantic search.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <KnowledgeIngestion selectedDomainId={selectedDomainId} />
+              </CardContent>
+            </Card>
+
+            {/* YouTube Importer */}
+            <YouTubeImporter />
+          </div>
         </TabsContent>
 
         {/* Search Tab */}
@@ -126,7 +132,13 @@ export default function BrainDashboard() {
 /**
  * Domain Core Logic Preview Component
  */
-function DomainCoreLogicPreview({ domainId, domainName }: { readonly domainId: string; readonly domainName: string }) {
+function DomainCoreLogicPreview({
+  domainId,
+  domainName,
+}: {
+  readonly domainId: string;
+  readonly domainName: string;
+}) {
   const { data: coreLogic } = useCoreLogic(domainId);
 
   return (
@@ -148,16 +160,20 @@ function DomainCoreLogicPreview({ domainId, domainName }: { readonly domainId: s
             </div>
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div>
-                <span className="text-muted-foreground">Principles:</span> {coreLogic.firstPrinciples.length}
+                <span className="text-muted-foreground">Principles:</span>{" "}
+                {coreLogic.firstPrinciples.length}
               </div>
               <div>
-                <span className="text-muted-foreground">Models:</span> {coreLogic.mentalModels.length}
+                <span className="text-muted-foreground">Models:</span>{" "}
+                {coreLogic.mentalModels.length}
               </div>
               <div>
-                <span className="text-muted-foreground">Rules:</span> {coreLogic.decisionRules.length}
+                <span className="text-muted-foreground">Rules:</span>{" "}
+                {coreLogic.decisionRules.length}
               </div>
               <div>
-                <span className="text-muted-foreground">Anti-patterns:</span> {coreLogic.antiPatterns.length}
+                <span className="text-muted-foreground">Anti-patterns:</span>{" "}
+                {coreLogic.antiPatterns.length}
               </div>
             </div>
           </div>

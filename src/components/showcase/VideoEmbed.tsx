@@ -35,7 +35,7 @@ export const VideoEmbed = ({ videoUrl, thumbnailUrl, title = "Video Demo" }: Vid
                   onClick={() => videoUrl && setIsPlaying(true)}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className="p-6 rounded-full bg-primary/90 hover:bg-primary text-white shadow-2xl"
+                  className="p-6 rounded-full bg-primary/30 hover:bg-primary/50 backdrop-blur-md text-white shadow-2xl border border-primary/50 hover:border-primary/70 transition-all duration-300"
                 >
                   <Play className="w-12 h-12 fill-current" />
                 </motion.button>

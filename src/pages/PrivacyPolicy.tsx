@@ -34,9 +34,9 @@ const PrivacyPolicy = () => {
   return (
     <Layout>
       <Helmet>
-        <title>{t("privacy.title")} | Long Sang</title>
-        <meta name="description" content={t("privacy.intro")} />
-        <meta property="og:title" content={`${t("privacy.title")} | Long Sang`} />
+        <title>{t("privacy.title")} | longsang.org</title>
+        <meta name="description" content={t("privacy.description")} />
+        <meta property="og:title" content={`${t("privacy.title")} | longsang.org`} />
         <meta property="og:description" content={t("privacy.intro")} />
         <link rel="canonical" href="https://longsang.org/privacy" />
       </Helmet>

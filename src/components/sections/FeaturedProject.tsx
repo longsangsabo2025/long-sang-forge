@@ -4,26 +4,31 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useProjectShowcase } from "@/hooks/useProjectShowcase";
 import { ArrowRight, Check } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
-// Fallback images nếu database không có
+// Fallback images từ thư mục screenshot
 const fallbackImages = [
-  "/images/sabo-arena-1.jpg",
-  "/images/sabo-arena-2.jpg",
-  "/images/sabo-arena-3.jpg",
-  "/images/sabo-arena-4.jpg",
+  "/images/screenshot/1.png",
+  "/images/screenshot/2.png",
+  "/images/screenshot/3.png",
+  "/images/screenshot/4.png",
+  "/images/screenshot/5.png",
+  "/images/screenshot/6.png",
+  "/images/screenshot/7.png",
+  "/images/screenshot/8.png",
+  "/images/screenshot/9.png",
 ];
 
 export const FeaturedProject = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   // Fetch SABO Arena data từ database
   const { data: project, isLoading } = useProjectShowcase("sabo-arena");
 
-  const scrollToContact = () => {
-    const element = document.querySelector("#contact");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+  // Navigate to SABO Arena landing page
+  const handleViewDetails = () => {
+    navigate("/showcase/sabo-arena-billiards-platform");
   };
 
   // Lấy data từ database hoặc fallback về i18n
@@ -173,9 +178,9 @@ export const FeaturedProject = () => {
 
             {/* CTA Button */}
             <Button
-              onClick={scrollToContact}
+              onClick={handleViewDetails}
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-5 sm:px-7 py-5 sm:py-6 rounded-xl font-semibold hover:scale-105 transition-all duration-200 inline-flex items-center gap-2 min-h-[48px] text-sm sm:text-base touch-manipulation w-full xs:w-auto"
+              className="bg-primary/20 backdrop-blur-sm hover:bg-primary/40 text-primary-foreground px-5 sm:px-7 py-5 sm:py-6 rounded-xl font-semibold hover:scale-105 transition-all duration-300 inline-flex items-center gap-2 min-h-[48px] text-sm sm:text-base touch-manipulation w-full xs:w-auto border border-primary/40 hover:border-primary/60 shadow-[0_0_20px_hsl(var(--primary)/0.2)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)]"
             >
               {t("featured.cta")}
               <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />

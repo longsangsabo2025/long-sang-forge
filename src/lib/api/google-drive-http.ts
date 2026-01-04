@@ -19,49 +19,54 @@ export interface DriveFolder {
   parents?: string[];
 }
 
-const API_BASE_URL = 'http://localhost:3001/api/drive';
+// TODO: Create Supabase Edge Function for Google Drive
+const SUPABASE_URL =
+  import.meta.env.VITE_SUPABASE_URL || "https://diexsbzqwsbpilsymnfb.supabase.co";
+const API_BASE_URL = `${SUPABASE_URL}/functions/v1/google-drive`;
 
 export const googleDriveAPI = {
   async uploadFile(file: File, parentId?: string): Promise<DriveFile> {
     try {
       const formData = new FormData();
-      formData.append('file', file);
-      
-      const endpoint = parentId && parentId !== 'root' 
-        ? `${API_BASE_URL}/upload/${parentId}` 
-        : `${API_BASE_URL}/upload`;
-      
+      formData.append("file", file);
+
+      const endpoint =
+        parentId && parentId !== "root"
+          ? `${API_BASE_URL}/upload/${parentId}`
+          : `${API_BASE_URL}/upload`;
+
       const response = await fetch(endpoint, {
-        method: 'POST',
+        method: "POST",
         body: formData,
       });
-      
+
       if (!response.ok) {
         throw new Error(`Upload failed: ${response.statusText}`);
       }
-      
+
       return await response.json();
     } catch (error) {
-      console.error('Upload error:', error);
+      console.error("Upload error:", error);
       throw error;
     }
   },
 
-  async listFiles(parentId?: string): Promise<{ files: DriveFile[], folders: DriveFolder[] }> {
+  async listFiles(parentId?: string): Promise<{ files: DriveFile[]; folders: DriveFolder[] }> {
     try {
-      const endpoint = parentId && parentId !== 'root' 
-        ? `${API_BASE_URL}/list/${parentId}` 
-        : `${API_BASE_URL}/list`;
-      
+      const endpoint =
+        parentId && parentId !== "root"
+          ? `${API_BASE_URL}/list/${parentId}`
+          : `${API_BASE_URL}/list`;
+
       const response = await fetch(endpoint);
-      
+
       if (!response.ok) {
         throw new Error(`List files failed: ${response.statusText}`);
       }
-      
+
       return await response.json();
     } catch (error) {
-      console.error('List files error:', error);
+      console.error("List files error:", error);
       throw error;
     }
   },
@@ -69,14 +74,14 @@ export const googleDriveAPI = {
   async deleteFile(fileId: string): Promise<void> {
     try {
       const response = await fetch(`${API_BASE_URL}/${fileId}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
-      
+
       if (!response.ok) {
         throw new Error(`Delete failed: ${response.statusText}`);
       }
     } catch (error) {
-      console.error('Delete error:', error);
+      console.error("Delete error:", error);
       throw error;
     }
   },
@@ -84,14 +89,14 @@ export const googleDriveAPI = {
   async downloadFile(fileId: string): Promise<Blob> {
     try {
       const response = await fetch(`${API_BASE_URL}/download/${fileId}`);
-      
+
       if (!response.ok) {
         throw new Error(`Download failed: ${response.statusText}`);
       }
-      
+
       return await response.blob();
     } catch (error) {
-      console.error('Download error:', error);
+      console.error("Download error:", error);
       throw error;
     }
   },
@@ -99,45 +104,49 @@ export const googleDriveAPI = {
   async createFolder(name: string, parentId?: string): Promise<DriveFolder> {
     try {
       const response = await fetch(`${API_BASE_URL}/folder`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name,
-          parentId: parentId || 'root',
+          parentId: parentId || "root",
         }),
       });
-      
+
       if (!response.ok) {
         throw new Error(`Create folder failed: ${response.statusText}`);
       }
-      
+
       return await response.json();
     } catch (error) {
-      console.error('Create folder error:', error);
+      console.error("Create folder error:", error);
       throw error;
     }
   },
 
-  async shareFile(fileId: string, email: string, role: 'reader' | 'writer' | 'owner' = 'reader'): Promise<void> {
+  async shareFile(
+    fileId: string,
+    email: string,
+    role: "reader" | "writer" | "owner" = "reader"
+  ): Promise<void> {
     try {
       const response = await fetch(`${API_BASE_URL}/share/${fileId}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email,
           role,
         }),
       });
-      
+
       if (!response.ok) {
         throw new Error(`Share failed: ${response.statusText}`);
       }
     } catch (error) {
-      console.error('Share file error:', error);
+      console.error("Share file error:", error);
       throw error;
     }
   },
@@ -145,14 +154,14 @@ export const googleDriveAPI = {
   async searchFiles(query: string): Promise<DriveFile[]> {
     try {
       const response = await fetch(`${API_BASE_URL}/search/${encodeURIComponent(query)}`);
-      
+
       if (!response.ok) {
         throw new Error(`Search failed: ${response.statusText}`);
       }
-      
+
       return await response.json();
     } catch (error) {
-      console.error('Search error:', error);
+      console.error("Search error:", error);
       throw error;
     }
   },
@@ -160,10 +169,10 @@ export const googleDriveAPI = {
   async getFileMetadata(fileId: string): Promise<DriveFile> {
     try {
       // This would need to be implemented in the backend if needed
-      throw new Error('getFileMetadata not implemented yet');
+      throw new Error("getFileMetadata not implemented yet");
     } catch (error) {
-      console.error('Get metadata error:', error);
+      console.error("Get metadata error:", error);
       throw error;
     }
-  }
+  },
 };

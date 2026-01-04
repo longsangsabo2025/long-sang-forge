@@ -1,5 +1,6 @@
+import { EditableText } from "@/components/admin";
 import { motion } from "framer-motion";
-import { Smartphone, Database, Zap, Layers, Palette } from "lucide-react";
+import { Database, Layers, Palette, Smartphone, Zap } from "lucide-react";
 
 const technologies = [
   { icon: Smartphone, name: "Flutter/Dart", description: "Cross-platform" },
@@ -11,7 +12,7 @@ const technologies = [
 
 export const TechStack = () => {
   return (
-    <section className="py-20 relative">
+    <section id="tech" className="py-20 relative">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-16"
@@ -20,11 +21,19 @@ export const TechStack = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="gradient-text">Công Nghệ Tiên Tiến</span>
+            <EditableText
+              textKey="tech-title"
+              defaultText="Công Nghệ Tiên Tiến"
+              as="span"
+              className="gradient-text"
+            />
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Xây dựng trên nền tảng công nghệ hiện đại nhất
-          </p>
+          <EditableText
+            textKey="tech-subtitle"
+            defaultText="Xây dựng trên nền tảng công nghệ hiện đại nhất"
+            as="p"
+            className="text-xl text-muted-foreground max-w-2xl mx-auto"
+          />
         </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-6 max-w-6xl mx-auto">

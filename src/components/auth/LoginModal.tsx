@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 // Google icon component
@@ -51,6 +52,8 @@ interface LoginModalProps {
   readonly open: boolean;
   readonly onOpenChange: (open: boolean) => void;
   readonly onSuccess?: () => void;
+  /** URL to redirect after successful login */
+  readonly redirectTo?: string;
 }
 
 const isDev = import.meta.env.DEV;
@@ -77,7 +80,9 @@ const isValidEmail = (email: string): boolean => {
   return emailRegex.test(email);
 };
 
-export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
+export function LoginModal({ open, onOpenChange, onSuccess, redirectTo }: LoginModalProps) {
+  const { i18n } = useTranslation();
+  const isVi = i18n.language === "vi";
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<"google" | "github" | null>(null);
   const [email, setEmail] = useState("");
@@ -101,6 +106,10 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
   const handleGoogleLogin = async () => {
     setOauthLoading("google");
     try {
+      // Save redirect URL to localStorage before OAuth
+      if (redirectTo) {
+        localStorage.setItem("auth_redirect", redirectTo);
+      }
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
@@ -117,6 +126,10 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
   const handleGitHubLogin = async () => {
     setOauthLoading("github");
     try {
+      // Save redirect URL to localStorage before OAuth
+      if (redirectTo) {
+        localStorage.setItem("auth_redirect", redirectTo);
+      }
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "github",
         options: {
@@ -208,7 +221,12 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
 
           onOpenChange(false);
 
-          // Redirect admin to CRM dashboard
+          // Redirect to specified URL, or admin to CRM, or call onSuccess
+          if (redirectTo) {
+            window.location.href = redirectTo;
+            return;
+          }
+
           if (isAdmin) {
             window.location.href = "/admin";
             return;
@@ -282,13 +300,25 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
       <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {mode === "signin" ? "Sign in to your account" : "Create an account"}
+            {mode === "signin"
+              ? isVi
+                ? "Đăng nhập tài khoản"
+                : "Sign in to your account"
+              : isVi
+              ? "Tạo tài khoản"
+              : "Create an account"}
           </DialogTitle>
           <DialogDescription>
             {(() => {
-              if (authMethod === "password") return "Enter your email and password";
-              if (mode === "signin") return "Enter your email to receive a magic link";
-              return "Sign up to access the automation dashboard";
+              if (authMethod === "password")
+                return isVi ? "Nhập email và mật khẩu của bạn" : "Enter your email and password";
+              if (mode === "signin")
+                return isVi
+                  ? "Nhập email để nhận liên kết đăng nhập"
+                  : "Enter your email to receive a magic link";
+              return isVi
+                ? "Đăng ký để truy cập hệ thống"
+                : "Sign up to access the automation dashboard";
             })()}
           </DialogDescription>
         </DialogHeader>
@@ -298,7 +328,7 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
           <Button
             type="button"
             variant="outline"
-            className="w-full h-11 gap-3"
+            className="w-full h-11 gap-3 border-2 border-primary/60 hover:border-primary hover:bg-primary/10 transition-all duration-200"
             onClick={handleGoogleLogin}
             disabled={oauthLoading !== null}
           >
@@ -307,7 +337,7 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
             ) : (
               <GoogleIcon />
             )}
-            Continue with Google
+            {isVi ? "Tiếp tục với Google" : "Continue with Google"}
           </Button>
 
           <Button
@@ -322,7 +352,7 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
             ) : (
               <GitHubIcon />
             )}
-            Continue with GitHub
+            {isVi ? "Tiếp tục với GitHub" : "Continue with GitHub"}
           </Button>
         </div>
 
@@ -332,13 +362,15 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
             <span className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">Or continue with email</span>
+            <span className="bg-background px-2 text-muted-foreground">
+              {isVi ? "Hoặc tiếp tục với email" : "Or continue with email"}
+            </span>
           </div>
         </div>
 
         <form onSubmit={handleAuth} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{isVi ? "Email" : "Email"}</Label>
             <Input
               id="email"
               type="email"
@@ -363,7 +395,7 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
 
           {authMethod === "password" && (
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{isVi ? "Mật khẩu" : "Password"}</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -413,7 +445,14 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
                       return "text-green-500";
                     })()}`}
                   >
-                    Password strength: {passwordStrength.label}
+                    {isVi ? "Độ mạnh mật khẩu: " : "Password strength: "}
+                    {isVi
+                      ? passwordStrength.score <= 2
+                        ? "Yếu"
+                        : passwordStrength.score === 3
+                        ? "Trung bình"
+                        : "Mạnh"
+                      : passwordStrength.label}
                   </p>
                 </div>
               )}
@@ -423,7 +462,9 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
           {/* Confirm Password (Signup Only) */}
           {authMethod === "password" && mode === "signup" && (
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label htmlFor="confirmPassword">
+                {isVi ? "Xác nhận mật khẩu" : "Confirm Password"}
+              </Label>
               <div className="relative">
                 <Input
                   id="confirmPassword"
@@ -469,20 +510,22 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
                   htmlFor="remember"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  Remember me
+                  {isVi ? "Ghi nhớ đăng nhập" : "Remember me"}
                 </label>
               </div>
               <button
                 type="button"
                 className="text-sm text-primary hover:underline"
                 onClick={() => {
-                  toast.info("Forgot password?", {
-                    description: "Please contact support for password reset assistance.",
+                  toast.info(isVi ? "Quên mật khẩu?" : "Forgot password?", {
+                    description: isVi
+                      ? "Vui lòng liên hệ hỗ trợ để đặt lại mật khẩu."
+                      : "Please contact support for password reset assistance.",
                     duration: 5000,
                   });
                 }}
               >
-                Forgot password?
+                {isVi ? "Quên mật khẩu?" : "Forgot password?"}
               </button>
             </div>
           )}
@@ -491,19 +534,37 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                {authMethod === "password" ? "Signing in..." : "Sending magic link..."}
+                {authMethod === "password"
+                  ? isVi
+                    ? "Đang đăng nhập..."
+                    : "Signing in..."
+                  : isVi
+                  ? "Đang gửi liên kết..."
+                  : "Sending magic link..."}
               </>
             ) : (
               <>
                 {authMethod === "password" ? (
                   <>
                     <Lock className="mr-2 h-4 w-4" />
-                    {mode === "signin" ? "Sign in" : "Sign up"}
+                    {mode === "signin"
+                      ? isVi
+                        ? "Đăng nhập"
+                        : "Sign in"
+                      : isVi
+                      ? "Đăng ký"
+                      : "Sign up"}
                   </>
                 ) : (
                   <>
                     <Mail className="mr-2 h-4 w-4" />
-                    {mode === "signin" ? "Send magic link" : "Sign up with email"}
+                    {mode === "signin"
+                      ? isVi
+                        ? "Gửi liên kết đăng nhập"
+                        : "Send magic link"
+                      : isVi
+                      ? "Đăng ký qua email"
+                      : "Sign up with email"}
                   </>
                 )}
               </>
@@ -514,24 +575,24 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
             <div className="text-center text-sm">
               {mode === "signin" ? (
                 <>
-                  Don't have an account?{" "}
+                  {isVi ? "Chưa có tài khoản? " : "Don't have an account? "}
                   <button
                     type="button"
                     onClick={() => setMode("signup")}
                     className="text-primary hover:underline"
                   >
-                    Sign up
+                    {isVi ? "Đăng ký" : "Sign up"}
                   </button>
                 </>
               ) : (
                 <>
-                  Already have an account?{" "}
+                  {isVi ? "Đã có tài khoản? " : "Already have an account? "}
                   <button
                     type="button"
                     onClick={() => setMode("signin")}
                     className="text-primary hover:underline"
                   >
-                    Sign in
+                    {isVi ? "Đăng nhập" : "Sign in"}
                   </button>
                 </>
               )}
@@ -546,7 +607,13 @@ export function LoginModal({ open, onOpenChange, onSuccess }: LoginModalProps) {
                   }
                   className="text-muted-foreground hover:text-primary hover:underline"
                 >
-                  {authMethod === "password" ? "Use magic link instead" : "Use password instead"}
+                  {authMethod === "password"
+                    ? isVi
+                      ? "Dùng liên kết đăng nhập"
+                      : "Use magic link instead"
+                    : isVi
+                    ? "Dùng mật khẩu"
+                    : "Use password instead"}
                 </button>
               </div>
             )}

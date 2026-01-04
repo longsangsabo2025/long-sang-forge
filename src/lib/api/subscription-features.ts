@@ -344,14 +344,13 @@ export async function retryWebhook(logId: string): Promise<boolean> {
 
 // =====================================================
 // Feature Keys Constants
+// Only features that ACTUALLY exist in the system
 // =====================================================
 
 export const FEATURE_KEYS = {
   AI_CHAT: "ai_chat",
-  AI_IMAGE: "ai_image",
   CONSULTATION_BOOK: "consultation_book",
   SHOWCASE_VIEW: "showcase_view",
-  EXPORT_PDF: "export_pdf",
   PRIORITY_SUPPORT: "priority_support",
 } as const;
 

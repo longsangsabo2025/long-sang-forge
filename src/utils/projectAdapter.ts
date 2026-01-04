@@ -39,6 +39,7 @@ import {
   Target,
   TrendingUp,
   Trophy,
+  User,
   Users,
   Utensils,
   Video,
@@ -49,6 +50,7 @@ import {
 const ICON_MAP: Record<string, LucideIcon> = {
   // Common
   Users,
+  User,
   Trophy,
   Cloud,
   Database,
@@ -116,11 +118,12 @@ export const adaptProjectForLegacy = (project: ProjectShowcase): ProjectData => 
     color: (feature.color as "cyan" | "blue" | "green") || "cyan",
   }));
 
-  // Convert tech_stack
+  // Convert tech_stack - use registry for automatic icon lookup
   const techStack: TechStackItem[] = (project.tech_stack || []).map((tech) => ({
     name: tech.name,
     category: tech.category,
     icon: getIconFromString(tech.icon),
+    // iconifyIcon sẽ được auto-lookup từ registry trong TechArchitecture component
     iconifyIcon: tech.iconifyIcon,
   }));
 

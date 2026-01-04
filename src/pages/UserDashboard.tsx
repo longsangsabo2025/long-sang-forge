@@ -230,7 +230,7 @@ export default function UserDashboard() {
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button
                     onClick={() => navigate("/showcase")}
-                    className="bg-gradient-to-r from-primary to-cyan-500 hover:from-primary/90 hover:to-cyan-500/90 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                    className="bg-gradient-to-r from-primary/30 to-cyan-500/30 backdrop-blur-sm hover:from-primary/50 hover:to-cyan-500/50 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 border border-primary/40 hover:border-primary/60"
                   >
                     <Star className="w-4 h-4 mr-2" />
                     Xem Dự Án

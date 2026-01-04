@@ -165,7 +165,7 @@ export default function ConsultationBooking() {
             {/* Gói Tiêu Chuẩn - 60 phút - POPULAR */}
             <Card className="relative overflow-hidden bg-gradient-to-b from-primary/10 to-cyan-500/5 backdrop-blur-sm border-primary/50 shadow-[0_0_40px_rgba(6,182,212,0.2)] scale-105 hover:scale-[1.07] transition-all duration-300">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-cyan-400 to-primary" />
-              <Badge className="absolute top-4 right-4 bg-primary text-white border-0 shadow-lg">
+              <Badge className="absolute top-4 right-4 bg-primary/30 backdrop-blur-sm text-white border border-primary/50 shadow-lg">
                 {t("consultation.packages.standard.badge")}
               </Badge>
               <CardHeader className="pb-4 pt-8">

@@ -32,9 +32,8 @@
     "language": "Language",
     "mainMenu": "Main Menu",
     "userMenu": {
-      "home": "🏠 Home",
-      "projects": "🎯 Projects",
-      "workspace": "💡 Workspace"
+      "workspace": "💡 Workspace",
+      "profile": "👤 Profile"
     }
   },
   "hero": {
@@ -305,7 +304,7 @@
       "automation": "Business Automation",
       "ai": "AI Solutions & Consulting"
     },
-    "copyright": "© 2025 longsang.org. Built with ❤️ using React + Lovable",
+    "copyright": "© 2026 longsang.org. All rights reserved.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service"
   },

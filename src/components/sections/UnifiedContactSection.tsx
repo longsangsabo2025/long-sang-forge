@@ -44,6 +44,9 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 
+// Serverless Edge Function URL
+const EDGE_FUNCTION_URL = "https://diexsbzqwsbpilsymnfb.supabase.co/functions/v1/sales-consultant";
+
 // Social icons
 const LinkedInIcon = () => (
   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -239,18 +242,40 @@ export const UnifiedContactSection = () => {
               <p className="text-xs sm:text-sm font-semibold text-primary mb-1 sm:mb-2">Kết nối</p>
               <div className="flex gap-3 justify-center md:justify-start">
                 <a
-                  href="https://linkedin.com/company/longsang"
+                  href="https://www.facebook.com/longsang791"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors p-1 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
+                  title="Facebook"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                  </svg>
+                </a>
+                <a
+                  href="https://zalo.me/0961167717"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors p-1 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
+                  title="Zalo"
+                >
+                  <span className="text-xs font-bold">Zalo</span>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/long-sang-75a781357/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors p-1 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
+                  title="LinkedIn"
                 >
                   <LinkedInIcon />
                 </a>
                 <a
-                  href="https://github.com/longsangautomation-max"
+                  href="https://github.com/user-longsang"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors p-1 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
+                  title="GitHub"
                 >
                   <GitHubIcon />
                 </a>
@@ -626,7 +651,7 @@ const MessageFormTab = () => {
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mt-0.5 flex-shrink-0" />
-              <span>Tư vấn AI miễn phí 24/7</span>
+              <span>Long Sang AI miễn phí 24/7</span>
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mt-0.5 flex-shrink-0" />
@@ -674,7 +699,7 @@ const MessageFormTab = () => {
 // TAB 2: AI Chat Component
 // ==========================================
 const AIChatTab = () => {
-  const { messages, setMessages, clearHistory } = useChatHistory("longsang_chat_contact");
+  const { messages, setMessages, clearHistory } = useChatHistory("longsang_chat_unified");
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -701,7 +726,7 @@ const AIChatTab = () => {
 
     try {
       // 🚀 Sales Consultant AI - Contact Section
-      const response = await fetch("/api/sales-consultant", {
+      const response = await fetch(EDGE_FUNCTION_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -784,8 +809,8 @@ const AIChatTab = () => {
                 <div
                   className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                     msg.role === "user"
-                      ? "bg-primary"
-                      : "bg-gradient-to-br from-purple-500 to-pink-500"
+                      ? "bg-primary/30 backdrop-blur-sm border border-primary/50"
+                      : "bg-gradient-to-br from-purple-500/30 to-pink-500/30 backdrop-blur-sm border border-purple-500/50"
                   }`}
                 >
                   {msg.role === "user" ? (
@@ -795,8 +820,10 @@ const AIChatTab = () => {
                   )}
                 </div>
                 <div
-                  className={`max-w-[85%] sm:max-w-[80%] rounded-xl sm:rounded-2xl px-3 py-2 sm:px-4 sm:py-3 ${
-                    msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
+                  className={`max-w-[85%] sm:max-w-[80%] rounded-xl sm:rounded-2xl px-3 py-2 sm:px-4 sm:py-3 backdrop-blur-sm ${
+                    msg.role === "user"
+                      ? "bg-primary/20 text-primary-foreground border border-primary/40"
+                      : "bg-muted/50 border border-muted-foreground/20"
                   }`}
                 >
                   <p className="text-xs sm:text-sm whitespace-pre-wrap">{msg.content}</p>
@@ -960,7 +987,7 @@ const ConsultationTab = () => {
                 onClick={() => handlePackageSelect(pkg.id)}
               >
                 {pkg.popular && (
-                  <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-bl-lg">
+                  <div className="absolute top-0 right-0 bg-primary/30 backdrop-blur-sm text-primary-foreground text-xs font-semibold px-3 py-1 rounded-bl-lg border-l border-b border-primary/50">
                     PHỔ BIẾN NHẤT
                   </div>
                 )}

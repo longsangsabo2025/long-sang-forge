@@ -3,9 +3,13 @@
  * Uses Supabase Admin API with service_role key
  */
 
-const SUPABASE_URL = "https://diexsbzqwsbpilsymnfb.supabase.co";
-const SERVICE_ROLE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpZXhzYnpxd3NicGlsc3ltbmZiIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MDM5MjE5MSwiZXhwIjoyMDc1OTY4MTkxfQ.30ZRAfvIyQUBzyf3xqvrwXbeR15FXDnTGVvTfwmeEXY";
+const config = require("./_config.cjs");
+
+// Validate required keys
+config.validate(["SUPABASE_SERVICE_KEY"]);
+
+const SUPABASE_URL = config.SUPABASE_URL;
+const SERVICE_ROLE_KEY = config.SUPABASE_SERVICE_KEY;
 const TARGET_EMAIL = "longsangsabo@gmail.com";
 
 async function main() {

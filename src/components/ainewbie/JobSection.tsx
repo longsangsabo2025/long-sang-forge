@@ -1,3 +1,4 @@
+import { EditableText } from "@/components/admin";
 import { Button } from "@/components/ui/button";
 import { GlowCard } from "@/components/ui/glow-card";
 import { Briefcase, Clock, DollarSign, MapPin } from "lucide-react";
@@ -31,17 +32,26 @@ const jobs = [
 
 export const JobSection = () => {
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section id="jobs" className="relative py-24 overflow-hidden">
       <div className="absolute inset-0 cyber-grid opacity-20" />
 
       <div className="container relative z-10 mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Cơ Hội <span className="glow-text">Nghề Nghiệp</span>
+            <EditableText textKey="jobs-title-1" defaultText="Cơ Hội " as="span" />
+            <EditableText
+              textKey="jobs-title-2"
+              defaultText="Nghề Nghiệp"
+              as="span"
+              className="glow-text"
+            />
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Kết nối với các vị trí việc làm trong lĩnh vực AI & Machine Learning
-          </p>
+          <EditableText
+            textKey="jobs-subtitle"
+            defaultText="Kết nối với các vị trí việc làm trong lĩnh vực AI & Machine Learning"
+            as="p"
+            className="text-xl text-muted-foreground max-w-2xl mx-auto"
+          />
         </div>
 
         <div className="max-w-4xl mx-auto space-y-6 mb-8">
@@ -72,7 +82,7 @@ export const JobSection = () => {
                   </div>
                 </div>
 
-                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_15px_hsl(var(--primary)/0.4)]">
+                <Button className="bg-primary/20 hover:bg-primary/40 backdrop-blur-sm text-primary-foreground border border-primary/40 hover:border-primary/60 shadow-[0_0_15px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_25px_hsl(var(--primary)/0.5)] transition-all duration-300">
                   Ứng Tuyển
                 </Button>
               </div>

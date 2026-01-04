@@ -9,7 +9,6 @@ import {
   CalendarCheck,
   ChevronLeft,
   ChevronRight,
-  FolderKanban,
   GraduationCap,
   Home,
   LayoutDashboard,
@@ -33,17 +32,11 @@ const workspaceNavItems = [
     color: "text-blue-500",
   },
   {
-    title: "Ideas Hub",
+    title: "Workspace",
     icon: Lightbulb,
-    href: "/workspace/ideas",
+    href: "/workspace/hub",
     color: "text-yellow-500",
-    badge: "✨",
-  },
-  {
-    title: "My Projects",
-    icon: FolderKanban,
-    href: "/workspace/projects",
-    color: "text-green-500",
+    badge: "⚡",
   },
   {
     title: "Saved Products",
@@ -64,7 +57,7 @@ const exploreNavItems = [
   {
     title: "Product Showcase",
     icon: Home,
-    href: "/projects",
+    href: "/showcase",
     color: "text-cyan-500",
   },
   {
@@ -173,7 +166,7 @@ export const UserWorkspaceLayout = () => {
         className={`
           fixed left-0 top-14 z-40 h-[calc(100vh-3.5rem)] border-r border-white/10 bg-background/80 backdrop-blur-md transition-all duration-200 ease-in-out
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-          ${sidebarCollapsed ? "w-16" : "w-64"}
+          ${sidebarCollapsed ? "w-16" : "w-72"}
           lg:translate-x-0
         `}
       >
@@ -286,7 +279,7 @@ export const UserWorkspaceLayout = () => {
                 className={`w-full ${
                   sidebarCollapsed ? "justify-center px-2" : "justify-start"
                 } gap-3`}
-                onClick={() => navigate("/workspace/settings")}
+                onClick={() => navigate("/profile")}
                 title={sidebarCollapsed ? "Cài Đặt" : undefined}
               >
                 <Settings className="h-4 w-4 text-slate-500" />
@@ -321,7 +314,7 @@ export const UserWorkspaceLayout = () => {
       {/* Main Content */}
       <main
         className={`pt-14 transition-all duration-200 ${
-          sidebarCollapsed ? "lg:pl-16" : "lg:pl-64"
+          sidebarCollapsed ? "lg:pl-16" : "lg:pl-72"
         }`}
       >
         <div className="container mx-auto p-6">

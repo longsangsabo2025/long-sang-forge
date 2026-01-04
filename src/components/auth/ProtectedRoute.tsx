@@ -1,8 +1,7 @@
-import { ReactNode, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from './AuthProvider';
-import { LoginModal } from './LoginModal';
-import { Loader2 } from 'lucide-react';
+import { Loader2 } from "lucide-react";
+import { ReactNode, useState } from "react";
+import { useAuth } from "./AuthProvider";
+import { LoginModal } from "./LoginModal";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -33,16 +32,13 @@ export function ProtectedRoute({ children, requireAuth = true }: ProtectedRouteP
             </p>
             <button
               onClick={() => setShowLoginModal(true)}
-              className="px-6 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+              className="px-6 py-3 bg-primary/30 backdrop-blur-sm text-primary-foreground rounded-md hover:bg-primary/50 border border-primary/50 hover:border-primary/70 transition-all duration-300"
             >
               Sign In
             </button>
           </div>
         </div>
-        <LoginModal
-          open={showLoginModal}
-          onOpenChange={setShowLoginModal}
-        />
+        <LoginModal open={showLoginModal} onOpenChange={setShowLoginModal} />
       </>
     );
   }

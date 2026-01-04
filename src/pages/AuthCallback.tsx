@@ -15,6 +15,17 @@ export default function AuthCallback() {
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
   const [message, setMessage] = useState(t("auth.authenticating"));
 
+  // Get redirect URL from localStorage (saved before OAuth) or query params
+  const getRedirectUrl = (isAdmin: boolean): string => {
+    const savedRedirect = localStorage.getItem("auth_redirect");
+    if (savedRedirect) {
+      localStorage.removeItem("auth_redirect"); // Clear after use
+      return savedRedirect;
+    }
+    // Default redirect based on role
+    return isAdmin ? "/admin" : "/welcome";
+  };
+
   useEffect(() => {
     const handleCallback = async () => {
       try {
@@ -53,13 +64,10 @@ export default function AuthCallback() {
               : t("auth.welcomeUser", { email: session.user.email })
           );
 
-          // 🚀 ELON STRATEGY: Redirect admin to CRM, others to Welcome
+          // 🚀 Redirect to saved URL or default
+          const redirectUrl = getRedirectUrl(isAdmin);
           setTimeout(() => {
-            if (isAdmin) {
-              navigate("/admin", { replace: true });
-            } else {
-              navigate("/welcome", { replace: true });
-            }
+            navigate(redirectUrl, { replace: true });
           }, 1500);
         } else {
           // No session yet, might be email confirmation
@@ -81,13 +89,10 @@ export default function AuthCallback() {
             setStatus("success");
             setMessage(isAdmin ? t("auth.adminGreeting") : t("auth.loginSuccess"));
 
-            // 🚀 Redirect based on role
+            // 🚀 Redirect to saved URL or default
+            const redirectUrl = getRedirectUrl(isAdmin);
             setTimeout(() => {
-              if (isAdmin) {
-                navigate("/admin", { replace: true });
-              } else {
-                navigate("/welcome", { replace: true });
-              }
+              navigate(redirectUrl, { replace: true });
             }, 1500);
           } else {
             // Magic link or other flow - need to get session again
@@ -100,16 +105,10 @@ export default function AuthCallback() {
             setStatus("success");
             setMessage(isAdmin ? t("auth.confirmSuccess") : t("auth.emailConfirmed"));
 
-            // 🚀 Redirect based on role
+            // 🚀 Redirect to saved URL or default
+            const redirectUrl = getRedirectUrl(isAdmin);
             setTimeout(() => {
-              if (isAdmin) {
-                navigate("/admin", { replace: true });
-              } else {
-                navigate("/welcome", { replace: true });
-              }
-            }, 1500);
-            setTimeout(() => {
-              navigate("/welcome", { replace: true });
+              navigate(redirectUrl, { replace: true });
             }, 1500);
           }
         }

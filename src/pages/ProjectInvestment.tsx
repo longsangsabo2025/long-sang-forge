@@ -31,7 +31,7 @@ const ProjectInvestment = () => {
     e.preventDefault();
     setSubmitted(true);
     setTimeout(() => {
-      navigate(`/project-showcase/${slug}`);
+      navigate(`/projects/${slug}`);
     }, 3000);
   };
 
@@ -75,7 +75,7 @@ const ProjectInvestment = () => {
         <motion.button
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          onClick={() => navigate(`/project-showcase/${slug}`)}
+          onClick={() => navigate(`/projects/${slug}`)}
           className="inline-flex items-center gap-2 text-yellow-500 hover:text-yellow-400 transition-colors mb-8 group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />

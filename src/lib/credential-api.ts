@@ -1,4 +1,8 @@
-const API_BASE_URL = 'http://localhost:3001/api';
+// API for credential encryption/decryption
+// TODO: Create Supabase Edge Function for this feature
+const SUPABASE_URL =
+  import.meta.env.VITE_SUPABASE_URL || "https://diexsbzqwsbpilsymnfb.supabase.co";
+const API_BASE_URL = `${SUPABASE_URL}/functions/v1/credentials`;
 
 export interface EncryptedCredential {
   name: string;
@@ -17,15 +21,15 @@ export interface EncryptedCredential {
  */
 export async function encryptData(data: string): Promise<string> {
   const response = await fetch(`${API_BASE_URL}/credentials/encrypt`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ data }),
   });
 
   if (!response.ok) {
-    throw new Error('Encryption failed');
+    throw new Error("Encryption failed");
   }
 
   const result = await response.json();
@@ -37,15 +41,15 @@ export async function encryptData(data: string): Promise<string> {
  */
 export async function decryptData(encrypted: string): Promise<string> {
   const response = await fetch(`${API_BASE_URL}/credentials/decrypt`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ encrypted }),
   });
 
   if (!response.ok) {
-    throw new Error('Decryption failed');
+    throw new Error("Decryption failed");
   }
 
   const result = await response.json();
@@ -66,15 +70,15 @@ export async function storeCredential(credential: {
   tags?: string[];
 }): Promise<EncryptedCredential> {
   const response = await fetch(`${API_BASE_URL}/credentials`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(credential),
   });
 
   if (!response.ok) {
-    throw new Error('Failed to store credential');
+    throw new Error("Failed to store credential");
   }
 
   const result = await response.json();
@@ -94,15 +98,15 @@ export async function batchEncryptCredentials(
   }>
 ): Promise<EncryptedCredential[]> {
   const response = await fetch(`${API_BASE_URL}/credentials/batch-encrypt`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ credentials }),
   });
 
   if (!response.ok) {
-    throw new Error('Batch encryption failed');
+    throw new Error("Batch encryption failed");
   }
 
   const result = await response.json();
@@ -114,9 +118,9 @@ export async function batchEncryptCredentials(
  */
 export async function verifyEncryption(data: string): Promise<boolean> {
   const response = await fetch(`${API_BASE_URL}/credentials/verify`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ data }),
   });

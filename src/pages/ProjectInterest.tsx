@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { projectsData } from "@/data/projects-data";
+import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import { ArrowLeft, CheckCircle2, Heart, Mail, MessageSquare, Phone, User } from "lucide-react";
 import { useState } from "react";
@@ -25,31 +26,24 @@ const ProjectInterest = () => {
     try {
       const projectData = project || { id: 0, name: "Unknown Project" };
 
-      const response = await fetch("http://localhost:3001/api/project/interest", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          projectId: projectData.id,
-          projectSlug: slug,
-          projectName: projectData.name,
-          fullName: name,
-          email,
-          phone,
-          message: message || undefined,
-        }),
+      // Insert directly to Supabase - no server needed!
+      const { error } = await supabase.from("project_interests").insert({
+        project_id: projectData.id,
+        project_slug: slug,
+        project_name: projectData.name,
+        full_name: name,
+        email,
+        phone,
+        message: message || null,
       });
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "Failed to submit interest");
+      if (error) {
+        throw new Error(error.message || "Failed to submit interest");
       }
 
       setSubmitted(true);
       setTimeout(() => {
-        navigate(`/project-showcase/${slug}`);
+        navigate(`/projects/${slug}`);
       }, 3000);
     } catch (error) {
       console.error("Error submitting interest:", error);
@@ -97,7 +91,7 @@ const ProjectInterest = () => {
         <motion.button
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          onClick={() => navigate(`/project-showcase/${slug}`)}
+          onClick={() => navigate(`/projects/${slug}`)}
           className="inline-flex items-center gap-2 text-neon-cyan hover:text-white transition-colors mb-8 group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />

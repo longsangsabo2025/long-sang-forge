@@ -62,7 +62,11 @@ export function ExecutionHistoryPanel() {
   const getStatusBadge = (status: ExecutionHistory["status"]) => {
     switch (status) {
       case "completed":
-        return <Badge className="bg-green-500">Completed</Badge>;
+        return (
+          <Badge className="bg-green-500/20 text-green-400 border border-green-500/40">
+            Completed
+          </Badge>
+        );
       case "failed":
         return <Badge variant="destructive">Failed</Badge>;
       case "cancelled":

@@ -69,7 +69,7 @@ export default function SavedProducts() {
             description: project.description,
             image: project.images?.hero || project.image,
             category: project.category,
-            link: `/project-showcase/${slug}`,
+            link: `/projects/${slug}`,
           }
         : null;
     }
@@ -183,7 +183,7 @@ export default function SavedProducts() {
               <p className="text-muted-foreground mb-4">
                 Khám phá các sản phẩm và nhấn nút "Lưu" để thêm vào đây
               </p>
-              <Button onClick={() => navigate("/projects")}>
+              <Button onClick={() => navigate("/showcase")}>
                 <Star className="h-4 w-4 mr-2" />
                 Khám phá Showcase
               </Button>

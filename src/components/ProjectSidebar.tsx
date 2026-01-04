@@ -1,5 +1,4 @@
 import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
 import { useProjectData } from "@/hooks/useProjectData";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
@@ -85,7 +84,7 @@ export const ProjectSidebar = ({ activeProjectId, onProjectChange }: ProjectSide
               transition={{ delay: index * 0.1 }}
             >
               <GlowCard
-                className={`cursor-pointer p-4 ${
+                className={`cursor-pointer p-3 ${
                   activeProjectId === project.id
                     ? "border-neon-cyan bg-neon-cyan/5"
                     : "border-border/30"
@@ -93,26 +92,40 @@ export const ProjectSidebar = ({ activeProjectId, onProjectChange }: ProjectSide
                 glowColor={activeProjectId === project.id ? "cyan" : "blue"}
                 onClick={() => onProjectChange(project.id)}
               >
-                <div className="flex items-start gap-3">
+                <div className="flex items-center gap-3">
+                  {/* Logo */}
                   <div
-                    className={`p-2 rounded-lg ${
-                      activeProjectId === project.id ? "bg-neon-cyan/20" : "bg-dark-surface"
+                    className={`w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 ${
+                      activeProjectId === project.id
+                        ? "ring-2 ring-neon-cyan"
+                        : "ring-1 ring-border/50"
                     }`}
                   >
-                    <project.icon className="h-5 w-5 text-neon-cyan" />
+                    {project.logoUrl ? (
+                      <img
+                        src={project.logoUrl}
+                        alt={project.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-dark-surface">
+                        <project.icon className="h-5 w-5 text-neon-cyan" />
+                      </div>
+                    )}
                   </div>
+                  {/* Info */}
                   <div className="flex-1 min-w-0">
                     <h3 className="font-display text-sm font-semibold text-foreground truncate">
                       {project.name}
                     </h3>
-                    <p className="text-xs text-muted-foreground mt-1">{project.description}</p>
-                    <div className="mt-3">
-                      <div className="flex items-center justify-between text-xs mb-1">
-                        <span className="text-muted-foreground">Progress</span>
-                        <span className="text-neon-cyan font-medium">{project.progress}%</span>
-                      </div>
-                      <Progress value={project.progress} className="h-1 bg-dark-surface" />
-                    </div>
+                    <p className="text-xs text-muted-foreground truncate">{project.category}</p>
+                  </div>
+                  {/* Status */}
+                  <div className="flex-shrink-0">
+                    <span className="inline-flex items-center gap-1 text-xs text-neon-green">
+                      <span className="w-1.5 h-1.5 rounded-full bg-neon-green animate-pulse" />
+                      Live
+                    </span>
                   </div>
                 </div>
               </GlowCard>

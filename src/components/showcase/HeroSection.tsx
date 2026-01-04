@@ -1,7 +1,6 @@
-import { motion } from "framer-motion";
-import { ChevronDown, Sparkles, ExternalLink } from "lucide-react";
-import { ActionButton } from "./ui/ActionButton";
 import { AppShowcaseData } from "@/types/app-showcase.types";
+import { motion } from "framer-motion";
+import { ChevronDown, ExternalLink, Sparkles } from "lucide-react";
 
 interface HeroSectionProps {
   data: AppShowcaseData;
@@ -36,7 +35,7 @@ export const HeroSection = ({ data }: HeroSectionProps) => {
           />
         ))}
       </div>
-      
+
       {/* Floating blurred phones in background */}
       <div className="absolute inset-0 overflow-hidden opacity-10">
         <motion.div
@@ -91,9 +90,9 @@ export const HeroSection = ({ data }: HeroSectionProps) => {
           >
             {data.hero.title}
           </motion.span>
-          <span className="block text-foreground/90">{data.hero.subtitle.split(' / ')[0]}</span>
+          <span className="block text-foreground/90">{data.hero.subtitle.split(" / ")[0]}</span>
           <span className="block bg-gradient-to-r from-neon-blue via-primary to-accent bg-clip-text text-transparent">
-            {data.hero.subtitle.split(' / ')[1] || data.hero.subtitle}
+            {data.hero.subtitle.split(" / ")[1] || data.hero.subtitle}
           </span>
         </motion.h1>
 
@@ -115,7 +114,7 @@ export const HeroSection = ({ data }: HeroSectionProps) => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative h-16 px-10 rounded-full bg-gradient-to-r from-primary via-neon-blue to-accent text-primary-foreground font-bold text-lg shadow-glow overflow-hidden font-display"
+            className="group relative h-16 px-10 rounded-full bg-gradient-to-r from-primary/30 via-neon-blue/30 to-accent/30 backdrop-blur-sm text-primary-foreground font-bold text-lg shadow-glow overflow-hidden font-display border border-primary/40 hover:from-primary/50 hover:via-neon-blue/50 hover:to-accent/50"
           >
             <span className="relative z-10">Tải Ứng Dụng</span>
             <motion.div
@@ -125,7 +124,7 @@ export const HeroSection = ({ data }: HeroSectionProps) => {
               transition={{ duration: 0.5 }}
             />
           </motion.button>
-          
+
           <motion.button
             whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
             whileTap={{ scale: 0.95 }}
@@ -146,7 +145,7 @@ export const HeroSection = ({ data }: HeroSectionProps) => {
             <ExternalLink size={20} />
           </motion.a>
         </motion.div>
-        
+
         {/* Trust indicators */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -157,7 +156,10 @@ export const HeroSection = ({ data }: HeroSectionProps) => {
           <div className="flex items-center gap-2">
             <div className="flex -space-x-2">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-neon-blue to-primary border-2 border-dark-bg" />
+                <div
+                  key={i}
+                  className="w-8 h-8 rounded-full bg-gradient-to-br from-neon-blue to-primary border-2 border-dark-bg"
+                />
               ))}
             </div>
             <span>{data.hero.stats.users}</span>
@@ -167,8 +169,10 @@ export const HeroSection = ({ data }: HeroSectionProps) => {
             <span>{data.hero.stats.rating}</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-neon-green font-bold">{data.hero.stats.tournaments.split('+')[0]}+</span>
-            <span>{data.hero.stats.tournaments.split(' ').slice(1).join(' ')}</span>
+            <span className="text-neon-green font-bold">
+              {data.hero.stats.tournaments.split("+")[0]}+
+            </span>
+            <span>{data.hero.stats.tournaments.split(" ").slice(1).join(" ")}</span>
           </div>
         </motion.div>
 

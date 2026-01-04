@@ -58,7 +58,7 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-3 px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg rounded-xl transition-colors shadow-lg"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-primary/20 hover:bg-primary/40 backdrop-blur-sm text-primary-foreground font-bold text-lg rounded-xl transition-all duration-300 border border-primary/40 hover:border-primary/60 hover:shadow-[0_0_25px_hsl(var(--primary)/0.4)]"
               >
                 <ExternalLink className="w-5 h-5" />
                 XEM TRANG WEB THỰC TẾ

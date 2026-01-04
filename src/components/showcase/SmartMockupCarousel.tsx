@@ -109,7 +109,7 @@ export const SmartMockupCarousel: React.FC<SmartMockupCarouselProps> = ({
               onClick={() => setCurrentMockupType("browser")}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                 currentMockupType === "browser"
-                  ? "bg-primary text-primary-foreground"
+                  ? "bg-primary/30 backdrop-blur-sm text-primary-foreground border border-primary/50"
                   : "bg-muted/50 text-muted-foreground hover:bg-muted"
               }`}
             >
@@ -120,7 +120,7 @@ export const SmartMockupCarousel: React.FC<SmartMockupCarouselProps> = ({
               onClick={() => setCurrentMockupType("phone")}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                 currentMockupType === "phone"
-                  ? "bg-primary text-primary-foreground"
+                  ? "bg-primary/30 backdrop-blur-sm text-primary-foreground border border-primary/50"
                   : "bg-muted/50 text-muted-foreground hover:bg-muted"
               }`}
             >

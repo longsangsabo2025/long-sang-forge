@@ -232,18 +232,101 @@ export default function ProjectShowcaseEditor() {
 
     setSaving(true);
 
+    // Check current auth state
+    const { data: sessionData } = await supabase.auth.getSession();
+    console.log("🔐 Current session:", sessionData?.session?.user?.id || "NO SESSION");
+    console.log("🔐 User email:", sessionData?.session?.user?.email || "N/A");
+
     const { id, ...payload } = data;
 
+    // Helper to validate and convert date - only accept YYYY-MM-DD format
+    const parseDate = (value: string | null | undefined): string | null => {
+      if (!value) return null;
+      // Check if it's already a valid YYYY-MM-DD format
+      if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        return value;
+      }
+      // Try to parse Q1/Q2/Q3/Q4 format
+      const quarterMatch = value.match(/Q(\d)\s*(\d{4})/);
+      if (quarterMatch) {
+        const quarter = parseInt(quarterMatch[1]);
+        const year = quarterMatch[2];
+        const month = String((quarter - 1) * 3 + 1).padStart(2, "0");
+        return `${year}-${month}-01`;
+      }
+      // If it contains text like "Hiện tại", return null
+      if (/[a-zA-ZÀ-ỹ]/.test(value)) {
+        console.log(`⚠️ Invalid date "${value}" converted to null`);
+        return null;
+      }
+      return null;
+    };
+
+    // Clean up date fields - convert invalid formats to null
+    const cleanPayload = {
+      ...payload,
+      start_date: parseDate(payload.start_date),
+      end_date: parseDate(payload.end_date),
+    };
+
+    console.log("📝 Saving payload:", JSON.stringify(cleanPayload, null, 2));
+    console.log("📝 Project ID:", projectId);
+    console.log("📝 Is Editing:", isEditing);
+
     let error;
+    let result;
     if (isEditing) {
-      ({ error } = await supabase.from("project_showcase").update(payload).eq("id", projectId));
+      const response = await supabase
+        .from("project_showcase")
+        .update(cleanPayload)
+        .eq("id", projectId)
+        .select();
+
+      console.log("📤 Update response:", response);
+      error = response.error;
+      result = response.data;
+
+      // Check if update actually happened (RLS might silently reject)
+      if (!error && (!result || result.length === 0)) {
+        error = {
+          message: "RLS đã chặn update. Kiểm tra quyền admin hoặc đăng nhập lại.",
+        };
+      }
     } else {
-      ({ error } = await supabase.from("project_showcase").insert(payload));
+      const response = await supabase.from("project_showcase").insert(cleanPayload).select();
+      console.log("📤 Insert response:", response);
+      error = response.error;
+      result = response.data;
+    }
+
+    // VERIFY: Read back from database to confirm save worked
+    if (!error && result && result.length > 0) {
+      const savedId = result[0].id;
+      const { data: verifyData, error: verifyError } = await supabase
+        .from("project_showcase")
+        .select("name, slug, description, hero_title")
+        .eq("id", savedId)
+        .single();
+
+      console.log("✅ VERIFY after save:", verifyData);
+      if (verifyError) {
+        console.error("❌ Verify error:", verifyError);
+      } else {
+        // Compare key fields
+        const matches =
+          verifyData?.name === cleanPayload.name && verifyData?.slug === cleanPayload.slug;
+        console.log("✅ Data matches saved:", matches);
+        if (!matches) {
+          console.error("❌ MISMATCH! Saved:", cleanPayload.name, "DB has:", verifyData?.name);
+          error = { message: "Dữ liệu không khớp sau khi lưu. Có thể có vấn đề với database." };
+        }
+      }
     }
 
     setSaving(false);
 
     if (error) {
+      console.error("❌ Save error:", error);
       toast({ title: "Lỗi", description: error.message, variant: "destructive" });
       return;
     }
@@ -1276,8 +1359,16 @@ export default function ProjectShowcaseEditor() {
                 </div>
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
-                {data.is_active && <Badge className="bg-green-500">Active</Badge>}
-                {data.is_featured && <Badge className="bg-yellow-500">Featured</Badge>}
+                {data.is_active && (
+                  <Badge className="bg-green-500/20 text-green-400 border border-green-500/40">
+                    Active
+                  </Badge>
+                )}
+                {data.is_featured && (
+                  <Badge className="bg-yellow-500/20 text-yellow-400 border border-yellow-500/40">
+                    Featured
+                  </Badge>
+                )}
                 <Badge variant="outline">{data.category}</Badge>
                 <Badge variant="outline">{data.status}</Badge>
                 {data.my_role && <Badge variant="secondary">{data.my_role}</Badge>}

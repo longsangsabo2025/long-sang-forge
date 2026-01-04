@@ -3,14 +3,19 @@
  * Generate video ads for multiple platforms
  */
 
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { Loader2, Video, Play, Download } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Download, Loader2, Play, Video } from "lucide-react";
+import { useState } from "react";
 
 interface VideoConfig {
   product_info: {
@@ -27,28 +32,31 @@ interface VideoConfig {
 
 export function VideoAdGenerator() {
   const [productInfo, setProductInfo] = useState({
-    name: '',
-    description: '',
-    category: '',
-    url: ''
+    name: "",
+    description: "",
+    category: "",
+    url: "",
   });
   const [config, setConfig] = useState<VideoConfig>({
     product_info: {
-      name: '',
-      description: '',
-      category: '',
-      url: ''
+      name: "",
+      description: "",
+      category: "",
+      url: "",
     },
-    ad_style: 'product',
+    ad_style: "product",
     duration: 15,
-    aspect_ratio: '9:16',
-    num_images: 3
+    aspect_ratio: "9:16",
+    num_images: 3,
   });
   const [videoResult, setVideoResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+  // TODO: Create Supabase Edge Function for Video Ad Generator
+  const SUPABASE_URL =
+    import.meta.env.VITE_SUPABASE_URL || "https://diexsbzqwsbpilsymnfb.supabase.co";
+  const API_URL = `${SUPABASE_URL}/functions/v1`;
 
   const generateVideo = async () => {
     setLoading(true);
@@ -56,18 +64,18 @@ export function VideoAdGenerator() {
 
     try {
       const response = await fetch(`${API_URL}/api/video-ads/generate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           product_info: productInfo,
           ad_style: config.ad_style,
           duration: config.duration,
           aspect_ratio: config.aspect_ratio,
-          num_images: config.num_images
-        })
+          num_images: config.num_images,
+        }),
       });
 
-      if (!response.ok) throw new Error('Video generation failed');
+      if (!response.ok) throw new Error("Video generation failed");
 
       const data = await response.json();
       setVideoResult(data);
@@ -229,9 +237,7 @@ export function VideoAdGenerator() {
                   Download
                 </Button>
               </div>
-              <p className="text-sm text-muted-foreground">
-                Video path: {videoResult.video_path}
-              </p>
+              <p className="text-sm text-muted-foreground">Video path: {videoResult.video_path}</p>
             </div>
           </CardContent>
         </Card>
@@ -247,4 +253,3 @@ export function VideoAdGenerator() {
     </div>
   );
 }
-

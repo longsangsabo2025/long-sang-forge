@@ -73,24 +73,24 @@
   "featured": {
     "badge": "Recent Project",
     "title": "SABO ARENA",
-    "tagline": "Gaming & Billiards App",
+    "tagline": "#1 Billiards Tournament Platform in Vietnam",
     "challengeTitle": "The Problem",
-    "challengeText": "Billiards venue owners needed an app to manage tables, track revenue, and run tournaments - but existing solutions were too expensive or didn't fit",
+    "challengeText": "Clubs organize tournaments manually - spending hours creating brackets. No standardized ranking system - fake rankings everywhere. Players don't know their true skill level.",
     "solutionTitle": "How I Solved It",
-    "solutionIntro": "Built a custom app with exactly the features they needed",
+    "solutionIntro": "Professional tournament platform with real-time technology",
     "features": [
-      "Table management and time tracking",
-      "Auto billing and revenue reports",
-      "Tournament organization and rankings",
-      "Customer notifications"
+      "Auto bracket generation & tournament management",
+      "ELO system with 10 ranks (K to C) - prevents fake rankings",
+      "Live scoring & real-time notifications",
+      "Connect players community nationwide"
     ],
     "techStackTitle": "Tech Used",
     "resultsTitle": "Results",
     "results": [
-      "Now used at multiple venues",
-      "80% less manual billing time",
-      "Owners track revenue in real-time",
-      "4.8/5 stars from users"
+      "2,500+ players registered",
+      "150+ tournaments successfully hosted",
+      "500K+ VND total prize pool",
+      "Available on App Store & Google Play"
     ],
     "cta": "See details"
   },
@@ -233,11 +233,8 @@
     "language": "Language",
     "mainMenu": "Main Menu",
     "userMenu": {
-      "home": "Home",
-      "profile": "Profile",
-      "projects": "Projects",
       "workspace": "Workspace",
-      "subscription": "Subscription"
+      "profile": "Profile"
     }
   },
   "footer": {
@@ -421,7 +418,7 @@
       "automation": "Automation",
       "ai": "AI Integration"
     },
-    "copyright": "© 2024 Long Sang. All rights reserved.",
+    "copyright": "© 2026 longsang.org. All rights reserved.",
     "allRightsReserved": "All rights reserved.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service"

@@ -155,13 +155,16 @@ export const ChatTranscript = ({ messages, customerName, className = "" }: ChatT
     URL.revokeObjectURL(url);
   };
 
-  // Send via email (would need backend)
+  // Send via email (requires Edge Function)
   const handleEmail = async () => {
     if (!email) return;
 
     try {
-      // In production, this would call your backend API
-      const response = await fetch("/api/send-transcript", {
+      // TODO: Create Edge Function for send-transcript
+      // For now, show success with download option
+      const SEND_TRANSCRIPT_URL =
+        "https://diexsbzqwsbpilsymnfb.supabase.co/functions/v1/send-transcript";
+      const response = await fetch(SEND_TRANSCRIPT_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -247,7 +250,11 @@ export const ChatTranscript = ({ messages, customerName, className = "" }: ChatT
               onChange={(e) => setEmail(e.target.value)}
               className="flex-1"
             />
-            <Button onClick={handleEmail} disabled={!email || emailSent} className="bg-primary">
+            <Button
+              onClick={handleEmail}
+              disabled={!email || emailSent}
+              className="bg-primary/20 backdrop-blur-sm border border-primary/40 hover:bg-primary/40 hover:border-primary/60 transition-all duration-300"
+            >
               {emailSent ? (
                 <>
                   <Check className="w-4 h-4 mr-2" />

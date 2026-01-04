@@ -1,4 +1,4 @@
-import { CheckCircle2, Zap, Target, Trophy, Users, MessageCircle } from "lucide-react";
+import { CheckCircle2, Target, Trophy, Users, Zap } from "lucide-react";
 
 export const TournamentCreationScreen = () => {
   const formats = [
@@ -38,18 +38,18 @@ export const TournamentCreationScreen = () => {
               key={index}
               className={`glass-panel rounded-xl p-3 text-left transition-all ${
                 format.selected
-                  ? 'border-2 border-neon-cyan shadow-[0_0_20px_rgba(0,217,255,0.3)]'
-                  : 'border border-muted/20'
+                  ? "border-2 border-neon-cyan shadow-[0_0_20px_rgba(0,217,255,0.3)]"
+                  : "border border-muted/20"
               }`}
             >
               <format.icon
                 className={`w-5 h-5 mb-2 ${
-                  format.selected ? 'text-neon-cyan' : 'text-muted-foreground'
+                  format.selected ? "text-neon-cyan" : "text-muted-foreground"
                 }`}
               />
               <p
                 className={`text-xs font-semibold ${
-                  format.selected ? 'text-neon-cyan' : 'text-foreground'
+                  format.selected ? "text-neon-cyan" : "text-foreground"
                 }`}
               >
                 {format.name}
@@ -76,7 +76,7 @@ export const TournamentCreationScreen = () => {
           <Zap className="w-4 h-4 text-neon-green" />
           <p className="text-neon-green text-xs font-semibold">Tạo giải trong 3 phút ⏱️</p>
         </div>
-        <button className="w-full py-3 bg-gradient-to-r from-primary to-neon-cyan rounded-xl text-white font-bold text-sm">
+        <button className="w-full py-3 bg-gradient-to-r from-primary/30 to-neon-cyan/30 backdrop-blur-sm rounded-xl text-white font-bold text-sm border border-primary/50">
           Tiếp Theo →
         </button>
       </div>

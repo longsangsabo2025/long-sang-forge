@@ -1,6 +1,6 @@
-import { LucideIcon } from "lucide-react";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { LucideIcon } from "lucide-react";
 
 interface ActionButtonProps {
   label?: string;
@@ -25,8 +25,8 @@ export const ActionButton = ({
       className={cn(
         "rounded-full flex items-center justify-center gap-2 font-medium transition-all font-display",
         variant === "primary"
-          ? "bg-gradient-to-r from-primary to-neon-blue text-primary-foreground shadow-glow"
-          : "bg-foreground text-background shadow-lg",
+          ? "bg-gradient-to-r from-primary/30 to-neon-blue/30 backdrop-blur-sm text-primary-foreground shadow-glow border border-primary/40 hover:from-primary/50 hover:to-neon-blue/50"
+          : "bg-foreground/80 backdrop-blur-sm text-background shadow-lg border border-foreground/20",
         size === "small" ? "h-12 w-12" : label ? "h-14 px-6" : "h-14 w-14"
       )}
     >

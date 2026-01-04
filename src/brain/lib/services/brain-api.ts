@@ -1,1034 +1,342 @@
 /**
- * Brain API Client
- * Handles all API calls to the brain endpoints
+ * Brain API Client - Supabase Direct Version
+ * ==========================================
+ * ELON MUSK EDITION: Call Supabase directly, no server needed
  */
 
 import type {
-  ApiResponse,
   CreateDomainInput,
   Domain,
-  DomainListResponse,
   IngestKnowledgeInput,
   Knowledge,
   KnowledgeSearchOptions,
-  KnowledgeSearchResponse,
   KnowledgeSearchResult,
   UpdateDomainInput,
 } from "@/brain/types/brain.types";
-import type {
-  BulkOperationResult,
-  DomainAnalytics,
-  DomainExportData,
-  DomainQueryResponse,
-  DomainStats,
-  DomainSuggestion,
-  DomainSummary,
-  DomainTrends,
-} from "@/brain/types/domain-agent.types";
-import type {
-  CoreLogic,
-  CoreLogicVersion,
-  CoreLogicComparison,
-  DistillationOptions,
-  KnowledgeAnalysisResult,
-  KnowledgePattern,
-  KeyConcept,
-  KnowledgeRelationship,
-  KnowledgeTopic,
-} from "@/brain/types/core-logic.types";
-import { API_URL } from "@/config/api";
+import { supabase } from "@/integrations/supabase/client";
 
 /**
  * Default User ID for Longsang Admin
- * This is the primary admin user for the Brain system
  */
 const DEFAULT_USER_ID = "89917901-cf15-45c4-a7ad-8c4c9513347e";
 
 /**
  * Get the current user ID
- * Note: This should be replaced with actual auth system integration
  */
 function getUserId(): string {
-  // Try to get from localStorage first
-  if (globalThis.window !== undefined) {
-    const stored = globalThis.window.localStorage.getItem("userId");
+  if (typeof window !== "undefined") {
+    const stored = window.localStorage.getItem("userId");
     if (stored) return stored;
-    
-    // Store default user ID in localStorage for consistency
-    globalThis.window.localStorage.setItem("userId", DEFAULT_USER_ID);
+    window.localStorage.setItem("userId", DEFAULT_USER_ID);
   }
-  
-  // Return default user ID for Longsang Admin
   return DEFAULT_USER_ID;
 }
 
 /**
- * Brain API Client Class
+ * Brain API Client Class - Direct Supabase calls
  */
 export class BrainAPI {
-  private readonly baseUrl: string;
+  // ============================================
+  // DOMAINS
+  // ============================================
 
-  constructor(baseUrl: string = API_URL) {
-    this.baseUrl = baseUrl;
-  }
-
-  /**
-   * Get all domains for the current user
-   */
   async getDomains(): Promise<Domain[]> {
     const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
+    const { data, error } = await supabase
+      .from("brain_domains")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
 
-    const response = await fetch(`${this.baseUrl}/brain/domains?userId=${userId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to fetch domains" }));
-      throw new Error(error.error || "Failed to fetch domains");
-    }
-
-    const data: DomainListResponse = await response.json();
-    if (!data.success) {
-      throw new Error(data.error || "Failed to fetch domains");
-    }
-
-    return data.data || [];
+    if (error) throw new Error(error.message);
+    return (data || []).map(this.mapDomain);
   }
 
-  /**
-   * Get a domain by ID
-   */
   async getDomain(id: string): Promise<Domain> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
+    const { data, error } = await supabase.from("brain_domains").select("*").eq("id", id).single();
 
-    const response = await fetch(`${this.baseUrl}/brain/domains/${id}?userId=${userId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to fetch domain" }));
-      throw new Error(error.error || "Failed to fetch domain");
-    }
-
-    const data: ApiResponse<Domain> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Domain not found");
-    }
-
-    return data.data;
+    if (error) throw new Error(error.message);
+    return this.mapDomain(data);
   }
 
-  /**
-   * Create a new domain
-   */
   async createDomain(input: CreateDomainInput): Promise<Domain> {
     const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
+    const { data, error } = await supabase
+      .from("brain_domains")
+      .insert({
+        name: input.name,
+        description: input.description || null,
+        icon: input.icon || "📂",
+        color: input.color || "#6366f1",
+        user_id: userId,
+      })
+      .select()
+      .single();
 
-    const response = await fetch(`${this.baseUrl}/brain/domains`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...input,
-        userId,
-      }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to create domain" }));
-      throw new Error(error.error || "Failed to create domain");
-    }
-
-    const data: ApiResponse<Domain> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to create domain");
-    }
-
-    return data.data;
+    if (error) throw new Error(error.message);
+    return this.mapDomain(data);
   }
 
-  /**
-   * Update a domain
-   */
   async updateDomain(id: string, input: UpdateDomainInput): Promise<Domain> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
+    const { data, error } = await supabase
+      .from("brain_domains")
+      .update({
+        name: input.name,
+        description: input.description,
+        icon: input.icon,
+        color: input.color,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", id)
+      .select()
+      .single();
 
-    const response = await fetch(`${this.baseUrl}/brain/domains/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...input,
-        userId,
-      }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to update domain" }));
-      throw new Error(error.error || "Failed to update domain");
-    }
-
-    const data: ApiResponse<Domain> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to update domain");
-    }
-
-    return data.data;
+    if (error) throw new Error(error.message);
+    return this.mapDomain(data);
   }
 
-  /**
-   * Delete a domain
-   */
   async deleteDomain(id: string): Promise<void> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
+    // Delete all knowledge in domain first
+    await supabase.from("brain_knowledge").delete().eq("domain_id", id);
 
-    const response = await fetch(`${this.baseUrl}/brain/domains/${id}?userId=${userId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to delete domain" }));
-      throw new Error(error.error || "Failed to delete domain");
-    }
-
-    const data: ApiResponse<void> = await response.json();
-    if (!data.success) {
-      throw new Error(data.error || "Failed to delete domain");
-    }
+    const { error } = await supabase.from("brain_domains").delete().eq("id", id);
+    if (error) throw new Error(error.message);
   }
 
-  /**
-   * Ingest knowledge into the brain
-   */
+  // ============================================
+  // KNOWLEDGE
+  // ============================================
+
+  async getKnowledge(domainId: string): Promise<Knowledge[]> {
+    const { data, error } = await supabase
+      .from("brain_knowledge")
+      .select("*")
+      .eq("domain_id", domainId)
+      .order("created_at", { ascending: false });
+
+    if (error) throw new Error(error.message);
+    return (data || []).map(this.mapKnowledge);
+  }
+
   async ingestKnowledge(input: IngestKnowledgeInput): Promise<Knowledge> {
     const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
+
+    // Generate embedding using Edge Function
+    let embedding = null;
+    try {
+      const { data: embeddingData } = await supabase.functions.invoke("generate-embedding", {
+        body: { text: `${input.title}\n\n${input.content}` },
+      });
+      embedding = embeddingData?.embedding;
+    } catch (e) {
+      console.warn("Embedding generation failed:", e);
     }
 
-    const response = await fetch(`${this.baseUrl}/brain/knowledge/ingest`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...input,
-        userId,
-      }),
-    });
+    const { data, error } = await supabase
+      .from("brain_knowledge")
+      .insert({
+        domain_id: input.domainId,
+        title: input.title,
+        content: input.content,
+        source_type: input.sourceType || "manual",
+        source_url: input.sourceUrl || null,
+        metadata: input.metadata || {},
+        embedding: embedding,
+        user_id: userId,
+      })
+      .select()
+      .single();
 
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to ingest knowledge" }));
-      throw new Error(error.error || "Failed to ingest knowledge");
-    }
-
-    const data: ApiResponse<Knowledge> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to ingest knowledge");
-    }
-
-    return data.data;
+    if (error) throw new Error(error.message);
+    return this.mapKnowledge(data);
   }
 
-  /**
-   * Search knowledge by text query
-   */
+  async updateKnowledge(id: string, input: Partial<IngestKnowledgeInput>): Promise<Knowledge> {
+    const updates: Record<string, unknown> = {
+      updated_at: new Date().toISOString(),
+    };
+
+    if (input.title) updates.title = input.title;
+    if (input.content) updates.content = input.content;
+    if (input.metadata) updates.metadata = input.metadata;
+
+    // Regenerate embedding if content changed
+    if (input.title || input.content) {
+      try {
+        const { data: embeddingData } = await supabase.functions.invoke("generate-embedding", {
+          body: { text: `${input.title || ""}\n\n${input.content || ""}` },
+        });
+        if (embeddingData?.embedding) {
+          updates.embedding = embeddingData.embedding;
+        }
+      } catch (e) {
+        console.warn("Embedding regeneration failed:", e);
+      }
+    }
+
+    const { data, error } = await supabase
+      .from("brain_knowledge")
+      .update(updates)
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+    return this.mapKnowledge(data);
+  }
+
+  async deleteKnowledge(id: string): Promise<void> {
+    const { error } = await supabase.from("brain_knowledge").delete().eq("id", id);
+    if (error) throw new Error(error.message);
+  }
+
+  // ============================================
+  // SEARCH (Hybrid: Semantic + Keyword)
+  // ============================================
+
   async searchKnowledge(
     query: string,
-    options: KnowledgeSearchOptions = {}
+    options?: KnowledgeSearchOptions
   ): Promise<KnowledgeSearchResult[]> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
+    // Generate embedding for query
+    const { data: embeddingData, error: embError } = await supabase.functions.invoke(
+      "generate-embedding",
+      { body: { text: query } }
+    );
+
+    if (embError || !embeddingData?.embedding) {
+      console.error("Failed to generate embedding for search");
+      return [];
     }
 
-    const params = new URLSearchParams({
-      q: query,
-      userId,
-      ...(options.domainId && { domainId: options.domainId }),
-      ...(options.domainIds && { domainIds: options.domainIds.join(",") }),
-      ...(options.matchThreshold !== undefined && {
-        matchThreshold: options.matchThreshold.toString(),
-      }),
-      ...(options.matchCount !== undefined && { matchCount: options.matchCount.toString() }),
+    // Use hybrid_search_knowledge for better results (semantic + keyword)
+    const { data, error } = await supabase.rpc("hybrid_search_knowledge", {
+      query_text: query,
+      query_embedding: embeddingData.embedding,
+      match_count: options?.limit || 10,
+      semantic_weight: 0.7,
+      keyword_weight: 0.3,
+      filter_user_id: null,
+      filter_category: options?.domainId || null, // domainId maps to category
     });
 
-    const response = await fetch(`${this.baseUrl}/brain/knowledge/search?${params}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    if (error) {
+      console.error("Hybrid search error:", error);
+      // Fallback to old match_knowledge if hybrid fails
+      const { data: fallbackData, error: fallbackError } = await supabase.rpc("match_knowledge", {
+        query_embedding: embeddingData.embedding,
+        match_threshold: options?.threshold || 0.7,
+        match_count: options?.limit || 10,
+        p_domain_id: options?.domainId || null,
+      });
 
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to search knowledge" }));
-      throw new Error(error.error || "Failed to search knowledge");
+      if (fallbackError) {
+        console.error("Fallback search error:", fallbackError);
+        return [];
+      }
+
+      return (fallbackData || []).map(
+        (item: {
+          id: string;
+          domain_id: string;
+          title: string;
+          content: string;
+          similarity: number;
+        }) => ({
+          id: item.id,
+          domainId: item.domain_id,
+          title: item.title,
+          content: item.content,
+          score: item.similarity,
+          highlights: [],
+        })
+      );
     }
 
-    const data: KnowledgeSearchResponse = await response.json();
-    if (!data.success) {
-      throw new Error(data.error || "Failed to search knowledge");
-    }
-
-    return data.data || [];
-  }
-
-  /**
-   * Get knowledge by ID
-   */
-  async getKnowledge(id: string): Promise<Knowledge> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/knowledge/${id}?userId=${userId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to fetch knowledge" }));
-      throw new Error(error.error || "Failed to fetch knowledge");
-    }
-
-    const data: ApiResponse<Knowledge> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Knowledge not found");
-    }
-
-    return data.data;
+    return (data || []).map(
+      (item: {
+        id: string;
+        title: string;
+        content: string;
+        context_prefix: string;
+        category: string;
+        combined_score: number;
+        similarity: number;
+        keyword_rank: number;
+      }) => ({
+        id: item.id,
+        domainId: item.category || "",
+        title: item.title,
+        content: item.context_prefix ? `${item.context_prefix}\n\n${item.content}` : item.content,
+        score: item.combined_score,
+        highlights: [],
+        // Extra metadata from hybrid search
+        metadata: {
+          semanticScore: item.similarity,
+          keywordScore: item.keyword_rank,
+        },
+      })
+    );
   }
 
   // ============================================
-  // Domain Agent Methods
+  // STATS
   // ============================================
 
-  /**
-   * Query domain agent
-   */
-  async queryDomainAgent(question: string, domainId: string): Promise<DomainQueryResponse> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/domains/${domainId}/query`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-      body: JSON.stringify({ question }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to query domain agent" }));
-      throw new Error(error.error || "Failed to query domain agent");
-    }
-
-    const data: ApiResponse<DomainQueryResponse> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to query domain agent");
-    }
-
-    return data.data;
-  }
-
-  /**
-   * Auto-tag knowledge
-   */
-  async autoTagKnowledge(
-    knowledge: { title: string; content: string; tags?: string[] },
+  async getDomainStats(
     domainId: string
-  ): Promise<string[]> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
+  ): Promise<{ knowledgeCount: number; lastUpdated: string | null }> {
+    const { count, error } = await supabase
+      .from("brain_knowledge")
+      .select("*", { count: "exact", head: true })
+      .eq("domain_id", domainId);
 
-    const response = await fetch(`${this.baseUrl}/brain/domains/${domainId}/auto-tag`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-      body: JSON.stringify({ knowledge }),
-    });
+    if (error) throw new Error(error.message);
 
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to auto-tag" }));
-      throw new Error(error.error || "Failed to auto-tag");
-    }
+    const { data: latest } = await supabase
+      .from("brain_knowledge")
+      .select("updated_at")
+      .eq("domain_id", domainId)
+      .order("updated_at", { ascending: false })
+      .limit(1)
+      .single();
 
-    const data: ApiResponse<{ tags: string[] }> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to auto-tag");
-    }
-
-    return data.data.tags;
-  }
-
-  /**
-   * Get domain suggestions
-   */
-  async getDomainSuggestions(domainId: string, limit = 5): Promise<DomainSuggestion[]> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(
-      `${this.baseUrl}/brain/domains/${domainId}/suggestions?limit=${limit}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "x-user-id": userId,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to get suggestions" }));
-      throw new Error(error.error || "Failed to get suggestions");
-    }
-
-    const data: ApiResponse<DomainSuggestion[]> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to get suggestions");
-    }
-
-    return data.data;
-  }
-
-  /**
-   * Generate domain summary
-   */
-  async generateDomainSummary(domainId: string): Promise<DomainSummary> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/domains/${domainId}/summarize`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to generate summary" }));
-      throw new Error(error.error || "Failed to generate summary");
-    }
-
-    const data: ApiResponse<DomainSummary> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to generate summary");
-    }
-
-    return data.data;
+    return {
+      knowledgeCount: count || 0,
+      lastUpdated: latest?.updated_at || null,
+    };
   }
 
   // ============================================
-  // Domain Statistics Methods
+  // MAPPERS
   // ============================================
 
-  /**
-   * Get domain statistics
-   */
-  async getDomainStats(domainId: string, refresh = false): Promise<DomainStats> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(
-      `${this.baseUrl}/brain/domains/${domainId}/stats?refresh=${refresh}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "x-user-id": userId,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to get statistics" }));
-      throw new Error(error.error || "Failed to get statistics");
-    }
-
-    const data: ApiResponse<DomainStats> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to get statistics");
-    }
-
-    return data.data;
+  private mapDomain(row: Record<string, unknown>): Domain {
+    return {
+      id: row.id as string,
+      name: row.name as string,
+      description: (row.description as string) || "",
+      icon: (row.icon as string) || "📂",
+      color: (row.color as string) || "#6366f1",
+      userId: row.user_id as string,
+      createdAt: row.created_at as string,
+      updatedAt: row.updated_at as string,
+    };
   }
 
-  /**
-   * Get domain analytics
-   */
-  async getDomainAnalytics(domainId: string, days = 30): Promise<DomainAnalytics> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(
-      `${this.baseUrl}/brain/domains/${domainId}/analytics?days=${days}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "x-user-id": userId,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to get analytics" }));
-      throw new Error(error.error || "Failed to get analytics");
-    }
-
-    const data: ApiResponse<DomainAnalytics> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to get analytics");
-    }
-
-    return data.data;
-  }
-
-  /**
-   * Get domain trends
-   */
-  async getDomainTrends(domainId: string): Promise<DomainTrends> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/domains/${domainId}/trends`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to get trends" }));
-      throw new Error(error.error || "Failed to get trends");
-    }
-
-    const data: ApiResponse<DomainTrends> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to get trends");
-    }
-
-    return data.data;
-  }
-
-  // ============================================
-  // Bulk Operations Methods
-  // ============================================
-
-  /**
-   * Bulk ingest knowledge
-   */
-  async bulkIngestKnowledge(
-    knowledge: Array<{
-      domainId: string;
-      title: string;
-      content: string;
-      contentType?: string;
-      tags?: string[];
-      metadata?: Record<string, any>;
-    }>
-  ): Promise<BulkOperationResult> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/knowledge/bulk-ingest`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-      body: JSON.stringify({ knowledge }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to bulk ingest" }));
-      throw new Error(error.error || "Failed to bulk ingest");
-    }
-
-    const data: ApiResponse<BulkOperationResult> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to bulk ingest");
-    }
-
-    return data.data;
-  }
-
-  /**
-   * Export domain
-   */
-  async exportDomain(domainId: string, format: "json" | "csv" = "json"): Promise<DomainExportData | string> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/knowledge/domains/${domainId}/export?format=${format}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to export domain" }));
-      throw new Error(error.error || "Failed to export domain");
-    }
-
-    if (format === "csv") {
-      return await response.text();
-    }
-
-    const data: ApiResponse<DomainExportData> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to export domain");
-    }
-
-    return data.data;
-  }
-
-  /**
-   * Bulk delete knowledge
-   */
-  async bulkDeleteKnowledge(ids: string[]): Promise<BulkOperationResult> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/knowledge/bulk`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-      body: JSON.stringify({ ids }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to bulk delete" }));
-      throw new Error(error.error || "Failed to bulk delete");
-    }
-
-    const data: ApiResponse<BulkOperationResult> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to bulk delete");
-    }
-
-    return data.data;
-  }
-
-  /**
-   * Bulk update knowledge
-   */
-  async bulkUpdateKnowledge(
-    updates: Array<{
-      id: string;
-      title?: string;
-      content?: string;
-      tags?: string[];
-      metadata?: Record<string, any>;
-    }>
-  ): Promise<BulkOperationResult> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/knowledge/bulk`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-      body: JSON.stringify({ updates }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to bulk update" }));
-      throw new Error(error.error || "Failed to bulk update");
-    }
-
-    const data: ApiResponse<BulkOperationResult> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to bulk update");
-    }
-
-    return data.data;
-  }
-
-  // ============================================
-  // Core Logic Methods
-  // ============================================
-
-  /**
-   * Distill core logic from domain knowledge
-   */
-  async distillCoreLogic(domainId: string, options?: DistillationOptions): Promise<CoreLogic> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/domains/${domainId}/core-logic/distill`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-      body: JSON.stringify({ options }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to distill core logic" }));
-      throw new Error(error.error || "Failed to distill core logic");
-    }
-
-    const data: ApiResponse<CoreLogic> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to distill core logic");
-    }
-
-    return data.data;
-  }
-
-  /**
-   * Get core logic for domain
-   */
-  async getCoreLogic(domainId: string, version?: number): Promise<CoreLogic> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const params = new URLSearchParams({});
-    if (version) {
-      params.append("version", version.toString());
-    }
-
-    const response = await fetch(
-      `${this.baseUrl}/brain/domains/${domainId}/core-logic?${params.toString()}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "x-user-id": userId,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to get core logic" }));
-      throw new Error(error.error || "Failed to get core logic");
-    }
-
-    const data: ApiResponse<CoreLogic> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Core logic not found");
-    }
-
-    return data.data;
-  }
-
-  /**
-   * Get all versions for domain
-   */
-  async getCoreLogicVersions(domainId: string): Promise<CoreLogicVersion[]> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/domains/${domainId}/core-logic/versions`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to get versions" }));
-      throw new Error(error.error || "Failed to get versions");
-    }
-
-    const data: ApiResponse<CoreLogicVersion[]> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to get versions");
-    }
-
-    return data.data;
-  }
-
-  /**
-   * Compare two versions
-   */
-  async compareCoreLogicVersions(version1Id: string, version2Id: string): Promise<CoreLogicComparison> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/domains/dummy/core-logic/compare`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-      body: JSON.stringify({ version1Id, version2Id }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to compare versions" }));
-      throw new Error(error.error || "Failed to compare versions");
-    }
-
-    const data: ApiResponse<CoreLogicComparison> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to compare versions");
-    }
-
-    return data.data;
-  }
-
-  /**
-   * Rollback to previous version
-   */
-  async rollbackCoreLogicVersion(
-    domainId: string,
-    targetVersion: number,
-    reason?: string
-  ): Promise<CoreLogic> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/domains/${domainId}/core-logic/rollback`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-      body: JSON.stringify({ targetVersion, reason }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to rollback" }));
-      throw new Error(error.error || "Failed to rollback");
-    }
-
-    const data: ApiResponse<CoreLogic> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to rollback");
-    }
-
-    return data.data;
-  }
-
-  // ============================================
-  // Knowledge Analysis Methods
-  // ============================================
-
-  /**
-   * Analyze domain knowledge
-   */
-  async analyzeDomainKnowledge(domainId: string): Promise<KnowledgeAnalysisResult> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/domains/${domainId}/analyze`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to analyze" }));
-      throw new Error(error.error || "Failed to analyze");
-    }
-
-    const data: ApiResponse<KnowledgeAnalysisResult> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to analyze");
-    }
-
-    return data.data;
-  }
-
-  /**
-   * Get knowledge patterns
-   */
-  async getKnowledgePatterns(domainId: string): Promise<KnowledgePattern[]> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/domains/${domainId}/patterns`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to get patterns" }));
-      throw new Error(error.error || "Failed to get patterns");
-    }
-
-    const data: ApiResponse<KnowledgePattern[]> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to get patterns");
-    }
-
-    return data.data;
-  }
-
-  /**
-   * Get key concepts
-   */
-  async getKeyConcepts(domainId: string): Promise<KeyConcept[]> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/domains/${domainId}/concepts`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to get concepts" }));
-      throw new Error(error.error || "Failed to get concepts");
-    }
-
-    const data: ApiResponse<KeyConcept[]> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to get concepts");
-    }
-
-    return data.data;
-  }
-
-  /**
-   * Get relationships
-   */
-  async getRelationships(domainId: string): Promise<KnowledgeRelationship[]> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/domains/${domainId}/relationships`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to get relationships" }));
-      throw new Error(error.error || "Failed to get relationships");
-    }
-
-    const data: ApiResponse<KnowledgeRelationship[]> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to get relationships");
-    }
-
-    return data.data;
-  }
-
-  /**
-   * Get topics
-   */
-  async getTopics(domainId: string): Promise<KnowledgeTopic[]> {
-    const userId = getUserId();
-    if (!userId) {
-      throw new Error("User ID is required. Please authenticate.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/brain/domains/${domainId}/topics`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: "Failed to get topics" }));
-      throw new Error(error.error || "Failed to get topics");
-    }
-
-    const data: ApiResponse<KnowledgeTopic[]> = await response.json();
-    if (!data.success || !data.data) {
-      throw new Error(data.error || "Failed to get topics");
-    }
-
-    return data.data;
+  private mapKnowledge(row: Record<string, unknown>): Knowledge {
+    return {
+      id: row.id as string,
+      domainId: row.domain_id as string,
+      title: row.title as string,
+      content: row.content as string,
+      sourceType: (row.source_type as string) || "manual",
+      sourceUrl: row.source_url as string | undefined,
+      metadata: (row.metadata as Record<string, unknown>) || {},
+      embedding: row.embedding ? true : false,
+      createdAt: row.created_at as string,
+      updatedAt: row.updated_at as string,
+    };
   }
 }
 

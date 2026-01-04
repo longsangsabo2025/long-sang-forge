@@ -1,0 +1,44 @@
+# 📧 Daily Subscription Automation
+# Runs at 00:05 UTC (07:05 Vietnam time) every day
+# Sends renewal reminders, marks expired, sends thank you emails
+
+name: Subscription Automation
+
+on:
+  schedule:
+    # Run at 00:05 UTC daily (07:05 Vietnam time)
+    - cron: '5 0 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  subscription-automation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📧 Call Subscription Automation Edge Function
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "🚀 Running subscription automation..."
+
+          response=$(curl -s -w "\n%{http_code}" \
+            -X POST "$SUPABASE_URL/functions/v1/subscription-automation" \
+            -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+            -H "Content-Type: application/json")
+
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+
+          echo "Response: $body"
+          echo "Status: $http_code"
+
+          if [ "$http_code" -eq 200 ]; then
+            echo "✅ Subscription automation completed successfully"
+          else
+            echo "❌ Failed with status $http_code"
+            exit 1
+          fi
+
+      - name: 📊 Summary
+        run: |
+          echo "📧 Subscription automation job completed at $(date -u '+%Y-%m-%d %H:%M:%S UTC')"

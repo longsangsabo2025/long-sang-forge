@@ -159,7 +159,7 @@ export const ProjectFilters = ({
           <SlidersHorizontal className="w-5 h-5" />
           <span className="hidden sm:inline">Bộ lọc</span>
           {activeFiltersCount > 0 && (
-            <span className="ml-1 px-1.5 py-0.5 text-xs font-bold bg-primary text-primary-foreground rounded-full">
+            <span className="ml-1 px-1.5 py-0.5 text-xs font-bold bg-primary/30 backdrop-blur-sm text-primary-foreground rounded-full border border-primary/50">
               {activeFiltersCount}
             </span>
           )}

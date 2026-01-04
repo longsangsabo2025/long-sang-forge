@@ -150,7 +150,7 @@ export default function SubscriptionPayment({
                 : "1 month"}
             </div>
           </div>
-          <Badge className="text-lg px-3 py-1.5 bg-primary text-white font-bold">
+          <Badge className="text-lg px-3 py-1.5 bg-primary/30 backdrop-blur-sm text-white font-bold border border-primary/50">
             {paymentAmount.toLocaleString("vi-VN")}đ
           </Badge>
         </div>

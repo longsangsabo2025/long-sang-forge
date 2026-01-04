@@ -49,23 +49,12 @@ function sendToAnalytics(metric: WebVitalMetric) {
 }
 
 async function sendToCustomEndpoint(metric: WebVitalMetric) {
+  // NOTE: Serverless mode - analytics stored via Supabase directly
+  // Local API endpoint disabled
   try {
-    const response = await fetch("/api/analytics/web-vitals", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        metric: metric.name,
-        value: metric.value,
-        rating: metric.rating,
-        page: window.location.pathname,
-        timestamp: new Date().toISOString(),
-      }),
-    }).catch(() => null); // Silently fail if endpoint unavailable
-
-    // Ignore errors - analytics is optional
-    if (!response?.ok) {
-      return;
-    }
+    // TODO: If needed, call Supabase Edge Function for analytics
+    // const response = await fetch(EDGE_FUNCTION_URL, {...});
+    return; // Skip for now - analytics is optional
   } catch {
     // Silently fail - endpoint is optional
   }

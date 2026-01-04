@@ -29,16 +29,16 @@ export const ProjectsTimeline = () => {
   }));
 
   const handleViewProject = (slug?: string) => {
-    // If user is logged in, navigate to project
-    if (user) {
-      if (slug) {
-        navigate(`/project-showcase/${slug}`);
-      } else {
-        navigate("/project-showcase");
-      }
+    // Navigate to landing page (public) - no auth required
+    if (slug) {
+      navigate(`/showcase/${slug}`);
     } else {
-      // Show auth modal for guests
-      setShowAuthModal(true);
+      // For "View All" button, go to project-showcase list (auth required)
+      if (user) {
+        navigate("/project-showcase");
+      } else {
+        setShowAuthModal(true);
+      }
     }
   };
 
@@ -98,7 +98,7 @@ export const ProjectsTimeline = () => {
                       <div className="relative aspect-video sm:aspect-[3/2] rounded-lg sm:rounded-xl overflow-hidden bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 group-hover:from-primary/30 group-hover:via-secondary/30 group-hover:to-accent/30 transition-all duration-300">
                         {/* Category Badge */}
                         <div className="absolute top-2 sm:top-3 left-2 sm:left-3 z-10">
-                          <span className="px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium bg-primary/90 text-primary-foreground rounded-md">
+                          <span className="px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium bg-primary/30 backdrop-blur-sm text-primary-foreground rounded-md border border-primary/50">
                             {project.category}
                           </span>
                         </div>
@@ -144,17 +144,8 @@ export const ProjectsTimeline = () => {
 
                       {/* Link */}
                       <div className="inline-flex items-center gap-2 text-sm sm:text-base font-medium text-primary hover:text-accent transition-colors duration-200 mt-auto pt-2">
-                        {user ? (
-                          <>
-                            {t("projects.viewDetails")}
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
-                          </>
-                        ) : (
-                          <>
-                            <Lock className="w-3.5 h-3.5" />
-                            {t("auth.loginToViewDetails")}
-                          </>
-                        )}
+                        {t("projects.viewDetails")}
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
                       </div>
                     </div>
                   </button>

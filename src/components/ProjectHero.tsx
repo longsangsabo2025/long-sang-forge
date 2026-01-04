@@ -20,7 +20,7 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
         .toLowerCase()
         .replace(/\s+/g, "-")
         .replace(/[^a-z0-9-]/g, ""); // Remove any special characters
-    navigate(`/project-showcase/${slug}`);
+    navigate(`/projects/${slug}`);
   };
 
   return (

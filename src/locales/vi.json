@@ -32,9 +32,8 @@
     "language": "Ngôn ngữ",
     "mainMenu": "Menu chính",
     "userMenu": {
-      "home": "🏠 Trang Chủ",
-      "projects": "🎯 Dự Án",
-      "workspace": "💡 Workspace"
+      "workspace": "💡 Workspace",
+      "profile": "👤 Hồ Sơ"
     }
   },
   "hero": {
@@ -305,7 +304,7 @@
       "automation": "Tự Động Hóa Doanh Nghiệp",
       "ai": "Tích Hợp AI & Tư Vấn"
     },
-    "copyright": "© 2025 longsang.org. Được xây dựng với ❤️ bằng React + Lovable",
+    "copyright": "© 2026 longsang.org. Tất cả quyền được bảo lưu.",
     "privacy": "Chính Sách Bảo Mật",
     "terms": "Điều Khoản Dịch Vụ"
   },
