@@ -19,23 +19,65 @@ const SCREENSHOTS: Screenshot[] = [
   {
     id: "1",
     imageKey: "screenshot-1",
-    defaultImage: "/images/sabo-arena-1.jpg",
-    title: "Tournament Bracket",
-    description: "Xem bracket trực quan",
+    defaultImage: "/images/screenshot/1.png",
+    title: "Màn hình chính",
+    description: "Giao diện trang chủ ứng dụng",
   },
   {
     id: "2",
     imageKey: "screenshot-2",
-    defaultImage: "/images/sabo-arena-2.jpg",
-    title: "Player Profile",
-    description: "Theo dõi ELO ranking",
+    defaultImage: "/images/screenshot/2.png",
+    title: "Danh sách giải đấu",
+    description: "Xem và tham gia các giải",
   },
   {
     id: "3",
     imageKey: "screenshot-3",
-    defaultImage: "/images/sabo-arena-3.jpg",
+    defaultImage: "/images/screenshot/3.png",
+    title: "Tournament Bracket",
+    description: "Xem bracket trực quan",
+  },
+  {
+    id: "4",
+    imageKey: "screenshot-4",
+    defaultImage: "/images/screenshot/4.png",
+    title: "Chi tiết trận đấu",
+    description: "Theo dõi diễn biến trực tiếp",
+  },
+  {
+    id: "5",
+    imageKey: "screenshot-5",
+    defaultImage: "/images/screenshot/5.png",
+    title: "Player Profile",
+    description: "Xem thống kê cá nhân",
+  },
+  {
+    id: "6",
+    imageKey: "screenshot-6",
+    defaultImage: "/images/screenshot/6.png",
+    title: "ELO Ranking",
+    description: "Bảng xếp hạng ELO",
+  },
+  {
+    id: "7",
+    imageKey: "screenshot-7",
+    defaultImage: "/images/screenshot/7.png",
     title: "Live Scoring",
     description: "Ghi điểm thời gian thực",
+  },
+  {
+    id: "8",
+    imageKey: "screenshot-8",
+    defaultImage: "/images/screenshot/8.png",
+    title: "Lịch sử trận đấu",
+    description: "Xem lại các trận đã đấu",
+  },
+  {
+    id: "9",
+    imageKey: "screenshot-9",
+    defaultImage: "/images/screenshot/9.png",
+    title: "Cài đặt",
+    description: "Tùy chỉnh ứng dụng",
   },
 ];
 
@@ -73,14 +115,14 @@ export const SaboArenaScreenshotsSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8 md:gap-12">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {SCREENSHOTS.map((screenshot, index) => (
             <motion.div
               key={screenshot.id}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.15 }}
+              transition={{ delay: index * 0.08 }}
               className="text-center group"
             >
               <motion.div
@@ -94,7 +136,7 @@ export const SaboArenaScreenshotsSection = () => {
                 <div className="relative">
                   <IPhoneFrame
                     animate={false}
-                    className={`w-[200px] md:w-[220px] transition-all duration-500 ${
+                    className={`w-[140px] sm:w-[160px] md:w-[180px] transition-all duration-500 ${
                       isEditMode
                         ? "ring-2 ring-cyan-500 ring-offset-2 ring-offset-background"
                         : "group-hover:shadow-[0_0_60px_rgba(0,217,255,0.15)]"

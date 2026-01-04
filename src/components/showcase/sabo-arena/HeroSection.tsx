@@ -133,7 +133,7 @@ export const SaboArenaHeroSection = () => {
               <IPhoneFrame className="w-[280px] md:w-[320px]">
                 <EditableImage
                   imageKey="hero-phone"
-                  defaultSrc="/images/sabo-arena-1.jpg"
+                  defaultSrc="/images/screenshot/1.png"
                   alt="SABO ARENA App - Giao diện giải đấu"
                   className="w-full h-full object-cover"
                 />

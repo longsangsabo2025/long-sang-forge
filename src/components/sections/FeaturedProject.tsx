@@ -1,8 +1,11 @@
+import { useAuth } from "@/components/auth/AuthProvider";
+import { LoginModal } from "@/components/auth/LoginModal";
 import { PhoneMockupCarousel } from "@/components/showcase/PhoneMockupCarousel";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProjectShowcase } from "@/hooks/useProjectShowcase";
 import { ArrowRight, Check } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
@@ -22,13 +25,19 @@ const fallbackImages = [
 export const FeaturedProject = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   // Fetch SABO Arena data từ database
   const { data: project, isLoading } = useProjectShowcase("sabo-arena");
 
-  // Navigate to SABO Arena landing page
+  // Navigate to SABO Arena landing page - requires login
   const handleViewDetails = () => {
-    navigate("/showcase/sabo-arena-billiards-platform");
+    if (!user) {
+      setShowLoginModal(true);
+    } else {
+      navigate("/showcase/sabo-arena-billiards-platform");
+    }
   };
 
   // Lấy data từ database hoặc fallback về i18n
@@ -188,6 +197,13 @@ export const FeaturedProject = () => {
           </div>
         </div>
       </div>
+
+      {/* Login Modal for unauthenticated users */}
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        redirectTo="/showcase/sabo-arena-billiards-platform"
+      />
     </section>
   );
 };
