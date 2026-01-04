@@ -1,12 +1,18 @@
+import { SaveFeatureButton } from "@/components/idea-bank/SaveFeatureButton";
+import { ProjectData } from "@/data/projects-data";
 import { motion } from "framer-motion";
 import { GlowCard } from "./GlowCard";
-import { ProjectData } from "@/data/projects-data";
 
 interface FeaturesGridProps {
   project: ProjectData;
+  showcaseSlug?: string;
+  showcaseName?: string;
 }
 
-export const FeaturesGrid = ({ project }: FeaturesGridProps) => {
+export const FeaturesGrid = ({ project, showcaseSlug, showcaseName }: FeaturesGridProps) => {
+  const slug = showcaseSlug || project.slug || "";
+  const name = showcaseName || project.name || "";
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -30,8 +36,24 @@ export const FeaturesGrid = ({ project }: FeaturesGridProps) => {
           >
             <GlowCard
               glowColor={feature.color as "cyan" | "blue" | "green"}
-              className="h-full"
+              className="h-full group relative"
             >
+              {/* Save Feature Button */}
+              {slug && (
+                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <SaveFeatureButton
+                    showcaseSlug={slug}
+                    showcaseName={name}
+                    featureIndex={idx}
+                    featureTitle={feature.title}
+                    featurePoints={feature.points}
+                    featureColor={feature.color}
+                    variant="icon"
+                    size="sm"
+                  />
+                </div>
+              )}
+
               <div className="flex flex-col items-center text-center mb-4">
                 <div className={`
                   p-4 rounded-lg mb-4

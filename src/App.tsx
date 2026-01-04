@@ -93,7 +93,7 @@ const UserWorkspaceLayout = lazy(() =>
 );
 const WorkspaceDashboard = lazy(() => import("./pages/workspace/WorkspaceDashboard"));
 const CommandCenter = lazy(() => import("./pages/workspace/CommandCenter"));
-const SavedProducts = lazy(() => import("./pages/workspace/SavedProducts"));
+const IdeaBank = lazy(() => import("./pages/workspace/IdeaBank"));
 const MyConsultations = lazy(() => import("./pages/workspace/MyConsultations"));
 
 // ============================================
@@ -169,12 +169,18 @@ const App = () => (
                       {/* ===== PAYMENT SUCCESS ===== */}
                       <Route path="/payment-success" element={<PaymentSuccess />} />
 
-                      {/* ===== PROJECT SHOWCASE (V2 - 100% Database) ===== */}
+                      {/* ===== PROJECT SHOWCASE ===== */}
+                      {/* Main showcase list with sidebar (can select projects) */}
                       <Route path="/showcase" element={<EnhancedProjectShowcase />} />
-                      <Route path="/project-showcase" element={<EnhancedProjectShowcase />} />
                       <Route path="/projects" element={<EnhancedProjectShowcase />} />
                       <Route path="/projects/:slug" element={<EnhancedProjectShowcase />} />
+                      <Route path="/project-showcase" element={<EnhancedProjectShowcase />} />
+
+                      {/* Landing pages (standalone, no sidebar) */}
                       <Route path="/showcase/:slug" element={<AppShowcaseDetail />} />
+                      <Route path="/landing-page/:slug" element={<AppShowcaseDetail />} />
+
+                      {/* Detail page (requires auth) */}
                       <Route
                         path="/project-showcase/:slug"
                         element={<ProjectShowcaseDetailPage />}
@@ -227,9 +233,7 @@ const App = () => (
                       <Route path="/workspace" element={<UserWorkspaceLayout />}>
                         <Route index element={<WorkspaceDashboard />} />
                         <Route path="hub" element={<CommandCenter />} />
-                        <Route path="ideas" element={<CommandCenter />} />
-                        <Route path="projects" element={<CommandCenter />} />
-                        <Route path="saved" element={<SavedProducts />} />
+                        <Route path="ideas" element={<IdeaBank />} />
                         <Route path="consultations" element={<MyConsultations />} />
                       </Route>
 

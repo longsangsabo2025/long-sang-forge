@@ -158,7 +158,6 @@ export default defineConfig(({ mode }) => ({
             "./src/pages/AdminCourses",
           ],
           "showcase-pages": [
-            "./src/pages/ProjectShowcase",
             "./src/pages/EnhancedProjectShowcaseV2",
             "./src/pages/AppShowcaseDetail",
           ],

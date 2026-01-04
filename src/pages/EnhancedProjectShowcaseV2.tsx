@@ -122,6 +122,7 @@ const EnhancedProjectShowcaseV2 = () => {
 
   const handleSelectProject = (project: ProjectShowcase) => {
     setActiveProject(project);
+    // Keep URL in /projects/:slug to maintain sidebar layout
     navigate(`/projects/${project.slug}`, { replace: true });
   };
 
@@ -231,7 +232,7 @@ const EnhancedProjectShowcaseV2 = () => {
                     </div>
                   </div>
                   <button
-                    onClick={() => navigate("/showcase/sabo-arena-billiards-platform")}
+                    onClick={() => navigate("/landing-page/sabo-arena-billiards-platform")}
                     className="px-5 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/40 backdrop-blur-sm text-emerald-400 font-medium border border-emerald-500/40 hover:border-emerald-500/60 transition-all duration-300 whitespace-nowrap"
                   >
                     Xem Landing Page →
@@ -296,7 +297,10 @@ const EnhancedProjectShowcaseV2 = () => {
 
               {/* Testimonials */}
               <div id="testimonials">
-                <TestimonialsSection title={`Khách Hàng Nói Gì Về ${activeProject.name}`} />
+                <TestimonialsSection 
+                  title={`Khách Hàng Nói Gì Về ${activeProject.name}`}
+                  testimonials={activeProject.testimonials}
+                />
               </div>
 
               {/* Case Study (if available in database) */}

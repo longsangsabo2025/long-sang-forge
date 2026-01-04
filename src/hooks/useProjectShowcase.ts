@@ -63,6 +63,15 @@ export interface ProjectShowcase {
     result: string;
     metrics?: Array<{ label: string; value: string }>;
   };
+
+  // Testimonials (from customers)
+  testimonials?: Array<{
+    name: string;
+    role: string;
+    content: string;
+    rating?: number;
+    avatar?: string;
+  }>;
 }
 
 // Type alias for backward compatibility

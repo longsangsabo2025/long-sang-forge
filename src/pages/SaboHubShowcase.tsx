@@ -8,7 +8,6 @@ import { StatsBar } from "@/components/sabohub/StatsBar";
 import { TargetUsers } from "@/components/sabohub/TargetUsers";
 import { TechStack } from "@/components/sabohub/TechStack";
 import { ShowcaseHeader } from "@/components/showcase/ShowcaseHeader";
-import { Layers } from "lucide-react";
 
 const navItems = [
   { label: "Trang chủ", href: "#hero" },
@@ -28,9 +27,7 @@ const SaboHubShowcase = () => {
           navItems={navItems}
           ctaLabel="Liên hệ"
           ctaHref="#cta"
-          icon={Layers}
-          iconBgClass="bg-gradient-to-br from-cyan-500 to-blue-600"
-          iconColorClass="text-white"
+          logoSrc="/images/project card/logosabohub.png"
           showcaseSlug="sabohub"
         />
 

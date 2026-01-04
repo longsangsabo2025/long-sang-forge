@@ -41,7 +41,6 @@ import {
   Lightbulb,
   MessageCircle,
   Plus,
-  Rocket,
   Send,
   Sparkles,
   Trash2,
@@ -82,6 +81,12 @@ interface UserBrain {
 interface WorkspaceIdeaChatProps {
   onIdeaSaved?: () => void;
   onConvertToProject?: (ideaId: string) => void;
+  selectedIdea?: {
+    id: string;
+    title: string;
+    description?: string | null;
+    category?: string;
+  } | null;
 }
 
 const supabaseAny = supabase as any;
@@ -92,7 +97,11 @@ const ideaPrompts = [
   { icon: Sparkles, text: "Phân tích ý tưởng kinh doanh...", color: "text-purple-500" },
 ];
 
-export function WorkspaceIdeaChat({ onIdeaSaved, onConvertToProject }: WorkspaceIdeaChatProps) {
+export function WorkspaceIdeaChat({
+  onIdeaSaved,
+  onConvertToProject,
+  selectedIdea,
+}: WorkspaceIdeaChatProps) {
   const { user } = useAuth();
 
   // Chat state
@@ -129,6 +138,29 @@ export function WorkspaceIdeaChat({ onIdeaSaved, onConvertToProject }: Workspace
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+
+  // Load selected idea context when prop changes
+  useEffect(() => {
+    if (selectedIdea) {
+      // Set idea context
+      setCurrentIdeaId(selectedIdea.id);
+      setChatTitle(selectedIdea.title);
+
+      // Create initial context message
+      const contextMessage: ChatMessage = {
+        id: uuidv4(),
+        role: "assistant",
+        content: `💡 **Ý tưởng: ${selectedIdea.title}**\n\n${
+          selectedIdea.description || "Chưa có mô tả"
+        }\n\n---\nBạn muốn phát triển ý tưởng này như thế nào? Tôi có thể giúp bạn:\n- Phân tích điểm mạnh/yếu\n- Lên kế hoạch triển khai\n- Brainstorm thêm chi tiết`,
+        timestamp: new Date(),
+      };
+
+      setMessages([contextMessage]);
+      setSessionId(uuidv4());
+      inputRef.current?.focus();
+    }
+  }, [selectedIdea]);
 
   // Load user brains
   useEffect(() => {
@@ -222,7 +254,16 @@ export function WorkspaceIdeaChat({ onIdeaSaved, onConvertToProject }: Workspace
   // Auto-save idea after AI response
   const autoSaveIdea = useCallback(
     async (msgs: ChatMessage[]) => {
-      if (!user || msgs.length < 2) return;
+      // Need at least 4 messages (2 exchanges) to auto-save
+      // This prevents saving casual greetings like "xin chào"
+      if (!user || msgs.length < 4) return;
+
+      // Check if conversation has substance (not just greetings)
+      const userMessages = msgs.filter((m) => m.role === "user");
+      const totalUserChars = userMessages.reduce((sum, m) => sum + m.content.length, 0);
+
+      // Need at least 50 characters total from user to consider it a real brainstorm
+      if (totalUserChars < 50) return;
 
       try {
         // Request AI to summarize the conversation
@@ -355,6 +396,26 @@ Hãy đặt câu hỏi để hiểu rõ hơn và đưa ra gợi ý sáng tạo.`
         }),
       });
 
+      // Handle error responses (including NO_CREDITS)
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+
+        if (errorData.error === "NO_CREDITS") {
+          const errorMessage: ChatMessage = {
+            id: uuidv4(),
+            role: "assistant",
+            content: `⚠️ **Hết lượt chat hôm nay!**\n\nBạn đã sử dụng hết ${
+              errorData.credits?.limit || 0
+            } lượt chat miễn phí.\n\n💡 **Để tiếp tục:**\n- Nâng cấp gói Premium để có thêm lượt\n- Hoặc chờ reset vào ngày mai\n\n[Nâng cấp ngay →](/pricing)`,
+            timestamp: new Date(),
+          };
+          setMessages((prev) => [...prev, errorMessage]);
+          return;
+        }
+
+        throw new Error(errorData.message || "API Error");
+      }
+
       const contentType = response.headers.get("content-type");
       let fullContent = "";
 
@@ -403,9 +464,8 @@ Hãy đặt câu hỏi để hiểu rõ hơn và đưa ra gợi ý sáng tạo.`
         const finalMessages = [...newMessages, assistantMessage];
         setMessages(finalMessages);
 
-        // Auto-save chat session and idea
+        // Only save chat session - user decides when to create idea
         await saveChatSession(finalMessages, chatTitle);
-        await autoSaveIdea(finalMessages);
       }
     } catch (error) {
       console.error("Chat error:", error);
@@ -476,6 +536,92 @@ Hãy đặt câu hỏi để hiểu rõ hơn và đưa ra gợi ý sáng tạo.`
     onConvertToProject?.(currentIdeaId);
     toast.success("🚀 Đang chuyển ý tưởng thành dự án...");
   }, [currentIdeaId, onConvertToProject]);
+
+  // Summarize chat as Idea - User manually triggers this
+  const handleSummarizeAsIdea = useCallback(async () => {
+    if (!user || messages.length < 2) {
+      toast.error("Cần có ít nhất 1 cuộc hội thoại để tóm tắt");
+      return;
+    }
+
+    const loadingToast = toast.loading("🤖 Đang tóm tắt ý tưởng...");
+
+    try {
+      // Request AI to summarize the conversation
+      const conversationText = messages
+        .slice(-8) // Last 8 messages for context
+        .map((m) => `${m.role === "user" ? "User" : "AI"}: ${m.content}`)
+        .join("\n\n");
+
+      const response = await fetch(EDGE_FUNCTION_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [],
+          userMessage: `Tóm tắt cuộc brainstorm thành ý tưởng ngắn gọn:
+
+${conversationText}
+
+Trả về JSON (chỉ JSON):
+{
+  "title": "Tiêu đề ngắn (max 50 ký tự)",
+  "description": "Mô tả chi tiết (max 200 ký tự)",
+  "category": "business|product|marketing|tech|content|other"
+}`,
+          customerInfo: { userId: user.id },
+          source: "idea-summarizer",
+        }),
+      });
+
+      const data = await response.json();
+      let ideaData;
+
+      try {
+        const cleanResponse = data.response.replace(/```json\n?|\n?```/g, "").trim();
+        ideaData = JSON.parse(cleanResponse);
+      } catch {
+        ideaData = {
+          title: messages[0]?.content.slice(0, 50) || "Ý tưởng mới",
+          description: messages.slice(-1)[0]?.content.slice(0, 200) || "Ý tưởng từ brainstorm",
+          category: "general",
+        };
+      }
+
+      // Insert new idea
+      const { data: newIdea, error } = await supabaseAny
+        .from("user_ideas")
+        .insert({
+          user_id: user.id,
+          title: ideaData.title,
+          description: ideaData.description,
+          category: ideaData.category || "general",
+          status: "exploring",
+          priority: "medium",
+          tags: ["ai-brainstorm"],
+          color: "#3B82F6",
+          is_pinned: false,
+        })
+        .select("id")
+        .single();
+
+      toast.dismiss(loadingToast);
+
+      if (!error && newIdea) {
+        setCurrentIdeaId(newIdea.id);
+        setChatTitle(ideaData.title);
+        onIdeaSaved?.();
+        toast.success(`✨ Đã lưu: "${ideaData.title}"`, {
+          description: "Ý tưởng đã được thêm vào danh sách",
+        });
+      } else {
+        toast.error("Không thể lưu ý tưởng");
+      }
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      console.error("Summarize idea error:", error);
+      toast.error("Có lỗi khi tóm tắt ý tưởng");
+    }
+  }, [user, messages, onIdeaSaved]);
 
   // Quick prompt handler
   const handleQuickPrompt = (text: string) => {
@@ -616,26 +762,22 @@ Hãy đặt câu hỏi để hiểu rõ hơn và đưa ra gợi ý sáng tạo.`
               </Tooltip>
             </TooltipProvider>
 
-            {/* Convert to Project button */}
+            {/* Summarize as Idea button - user clicks when ready */}
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
                     variant="default"
                     size="sm"
-                    onClick={handleConvertToProject}
-                    disabled={!currentIdeaId}
-                    className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600"
+                    onClick={() => handleSummarizeAsIdea()}
+                    disabled={messages.length < 2 || isLoading}
+                    className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600"
                   >
-                    <Rocket className="h-4 w-4 mr-1" />
-                    Chuyển vào dự án
+                    <Sparkles className="h-4 w-4 mr-1" />
+                    Tóm tắt Ý tưởng
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>
-                  {currentIdeaId
-                    ? "Chuyển ý tưởng này thành dự án"
-                    : "Brainstorm để tự động lưu ý tưởng"}
-                </TooltipContent>
+                <TooltipContent>Tóm tắt đoạn chat thành ý tưởng cụ thể</TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>
@@ -657,8 +799,8 @@ Hãy đặt câu hỏi để hiểu rõ hơn và đưa ra gợi ý sáng tạo.`
                 </div>
                 <h3 className="font-semibold text-lg mb-2">Brainstorm ý tưởng mới</h3>
                 <p className="text-sm text-muted-foreground mb-4 max-w-sm">
-                  Chat với AI để phát triển ý tưởng. Ý tưởng sẽ được <strong>tự động lưu</strong>{" "}
-                  sau mỗi phản hồi.
+                  Chat với AI để phát triển ý tưởng. Nhấn <strong>"Tóm tắt Ý tưởng"</strong> khi
+                  muốn lưu.
                 </p>
 
                 {/* Quick prompts */}
@@ -769,7 +911,7 @@ Hãy đặt câu hỏi để hiểu rõ hơn và đưa ra gợi ý sáng tạo.`
             </Button>
           </div>
           <p className="text-[10px] text-muted-foreground text-center mt-2">
-            💡 Ý tưởng được tự động lưu sau mỗi phản hồi của AI
+            � Lịch sử chat được lưu tự động • Nhấn "Tóm tắt Ý tưởng" để lưu ý tưởng
           </p>
         </div>
       </CardContent>

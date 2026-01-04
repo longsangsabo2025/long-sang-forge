@@ -61,7 +61,7 @@ const InvestmentPortalLayout = () => {
               <motion.button
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                onClick={() => navigate(`/projects/${slug}`)}
+                onClick={() => navigate(`/showcase/${slug}`)}
                 className="inline-flex items-center gap-2 text-yellow-500 hover:text-yellow-400 transition-colors group"
               >
                 <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />

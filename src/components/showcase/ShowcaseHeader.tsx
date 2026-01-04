@@ -28,6 +28,8 @@ export interface ShowcaseHeaderProps {
   ctaHref?: string;
   /** Icon component to display */
   icon?: LucideIcon;
+  /** Logo image source (alternative to icon) */
+  logoSrc?: string;
   /** Icon background color class */
   iconBgClass?: string;
   /** Icon color class */
@@ -47,6 +49,7 @@ export const ShowcaseHeader = ({
   ctaLabel,
   ctaHref,
   icon: Icon,
+  logoSrc,
   iconBgClass = "bg-primary",
   iconColorClass = "text-accent",
   showBackButton = true,
@@ -108,12 +111,14 @@ export const ShowcaseHeader = ({
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2">
-            {Icon && (
+            {logoSrc ? (
+              <img src={logoSrc} alt={`${projectName} logo`} className="w-10 h-10 object-contain" />
+            ) : Icon ? (
               <div className="relative w-10 h-10 flex items-center justify-center">
                 <div className={`absolute inset-0 ${iconBgClass} rounded-xl opacity-80`} />
                 <Icon className={`relative w-6 h-6 ${iconColorClass}`} />
               </div>
-            )}
+            ) : null}
             <span className="text-xl font-bold text-foreground">
               {projectName}{" "}
               {projectNameHighlight && (
@@ -231,8 +236,8 @@ export const ShowcaseHeader = ({
 
       {/* Login Modal for unauthenticated users */}
       <LoginModal
-        isOpen={showLoginModal}
-        onClose={() => setShowLoginModal(false)}
+        open={showLoginModal}
+        onOpenChange={setShowLoginModal}
         redirectTo={`/projects/${showcaseSlug}`}
       />
     </motion.header>

@@ -6,7 +6,6 @@ import { JobSection } from "@/components/ainewbie/JobSection";
 import { ServicesSection } from "@/components/ainewbie/ServicesSection";
 import { WorkflowSection } from "@/components/ainewbie/WorkflowSection";
 import { ShowcaseHeader } from "@/components/showcase/ShowcaseHeader";
-import { Bot } from "lucide-react";
 
 const navItems = [
   { label: "Trang chủ", href: "#hero" },
@@ -26,9 +25,7 @@ const AINewbieShowcase = () => {
           navItems={navItems}
           ctaLabel="Bắt đầu"
           ctaHref="#cta"
-          icon={Bot}
-          iconBgClass="bg-gradient-to-br from-purple-500 to-pink-600"
-          iconColorClass="text-white"
+          logoSrc="/images/project card/logoainewbie.png"
           showcaseSlug="ainewbievn"
         />
 

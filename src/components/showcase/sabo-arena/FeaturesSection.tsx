@@ -100,7 +100,7 @@ export const SaboArenaFeaturesSection = () => {
   const featureBlocks: FeatureBlockProps[] = [
     {
       imageKey: "feature-bracket",
-      defaultImage: "/images/sabo-arena-1.jpg",
+      defaultImage: "/images/screenshot/1.png",
       imageAlt: "SABO ARENA - 8 định dạng giải đấu",
       title: "8 Định Dạng Giải Đấu Chuyên Nghiệp",
       description: "Từ Single Elimination đến định dạng độc quyền SABO DE16/DE32",
@@ -114,7 +114,7 @@ export const SaboArenaFeaturesSection = () => {
     {
       reverse: true,
       imageKey: "feature-elo",
-      defaultImage: "/images/sabo-arena-2.jpg",
+      defaultImage: "/images/screenshot/2.png",
       imageAlt: "SABO ARENA - Hệ thống ELO",
       title: "Hệ Thống Xếp Hạng ELO Minh Bạch",
       description: "12 hạng từ Bronze đến Grandmaster với thuật toán ELO chuẩn quốc tế",
@@ -127,7 +127,7 @@ export const SaboArenaFeaturesSection = () => {
     },
     {
       imageKey: "feature-scoring",
-      defaultImage: "/images/sabo-arena-3.jpg",
+      defaultImage: "/images/screenshot/3.png",
       imageAlt: "SABO ARENA - Ghi điểm",
       title: "Ghi Điểm Thời Gian Thực",
       description: "Hệ thống scoring nhanh, chính xác với đồng bộ multi-device",

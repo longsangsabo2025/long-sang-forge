@@ -12,8 +12,10 @@ import type { ProjectData, ProjectFeature, TechStackItem } from "@/data/projects
 import type { ProjectShowcase } from "@/hooks/useProjectShowcase";
 import {
   BarChart3,
+  Bot,
   Calendar,
   CheckCircle2,
+  CheckSquare,
   Clock,
   Cloud,
   Code,
@@ -23,11 +25,15 @@ import {
   Database,
   FileText,
   Globe,
+  GraduationCap,
   Heart,
   Home,
+  LayoutDashboard,
+  Lightbulb,
   type LucideIcon,
   Mail,
   MapPin,
+  MessageCircle,
   MessageSquare,
   Rocket,
   Search,
@@ -35,6 +41,7 @@ import {
   Shield,
   ShoppingCart,
   Smartphone,
+  Sparkles,
   Star,
   Target,
   TrendingUp,
@@ -59,6 +66,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Shield,
   Target,
   CheckCircle2,
+  CheckSquare,
   Clock,
   Calendar,
   Settings,
@@ -78,13 +86,21 @@ const ICON_MAP: Record<string, LucideIcon> = {
   CreditCard,
   ShoppingCart,
   TrendingUp,
+  LayoutDashboard,
 
   // Categories
   MapPin,
   MessageSquare,
+  MessageCircle,
   Utensils,
   FileText,
   Rocket,
+
+  // AI & Education
+  Bot,
+  Sparkles,
+  GraduationCap,
+  Lightbulb,
 };
 
 // Default icon if not found

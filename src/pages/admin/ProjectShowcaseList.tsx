@@ -355,7 +355,7 @@ export default function ProjectShowcaseList() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => navigate(`/projects/${project.slug}`)}>
+                          <DropdownMenuItem onClick={() => navigate(`/showcase/${project.slug}`)}>
                             <Eye className="h-4 w-4 mr-2" />
                             Xem showcase
                           </DropdownMenuItem>

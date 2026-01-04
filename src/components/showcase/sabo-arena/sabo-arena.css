@@ -10,13 +10,15 @@
   --sabo-accent: hsl(180, 100%, 70%);
 
   /* Background with neural network */
-  background: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    radial-gradient(ellipse at top, hsla(220, 30%, 12%, 0.85) 0%, hsla(220, 30%, 6%, 0.92) 100%),
+  background-color: hsl(220, 30%, 8%);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    radial-gradient(ellipse at top, hsla(220, 30%, 12%, 0.7) 0%, hsla(220, 30%, 6%, 0.8) 100%),
     url("/images/backgrounds/neural-network.jpg");
   background-size: 60px 60px, 60px 60px, cover, cover;
   background-position: center, center, center, center;
-  background-attachment: scroll, scroll, fixed, fixed;
+  background-repeat: repeat, repeat, no-repeat, no-repeat;
+  background-attachment: scroll, scroll, scroll, scroll;
 }
 
 /* Section Container */

@@ -1,3 +1,4 @@
+import { SaveFeatureButton } from "@/components/idea-bank/SaveFeatureButton";
 import { AppShowcaseData } from "@/types/app-showcase.types";
 import { motion } from "framer-motion";
 import { getIconByName } from "./iconRegistry";
@@ -5,6 +6,8 @@ import { PhoneMockup } from "./PhoneMockup";
 
 interface FeaturesSectionProps {
   data: AppShowcaseData;
+  /** Slug của showcase, dùng cho Idea Bank */
+  showcaseSlug?: string;
 }
 
 const FeatureIcon = ({ children, color }: { children: React.ReactNode; color: string }) => (
@@ -36,7 +39,7 @@ const FeatureIcon = ({ children, color }: { children: React.ReactNode; color: st
   </motion.div>
 );
 
-export const FeaturesSection = ({ data }: FeaturesSectionProps) => {
+export const FeaturesSection = ({ data, showcaseSlug }: FeaturesSectionProps) => {
   return (
     <section className="py-32 bg-gradient-to-b from-dark-bg via-dark-surface to-dark-bg relative overflow-hidden">
       <div className="container mx-auto px-6">
@@ -70,7 +73,23 @@ export const FeaturesSection = ({ data }: FeaturesSectionProps) => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
               >
-                <div className={`${!isEven ? "lg:order-2" : "order-2 lg:order-1"}`}>
+                <div className={`${!isEven ? "lg:order-2" : "order-2 lg:order-1"} relative group/feature`}>
+                  {/* Save Feature Button - Top Right */}
+                  {showcaseSlug && (
+                    <div className="absolute top-0 right-0 opacity-0 group-hover/feature:opacity-100 transition-opacity z-10">
+                      <SaveFeatureButton
+                        showcaseSlug={showcaseSlug}
+                        showcaseName={data.appName}
+                        featureIndex={index}
+                        featureTitle={feature.title}
+                        featurePoints={feature.highlights || []}
+                        featureColor={(feature.badge?.color as "cyan" | "blue" | "green") || "cyan"}
+                        variant="icon"
+                        size="sm"
+                      />
+                    </div>
+                  )}
+
                   {feature.badge && (
                     <div
                       className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-${feature.badge.color}/10 border border-${feature.badge.color}/30 mb-4`}

@@ -109,7 +109,7 @@ export const SaboArenaHeroSection = () => {
                 Xem Demo
               </button>
               <button
-                onClick={() => navigate("/projects/sabo-arena-billiards-platform")}
+                onClick={() => navigate("/landing-page/sabo-arena-billiards-platform")}
                 className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-foreground font-medium hover:bg-white/20 hover:border-white/30 transition-all duration-300 text-sm whitespace-nowrap"
               >
                 <Code2 className="w-4 h-4" />

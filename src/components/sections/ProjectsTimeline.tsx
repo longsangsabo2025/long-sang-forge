@@ -15,23 +15,36 @@ export const ProjectsTimeline = () => {
   // Fetch projects from database
   const { data: projects, isLoading } = useAllProjectShowcases();
 
+  // Mapping from database slug to landing page slug
+  const slugMapping: Record<string, string> = {
+    "sabo-arena": "sabo-arena-billiards-platform",
+  };
+
+  // Custom image mapping for specific projects
+  const imageMapping: Record<string, string> = {
+    "sabo-arena": "/images/project card/sabo.png",
+  };
+
   // Map database projects to display format
   const displayProjects = (projects || []).slice(0, 4).map((project) => ({
     id: project.id,
-    slug: project.slug,
+    slug: slugMapping[project.slug] || project.slug, // Use mapped slug if available
     name: project.name,
     description: project.description,
     heroDescription: project.hero_description,
     category: project.category,
     techStack: project.tech_stack?.slice(0, 4).map((tech) => tech.name) || [],
     productionUrl: project.production_url,
-    image: project.screenshots?.[0] || `/images/projects/${project.slug}.jpg`,
+    image:
+      imageMapping[project.slug] ||
+      project.screenshots?.[0] ||
+      `/images/projects/${project.slug}.jpg`,
   }));
 
   const handleViewProject = (slug?: string) => {
     // Navigate to landing page (public) - no auth required
     if (slug) {
-      navigate(`/showcase/${slug}`);
+      navigate(`/landing-page/${slug}`);
     } else {
       // For "View All" button, go to project-showcase list (auth required)
       if (user) {

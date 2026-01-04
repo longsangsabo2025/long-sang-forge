@@ -165,8 +165,8 @@ export const SaboArenaHeader = ({ onBackToMain }: SaboArenaHeaderProps) => {
 
       {/* Login Modal for unauthenticated users */}
       <LoginModal
-        isOpen={showLoginModal}
-        onClose={() => setShowLoginModal(false)}
+        open={showLoginModal}
+        onOpenChange={setShowLoginModal}
         redirectTo={`/projects/${showcaseSlug}`}
       />
     </motion.header>

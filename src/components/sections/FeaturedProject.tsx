@@ -31,13 +31,9 @@ export const FeaturedProject = () => {
   // Fetch SABO Arena data từ database
   const { data: project, isLoading } = useProjectShowcase("sabo-arena");
 
-  // Navigate to SABO Arena landing page - requires login
+  // Navigate to SABO Arena landing page - public access
   const handleViewDetails = () => {
-    if (!user) {
-      setShowLoginModal(true);
-    } else {
-      navigate("/showcase/sabo-arena-billiards-platform");
-    }
+    navigate("/landing-page/sabo-arena-billiards-platform");
   };
 
   // Lấy data từ database hoặc fallback về i18n
@@ -200,9 +196,9 @@ export const FeaturedProject = () => {
 
       {/* Login Modal for unauthenticated users */}
       <LoginModal
-        isOpen={showLoginModal}
-        onClose={() => setShowLoginModal(false)}
-        redirectTo="/showcase/sabo-arena-billiards-platform"
+        open={showLoginModal}
+        onOpenChange={setShowLoginModal}
+        redirectTo="/landing-page/sabo-arena-billiards-platform"
       />
     </section>
   );

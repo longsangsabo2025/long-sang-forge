@@ -85,7 +85,7 @@ export default function ProjectShowcaseDetailPage() {
             </Button>
             <Button
               variant="outline"
-              onClick={() => navigate(`/projects/${slug}`)}
+              onClick={() => navigate(`/showcase/${slug}`)}
               className="w-full"
             >
               <Globe className="mr-2 h-4 w-4" />
@@ -208,7 +208,7 @@ export default function ProjectShowcaseDetailPage() {
       <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-3">
         {/* View Landing Page Button */}
         <Link
-          to={`/projects/${slug}`}
+          to={`/showcase/${slug}`}
           className="w-14 h-14 rounded-full bg-neon-purple text-white flex items-center justify-center shadow-lg shadow-neon-purple/50 hover:scale-110 transition-transform"
           title="Xem Landing Page"
         >
@@ -253,7 +253,11 @@ export default function ProjectShowcaseDetailPage() {
 
         {/* Features */}
         {project.features && project.features.length > 0 && (
-          <FeaturesGrid project={legacyProject} />
+          <FeaturesGrid
+            project={legacyProject}
+            showcaseSlug={slug}
+            showcaseName={project.name}
+          />
         )}
 
         {/* Tech Architecture */}

@@ -141,7 +141,7 @@ export function ProjectSEO({ project, section = "overview" }: { project: any; se
     return "/og-project-default.jpg";
   })();
 
-  const projectUrl = `/projects/${project?.slug || ""}`;
+  const projectUrl = `/showcase/${project?.slug || ""}`;
   const fullTitle = `${project?.name || "Project"} - ${
     sectionTitles[section] || section
   } | Long Sang Portfolio`;

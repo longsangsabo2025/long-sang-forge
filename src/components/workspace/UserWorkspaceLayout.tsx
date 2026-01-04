@@ -17,6 +17,7 @@ import {
   Menu,
   Settings,
   ShoppingBag,
+  Sparkles,
   X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -39,17 +40,18 @@ const workspaceNavItems = [
     badge: "⚡",
   },
   {
-    title: "Saved Products",
-    icon: Bookmark,
-    href: "/workspace/saved",
-    color: "text-purple-500",
-  },
-  {
     title: "Lịch Hẹn",
     icon: CalendarCheck,
     href: "/workspace/consultations",
     color: "text-cyan-500",
     badge: "🗓️",
+  },
+  {
+    title: "Idea Bank",
+    icon: Sparkles,
+    href: "/workspace/ideas",
+    color: "text-purple-500",
+    badge: "✨",
   },
 ];
 

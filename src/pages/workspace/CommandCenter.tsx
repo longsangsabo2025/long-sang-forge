@@ -183,14 +183,25 @@ export default function CommandCenter() {
   // Ideas view mode: "list" or "chat"
   const [ideaViewMode, setIdeaViewMode] = useState<"list" | "chat">("list");
 
-  // Handler: Toggle to chat mode for brainstorming
+  // Selected idea for chat context
+  const [selectedIdea, setSelectedIdea] = useState<Idea | null>(null);
+
+  // Handler: Toggle to chat mode for brainstorming (new chat)
   const handleBrainstormIdea = () => {
+    setSelectedIdea(null); // Clear selection for new brainstorm
+    setIdeaViewMode("chat");
+  };
+
+  // Handler: Open chat with existing idea context
+  const handleOpenIdeaChat = (idea: Idea) => {
+    setSelectedIdea(idea);
     setIdeaViewMode("chat");
   };
 
   // Handler: When idea is saved from chat, switch back to list
   const handleIdeaSaved = () => {
     setIdeaViewMode("list");
+    setSelectedIdea(null);
     queryClient.invalidateQueries({ queryKey: ["user-ideas"] });
   };
 
@@ -778,13 +789,16 @@ export default function CommandCenter() {
                   Quay lại danh sách
                 </Button>
                 <span className="text-sm text-muted-foreground">
-                  Brainstorm với Long Sang AI • Ý tưởng tự động lưu
+                  {selectedIdea
+                    ? `Đang chat về: ${selectedIdea.title}`
+                    : "Brainstorm với Long Sang AI"}
                 </span>
               </div>
               {/* Embedded Chat */}
               <WorkspaceIdeaChat
                 onIdeaSaved={handleIdeaSaved}
                 onConvertToProject={handleConvertToProject}
+                selectedIdea={selectedIdea}
               />
             </>
           ) : (
@@ -862,9 +876,10 @@ export default function CommandCenter() {
                           exit={{ opacity: 0, scale: 0.9 }}
                         >
                           <Card
-                            className={`relative overflow-hidden transition-all hover:shadow-lg ${
+                            className={`relative overflow-hidden transition-all hover:shadow-lg cursor-pointer ${
                               idea.is_pinned ? "ring-2 ring-yellow-500/50" : ""
                             }`}
+                            onClick={() => handleOpenIdeaChat(idea)}
                           >
                             {/* Category color bar */}
                             <div
@@ -890,19 +905,23 @@ export default function CommandCenter() {
                                 </div>
 
                                 <DropdownMenu>
-                                  <DropdownMenuTrigger asChild>
+                                  <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
                                     <Button variant="ghost" size="icon" className="h-8 w-8">
                                       <MoreVertical className="h-4 w-4" />
                                     </Button>
                                   </DropdownMenuTrigger>
-                                  <DropdownMenuContent align="end">
+                                  <DropdownMenuContent
+                                    align="end"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
                                     <DropdownMenuItem
-                                      onClick={() =>
+                                      onClick={(e) => {
+                                        e.stopPropagation();
                                         updateIdeaMutation.mutate({
                                           id: idea.id,
                                           updates: { is_pinned: !idea.is_pinned },
-                                        })
-                                      }
+                                        });
+                                      }}
                                     >
                                       <Pin className="h-4 w-4 mr-2" />
                                       {idea.is_pinned ? "Bỏ ghim" : "Ghim lên đầu"}
@@ -911,12 +930,13 @@ export default function CommandCenter() {
                                     {ideaStatusOptions.map((opt) => (
                                       <DropdownMenuItem
                                         key={opt.value}
-                                        onClick={() =>
+                                        onClick={(e) => {
+                                          e.stopPropagation();
                                           updateIdeaMutation.mutate({
                                             id: idea.id,
                                             updates: { status: opt.value },
-                                          })
-                                        }
+                                          });
+                                        }}
                                       >
                                         <opt.icon className="h-4 w-4 mr-2" />
                                         {opt.label}
@@ -924,7 +944,10 @@ export default function CommandCenter() {
                                     ))}
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem
-                                      onClick={() => graduateToProject(idea)}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        graduateToProject(idea);
+                                      }}
                                       className="text-green-600"
                                     >
                                       <Rocket className="h-4 w-4 mr-2" />
@@ -932,7 +955,10 @@ export default function CommandCenter() {
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem
-                                      onClick={() => deleteIdeaMutation.mutate(idea.id)}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        deleteIdeaMutation.mutate(idea.id);
+                                      }}
                                       className="text-red-600"
                                     >
                                       <Trash2 className="h-4 w-4 mr-2" />
@@ -943,7 +969,7 @@ export default function CommandCenter() {
                               </div>
                             </CardHeader>
 
-                            <CardContent>
+                            <CardContent onClick={(e) => e.stopPropagation()}>
                               {idea.description && (
                                 <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
                                   {idea.description}

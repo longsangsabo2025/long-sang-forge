@@ -8,71 +8,32 @@ import { SaboArenaLanding } from "@/components/showcase/sabo-arena";
 import "@/components/showcase/sabo-arena/sabo-arena.css";
 import { VungtaulandLanding } from "@/components/showcase/vungtauland";
 import "@/components/showcase/vungtauland/vungtauland.css";
-import { AppShowcaseService } from "@/services/app-showcase.service";
-import { AppShowcaseData } from "@/types/app-showcase.types";
-import { Eye, LogIn, Settings } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useProjectShowcase } from "@/hooks/useProjectShowcase";
+import { Eye, LogIn } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
 import AINewbieShowcase from "./AINewbieShowcase";
 import SaboHubShowcase from "./SaboHubShowcase";
+
+// Custom showcases có landing page riêng
+const CUSTOM_SHOWCASES = ["sabohub", "ainewbievn", "sabo-arena-billiards-platform", "vungtauland"];
 
 const AppShowcaseDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [data, setData] = useState<AppShowcaseData | null>(null);
-  const [loading, setLoading] = useState(true);
+  
+  // Load từ project_showcase table (Single Source of Truth)
+  const isCustomShowcase = slug ? CUSTOM_SHOWCASES.includes(slug) : false;
+  const { data: project, isLoading } = useProjectShowcase(isCustomShowcase ? "" : (slug || ""));
 
-  const handleViewShowcase = () => {
+  // Navigate đến full showcase (yêu cầu đăng nhập)
+  const handleViewFullShowcase = () => {
     if (user) {
       navigate(`/projects/${slug}`);
     } else {
-      // Redirect to login with return URL
       navigate(`/auth?redirect=/projects/${slug}`);
     }
   };
-
-  useEffect(() => {
-    // Skip loading data for custom showcases
-    if (slug === "sabohub" || slug === "ainewbievn" || slug === "sabo-arena-billiards-platform" || slug === "vungtauland") {
-      setLoading(false);
-      return;
-    }
-
-    const loadDataAsync = async () => {
-      if (!slug) {
-        navigate("/app-showcase");
-        return;
-      }
-
-      setLoading(true);
-      const appData = await AppShowcaseService.loadData(slug);
-      setData(appData);
-      setLoading(false);
-    };
-
-    loadDataAsync();
-
-    // Subscribe to realtime changes from Supabase
-    const unsubscribe = slug
-      ? AppShowcaseService.subscribeToChanges(slug, (newData) => {
-          setData(newData);
-          setLoading(false);
-        })
-      : () => {};
-
-    // Also listen for custom event (admin save triggers this)
-    const handleAppUpdate = () => {
-      loadDataAsync();
-    };
-
-    globalThis.addEventListener("app-showcase-updated", handleAppUpdate);
-
-    return () => {
-      unsubscribe();
-      globalThis.removeEventListener("app-showcase-updated", handleAppUpdate);
-    };
-  }, [slug, navigate]);
 
   // If slug is "sabohub", render SaboHub showcase directly
   if (slug === "sabohub") {
@@ -94,7 +55,8 @@ const AppShowcaseDetail = () => {
     return <VungtaulandLanding />;
   }
 
-  if (loading) {
+  // Loading state
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-dark-bg flex items-center justify-center">
         <div className="text-center">
@@ -105,42 +67,89 @@ const AppShowcaseDetail = () => {
     );
   }
 
-  if (!data) {
+  // Not found
+  if (!project) {
     return (
       <div className="min-h-screen bg-dark-bg flex items-center justify-center">
-        <p className="text-destructive">Không tìm thấy dữ liệu</p>
+        <div className="text-center">
+          <p className="text-destructive text-xl mb-4">Không tìm thấy dự án</p>
+          <button 
+            onClick={() => navigate("/projects")}
+            className="px-6 py-3 bg-neon-cyan text-dark-bg rounded-lg hover:opacity-90 transition"
+          >
+            Xem tất cả dự án
+          </button>
+        </div>
       </div>
     );
   }
+
+  // Convert project_showcase data to landing page format
+  const landingData = {
+    id: project.slug,
+    slug: project.slug,
+    appName: project.name,
+    tagline: project.hero_title || project.name,
+    description: project.hero_description || project.description,
+    icon: project.logo_url || "",
+    productionUrl: project.production_url || "",
+    hero: {
+      badge: project.category || "Dự án",
+      title: project.hero_title || project.name,
+      subtitle: project.hero_description || project.description,
+      stats: {
+        users: project.hero_stats?.[0]?.value || "100+",
+        rating: project.hero_stats?.[1]?.value || "4.9",
+        tournaments: project.hero_stats?.[2]?.value || "50+",
+      },
+      backgroundImage: project.screenshots?.[0]?.url || "",
+    },
+    branding: {
+      primaryColor: "#00d9ff",
+      secondaryColor: "#9b87f5",
+      accentColor: "#22c55e",
+    },
+    downloads: {},
+    social: {},
+    features: project.features?.map((f, i) => ({
+      id: String(i),
+      title: f.title,
+      description: f.description,
+      icon: f.icon || "Zap",
+    })) || [],
+    cta: {
+      heading: `Quan tâm đến ${project.name}?`,
+      description: "Liên hệ để tìm hiểu thêm về dự án này",
+      rating: {
+        score: "4.9",
+        totalUsers: "100+",
+      },
+    },
+    metadata: {
+      createdAt: project.created_at || new Date().toISOString(),
+      updatedAt: project.updated_at || new Date().toISOString(),
+      status: project.status === "published" ? "published" as const : "draft" as const,
+    },
+  };
 
   return (
     <div className="min-h-screen overflow-x-hidden">
       <AnimatedBackground />
 
-      {/* Floating Action Buttons */}
-      <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-3">
-        {/* View Showcase Button */}
+      {/* Floating Action Button - Xem chi tiết */}
+      <div className="fixed bottom-8 right-8 z-50">
         <button
-          onClick={handleViewShowcase}
-          className="w-14 h-14 rounded-full bg-neon-purple text-white flex items-center justify-center shadow-lg shadow-neon-purple/50 hover:scale-110 transition-transform"
+          onClick={handleViewFullShowcase}
+          className="w-14 h-14 rounded-full bg-neon-cyan text-dark-bg flex items-center justify-center shadow-lg shadow-neon-cyan/50 hover:scale-110 transition-transform"
           title={user ? "Xem chi tiết Showcase" : "Đăng nhập để xem Showcase"}
         >
           {user ? <Eye size={24} /> : <LogIn size={24} />}
         </button>
-
-        {/* Admin Button */}
-        <Link
-          to="/admin"
-          className="w-14 h-14 rounded-full bg-neon-cyan text-dark-bg flex items-center justify-center shadow-lg shadow-neon-cyan/50 hover:scale-110 transition-transform"
-          title="Vào trang Admin"
-        >
-          <Settings size={24} />
-        </Link>
       </div>
 
-      <HeroSection data={data} />
-      <FeaturesSection data={data} />
-      <CTASection data={data} />
+      <HeroSection data={landingData} />
+      <FeaturesSection data={landingData} showcaseSlug={project.slug} />
+      <CTASection data={landingData} />
       <FooterSection />
     </div>
   );

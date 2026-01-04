@@ -36,7 +36,7 @@ const FREE_DEFAULTS: Record<FeatureKey, boolean | number> = {
   beta_access: false,
   direct_chat: false,
   roadmap_strategy: false,
-  showcase_limit: 3,
+  showcase_limit: 1, // Free = 1 project, Pro = 3, VIP = unlimited (-1)
   consultation_discount: 0,
   early_access_days: 0,
   support_response_hours: 0,
@@ -169,7 +169,7 @@ export function useShowcaseAccess() {
 
   return {
     canView: canAccess,
-    limit: isUnlimited ? Infinity : limit ?? 3,
+    limit: isUnlimited ? Infinity : limit ?? 1, // Free = 1 project
     isPremium,
     isUnlimited,
     hasOverride,

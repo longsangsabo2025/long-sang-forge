@@ -340,15 +340,32 @@ export async function getAvailableTimeSlots(
 
   let availabilitySlots: { start_time: string; end_time: string }[] = [];
 
-  // Chỉ query DB nếu có consultantId hợp lệ
+  // Query availability settings từ DB
+  // Nếu có consultantId cụ thể thì lọc theo user_id
+  // Nếu không có thì lấy settings đầu tiên có trong DB (global settings)
   if (consultantId && consultantId !== "default-consultant-id") {
-    // Lấy availability settings cho ngày đó
+    // Lấy availability settings cho consultant cụ thể
     const { data: availabilityData } = await untypedSupabase
       .from("availability_settings")
       .select("*")
       .eq("user_id", consultantId)
       .eq("day_of_week", dayOfWeek)
       .eq("is_available", true);
+
+    if (availabilityData && availabilityData.length > 0) {
+      availabilitySlots = availabilityData.map((a: any) => ({
+        start_time: a.start_time,
+        end_time: a.end_time,
+      }));
+    }
+  } else {
+    // Không có consultantId - lấy bất kỳ settings nào trong DB (global/default)
+    const { data: availabilityData } = await untypedSupabase
+      .from("availability_settings")
+      .select("*")
+      .eq("day_of_week", dayOfWeek)
+      .eq("is_available", true)
+      .limit(10); // Lấy tối đa 10 slots cho ngày đó
 
     if (availabilityData && availabilityData.length > 0) {
       availabilitySlots = availabilityData.map((a: any) => ({

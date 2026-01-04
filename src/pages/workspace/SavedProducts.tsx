@@ -69,7 +69,7 @@ export default function SavedProducts() {
             description: project.description,
             image: project.images?.hero || project.image,
             category: project.category,
-            link: `/projects/${slug}`,
+            link: `/showcase/${slug}`,
           }
         : null;
     }

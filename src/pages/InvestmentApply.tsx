@@ -122,7 +122,7 @@ const InvestmentApply = () => {
         setSubmitted(true);
 
         setTimeout(() => {
-          navigate(`/projects/${slug}`);
+          navigate(`/showcase/${slug}`);
         }, 5000);
       } catch (error) {
         console.error("Error submitting application:", error);
