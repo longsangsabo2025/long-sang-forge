@@ -1,3 +1,4 @@
+// @deprecated — Not actively used. No active imports found in src/. Recharts import kept for future reference.
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 

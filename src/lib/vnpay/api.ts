@@ -3,6 +3,8 @@
  * Uses Supabase Edge Functions
  */
 
+import { EDGE_FUNCTIONS } from "@/config/api";
+
 export interface VNPayPaymentRequest {
   planId: string;
   userId: string;
@@ -23,7 +25,7 @@ export interface VNPayPaymentResponse {
 export async function createVNPayPayment(
   request: VNPayPaymentRequest
 ): Promise<VNPayPaymentResponse> {
-  const response = await fetch(`${API_URL}/api/vnpay/create-payment-url`, {
+  const response = await fetch(EDGE_FUNCTIONS.VNPAY.CREATE_PAYMENT, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -68,7 +70,7 @@ export async function redirectToVNPay(
  * Query transaction status
  */
 export async function queryVNPayTransaction(orderId: string): Promise<any> {
-  const response = await fetch(`${API_URL}/api/vnpay/query-transaction`, {
+  const response = await fetch(`${EDGE_FUNCTIONS.BASE}/vnpay/query-transaction`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

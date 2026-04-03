@@ -31,26 +31,9 @@ if (typeof window !== 'undefined') {
   }
 }
 
-// DEBUG: Check what key is being loaded
-console.log('🔑 Supabase Client Debug:');
-console.log('URL:', SUPABASE_URL);
-console.log('Key exists:', !!SUPABASE_PUBLISHABLE_KEY);
-console.log('Key length:', SUPABASE_PUBLISHABLE_KEY?.length);
-
-// Decode JWT to check timestamp
-if (SUPABASE_PUBLISHABLE_KEY) {
-  try {
-    const parts = SUPABASE_PUBLISHABLE_KEY.split('.');
-    const payload = JSON.parse(atob(parts[1]));
-    console.log('Key IAT:', payload.iat, payload.iat === 1760392191 ? '✅ CORRECT' : '❌ WRONG (cached)');
-    console.log('Key EXP:', new Date(payload.exp * 1000).toLocaleDateString());
-  } catch (e) {
-    console.error('Failed to decode JWT:', e);
-  }
+if (import.meta.env.DEV) {
+  console.log('🔑 Supabase:', SUPABASE_URL, '| Key:', !!SUPABASE_PUBLISHABLE_KEY);
 }
-
-// Import the supabase client like this:
-// import { supabase } from "@/integrations/supabase/client";
 
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: {

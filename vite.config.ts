@@ -20,9 +20,9 @@ export default defineConfig(({ mode }) => ({
         registerType: "autoUpdate",
         includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
         manifest: {
-          name: "SABO ARENA - AI Automation Platform",
-          short_name: "SABO ARENA",
-          description: "Vietnam's leading gaming platform with AI automation",
+          name: "Long Sang Forge - AI Marketplace & Portfolio",
+          short_name: "Long Sang Forge",
+          description: "AI-powered marketplace, academy, and investment portal by LongSang",
           theme_color: "#3b82f6",
           background_color: "#ffffff",
           display: "standalone",
@@ -146,8 +146,9 @@ export default defineConfig(({ mode }) => ({
             "@radix-ui/react-slot",
           ],
           "vendor-animation": ["framer-motion"],
-          "vendor-charts": ["lucide-react", "recharts"],
+          "vendor-icons": ["lucide-react"],
           "vendor-forms": ["react-hook-form", "@hookform/resolvers"],
+          "vendor-charts": ["recharts"],
 
           // Feature-based chunks
           "admin-pages": [

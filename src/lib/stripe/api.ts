@@ -5,8 +5,6 @@
 
 import { EDGE_FUNCTIONS } from "@/config/api";
 
-const EDGE_BASE = EDGE_FUNCTIONS.BASE;
-
 export interface CheckoutSessionRequest {
   planId: string;
   userId: string;
@@ -24,7 +22,7 @@ export interface CheckoutSessionResponse {
 export async function createCheckoutSession(
   request: CheckoutSessionRequest
 ): Promise<CheckoutSessionResponse> {
-  const response = await fetch(`${API_URL}/api/stripe/create-checkout-session`, {
+  const response = await fetch(EDGE_FUNCTIONS.STRIPE.CREATE_CHECKOUT, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -44,7 +42,7 @@ export async function createCheckoutSession(
  * Get customer portal URL
  */
 export async function getCustomerPortalUrl(userId: string): Promise<string> {
-  const response = await fetch(`${API_URL}/api/stripe/customer-portal`, {
+  const response = await fetch(EDGE_FUNCTIONS.STRIPE.CUSTOMER_PORTAL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

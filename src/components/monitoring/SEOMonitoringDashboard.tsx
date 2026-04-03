@@ -8,7 +8,7 @@ import { createClient } from '@supabase/supabase-js';
 // Supabase client
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL || 'https://diexsbzqwsbpilsymnfb.supabase.co',
-  import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpZXhzYnpxd3NicGlsc3ltbmZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzOTIxOTEsImV4cCI6MjA3NTk2ODE5MX0.Nf1wHe7EDONS25Yv987KqhgyvZu07COnu6qgC0qCy2I'
+  import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 );
 
 export const SEOMonitoringDashboard: React.FC = () => {

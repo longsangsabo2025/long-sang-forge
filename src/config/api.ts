@@ -55,6 +55,14 @@ export const EDGE_FUNCTIONS = {
     IPN: `${EDGE_BASE}/vnpay/ipn`,
   },
 
+  // Stripe Payment
+  STRIPE: {
+    CREATE_CHECKOUT: `${EDGE_BASE}/stripe/create-checkout-session`,
+    CUSTOMER_PORTAL: `${EDGE_BASE}/stripe/customer-portal`,
+    WEBHOOK: `${EDGE_BASE}/stripe/webhook`,
+    TEST: `${EDGE_BASE}/stripe/test`,
+  },
+
   // Casso Webhook (Auto payment confirmation)
   CASSO: {
     WEBHOOK: `${EDGE_BASE}/casso-webhook`,

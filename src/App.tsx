@@ -46,17 +46,25 @@ const InvestmentFinancials = lazy(() => import("./pages/InvestmentFinancials"));
 const InvestmentApply = lazy(() => import("./pages/InvestmentApply"));
 
 // ============================================
-// PUBLIC PAGES - Academy & Learning (COMING SOON)
+// PUBLIC PAGES - Academy & Learning
 // ============================================
-const Academy = lazy(() => import("./pages/ComingSoon"));
-const CourseDetail = lazy(() => import("./pages/ComingSoon"));
-const LearningPathPage = lazy(() => import("./pages/ComingSoon"));
+const Academy = lazy(() => import("./pages/Academy-Gaming"));
+const CourseDetail = lazy(() => import("./pages/CourseDetail"));
+const LearningPathPage = lazy(() => import("./pages/LearningPathPage"));
 
 // ============================================
-// PUBLIC PAGES - Marketplace (COMING SOON)
+// PUBLIC PAGES - Marketplace
 // ============================================
-const MVPMarketplace = lazy(() => import("./pages/ComingSoon"));
-const AgentDetailPage = lazy(() => import("./pages/ComingSoon"));
+const MVPMarketplace = lazy(() =>
+  import("./components/agent-center/MVPMarketplace").then((m) => ({
+    default: m.MVPMarketplace,
+  }))
+);
+const AgentDetailPage = lazy(() =>
+  import("./pages/AgentDetailPage").then((m) => ({
+    default: m.AgentDetailPage,
+  }))
+);
 
 // ============================================
 // AI SECOND BRAIN (ENABLED!)
@@ -201,14 +209,15 @@ const App = () => (
                         <Route path="apply" element={<InvestmentApply />} />
                       </Route>
 
-                      {/* ===== ACADEMY (COMING SOON) ===== */}
-                      <Route path="/academy" element={<ComingSoon />} />
-                      <Route path="/academy/*" element={<ComingSoon />} />
+                      {/* ===== ACADEMY ===== */}
+                      <Route path="/academy" element={<Academy />} />
+                      <Route path="/academy/course/:courseId" element={<CourseDetail />} />
+                      <Route path="/academy/learning-path" element={<LearningPathPage />} />
                       <Route path="/coming-soon/:feature" element={<ComingSoon />} />
 
-                      {/* ===== MARKETPLACE (COMING SOON) ===== */}
-                      <Route path="/marketplace" element={<ComingSoon />} />
-                      <Route path="/marketplace/*" element={<ComingSoon />} />
+                      {/* ===== MARKETPLACE ===== */}
+                      <Route path="/marketplace" element={<MVPMarketplace />} />
+                      <Route path="/marketplace/:agentId" element={<AgentDetailPage />} />
 
                       {/* ===== AI SECOND BRAIN (ENABLED!) ===== */}
                       <Route path="/brain" element={<BrainDashboard />} />

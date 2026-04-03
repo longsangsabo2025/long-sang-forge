@@ -43,3 +43,6 @@ api/keys/
 api/credentials/
 
 .vercel
+
+.vercel
+.env*.local

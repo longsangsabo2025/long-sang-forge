@@ -1,3 +1,4 @@
+// @deprecated — Not actively used. No active imports found in src/. Recharts import kept for future reference.
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
