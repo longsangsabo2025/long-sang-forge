@@ -7,7 +7,7 @@
   "alias": ["longsang.org", "www.longsang.org"],
   "rewrites": [
     {
-      "source": "/((?!assets|images|manifest|robots|sitemap|favicon).*)",
+      "source": "/((?!assets|images|manifest|robots|sitemap|favicon|google).*)",
       "destination": "/index.html"
     }
   ]
