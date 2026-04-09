@@ -7,9 +7,15 @@ import "./index.css";
 import "./i18n/config";
 import { AuthProvider } from './components/auth/AuthProvider';
 import { initWebVitals } from './utils/web-vitals-tracker';
+import { initGA } from './lib/google-analytics';
 
 // Initialize Core Web Vitals tracking
 initWebVitals();
+
+// Initialize Google Analytics 4
+if (import.meta.env.PROD) {
+  initGA();
+}
 
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
