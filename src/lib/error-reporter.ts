@@ -54,11 +54,15 @@ class ErrorReporter {
         });
       };
 
-      // Catch React errors
+      // Catch React errors (only actual React render errors, not all console.error)
       const originalConsoleError = console.error;
       console.error = (...args) => {
         const message = args.map((a) => String(a)).join(" ");
-        if (message.includes("Error") || message.includes("error")) {
+        // Only report React-specific render errors, not SDK warnings or CORS noise
+        if (
+          message.includes("React") &&
+          (message.includes("Uncaught") || message.includes("render") || message.includes("boundary"))
+        ) {
           this.reportError({
             type: "ConsoleError",
             message: message.slice(0, 500),

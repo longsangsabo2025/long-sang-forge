@@ -5,11 +5,18 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/utils/logger';
-import OpenAI from 'openai';
+import type OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-});
+let _openai: OpenAI | null = null;
+async function getOpenAI(): Promise<OpenAI | null> {
+  if (!_openai) {
+    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+    if (!apiKey) return null;
+    const { default: OpenAIClient } = await import('openai');
+    _openai = new OpenAIClient({ apiKey, dangerouslyAllowBrowser: true });
+  }
+  return _openai;
+}
 
 export interface Document {
   id?: string;
@@ -34,7 +41,9 @@ export class VectorStore {
    */
   static async generateEmbedding(text: string): Promise<number[]> {
     try {
-      const response = await openai.embeddings.create({
+      const client = await getOpenAI();
+      if (!client) throw new Error('AI unavailable — no API key');
+      const response = await client.embeddings.create({
         model: this.EMBEDDING_MODEL,
         input: text,
         dimensions: this.EMBEDDING_DIMENSIONS,
@@ -154,7 +163,9 @@ export class VectorStore {
       const context = sources.map((doc, idx) => `[${idx + 1}] ${doc.content}`).join('\n\n');
 
       // 3. Generate answer using GPT-4 with context
-      const response = await openai.chat.completions.create({
+      const client = await getOpenAI();
+      if (!client) throw new Error('AI unavailable — no API key');
+      const response = await client.chat.completions.create({
         model: 'gpt-4o',
         messages: [
           {

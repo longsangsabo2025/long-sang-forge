@@ -1,4 +1,4 @@
-import OpenAI from 'openai';
+import type OpenAI from 'openai';
 import { analyzeDomain } from './crawler';
 
 export interface KeywordData {
@@ -23,17 +23,11 @@ export interface KeywordAnalysis {
 /**
  * Initialize OpenAI client
  */
-function getOpenAIClient(): OpenAI {
+async function getOpenAIClient(): Promise<OpenAI | null> {
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY || import.meta.env.OPENAI_API_KEY;
-  
-  if (!apiKey) {
-    throw new Error('OpenAI API key not found. Please set VITE_OPENAI_API_KEY or OPENAI_API_KEY in .env');
-  }
-
-  return new OpenAI({
-    apiKey,
-    dangerouslyAllowBrowser: true // For frontend use
-  });
+  if (!apiKey) return null;
+  const { default: OpenAIClient } = await import('openai');
+  return new OpenAIClient({ apiKey, dangerouslyAllowBrowser: true });
 }
 
 /**
@@ -103,7 +97,8 @@ Return ONLY valid JSON in this exact format (no markdown, no code blocks):
 
     // 3. Call OpenAI
     console.log('🤖 Generating keywords with AI...');
-    const openai = getOpenAIClient();
+    const openai = await getOpenAIClient();
+    if (!openai) throw new Error('AI unavailable — no API key');
     
     const completion = await openai.chat.completions.create({
       model: 'gpt-4-turbo-preview',
@@ -194,7 +189,8 @@ Return ONLY valid JSON (no markdown):
 }
 `;
 
-    const openai = getOpenAIClient();
+    const openai = await getOpenAIClient();
+    if (!openai) throw new Error('AI unavailable — no API key');
     
     const completion = await openai.chat.completions.create({
       model: 'gpt-4-turbo-preview',
@@ -285,7 +281,8 @@ Return ONLY valid JSON:
 }
 `;
 
-    const openai = getOpenAIClient();
+    const openai = await getOpenAIClient();
+    if (!openai) throw new Error('AI unavailable — no API key');
     
     const completion = await openai.chat.completions.create({
       model: 'gpt-4-turbo-preview',

@@ -3,13 +3,20 @@
  * WebSocket-based streaming responses from OpenAI
  */
 
-import OpenAI from 'openai';
+import type OpenAI from 'openai';
 import { logger } from '@/lib/utils/logger';
 import { VectorStore } from './vector-store';
 
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-});
+let _openai: OpenAI | null = null;
+async function getOpenAI(): Promise<OpenAI | null> {
+  if (!_openai) {
+    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+    if (!apiKey) return null;
+    const { default: OpenAIClient } = await import('openai');
+    _openai = new OpenAIClient({ apiKey, dangerouslyAllowBrowser: true });
+  }
+  return _openai;
+}
 
 export interface ChatMessage {
   role: 'system' | 'user' | 'assistant';
@@ -70,7 +77,9 @@ export async function* streamChatCompletion(
       }
     }
 
-    const stream = await openai.chat.completions.create({
+    const client = await getOpenAI();
+    if (!client) throw new Error('AI unavailable — no API key');
+    const stream = await client.chat.completions.create({
       model,
       messages: enhancedMessages.map((m) => ({
         role: m.role,
@@ -140,7 +149,9 @@ export async function* streamChatWithFunctions(
   try {
     yield { type: 'start' };
 
-    const stream = await openai.chat.completions.create({
+    const client2 = await getOpenAI();
+    if (!client2) throw new Error('AI unavailable — no API key');
+    const stream = await client2.chat.completions.create({
       model,
       messages: messages.map((m) => ({
         role: m.role,

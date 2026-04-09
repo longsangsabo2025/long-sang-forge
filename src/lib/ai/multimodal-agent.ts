@@ -3,12 +3,19 @@
  * Handles text, images, audio, and video processing
  */
 
-import OpenAI from 'openai';
+import type OpenAI from 'openai';
 import { logger } from '@/lib/utils/logger';
 
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-});
+let _openai: OpenAI | null = null;
+async function getOpenAI(): Promise<OpenAI | null> {
+  if (!_openai) {
+    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+    if (!apiKey) return null;
+    const { default: OpenAIClient } = await import('openai');
+    _openai = new OpenAIClient({ apiKey, dangerouslyAllowBrowser: true });
+  }
+  return _openai;
+}
 
 export interface MultimodalInput {
   text?: string;
@@ -59,7 +66,9 @@ export async function analyzeImage(
         ? { type: 'image_url' as const, image_url: { url: imageInput.url } }
         : { type: 'image_url' as const, image_url: { url: `data:image/jpeg;base64,${imageInput.base64}` } };
 
-    const response = await openai.chat.completions.create({
+    const client = await getOpenAI();
+    if (!client) throw new Error('AI unavailable — no API key');
+    const response = await client.chat.completions.create({
       model: 'gpt-4o',
       messages: [
         {
@@ -120,7 +129,9 @@ export async function analyzeImageSequence(
       };
     });
 
-    const response = await openai.chat.completions.create({
+    const client2 = await getOpenAI();
+    if (!client2) throw new Error('AI unavailable — no API key');
+    const response = await client2.chat.completions.create({
       model: 'gpt-4o',
       messages: [
         {
@@ -163,7 +174,9 @@ export async function transcribeAudio(
 
     const file = audio instanceof File ? audio : new File([audio], 'audio.mp3');
 
-    const transcription = await openai.audio.transcriptions.create({
+    const client3 = await getOpenAI();
+    if (!client3) throw new Error('AI unavailable — no API key');
+    const transcription = await client3.audio.transcriptions.create({
       file,
       model: 'whisper-1',
       language: options.language,
@@ -197,7 +210,9 @@ export async function analyzeAudio(audio: File | Blob): Promise<AudioAnalysis> {
     const transcription = await transcribeAudio(audio);
 
     // 2. Analyze with GPT-4
-    const response = await openai.chat.completions.create({
+    const client4 = await getOpenAI();
+    if (!client4) throw new Error('AI unavailable — no API key');
+    const response = await client4.chat.completions.create({
       model: 'gpt-4o',
       messages: [
         {
@@ -253,7 +268,9 @@ export async function generateImage(
   try {
     logger.info('Generating image with DALL-E', { prompt });
 
-    const response = await openai.images.generate({
+    const client5 = await getOpenAI();
+    if (!client5) throw new Error('AI unavailable — no API key');
+    const response = await client5.images.generate({
       model: 'dall-e-3',
       prompt,
       size: options.size || '1024x1024',
@@ -293,7 +310,9 @@ export async function editImage(
     const imageFile = image instanceof File ? image : new File([image], 'image.png');
     const maskFile = mask instanceof File ? mask : mask ? new File([mask], 'mask.png') : undefined;
 
-    const response = await openai.images.edit({
+    const client6 = await getOpenAI();
+    if (!client6) throw new Error('AI unavailable — no API key');
+    const response = await client6.images.edit({
       model: 'dall-e-2',
       image: imageFile,
       mask: maskFile,
@@ -360,7 +379,9 @@ export async function multimodalInteraction(input: MultimodalInput): Promise<{
       contextParts.push(`Audio transcription: ${analyses.audio.transcription.text}`);
     }
 
-    const response = await openai.chat.completions.create({
+    const client7 = await getOpenAI();
+    if (!client7) throw new Error('AI unavailable — no API key');
+    const response = await client7.chat.completions.create({
       model: 'gpt-4o',
       messages: [
         {

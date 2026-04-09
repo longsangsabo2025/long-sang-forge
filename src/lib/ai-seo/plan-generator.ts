@@ -1,4 +1,4 @@
-import OpenAI from 'openai';
+import type OpenAI from 'openai';
 import { analyzeDomain } from './crawler';
 import type { KeywordAnalysis } from './keyword-generator';
 
@@ -76,17 +76,11 @@ export interface SEOPlan {
 /**
  * Initialize OpenAI client
  */
-function getOpenAIClient(): OpenAI {
+async function getOpenAIClient(): Promise<OpenAI | null> {
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY || import.meta.env.OPENAI_API_KEY;
-  
-  if (!apiKey) {
-    throw new Error('OpenAI API key not found');
-  }
-
-  return new OpenAI({
-    apiKey,
-    dangerouslyAllowBrowser: true
-  });
+  if (!apiKey) return null;
+  const { default: OpenAIClient } = await import('openai');
+  return new OpenAIClient({ apiKey, dangerouslyAllowBrowser: true });
 }
 
 /**
@@ -225,7 +219,8 @@ Return ONLY valid JSON (no markdown):
 }
 `;
 
-    const openai = getOpenAIClient();
+    const openai = await getOpenAIClient();
+    if (!openai) throw new Error('AI unavailable — no API key');
     
     const completion = await openai.chat.completions.create({
       model: 'gpt-4-turbo-preview',
@@ -294,7 +289,8 @@ Return ONLY valid JSON array:
 ]
 `;
 
-    const openai = getOpenAIClient();
+    const openai = await getOpenAIClient();
+    if (!openai) throw new Error('AI unavailable — no API key');
     
     const completion = await openai.chat.completions.create({
       model: 'gpt-4-turbo-preview',
@@ -357,7 +353,8 @@ Return ONLY valid JSON:
 }
 `;
 
-    const openai = getOpenAIClient();
+    const openai = await getOpenAIClient();
+    if (!openai) throw new Error('AI unavailable — no API key');
     
     const completion = await openai.chat.completions.create({
       model: 'gpt-4-turbo-preview',

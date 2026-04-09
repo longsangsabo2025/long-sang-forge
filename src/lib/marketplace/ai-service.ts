@@ -3,14 +3,20 @@
  * Connect marketplace agents to real AI (OpenAI GPT-4o-mini)
  */
 
-import OpenAI from 'openai';
+import type OpenAI from 'openai';
 import { MVPAgent } from '@/data/mvp-agents';
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true, // For client-side usage
-});
+// Lazy-init OpenAI client (only when key is available)
+let _openai: OpenAI | null = null;
+async function getOpenAI(): Promise<OpenAI | null> {
+  if (!_openai) {
+    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+    if (!apiKey) return null;
+    const { default: OpenAIClient } = await import('openai');
+    _openai = new OpenAIClient({ apiKey, dangerouslyAllowBrowser: true });
+  }
+  return _openai;
+}
 
 // ============================================
 // TYPES
@@ -57,7 +63,9 @@ export async function executeAgentWithAI(
     const userMessage = formatInputForAgent(agent, inputData);
 
     // Call OpenAI API
-    const response = await openai.chat.completions.create({
+    const client = await getOpenAI();
+    if (!client) throw new Error('AI unavailable — no API key');
+    const response = await client.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
         {
